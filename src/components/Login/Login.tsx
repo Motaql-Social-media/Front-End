@@ -25,6 +25,7 @@ import { useTranslation } from "react-i18next";
 
 import TextField from "@mui/material/TextField";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import i18next from "i18next";
 
 const Login = ({
   openModal,
@@ -246,7 +247,7 @@ const Login = ({
               <h1 className="mb-4 mt-3 text-3xl font-bold">
                 {t("login_welcome")}
               </h1>
-              <button className="dark:text-white w-full bg-primary rounded-full h-12 mt-5">
+              <button className={`${styles.coloredButton}`}>
                 {t("signin_google")}
               </button>
               {/* <GoogleLoginButton
@@ -288,11 +289,11 @@ const Login = ({
                   "& .MuiOutlinedInput-root": {
                     borderColor: "#40e5da",
 
-                    "&$focused": {
-                      borderColor: "#40e5da",
-                    },
                     "& .MuiOutlinedInput-notchedOutline": {
                       borderColor: "#40e5da",
+                      "&$focused": {
+                        borderColor: "#40e5da",
+                      },
                     },
                   },
                   marginBottom: "10px",
@@ -302,7 +303,7 @@ const Login = ({
               <button
                 type="button"
                 id="next"
-                className="text-black font-semibold w-full bg-primary rounded-full h-12 my-2 disabled:bg-opacity-30"
+                className={`${styles.coloredButton}`}
                 onClick={handleEmailCheck}
                 disabled={userName === ""}
               >
@@ -317,7 +318,7 @@ const Login = ({
               >
                 <button
                   id="forgotPassword"
-                  className="text-primary border font-semibold w-full dark:bg-black rounded-full h-12 my-2"
+                  className={`${styles.normalButton}`}
                 >
                   {t("forgot_password")}
                 </button>
@@ -372,11 +373,12 @@ const Login = ({
                     },
                     "& .MuiOutlinedInput-root": {
                       borderColor: "#40e5da",
-                      "&$focused": {
-                        borderColor: "#40e5da",
-                      },
+
                       "& .MuiOutlinedInput-notchedOutline": {
                         borderColor: "#40e5da",
+                        "&$focused": {
+                          borderColor: "#40e5da",
+                        },
                       },
                     },
                     marginBottom: "10px",
@@ -409,11 +411,12 @@ const Login = ({
                       },
                       "& .MuiOutlinedInput-root": {
                         borderColor: "#40e5da",
-                        "&$focused": {
-                          borderColor: "#40e5da",
-                        },
+
                         "& .MuiOutlinedInput-notchedOutline": {
                           borderColor: "#40e5da",
+                          "&$focused": {
+                            borderColor: "#40e5da",
+                          },
                         },
                       },
                       marginBottom: "10px",
@@ -422,7 +425,7 @@ const Login = ({
 
                   <span
                     className={`toggle-password text-primary absolute ${
-                      document.body.dir === "ltr" || !password
+                      i18next.language === "en" || !password
                         ? "right-4"
                         : "left-4"
                     } top-4 cursor-pointer ${showPassword ? "active" : ""}`}
@@ -457,7 +460,7 @@ const Login = ({
                 >
                   <button
                     id="forgotPassword"
-                    className="text-primary border font-semibold w-full dark:bg-black rounded-full h-12 my-2"
+                    className={`${styles.normalButton}`}
                   >
                     {t("forgot_password")}
                   </button>
@@ -468,7 +471,7 @@ const Login = ({
                   }}
                   type="submit"
                   id="forgotPassword"
-                  className="text-black font-semibold bg-primary rounded-full h-12 disabled:bg-opacity-30"
+                  className={`${styles.coloredButton}`}
                   disabled={password === ""}
                 >
                   {user?.loading ? "Loading..." : t("signin")}
