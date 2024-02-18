@@ -2,10 +2,7 @@ import i18next from "i18next";
 import { useTranslation } from "react-i18next";
 
 import LanguageIcon from "@mui/icons-material/Language";
-import { useRef, useState } from "react";
-
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
+import { useState } from "react";
 
 import cookie from "js-cookie";
 
@@ -23,15 +20,6 @@ const Languages = () => {
   const currentLanguageCode = cookie.get("i18next") || "en";
   const currentLanguage = languages.find((l) => l.code === currentLanguageCode);
 
-  // const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  // const open = Boolean(anchorEl);
-  // const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-  //   setAnchorEl(event.currentTarget);
-  // };
-  // const handleClose = () => {
-  //   setAnchorEl(null);
-  // };
-
   useEffect(() => {
     document.body.dir = currentLanguage?.dir || "ltr";
   }, [currentLanguage]);
@@ -48,18 +36,6 @@ const Languages = () => {
         currentLanguage?.dir === "ltr" ? "right-0" : "left-0"
       } m-3 bg-transparent`}
     >
-      {/* <button
-        onClick={handleClick}
-        className="flex justify-center items-center"
-      >
-        <LanguageIcon
-          className="text-primary "
-          id="basic-button"
-          aria-controls={open ? "basic-menu" : undefined}
-          aria-haspopup="true"
-          aria-expanded={open ? "true" : undefined}
-        />
-      </button> */}
       <div className="relative">
         <button onClick={handleMenuClick}>
           <LanguageIcon className="text-primary " />
@@ -67,7 +43,9 @@ const Languages = () => {
         <div
           className={`absolute z-10 top-4 ${
             i18next.language === "en" ? "right-6" : "left-6"
-          }  w-[100px] bg-white  rounded-md ${menuToggle ? "" : "hidden"} shadow-card`}
+          }  w-[100px] bg-white  rounded-md ${
+            menuToggle ? "" : "hidden"
+          } shadow-card`}
         >
           <ul className="list-none ">
             <li className=" p-2  rounded-md">
@@ -77,13 +55,18 @@ const Languages = () => {
             </li>
             {languages.map((language) => (
               <li
-                className="p-2 cursor-pointer hover:bg-gray-100 rounded-md"
+                className={`${
+                  language.code === currentLanguageCode
+                    ? "brightness-[20%] bg-opacity-20"
+                    : "cursor-pointer hover:bg-gray-100 "
+                } p-2 rounded-md`}
                 value={language.code}
                 key={language.code}
-                // disabled={language.code === currentLanguageCode}
                 onClick={() => {
-                  i18next.changeLanguage(language.code);
-                  handleMenuClick();
+                  if (language.code !== currentLanguageCode) {
+                    i18next.changeLanguage(language.code);
+                    handleMenuClick();
+                  }
                 }}
               >
                 <div className="flex justify-center items-center">
@@ -111,50 +94,6 @@ const Languages = () => {
           </ul>
         </div>
       </div>
-
-      {/* <Menu
-        id="basic-menu"
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        MenuListProps={{
-          "aria-labelledby": "basic-button",
-        }}
-      >
-        <MenuItem>
-          <div className="flex justify-center items-center w-full">
-            <span className="">{t("language")}</span>
-          </div>
-        </MenuItem>
-        {languages.map((language) => (
-          <MenuItem
-            value={language.code}
-            key={language.code}
-            disabled={language.code === currentLanguageCode}
-            onClick={() => {
-              i18next.changeLanguage(language.code);
-              handleClose();
-            }}
-          >
-            <div className="flex justify-center items-center">
-              <span
-                className={`p-2 ${
-                  language.code === currentLanguageCode
-                    ? "opacity-50"
-                    : "opacity-100"
-                }`}
-              >
-                {language.code === "ar" ? (
-                  <img src={sa} className="w-4 h-4" alt="Saudi Arabia Flag" />
-                ) : (
-                  <img src={en} className="w-4 h-4" alt="England Flag" />
-                )}
-              </span>
-              {language.name}
-            </div>
-          </MenuItem>
-        ))}
-      </Menu> */}
     </div>
   );
 };
