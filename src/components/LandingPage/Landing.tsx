@@ -8,6 +8,7 @@ import { ThemeState } from "../../store/ThemeSlice";
 
 import Logo from "../../assets/images/mainLogo.png";
 import { useTranslation } from "react-i18next";
+import { styles } from "../../styles/styles";
 
 const Landing = ({
   openLoginModal,
@@ -67,7 +68,7 @@ const Landing = ({
           {t("landing_welcom2")}.
         </h3>
         <div className="flex gap-4 flex-col w-[80%]">
-          <button className="dark:text-white bg-primary rounded-full h-12">
+          <button className={`${styles.coloredButton}`}>
             {t("signin_google")}
           </button>
           <div className="flex justify-center items-center">
@@ -75,9 +76,7 @@ const Landing = ({
             <p className="dark:text-white mx-2">{t("or")}</p>
             <hr className="dark:text-white w-[40%]" />
           </div>
-          <button className="font-semibold text-black bg-primary rounded-full h-12">
-            {t("signup")}
-          </button>
+          <button className={`${styles.coloredButton}`}>{t("signup")}</button>
           <div className="dark:text-gray-400 text-xs">
             {t("landing_agreement")}{" "}
             <a className="text-primary" href="/">
@@ -99,7 +98,7 @@ const Landing = ({
             </div>
           </div>
           <button
-            className="text-primary font-semibold bg-transparent border rounded-full h-12"
+            className={`${styles.normalButton}`}
             onClick={handleOpenLoginModal}
           >
             {t("signin")}
