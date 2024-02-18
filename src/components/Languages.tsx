@@ -2,7 +2,7 @@ import i18next from "i18next";
 import { useTranslation } from "react-i18next";
 
 import LanguageIcon from "@mui/icons-material/Language";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
@@ -23,25 +23,32 @@ const Languages = () => {
   const currentLanguageCode = cookie.get("i18next") || "en";
   const currentLanguage = languages.find((l) => l.code === currentLanguageCode);
 
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  // const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  // const open = Boolean(anchorEl);
+  // const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  //   setAnchorEl(event.currentTarget);
+  // };
+  // const handleClose = () => {
+  //   setAnchorEl(null);
+  // };
 
   useEffect(() => {
     document.body.dir = currentLanguage?.dir || "ltr";
   }, [currentLanguage]);
+
+  const [menuToggle, setMenuToggle] = useState(false);
+
+  const handleMenuClick = () => {
+    setMenuToggle((prev) => !prev);
+  };
+
   return (
     <div
       className={`w-fit  absolute top-0 ${
         currentLanguage?.dir === "ltr" ? "right-0" : "left-0"
       } m-3 bg-transparent`}
     >
-      <button
+      {/* <button
         onClick={handleClick}
         className="flex justify-center items-center"
       >
@@ -52,8 +59,60 @@ const Languages = () => {
           aria-haspopup="true"
           aria-expanded={open ? "true" : undefined}
         />
-      </button>
-      <Menu
+      </button> */}
+      <div className="relative">
+        <button onClick={handleMenuClick}>
+          <LanguageIcon className="text-primary " />
+        </button>
+        <div
+          className={`absolute z-10 top-4 ${
+            i18next.language === "en" ? "right-6" : "left-6"
+          }  w-[100px] bg-white  rounded-md ${menuToggle ? "" : "hidden"} shadow-card`}
+        >
+          <ul className="list-none ">
+            <li className=" p-2  rounded-md">
+              <div className="flex justify-center items-center w-full">
+                <span className="dark:text-black">{t("language")}</span>
+              </div>
+            </li>
+            {languages.map((language) => (
+              <li
+                className="p-2 cursor-pointer hover:bg-gray-100 rounded-md"
+                value={language.code}
+                key={language.code}
+                // disabled={language.code === currentLanguageCode}
+                onClick={() => {
+                  i18next.changeLanguage(language.code);
+                  handleMenuClick();
+                }}
+              >
+                <div className="flex justify-center items-center">
+                  <span
+                    className={`p-2 ${
+                      language.code === currentLanguageCode
+                        ? "opacity-50"
+                        : "opacity-100"
+                    }`}
+                  >
+                    {language.code === "ar" ? (
+                      <img
+                        src={sa}
+                        className="w-4 h-4"
+                        alt="Saudi Arabia Flag"
+                      />
+                    ) : (
+                      <img src={en} className="w-4 h-4" alt="England Flag" />
+                    )}
+                  </span>
+                  <span className="dark:text-black">{language.name}</span>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
+      {/* <Menu
         id="basic-menu"
         anchorEl={anchorEl}
         open={open}
@@ -95,59 +154,7 @@ const Languages = () => {
             </div>
           </MenuItem>
         ))}
-      </Menu>
-      {/*<div className="w-fit min-w-16 absolute top-0 right-0 m-3">
-      <FormControl fullWidth>
-        <InputLabel id="language-select-label">
-          <LanguageIcon className="text-primary" />
-        </InputLabel>
-        <Select
-          labelId="language-select-label"
-          id="language-select"
-          label="lang"
-          sx={{
-            "& .MuiOutlinedInput-root": {
-              "&$focused": {
-                borderColor: "#40e5da",
-              },
-            },
-          }}
-        >
-          <MenuItem>
-            <div className="flex justify-center items-center">
-              <span className="ml-2">{t("language")}</span>
-            </div>
-          </MenuItem>
-          {languages.map((language) => (
-            <MenuItem
-              value={language.code}
-              key={language.code}
-              disabled={language.code === currentLanguageCode}
-              onClick={() => i18next.changeLanguage(language.code)}
-            >
-              <div className="flex justify-center items-center">
-                <span
-                  className={`p-2 ${
-                    language.code === currentLanguageCode
-                      ? "opacity-50"
-                      : "opacity-100"
-                  }`}
-                >
-                  {language.code === "ar" ? (
-                    <img src={sa} className="w-4 h-4" alt="Saudi Arabia Flag" />
-                  ) : (
-                    <img src={en} className="w-4 h-4" alt="England Flag" />
-                  )}
-                </span>
-                {language.name}
-              </div>
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-    </div>
-
-    */}
+      </Menu> */}
     </div>
   );
 };

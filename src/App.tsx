@@ -1,5 +1,4 @@
-
-import {  useState } from "react";
+import { useState } from "react";
 
 import ThemeProvider from "@mui/material/styles/ThemeProvider";
 import theme from "./styles/theme";
@@ -39,7 +38,10 @@ function App() {
             />
           )}
           <Routes>
-            <Route path="/password_reset" element={<PasswordReset setLocation={setLocation}/>} />
+            <Route
+              path="/password_reset"
+              element={<PasswordReset setLocation={setLocation} />}
+            />
           </Routes>
         </BrowserRouter>
       </div>
