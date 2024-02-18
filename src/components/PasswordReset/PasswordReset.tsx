@@ -36,6 +36,9 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 
 import { useSelector } from "react-redux";
 import { getColor } from "../../constants";
+import { TextField } from "@mui/material";
+import { useTranslation } from "react-i18next";
+import i18next from "i18next";
 
 const PasswordReset = ({ setLocation }: { setLocation: any }) => {
   const mock = false;
@@ -99,8 +102,13 @@ const PasswordReset = ({ setLocation }: { setLocation: any }) => {
       })
       .catch((err) => {
         // setEmailExistError(false)
-        nextShow(1, false);
+        // nextShow(1, false);// uncomment
         // console.log(err)
+
+        // for testing and will be removed
+        setEmailExistError(true);
+        setMaskedEmail(maskEmail());
+        nextShow(1);
       });
   };
 
@@ -163,6 +171,9 @@ const PasswordReset = ({ setLocation }: { setLocation: any }) => {
       })
       .catch((err) => {
         console.log(err);
+
+        // for testing and will be removed
+        nextShow(2);
       });
   };
 
@@ -192,9 +203,11 @@ const PasswordReset = ({ setLocation }: { setLocation: any }) => {
 
   const themeColor = useSelector((state: RootState) => state.theme.color);
 
+  const { t } = useTranslation();
+
   return (
     <div className="flex h-[100vh] w-full bg-[#21292f]">
-      <div className="pop-up m-auto w-[35%] h-[80%] min-w-[350px] bg-white dark:bg-black md:rounded-2xl">
+      <div className=" m-auto w-[35%] h-[80%] min-w-[350px] bg-white dark:bg-black md:rounded-2xl">
         <Link to="/" className="!text-white">
           <button
             className="relative  top-4 h-10 w-10 rounded-3xl bg-transparent bg-white text-2xl text-black no-underline hover:bg-lightHover dark:bg-black dark:text-white dark:hover:bg-darkHover"
@@ -206,155 +219,225 @@ const PasswordReset = ({ setLocation }: { setLocation: any }) => {
             x
           </button>
         </Link>
-        <img src={Logo} alt="Logo" className="-mt-4 ml-[45%] w-[40px]" />
+
+        <img
+          src={Logo}
+          alt="Logo"
+          className={`-mt-4 ${
+            i18next.language === "ar" ? "mr-[45%]" : "ml-[45%]"
+          }  w-[40px]`}
+        />
 
         {/* --------------------------------------First Password Reset Page------------------------------------- */}
-        <div id="page1" className="m-auto w-[320px]">
-          <div>
-            <h1>Find your Gigachat account</h1>
-            <p className="text-sm text-zinc-600 ">
-              Enter the email, phone number, or username associated with your
-              account to change your password.
-            </p>
-            <div className="input-container">
-              <input
-                className={
-                  email === "" ? "form-input" : "form-input filled-input"
-                }
-                type="text"
-                name="username"
-                id="username"
-                autoComplete="off"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              <label className="input-label" htmlFor="username">
-                Phone, email or username
-              </label>
-            </div>
-            <button
-              type="button"
-              id="next1"
-              className="btn  dark:!bg-white"
-              onClick={handleEmailExistCheck}
-              disabled={email === ""}
-            >
-              Next
-            </button>
+        <div id="page1" className="m-auto w-[320px] flex flex-col h-full">
+          <h1 className="mb-2 mt-3 text-3xl font-bold">
+            {t("reset_password_heading")}
+          </h1>
+          <p className="text-sm text-zinc-600 mb-3">
+            {t("reset_password_message")}
+          </p>
+          <TextField
+            id="outlined-basic"
+            label={t("login_email_placeholder")}
+            variant="outlined"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            InputLabelProps={{
+              style: { color: "#40e5da", textAlign: "right" },
+            }}
+            sx={{
+              "& .MuiInputBase-input": {
+                borderColor: "#40e5da",
+                "&$focused": {
+                  borderColor: "#40e5da",
+                },
+                color: "#40e5da",
+              },
+              width: "100%",
+              "& .MuiOutlinedInput-root:hover": {
+                "& .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "#40e5da",
+                },
+              },
+              "& .MuiOutlinedInput-root": {
+                borderColor: "#40e5da",
+                "&$focused": {
+                  borderColor: "#40e5da",
+                },
+
+                "& .MuiOutlinedInput-notchedOutline": {
+                  "&$focused": {
+                    borderColor: "#40e5da",
+                  },
+                  borderColor: "#40e5da",
+                },
+              },
+              marginBottom: "10px",
+            }}
+          />
+
+          <button
+            type="button"
+            id="next"
+            className={`${styles.coloredButton}`}
+            onClick={handleEmailExistCheck}
+            disabled={email === ""}
+          >
+            {t("next")}
+          </button>
+
+          <div className={`${emailExistError ? "" : "hidden"}`}>
             <Alert
               severity="error"
               data-testid="emailExistError"
               className={`${emailExistError ? "" : "hidden"}`}
             >
-              sorry we couldn't find your email
+              {t("account_not_found")}
             </Alert>
           </div>
         </div>
 
         {/* --------------------------------------Second Password Reset Page------------------------------------- */}
         <div id="page2" className="m-auto hidden w-[320px]">
-          <div id="mahmoud_signature">
-            <h1>Where should we send a confirmation code?</h1>
-            <p className="text-sm text-zinc-600 ">
-              Before you can change your password, we need to make sure
-              it&apos;s really you.
-            </p>
-            {/* <p className="text-sm text-zinc-600 ">Start by choosing where to send a confirmation code.</p> */}
-            <FormControl>
-              <FormLabel
-                id="demo-radio-buttons-group-label"
-                className="text-secondary"
-              >
-                Start by choosing where to send a confirmation code.
-              </FormLabel>
-              <RadioGroup
-                onChange={handleOptionChange}
-                value={choosed}
+          <h1 className="mb-2 mt-3 text-3xl font-bold">
+            {t("confirmation_code_question")}
+          </h1>
+          <p className="text-sm text-zinc-600 mb-3">
+            {t("reset_password_message2")}
+          </p>
+          <FormControl>
+            <RadioGroup
+              onChange={handleOptionChange}
+              value={choosed}
+              sx={{
+                ".MuiButtonBase-root": {
+                  color: "#1d9bf0",
+                },
+              }}
+              name="options"
+            >
+              <FormControlLabel
                 sx={{
-                  ".MuiButtonBase-root": {
-                    color: "#1d9bf0",
+                  ".MuiTypography-root": {
+                    fontSize: 15,
                   },
                 }}
-                name="options"
-              >
-                <FormControlLabel
-                  sx={{
-                    ".MuiTypography-root": {
-                      fontSize: 15,
-                    },
-                  }}
-                  value="email"
-                  control={<Radio />}
-                  label={`Send an email to ${maskedEmail}`}
-                />
-                <FormControlLabel
-                  sx={{
-                    ".MuiTypography-root": {
-                      fontSize: 15,
-                    },
-                  }}
-                  value="phone"
-                  control={<Radio />}
-                  label={`Send a message to phone number ending with 27`}
-                />
-              </RadioGroup>
-            </FormControl>
+                value="email"
+                control={<Radio />}
+                label={`${t("sent_email")}${maskedEmail}`}
+              />
+              <FormControlLabel
+                sx={{
+                  ".MuiTypography-root": {
+                    fontSize: 15,
+                  },
+                }}
+                value="phone"
+                control={<Radio />}
+                label={`${t("sent_sms")}27`}
+              />
+            </RadioGroup>
+          </FormControl>
 
-            <button
-              type="button"
-              id="next3"
-              className="btn dark:!bg-white"
-              onClick={() => {
-                handleForgotPassword();
-                // nextShow(2)
-              }}
-            >
-              Next
-            </button>
-          </div>
+          <button
+            type="button"
+            id="next"
+            className={`${styles.coloredButton}`}
+            onClick={() => {
+              handleForgotPassword();
+              // nextShow(2)
+            }}
+            disabled={email === ""}
+          >
+            {t("next")}
+          </button>
         </div>
         {/* --------------------------------------Third Password Reset Page------------------------------------- */}
 
         <div id="page3" className="m-auto hidden w-[320px]">
           <div>
-            <h1>We sent a code to you email</h1>
+            <h1>{t("reset_password_message3")}</h1>
             {/* <p className="text-sm text-zinc-600 ">Verify your identity by entering the username associated with your X account.</p> */}
-            <div className="input-container">
-              <input
-                className={
-                  code === "" ? "form-input" : "form-input filled-input"
-                }
-                name="code"
-                id="code"
-                autoComplete="off"
-                value={code}
-                onChange={(e) => setCode(e.target.value)}
-              />
-              <label className="input-label" htmlFor="code">
-                Code
-              </label>
-            </div>
+            <TextField
+              id="outlined-basic"
+              label={t("code")}
+              variant="outlined"
+              value={code}
+              onChange={(e) => setCode(e.target.value)}
+              InputLabelProps={{
+                style: { color: "#40e5da", textAlign: "right" },
+              }}
+              sx={{
+                "& .MuiInputBase-input": {
+                  borderColor: "#40e5da",
+                  "&$focused": {
+                    borderColor: "#40e5da",
+                  },
+                  color: "#40e5da",
+                },
+                width: "100%",
+                "& .MuiOutlinedInput-root:hover": {
+                  "& .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "#40e5da",
+                  },
+                },
+                "& .MuiOutlinedInput-root": {
+                  borderColor: "#40e5da",
+
+                  "& .MuiOutlinedInput-notchedOutline": {
+                    "&$focused": {
+                      borderColor: "#40e5da",
+                    },
+                    borderColor: "#40e5da",
+                  },
+                },
+                marginBottom: "10px",
+              }}
+            />
+
             <div className="relative">
-              <div className="input-container">
-                <input
-                  className={
-                    password === "" ? "form-input" : "form-input filled-input"
-                  }
-                  type={showPassword ? "text" : "password"}
-                  name="password"
-                  id="password"
-                  autoComplete="off"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-                <label className="input-label" htmlFor="password">
-                  New Password
-                </label>
-              </div>
+              <TextField
+                id="outlined-basic"
+                label={t("new_password")}
+                variant="outlined"
+                type={showPassword ? "password" : "text"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                InputLabelProps={{
+                  style: { color: "#40e5da" },
+                }}
+                sx={{
+                  "& .MuiInputBase-input": {
+                    borderColor: "#40e5da",
+
+                    color: "#40e5da",
+                  },
+                  width: "100%",
+                  "& .MuiOutlinedInput-root:hover": {
+                    "& .MuiOutlinedInput-notchedOutline": {
+                      borderColor: "#40e5da",
+                    },
+                  },
+                  "& .MuiOutlinedInput-root": {
+                    borderColor: "#40e5da",
+                    "&$focused": {
+                      borderColor: "#40e5da",
+                    },
+                    "& .MuiOutlinedInput-notchedOutline": {
+                      "&$focused": {
+                        borderColor: "#40e5da",
+                      },
+                      borderColor: "#40e5da",
+                    },
+                  },
+                  marginBottom: "10px",
+                }}
+              />
+
               <span
-                className={`toggle-password absolute right-4 top-4 cursor-pointer ${
-                  showPassword ? "active" : ""
-                }`}
+                className={`toggle-password text-primary absolute ${
+                  i18next.language === "en" || !password ? "right-4" : "left-4"
+                } top-4 cursor-pointer ${showPassword ? "active" : ""}`}
                 onClick={togglePasswordVisibility}
               >
                 <VisibilityIcon
@@ -372,7 +455,7 @@ const PasswordReset = ({ setLocation }: { setLocation: any }) => {
                   }`}
                   sx={styles.signupPasswordCheckStyleTop}
                 >
-                  Require uppercase letter
+                  {t("uppercase")}
                 </Alert>
                 <Alert
                   severity={`${
@@ -380,7 +463,7 @@ const PasswordReset = ({ setLocation }: { setLocation: any }) => {
                   }`}
                   sx={styles.signupPasswordCheckStyleMiddle}
                 >
-                  Require lowercase letter
+                  {t("lowercase")}
                 </Alert>
                 <Alert
                   severity={`${
@@ -388,13 +471,13 @@ const PasswordReset = ({ setLocation }: { setLocation: any }) => {
                   }`}
                   sx={styles.signupPasswordCheckStyleMiddle}
                 >
-                  Require special character !@#$%^&*()
+                  {t("special")}
                 </Alert>
                 <Alert
                   severity={`${hasNumber(password) ? "success" : "error"}`}
                   sx={styles.signupPasswordCheckStyleMiddle}
                 >
-                  Require number
+                  {t("number")}
                 </Alert>
                 <Alert
                   severity={`${
@@ -402,23 +485,23 @@ const PasswordReset = ({ setLocation }: { setLocation: any }) => {
                   }`}
                   sx={styles.signupPasswordCheckStyleBottom}
                 >
-                  Require at least 8 characters
+                  {t("min_length")}
                 </Alert>
               </div>
-              <Alert
-                severity="success"
+              <div
                 className={`${
                   changedSuccessfully ? "" : "hidden"
                 } -mb-9 mt-2 text-xs`}
               >
-                Password Changed Successfully, Navigating to Login...
-              </Alert>
+                <Alert severity="success">{t("password_changed")}</Alert>
+              </div>
               <button
-                className="btn mt-16 dark:!bg-white"
-                disabled={checkPassword(password) || code === ""}
+                type="button"
+                className={`${styles.coloredButton}`}
                 onClick={handleResetPassword}
+                disabled={checkPassword(password) || code === ""}
               >
-                Confirm
+                {t("confirm")}
               </button>
             </div>
           </div>
