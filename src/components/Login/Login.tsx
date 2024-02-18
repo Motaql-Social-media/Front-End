@@ -1,4 +1,4 @@
-import { useState, useEffect, HtmlHTMLAttributes } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import { Modal, Box, Alert } from "@mui/material";
@@ -222,13 +222,14 @@ const Login = ({
         disablePortal
       >
         <Box style={modalStyle}>
-          <div
-            className="pop-up relative min-w-[350px] bg-white dark:bg-black md:rounded-2xl h-full"
-            id="mahmoud_login_box"
-          >
+          <div className="relative min-w-[350px] bg-white dark:bg-black md:rounded-2xl h-full">
             <button
               className="relative top-4 h-10 w-10 rounded-3xl bg-transparent bg-white text-2xl text-black no-underline hover:bg-lightHover dark:bg-black dark:text-white dark:hover:bg-darkHover"
-              onClick={handleCloseModal}
+              onClick={() => {
+                setLocation("/");
+                navigate("/");
+                handleCloseModal();
+              }}
             >
               x
             </button>
@@ -263,6 +264,7 @@ const Login = ({
                   <hr className="ml-2 w-full" />
                 </div>
               </div>
+
               <TextField
                 id="outlined-basic"
                 label={t("login_email_placeholder")}

@@ -9,6 +9,7 @@ import { ThemeState } from "../../store/ThemeSlice";
 import Logo from "../../assets/images/mainLogo.png";
 import { useTranslation } from "react-i18next";
 import { styles } from "../../styles/styles";
+import SignUp from "../Signup/Signup";
 
 const Landing = ({
   openLoginModal,
@@ -76,7 +77,7 @@ const Landing = ({
             <p className="dark:text-white mx-2">{t("or")}</p>
             <hr className="dark:text-white w-[40%]" />
           </div>
-          <button className={`${styles.coloredButton}`}>{t("signup")}</button>
+          <button className={`${styles.coloredButton}`} onClick={handleOpenSignupModal}>{t("signup")}</button>
           <div className="dark:text-gray-400 text-xs">
             {t("landing_agreement")}{" "}
             <a className="text-primary" href="/">
@@ -108,6 +109,11 @@ const Landing = ({
       <Login
         openModal={openLoginModal}
         handleCloseModal={handleCloseLoginModal}
+        setLocation={setLocation}
+      />
+      <SignUp
+        openModal={openSignupModal}
+        handleCloseModal={handleCloseSignupModal}
         setLocation={setLocation}
       />
     </div>
