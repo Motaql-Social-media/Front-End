@@ -25,5 +25,22 @@
   "email_not_found": "Sorry, we couldn't find your account.",
   "login_email_placeholder": "Email, phone, or username",
   "login_password_placeholder": "Password",
-  "next": "Next"
+  "next": "Next",
+  "reset_password_message": "Enter the email, phone number, or username associated with your account to change your password.",
+  "reset_password_heading": "Reset Your Password",
+  "confirmation_code_question": "Where should we send a confirmation code?",
+  "account_not_found": "Sorry, we couldn't find your account.",
+  "reset_password_message2": "Before you can change your password, we need to make sure it's really you.",
+  "reset_password_message3": "We sent a code to you",
+  "uppercase": "Require uppercase letter",
+  "lowercase": "Require lowercase letter",
+  "special": "Require special character !@#$%^&*()",
+  "number": "Require number",
+  "min_length": "Require at least 8 characters",
+  "password_changed": "Password Changed Successfully, Navigating to Login...",
+  "confirm": "Confirm",
+  "sent_email": "Send an email to ",
+  "sent_sms":"Send a message to phone number ending with ",
+  "code": "Code",
+  "new_password": "New Password"
 }

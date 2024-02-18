@@ -72,7 +72,10 @@ const Languages = () => {
             value={language.code}
             key={language.code}
             disabled={language.code === currentLanguageCode}
-            onClick={() => i18next.changeLanguage(language.code)}
+            onClick={() => {
+              i18next.changeLanguage(language.code);
+              handleClose();
+            }}
           >
             <div className="flex justify-center items-center">
               <span

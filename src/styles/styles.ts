@@ -78,6 +78,10 @@ const styles = {
     paddingTop: 0,
     paddingBottom: 0,
   },
+  coloredButton:
+    "text-black font-semibold w-full bg-primary rounded-full h-12 my-2 disabled:bg-opacity-30 ",
+  normalButton:
+    "text-primary border font-semibold w-full dark:bg-black rounded-full h-12 my-2",
 };
 
 export { styles };
