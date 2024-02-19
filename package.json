@@ -19,6 +19,7 @@
     "@types/react-google-recaptcha": "^2.1.9",
     "@types/react-redux": "^7.1.33",
     "axios": "^1.6.7",
+    "google-libphonenumber": "^3.2.34",
     "i18next": "^23.8.2",
     "i18next-browser-languagedetector": "^7.2.0",
     "i18next-http-backend": "^2.4.3",
@@ -27,6 +28,7 @@
     "react-dom": "^18.2.0",
     "react-google-recaptcha": "^3.1.0",
     "react-i18next": "^14.0.5",
+    "react-international-phone": "^4.2.5",
     "react-redux": "^9.1.0",
     "react-router-dom": "^6.22.1",
     "react-scripts": "5.0.1",
@@ -59,6 +61,7 @@
   },
   "devDependencies": {
     "@types/axios": "^0.14.0",
+    "@types/google-libphonenumber": "^7.4.30",
     "@types/js-cookie": "^3.0.6",
     "@types/react-router-dom": "^5.3.3",
     "autoprefixer": "^10.4.17",

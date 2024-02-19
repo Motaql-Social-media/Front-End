@@ -19,8 +19,8 @@ import ReCAPTCHA from "react-google-recaptcha";
 const FirstStep = ({
   nickName,
   setNickName,
-  email,
-  setEmail,
+  speciality,
+  setSpeciality,
   month,
   setMonth,
   day,
@@ -28,15 +28,15 @@ const FirstStep = ({
   year,
   setYear,
   setPosition,
-  emailExistError,
-  setEmailExistError,
-  validEmail,
+  // emailExistError,
+  // setEmailExistError,
+  // validEmail,
   mock,
 }: {
   nickName: string;
   setNickName: React.Dispatch<React.SetStateAction<string>>;
-  email: string;
-  setEmail: React.Dispatch<React.SetStateAction<string>>;
+  speciality: string;
+  setSpeciality: React.Dispatch<React.SetStateAction<string>>;
   month: string;
   setMonth: (value: string) => void;
   day: string;
@@ -44,34 +44,12 @@ const FirstStep = ({
   year: string;
   setYear: (value: string) => void;
   setPosition: any;
-  emailExistError: boolean;
-  setEmailExistError: React.Dispatch<React.SetStateAction<boolean>>;
-  validEmail: (email: string) => boolean;
+  // emailExistError: boolean;
+  // setEmailExistError: React.Dispatch<React.SetStateAction<boolean>>;
+  // validEmail: (email: string) => boolean;
   mock: boolean;
 }) => {
-  const handleEmailBlur = () => {
-    // let emailExist
-    axios
-      .post(mock ? APIs.mock.emailExistAPI : APIs.actual.emailExistAPI, {
-        email: email,
-      })
-      .then((res) => {
-        setEmailExistError(res.data.message === "Email is existed");
-        // emailExist = res.data.message === "Email is existed"
-      })
-      // .then(() => {
-      //   if (emailExist) {
-      //     setEmailExistError(true)
-      //   } else {
-      //     setEmailExistError(false)
-      //   }
-      // })
-      .catch((err) => {
-        setEmailExistError(false);
-
-        // console.log(err)
-      });
-  };
+  
 
   const { t } = useTranslation();
 
@@ -82,9 +60,7 @@ const FirstStep = ({
     setCaptchaIsDone(true);
   };
 
-  const [birthdateError, setBirthdateError] = useState(false);
-
-    const handleCheckBirthdate = () => {
+  const handleCheckBirthdate = () => {
     const currentDate = new Date();
     const selectedDate = new Date(`${year}-${month}-${day}`);
     const ageDiff = currentDate.getFullYear() - selectedDate.getFullYear();
@@ -110,12 +86,10 @@ const FirstStep = ({
     }
   };
 
-
   return (
     <div id="First Step" className=" m-auto w-[300px] dark:text-white hidden">
       <div className="max-w[600px] !h-fit">
         <h1 className="mb-4 mt-3 text-3xl font-bold">Create your account</h1>
-
         <TextField
           id="outlined-basic"
           label={"Name"}
@@ -126,6 +100,7 @@ const FirstStep = ({
             style: { color: "#40e5da", textAlign: "right" },
           }}
           sx={{
+            borderColor: "#40e5da",
             "& .MuiInputBase-input": {
               borderColor: "#40e5da",
               "&$focused": {
@@ -155,20 +130,22 @@ const FirstStep = ({
         <div>
           <TextField
             id="outlined-basic"
-            label={"Email"}
+            label={"Speciality (e.g. Densist)"}
             variant="outlined"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={speciality}
+            onChange={(e) => setSpeciality(e.target.value)}
             InputLabelProps={{
               style: { color: "#40e5da", textAlign: "right" },
             }}
-            inputProps={{
-              onBlur: handleEmailBlur,
-              style: {
-                border: emailExistError ? "1px solid red" : "",
-              },
-            }}
+            // inputProps={{
+            //   onBlur: handleEmailBlur,
+            //   style: {
+            //     border: emailExistError ? "1px solid red" : "",
+            //   },
+            // }}
             sx={{
+              borderColor: "#40e5da",
+
               "& .MuiInputBase-input": {
                 borderColor: "#40e5da",
                 "&$focused": {
@@ -195,7 +172,7 @@ const FirstStep = ({
               marginBottom: "10px",
             }}
           />
-          {!validEmail(email) && (
+          {/* {!validEmail(email) && (
             <div className={`${email ? "flex" : "hidden"}`}>
               <Alert
                 severity="error"
@@ -204,16 +181,15 @@ const FirstStep = ({
                 Please enter a valid email
               </Alert>
             </div>
-          )}
-          <span
+          )} */}
+          {/* <span
             className={`ml-3 text-sm text-red-600 ${
               emailExistError ? "" : "hidden"
             }`}
           >
             Email has already been taken
-          </span>
+          </span> */}
         </div>
-
         {/* <div className="input-container">
           <input
             className={`${emailExistError ? "border border-red-600" : ""}`}
@@ -251,7 +227,8 @@ const FirstStep = ({
             Email has already been taken
           </span>
         </div> */}
-        <div className={`${emailExistError ? "-mt-5" : ""}`}>
+        {/* className={`${emailExistError ? "-mt-5" : ""}`} */}
+        <div>
           <div className="mes mb-1">
             <p className="font-bold text-lg">Date of birth </p>
             <p className="dark:text-gray-400 text-xs">
@@ -281,13 +258,13 @@ const FirstStep = ({
           className={`${styles.coloredButton}`}
           onClick={handleCheckBirthdate}
           disabled={
-            email === "" ||
+            speciality === "" ||
             nickName === "" ||
             year === "" ||
             month === "" ||
             day === "" ||
-            !validEmail(email) ||
-            emailExistError ||
+            // !validEmail(email) ||
+            // emailExistError ||
             !captchaIsDone
           }
         >

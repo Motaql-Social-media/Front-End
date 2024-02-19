@@ -6,8 +6,6 @@ import { useState } from "react";
 
 import cookie from "js-cookie";
 
-import en from "../assets/images/gb.svg";
-import sa from "../assets/images/sa.svg";
 import { useEffect } from "react";
 
 const Languages = () => {
@@ -43,12 +41,12 @@ const Languages = () => {
         <div
           className={`absolute z-10 top-4 ${
             i18next.language === "en" ? "right-6" : "left-6"
-          }  w-[100px] bg-white  rounded-md ${
+          }  w-[110px] bg-white  rounded-md ${
             menuToggle ? "" : "hidden"
           } shadow-card`}
         >
           <ul className="list-none ">
-            <li className=" p-2  rounded-md">
+            <li className=" p-1  rounded-md">
               <div className="flex justify-center items-center w-full">
                 <span className="dark:text-black">{t("language")}</span>
               </div>
@@ -69,9 +67,9 @@ const Languages = () => {
                   }
                 }}
               >
-                <div className="flex justify-center items-center">
+                <div className="flex justify-between items-center">
                   <span
-                    className={`p-2 ${
+                    className={`m-1 ${
                       language.code === currentLanguageCode
                         ? "opacity-50"
                         : "opacity-100"
@@ -79,12 +77,18 @@ const Languages = () => {
                   >
                     {language.code === "ar" ? (
                       <img
-                        src={sa}
-                        className="w-4 h-4"
-                        alt="Saudi Arabia Flag"
-                      />
+                        src={`https://flagcdn.com/sa.svg`}
+                        width="25"
+                        style={{ aspectRatio: "4/3" }}
+                        alt={"sa"}
+                      ></img>
                     ) : (
-                      <img src={en} className="w-4 h-4" alt="England Flag" />
+                      <img
+                        src={`https://flagcdn.com/us.svg`}
+                        width="25"
+                        style={{ aspectRatio: "4/3" }}
+                        alt={"en"}
+                      ></img>
                     )}
                   </span>
                   <span className="dark:text-black">{language.name}</span>

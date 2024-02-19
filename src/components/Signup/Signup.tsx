@@ -12,17 +12,18 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 // import UploadProfilePicture from "./UploadProfilePicture.jsx";
 import FirstStep from "./FirstStep";
-// import SecondStep from "./SecondStep.jsx";
-// import ThirdStep from "./ThirdStep.jsx";
+import SecondStep from "./SecondStep";
+import ThirdStep from "./ThirdStep";
 
 import Logo from "../../assets/images/mainLogo.png";
 
 import { EMAIL_REGEX } from "../../constants/index";
-// import ForthStep from "./ForthStep.jsx";
-// import FifthStep from "./FifthStep.jsx";
-// import TagStep from "./TagStep.jsx";
+import ForthStep from "./ForthStep";
+import FifthStep from "./FifthStep";
+import TagStep from "./TagStep";
 import ErrorPage from "./ErrorPage";
 import PreStep from "./PreStep";
+import SixthStep from "./SixthStep";
 
 import { ThemeState } from "../../store/ThemeSlice.js";
 
@@ -54,12 +55,15 @@ const SignUp = ({
 
   const [nickName, setNickName] = useState("");
   const [email, setEmail] = useState("");
+  const [speciality, setSpeciality] = useState("");
   const [year, setYear] = useState("");
   const [month, setMonth] = useState("");
   const [day, setDay] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+
   const [userToken, setUserToken] = useState("");
-  const [user, setUser] = useState();
-  const [userTag, setUserTag] = useState();
+  const [user, setUser] = useState<any>();
+  const [userTag, setUserTag] = useState<any>();
   const [originalUsername, setOriginalUsername] = useState("");
 
   const [password, setPassword] = useState("");
@@ -78,6 +82,7 @@ const SignUp = ({
     const ThirdStep = document.getElementById("Third Step");
     const ForthStep = document.getElementById("Forth Step");
     const FifthStep = document.getElementById("Fifth Step");
+    const SixthStep = document.getElementById("Sixth Step");
     const TagStep = document.getElementById("Tag Step");
     const PictureStep = document.getElementById("Picture Step");
 
@@ -87,6 +92,7 @@ const SignUp = ({
     if (ThirdStep) ThirdStep.style.display = "none";
     if (ForthStep) ForthStep.style.display = "none";
     if (FifthStep) FifthStep.style.display = "none";
+    if (SixthStep) SixthStep.style.display = "none";
     if (TagStep) TagStep.style.display = "none";
     if (PictureStep) PictureStep.style.display = "none";
 
@@ -115,9 +121,12 @@ const SignUp = ({
         if (FifthStep) FifthStep.style.display = "block";
         break;
       case 6:
-        if (TagStep) TagStep.style.display = "block";
+        if (SixthStep) SixthStep.style.display = "block";
         break;
       case 7:
+        if (TagStep) TagStep.style.display = "block";
+        break;
+      case 8:
         if (PictureStep) PictureStep.style.display = "block";
         break;
       default:
@@ -227,14 +236,14 @@ const SignUp = ({
   if (windowWidth < 700) {
     modalStyle.width = "100vw";
     modalStyle.height = "100vh";
-    modalStyle.maxWidth = "none"; // optional, to remove any max-width constraints
+    modalStyle.maxWidth = "none";
   } else {
     modalStyle.width = "601.6px";
     modalStyle.height = "651.6px";
     modalStyle.top = "50%";
     modalStyle.left = "50%";
     modalStyle.transform = "translate(-50%, -50%)";
-    modalStyle.maxWidth = "none"; // optional, to remove any max-width constraints
+    modalStyle.maxWidth = "none";
   }
   return (
     <>
@@ -257,26 +266,22 @@ const SignUp = ({
             >
               x
             </button>
-
             <img
               src={Logo}
               alt="GigaChat Logo"
               className="-mt-4 ml-[45%] w-[40px]"
             />
-
             <CustomizedStepper step={position} />
-
             <PreStep
               handleCloseModal={handleCloseModal}
               setPosition={setPosition}
               setLocation={setLocation}
             />
-
             <FirstStep
               nickName={nickName}
               setNickName={setNickName}
-              email={email}
-              setEmail={setEmail}
+              speciality={speciality}
+              setSpeciality={setSpeciality}
               month={month}
               setMonth={setMonth}
               day={day}
@@ -284,26 +289,34 @@ const SignUp = ({
               year={year}
               setYear={setYear}
               setPosition={setPosition}
+              // emailExistError={emailExistError}
+              // setEmailExistError={setEmailExistError}
+              // validEmail={validEmail}
+              mock={mock}
+            />
+            <SecondStep
+              setPosition={setPosition}
+              phoneNumber={phoneNumber}
+              setPhoneNumber={setPhoneNumber}
+            />
+            <ThirdStep phoneNumber={phoneNumber} setPosition={setPosition} />
+
+            <ForthStep
+              email={email}
+              setEmail={setEmail}
+              setPosition={setPosition}
               emailExistError={emailExistError}
               setEmailExistError={setEmailExistError}
               validEmail={validEmail}
-              mock={mock}
             />
+            <FifthStep email={email} setPosition={setPosition} />
 
-            {/* <SecondStep nextShow={nextShow} /> */}
-
-            {/* <ThirdStep
-              nickName={nickName}
-              email={email}
-              month={month}
-              day={day}
-              year={year}
-              emailExistError={emailExistError}
-              validEmail={validEmail}
-              mock={mock}
-              nextShow={nextShow}
-              handleOpenBirthdateError={handleOpenBirthdateError}
-            /> */}
+            <SixthStep
+              password={password}
+              setPassword={setPassword}
+              setPosition={setPosition}
+              setOriginalUsername={setOriginalUsername}
+            />
 
             {/* <ForthStep
               setUserTag={setUserTag}
@@ -315,7 +328,6 @@ const SignUp = ({
               mock={mock}
               email={email}
             /> */}
-
             {/* <FifthStep
               mock={mock}
               userToken={userToken}
@@ -325,18 +337,16 @@ const SignUp = ({
               password={password}
               setPassword={setPassword}
             /> */}
-
-            {/* <TagStep
-              mock={mock}
+            <TagStep
+              // mock={mock}
               userTag={userTag}
               setUserTag={setUserTag}
-              originalUsername={originalUsername}
+              originalUsername={"originalUsername"}
               userToken={userToken}
               user={user}
               setUser={setUser}
-              nextShow={nextShow}
-            /> */}
-
+              setPosition={setPosition}
+            />
             {/* <UploadProfilePicture
               userR={user}
               setUser={setUser}
@@ -346,7 +356,6 @@ const SignUp = ({
               email={email}
               password={password}
             /> */}
-
             <ErrorPage
               setDay={setDay}
               setMonth={setMonth}

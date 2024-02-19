@@ -60,32 +60,31 @@ const Birthdate = ({
 
   return (
     <div className="date flex">
-      <Box sx={{ minWidth: 120 }} className="month">
+      <Box sx={{ minWidth: 115 }} className="month">
         <FormControl
           sx={{
             "&& .MuiFormLabel-root": {
-              color: "#9aa1ad",
+              color: "#40e5da",
             },
-            minWidth: 120,
+            minWidth: 115,
           }}
         >
           <InputLabel id="demo-simple-select-label">Month</InputLabel>
           <Select
-            data-testid="monthSelect"
             value={month}
-            label="Age"
+            label="Month"
             onChange={handleChangeMonth}
             sx={{
-              width: monthwidth,
+              width: 115,
               color: "black",
               ".MuiOutlinedInput-notchedOutline": {
-                borderColor: "#767C86",
+                borderColor: "#40e5da",
               },
               "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                borderColor: "#1d9bf0",
+                borderColor: "#40e5da",
               },
               "&:hover .MuiOutlinedInput-notchedOutline": {
-                borderColor: "#1d9bf0",
+                borderColor: "#40e5da",
               },
               ".MuiSvgIcon-root ": {
                 fill: "#767C86 !important",
@@ -122,32 +121,32 @@ const Birthdate = ({
           </Select>
         </FormControl>
       </Box>
-      <Box sx={{ minWidth: 100 }} className="day">
+      <Box sx={{ minWidth: 80 }} className="day">
         <FormControl
           sx={{
             "&& .MuiFormLabel-root": {
-              color: "#9aa1ad",
+              color: "#40e5da",
             },
-            minWidth: 100,
-            padding: "0 10px",
+            minWidth: 80,
+            marginRight: 1,
+            marginLeft: 1,
           }}
         >
           <InputLabel id="demo-simple-select-label">Day</InputLabel>
           <Select
-            data-testid="daySelect"
             value={day}
             label="Day"
             onChange={handleChangeDay}
             sx={{
               color: "black",
               ".MuiOutlinedInput-notchedOutline": {
-                borderColor: "#767C86",
+                borderColor: "#40e5da",
               },
               "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                borderColor: "#1d9bf0",
+                borderColor: "#40e5da",
               },
               "&:hover .MuiOutlinedInput-notchedOutline": {
-                borderColor: "#1d9bf0",
+                borderColor: "#40e5da",
               },
               ".MuiSvgIcon-root ": {
                 fill: "#767C86 !important",
@@ -177,40 +176,40 @@ const Birthdate = ({
             }}
           >
             {days.map((day) => (
-              <MenuItem value={day} key={day} data-testid={day}>
+              <MenuItem value={day} key={day}>
                 {day}
               </MenuItem>
             ))}
           </Select>
         </FormControl>
       </Box>
-      <Box sx={{ minWidth: 100 }} className="year">
+      <Box sx={{ minWidth: 80 }} className="year">
         <FormControl
           sx={{
             "&& .MuiFormLabel-root": {
-              color: "#9aa1ad",
+              color: "#40e5da",
             },
-            minWidth: 100,
+            minWidth: 80,
             paddingLeft: 0,
           }}
         >
           <InputLabel id="demo-simple-select-label">Year</InputLabel>
           <Select
-            data-testid="yearSelect"
             value={year}
             label="Year"
             onChange={handleChangeYear}
             sx={{
-              width: yearwidth,
+              width: 80,
               color: "black",
+
               ".MuiOutlinedInput-notchedOutline": {
-                borderColor: "#767C86",
+                borderColor: "#40e5da",
               },
               "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                borderColor: "#1d9bf0",
+                borderColor: "#40e5da",
               },
               "&:hover .MuiOutlinedInput-notchedOutline": {
-                borderColor: "#1d9bf0",
+                borderColor: "#40e5da",
               },
               ".MuiSvgIcon-root ": {
                 fill: "#767C86 !important",
