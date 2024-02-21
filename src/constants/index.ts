@@ -1,3 +1,4 @@
+
 function getUser() {
   let user = localStorage.getItem("user");
   if (user) {
@@ -10,19 +11,20 @@ function getUser() {
 
 export default getUser;
 
+
 export const months = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
+  "january",
+  "february",
+  "march",
+  "april",
+  "may",
+  "june",
+  "july",
+  "august",
+  "september",
+  "october",
+  "november",
+  "december",
 ];
 
 export const days = [

@@ -179,29 +179,28 @@ const Login = ({
   }
 
   const handleEmailCheck = () => {
-    let userCredentials: { username: string; email?: string } = {
-      username: userName,
-    };
-
-    if (validEmail(userName)) {
-      userCredentials = { email: userName, username: "" };
-    }
-
-    let emailExist: boolean;
-    axios
-      .post(APIs.actual.emailExistAPI, userCredentials)
-      .then((res) => {
-        emailExist = res.status === 200;
-      })
-      .then(() => {
-        handleNext(emailExist);
-      })
-      .catch((err) => {
-        console.log(err);
-        emailExist = !(err.message === "Request failed with status code 404");
-        handleNext(emailExist);
-        // console.log(emailExist)
-      });
+    // let userCredentials: { username: string; email?: string } = {
+    //   username: userName,
+    // };
+    // if (validEmail(userName)) {
+    //   userCredentials = { email: userName, username: "" };
+    // }
+    // let emailExist: boolean;
+    // axios
+    //   .post(APIs.actual.emailExistAPI, userCredentials)
+    //   .then((res) => {
+    //     emailExist = res.status === 200;
+    //   })
+    //   .then(() => {
+    // handleNext(emailExist);
+    handleNext(userName === "d@d.d"); // will be removed
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //     emailExist = !(err.message === "Request failed with status code 404");
+    //     handleNext(emailExist);
+    //     // console.log(emailExist)
+    //   });
   };
 
   const themeColor = useSelector((state: RootState) => state.theme.color);
@@ -237,7 +236,7 @@ const Login = ({
               src={Logo}
               alt="Logo"
               className={`-mt-4 ${
-                document.body.dir === "rtl" ? "mr-[45%]" : "ml-[45%]"
+                i18next.language === "ar" ? "mr-[45%]" : "ml-[45%]"
               } w-[40px]`}
             />
             {/* --------------------------------------First Login Page------------------------------------- */}
@@ -275,6 +274,8 @@ const Login = ({
                   style: { color: "#40e5da", textAlign: "right" },
                 }}
                 sx={{
+                  borderColor: "#40e5da",
+
                   "& .MuiInputBase-input": {
                     borderColor: "#40e5da",
                     "&$focused": {
@@ -360,6 +361,8 @@ const Login = ({
                     style: { color: "#40e5da" },
                   }}
                   sx={{
+                    borderColor: "#40e5da",
+
                     "& .MuiInputBase-input": {
                       borderColor: "#40e5da",
                       "&$focused": {
@@ -391,13 +394,15 @@ const Login = ({
                     id="outlined-basic"
                     label={t("login_password_placeholder")}
                     variant="outlined"
-                    type={showPassword ? "password" : "text"}
+                    type={!showPassword ? "password" : "text"}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     InputLabelProps={{
                       style: { color: "#40e5da" },
                     }}
                     sx={{
+                      borderColor: "#40e5da",
+
                       "& .MuiInputBase-input": {
                         borderColor: "#40e5da",
                         "&$focused": {

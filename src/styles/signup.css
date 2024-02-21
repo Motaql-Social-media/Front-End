@@ -1,0 +1,8 @@
+.reactEasyCrop_Image {
+  margin: "auto" !important;
+}
+
+.reactEasyCrop_CropArea {
+  border-radius: 50% !important;
+  overflow: hidden !important;
+}

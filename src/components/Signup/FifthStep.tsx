@@ -61,22 +61,21 @@ const FifthStep = ({
   return (
     <div id="Fifth Step" className=" m-auto w-[350px] dark:text-white hidden">
       <div className="max-w[600px] !h-fit">
-        <h1 className="mb-1 mt-3 text-3xl font-bold">Validate your Email</h1>
+        <h1 className="mb-1 mt-3 text-3xl font-bold">{t("signup_welcome6")}</h1>
         <p className="text-gray-500 mb-4">
-          Please, enter the code we have sent to your email{" "}
-          <span className="text-primary">{email}</span>
+          {t("email_otp_message")} <span className="text-primary">{email}</span>
           <p
             className="text-primary cursor-pointer mt-2 w-fit"
             onClick={() => {
               setPosition((prev: number) => prev - 1);
             }}
           >
-            Change Email
+            {t("change_email")}
           </p>
         </p>
         <TextField
           id="outlined-basic"
-          label={"Code"}
+          label={t("code")}
           variant="outlined"
           value={code}
           onChange={(e) => setCode(e.target.value)}
@@ -121,7 +120,9 @@ const FifthStep = ({
                 : "text-primary cursor-pointer"
             }  mt-2 w-fit`}
           >
-            {isResending ? `Resending in ${countdown}s` : "Resend Email"}
+            {isResending
+              ? `${t("resending", { time: countdown.toString() })}`
+              : t("redend_email")}{" "}
           </span>
         </button>
         <button

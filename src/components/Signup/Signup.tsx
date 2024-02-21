@@ -7,10 +7,10 @@ import { Modal, Box } from "@mui/material";
 
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { signupUser } from "../../store/UserSlice.js";
+import { signupUser } from "../../store/UserSlice";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
-// import UploadProfilePicture from "./UploadProfilePicture.jsx";
+import UploadProfilePicture from "./UploadProfilePicture";
 import FirstStep from "./FirstStep";
 import SecondStep from "./SecondStep";
 import ThirdStep from "./ThirdStep";
@@ -28,6 +28,8 @@ import SixthStep from "./SixthStep";
 import { ThemeState } from "../../store/ThemeSlice.js";
 
 import CustomizedStepper from "./CustomizedStepper";
+
+import i18next from "i18next";
 
 const SignUp = ({
   openModal,
@@ -155,25 +157,25 @@ const SignUp = ({
     handleOpenBirthdateErrorModal();
   };
 
-  //   const handleCompleteSignup = (user) => {
-  //     handleCloseModal();
+  const handleCompleteSignup = (user: any) => {
+    handleCloseModal();
 
-  //     // let userCredentials = {
-  //     //   email: email,
-  //     //   password: password,
-  //     // }
-  //     dispatch(signupUser({ user: user, token: userToken, navigate }));
+    // let userCredentials = {
+    //   email: email,
+    //   password: password,
+    // }
+    dispatch(signupUser({ user: user, token: userToken, navigate }));
 
-  //     // dispatch(loginUser({ userCredentials, isgoogle: null })).then((result) => {
-  //     //   // console.log(result)
-  //     //   if (result.payload) {
-  //     //     setEmail("")
-  //     //     setPassword("")
-  //     //     handleCloseModal()
-  //     //     navigate("/home")
-  //     //   }
-  //     // })
-  //   };
+    // dispatch(loginUser({ userCredentials, isgoogle: null })).then((result) => {
+    //   // console.log(result)
+    //   if (result.payload) {
+    //     setEmail("")
+    //     setPassword("")
+    //     handleCloseModal()
+    //     navigate("/home")
+    //   }
+    // })
+  };
 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
@@ -268,10 +270,14 @@ const SignUp = ({
             </button>
             <img
               src={Logo}
-              alt="GigaChat Logo"
-              className="-mt-4 ml-[45%] w-[40px]"
+              alt="Logo"
+              className={`-mt-4 ${
+                i18next.language === "ar" ? "mr-[45%]" : "ml-[45%]"
+              } w-[40px]`}
             />
-            <CustomizedStepper step={position} />
+            <div dir="ltr">
+              <CustomizedStepper step={position} />
+            </div>
             <PreStep
               handleCloseModal={handleCloseModal}
               setPosition={setPosition}
@@ -347,7 +353,7 @@ const SignUp = ({
               setUser={setUser}
               setPosition={setPosition}
             />
-            {/* <UploadProfilePicture
+            <UploadProfilePicture
               userR={user}
               setUser={setUser}
               handleCompleteSignup={handleCompleteSignup}
@@ -355,7 +361,7 @@ const SignUp = ({
               fromSwitch={false}
               email={email}
               password={password}
-            /> */}
+            />
             <ErrorPage
               setDay={setDay}
               setMonth={setMonth}

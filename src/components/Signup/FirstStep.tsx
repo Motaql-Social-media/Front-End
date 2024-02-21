@@ -49,8 +49,6 @@ const FirstStep = ({
   // validEmail: (email: string) => boolean;
   mock: boolean;
 }) => {
-  
-
   const { t } = useTranslation();
 
   const [captchaIsDone, setCaptchaIsDone] = useState(false);
@@ -89,10 +87,10 @@ const FirstStep = ({
   return (
     <div id="First Step" className=" m-auto w-[300px] dark:text-white hidden">
       <div className="max-w[600px] !h-fit">
-        <h1 className="mb-4 mt-3 text-3xl font-bold">Create your account</h1>
+        <h1 className="mb-4 mt-3 text-3xl font-bold">{t("signup_welcome2")}</h1>
         <TextField
           id="outlined-basic"
-          label={"Name"}
+          label={t("name")}
           variant="outlined"
           value={nickName}
           onChange={(e) => setNickName(e.target.value)}
@@ -101,6 +99,7 @@ const FirstStep = ({
           }}
           sx={{
             borderColor: "#40e5da",
+
             "& .MuiInputBase-input": {
               borderColor: "#40e5da",
               "&$focused": {
@@ -130,7 +129,7 @@ const FirstStep = ({
         <div>
           <TextField
             id="outlined-basic"
-            label={"Speciality (e.g. Densist)"}
+            label={t("speciality")}
             variant="outlined"
             value={speciality}
             onChange={(e) => setSpeciality(e.target.value)}
@@ -230,10 +229,9 @@ const FirstStep = ({
         {/* className={`${emailExistError ? "-mt-5" : ""}`} */}
         <div>
           <div className="mes mb-1">
-            <p className="font-bold text-lg">Date of birth </p>
+            <p className="font-bold text-lg">{t("birthdate")} </p>
             <p className="dark:text-gray-400 text-xs">
-              This will not be shown publicly. Confirm your own age, even if
-              this account is for a business, a pet, or something else.
+              {t("birthdate_message")}
             </p>
           </div>
           <Birthdate

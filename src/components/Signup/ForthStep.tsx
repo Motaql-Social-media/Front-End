@@ -40,17 +40,17 @@ const ForthStep = ({
     //       setEmailExistError(false);
     //       // console.log(err)
     //     });
-    };
-    
-    const { t } = useTranslation();
+  };
+
+  const { t } = useTranslation();
   return (
     <div id="Forth Step" className=" m-auto w-[350px] dark:text-white hidden">
       <div className="max-w[600px] !h-fit">
-        <h1 className="mb-4 mt-3 text-3xl font-bold">Your Email ?</h1>
+        <h1 className="mb-4 mt-3 text-3xl font-bold">{t("signup_welcome5")}</h1>
 
         <TextField
           id="outlined-basic"
-          label={"Email"}
+          label={t("email")}
           variant="outlined"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -94,7 +94,7 @@ const ForthStep = ({
         {!validEmail(email) && (
           <div className={`${email ? "flex" : "hidden"}`}>
             <Alert severity="error" sx={styles.signupPasswordCheckStyleMiddle}>
-              Please enter a valid email
+              {t("valid_email")}
             </Alert>
           </div>
         )}
@@ -103,7 +103,7 @@ const ForthStep = ({
             emailExistError ? "" : "hidden"
           }`}
         >
-          Email has already been taken
+          {t("email_taken")}
         </span>
         <button
           type="button"

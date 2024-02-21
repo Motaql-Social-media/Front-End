@@ -6,6 +6,8 @@ import ErrorIcon from "@mui/icons-material/Error";
 
 import { useTranslation } from "react-i18next";
 import { styles } from "../../styles/styles";
+
+import i18next from "i18next";
 const TagStep = ({
   userTag,
   setUserTag,
@@ -76,16 +78,12 @@ const TagStep = ({
   return (
     <div id="Tag Step" className=" m-auto w-[350px] dark:text-white hidden">
       <div className="max-w[600px] !h-fit">
-        <h1 className="mb-4 mt-3 text-3xl font-bold">
-          What should we call you?
-        </h1>
-        <p className="text-gray-500 mb-4">
-          Your @username is unique. You can always change it later.
-        </p>
+        <h1 className="mb-4 mt-3 text-3xl font-bold">{t("signup_welcome8")}</h1>
+        <p className="text-gray-500 mb-4">{t("signup_welcome9")}</p>
         <div className="relative">
           <TextField
             id="outlined-basic"
-            label={"Username"}
+            label={t("username")}
             variant="outlined"
             value={userTag}
             onChange={(e) => {
@@ -128,14 +126,22 @@ const TagStep = ({
             }}
           />
           {!usernameError && (
-            <CheckCircleIcon className="absolute top-0 right-0 -translate-x-2 translate-y-4 text-[18px] text-green-600" />
+            <CheckCircleIcon
+              className={`absolute top-0 ${
+                i18next.language === "en" || !userTag ? "right-4" : "left-4"
+              } -translate-x-2 translate-y-4 text-[18px] text-green-600`}
+            />
           )}
           {usernameError && (
-            <ErrorIcon className="absolute bottom-0 right-0 -translate-x-2 -translate-y-8 text-[18px] text-red-600" />
+            <ErrorIcon
+              className={`absolute bottom-0 ${
+                i18next.language === "en" || !userTag ? "right-4" : "left-4"
+              } -translate-x-2 -translate-y-8 text-[18px] text-red-600`}
+            />
           )}
           {usernameError && (
             <span className="ml-3 text-sm text-red-600">
-              Username has already been taken
+              {t("username_taken")}
             </span>
           )}
           <button

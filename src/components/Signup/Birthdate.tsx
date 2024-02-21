@@ -12,6 +12,7 @@ import { ThemeState } from "../../store/ThemeSlice.js";
 
 import { SelectChangeEvent } from "@mui/material";
 import { ReactNode } from "react";
+import { useTranslation } from "react-i18next";
 
 const Birthdate = ({
   month,
@@ -58,6 +59,8 @@ const Birthdate = ({
     setDay(event.target.value);
   };
 
+  const { t } = useTranslation();
+
   return (
     <div className="date flex">
       <Box sx={{ minWidth: 115 }} className="month">
@@ -69,7 +72,7 @@ const Birthdate = ({
             minWidth: 115,
           }}
         >
-          <InputLabel id="demo-simple-select-label">Month</InputLabel>
+          <InputLabel id="demo-simple-select-label">{t("month")}</InputLabel>
           <Select
             value={month}
             label="Month"
@@ -90,14 +93,14 @@ const Birthdate = ({
                 fill: "#767C86 !important",
               },
               ".MuiSelect-select": {
-                color: `${!darkMode ? "black" : "white"}`,
+                color: "#40e5da",
               },
             }}
             MenuProps={{
               sx: {
                 ".MuiMenuItem-root": {
                   backgroundColor: `${!darkMode ? "white" : "black"}`,
-                  color: `${!darkMode ? "black" : "white"}`,
+                  color: "#40e5da",
                   padding: "1px 10px",
                   ":hover": {
                     backgroundColor: `${!darkMode ? "#f0f0f0" : "#16181C"}`,
@@ -108,14 +111,14 @@ const Birthdate = ({
                 },
                 ".MuiMenuItem-root.Mui-selected": {
                   bgcolor: darkMode ? "white" : "black",
-                  color: !darkMode ? "white" : "black",
+                  color: "#40e5da",
                 },
               },
             }}
           >
             {months.map((month) => (
               <MenuItem value={month} key={month} data-testid={month}>
-                {month}
+                {t(month)}
               </MenuItem>
             ))}
           </Select>
@@ -132,7 +135,7 @@ const Birthdate = ({
             marginLeft: 1,
           }}
         >
-          <InputLabel id="demo-simple-select-label">Day</InputLabel>
+          <InputLabel id="demo-simple-select-label">{t("day")}</InputLabel>
           <Select
             value={day}
             label="Day"
@@ -152,14 +155,14 @@ const Birthdate = ({
                 fill: "#767C86 !important",
               },
               ".MuiSelect-select": {
-                color: `${!darkMode ? "black" : "white"}`,
+                color: "#40e5da",
               },
             }}
             MenuProps={{
               sx: {
                 ".MuiMenuItem-root": {
                   backgroundColor: `${!darkMode ? "white" : "black"}`,
-                  color: `${!darkMode ? "black" : "white"}`,
+                  color: "#40e5da",
                   padding: "1px 10px",
                   ":hover": {
                     backgroundColor: `${!darkMode ? "#f0f0f0" : "#16181C"}`,
@@ -170,7 +173,7 @@ const Birthdate = ({
                 },
                 ".MuiMenuItem-root.Mui-selected": {
                   bgcolor: darkMode ? "white" : "black",
-                  color: !darkMode ? "white" : "black",
+                  color: "#40e5da",
                 },
               },
             }}
@@ -193,7 +196,7 @@ const Birthdate = ({
             paddingLeft: 0,
           }}
         >
-          <InputLabel id="demo-simple-select-label">Year</InputLabel>
+          <InputLabel id="demo-simple-select-label">{t("year")}</InputLabel>
           <Select
             value={year}
             label="Year"
@@ -215,14 +218,14 @@ const Birthdate = ({
                 fill: "#767C86 !important",
               },
               ".MuiSelect-select": {
-                color: `${!darkMode ? "black" : "white"}`,
+                color: "#40e5da",
               },
             }}
             MenuProps={{
               sx: {
                 ".MuiMenuItem-root": {
                   backgroundColor: `${!darkMode ? "white" : "black"}`,
-                  color: `${!darkMode ? "black" : "white"}`,
+                  color: "#40e5da",
                   padding: "1px 10px",
                   ":hover": {
                     backgroundColor: `${!darkMode ? "#f0f0f0" : "#16181C"}`,
@@ -233,7 +236,7 @@ const Birthdate = ({
                 },
                 ".MuiMenuItem-root.Mui-selected": {
                   bgcolor: darkMode ? "white" : "black",
-                  color: !darkMode ? "white" : "black",
+                  color: "#40e5da",
                 },
               },
             }}

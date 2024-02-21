@@ -1,6 +1,7 @@
 import React from "react";
 
 import { styles } from "../../styles/styles";
+import { useTranslation } from "react-i18next";
 
 const ErrorPage = ({
   setDay,
@@ -36,22 +37,22 @@ const ErrorPage = ({
 
     handleCloseModal();
   };
+
+  const { t } = useTranslation();
   return (
     <div
       id="Error Page"
       className="m-auto w-[300px] dark:text-white hidden h-full"
     >
       <div className="!h-fit  mt-[50%]">
-        <div className="text-xl font-semibold">
-          Can't complete your signup right now.
-        </div>
+        <div className="text-xl font-semibold">{t("age_error")}</div>
         <button
           type="button"
           id="next"
           className={`${styles.normalButton} mt-12`}
           onClick={handleCloseBirthdateError}
         >
-          Close
+          {t('close')}
         </button>
       </div>
     </div>

@@ -91,25 +91,27 @@ const PasswordReset = ({ setLocation }: { setLocation: any }) => {
   };
 
   const handleEmailExistCheck = () => {
-    axios
-      .post(mock ? APIs.mock.emailExistAPI : APIs.actual.emailExistAPI, {
-        email: email,
-      })
-      .then((res) => {
-        setEmailExistError(res.data.message === "Email is existed");
-        setMaskedEmail(maskEmail());
-        nextShow(1);
-      })
-      .catch((err) => {
-        // setEmailExistError(false)
-        // nextShow(1, false);// uncomment
-        // console.log(err)
+    // axios
+    //   .post(mock ? APIs.mock.emailExistAPI : APIs.actual.emailExistAPI, {
+    //     email: email,
+    //   })
+    //   .then((res) => {
+    //     setEmailExistError(res.data.message === "Email is existed");
+    setEmailExistError(email === "d@d.com"); //rmove
 
-        // for testing and will be removed
-        setEmailExistError(true);
-        setMaskedEmail(maskEmail());
-        nextShow(1);
-      });
+    setMaskedEmail(maskEmail());
+    nextShow(1);
+    // })
+    // .catch((err) => {
+    //   // setEmailExistError(false)
+    //   // nextShow(1, false);// uncomment
+    //   // console.log(err)
+
+    //   // for testing and will be removed
+    //   setEmailExistError(true);
+    //   setMaskedEmail(maskEmail());
+    //   nextShow(1);
+    // });
   };
 
   const togglePasswordVisibility = () => {
@@ -161,20 +163,20 @@ const PasswordReset = ({ setLocation }: { setLocation: any }) => {
     console.log({
       query: email,
     });
-    axios
-      .post(APIs.actual.forgotPassword, {
-        query: email,
-      })
-      .then((res) => {
-        console.log(res);
-        nextShow(2);
-      })
-      .catch((err) => {
-        console.log(err);
+    // axios
+    //   .post(APIs.actual.forgotPassword, {
+    //     query: email,
+    //   })
+    //   .then((res) => {
+    //     console.log(res);
+    nextShow(2);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
 
-        // for testing and will be removed
-        nextShow(2);
-      });
+    //     // for testing and will be removed
+    //     nextShow(2);
+    //   });
   };
 
   const handleResetPassword = () => {
@@ -246,6 +248,8 @@ const PasswordReset = ({ setLocation }: { setLocation: any }) => {
               style: { color: "#40e5da", textAlign: "right" },
             }}
             sx={{
+              borderColor: "#40e5da",
+
               "& .MuiInputBase-input": {
                 borderColor: "#40e5da",
                 "&$focused": {
@@ -311,7 +315,7 @@ const PasswordReset = ({ setLocation }: { setLocation: any }) => {
               value={choosed}
               sx={{
                 ".MuiButtonBase-root": {
-                  color: "#1d9bf0",
+                  color: "#40e5da",
                 },
               }}
               name="options"
@@ -400,7 +404,7 @@ const PasswordReset = ({ setLocation }: { setLocation: any }) => {
                 id="outlined-basic"
                 label={t("new_password")}
                 variant="outlined"
-                type={showPassword ? "password" : "text"}
+                type={!showPassword ? "password" : "text"}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 InputLabelProps={{

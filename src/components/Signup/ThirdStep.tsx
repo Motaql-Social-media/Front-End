@@ -62,9 +62,9 @@ const ThirdStep = ({
   return (
     <div id="Third Step" className=" m-auto w-[350px] dark:text-white hidden">
       <div className="max-w[600px] !h-fit">
-        <h1 className="mb-1 mt-3 text-3xl font-bold">Validate your Number</h1>
+        <h1 className="mb-1 mt-3 text-3xl font-bold">{t("signup_welcome4")}</h1>
         <p className="text-gray-500 mb-4">
-          Please, enter the code we have sent to your phone number{" "}
+          {t("phone_otp_message")}{" "}
           <span className="text-primary">{phoneNumber}</span>
           <p
             className="text-primary cursor-pointer mt-2 w-fit"
@@ -72,12 +72,12 @@ const ThirdStep = ({
               setPosition((prev: number) => prev - 1);
             }}
           >
-            Change Phone Number
+            {t("change_phone")}
           </p>
         </p>
         <TextField
           id="outlined-basic"
-          label={"Code"}
+          label={t("code")}
           variant="outlined"
           value={code}
           onChange={(e) => setCode(e.target.value)}
@@ -122,7 +122,9 @@ const ThirdStep = ({
                 : "text-primary cursor-pointer"
             }  mt-2 w-fit`}
           >
-            {isResending ? `Resending in ${countdown}s` : "Resend Email"}
+            {isResending
+              ? `${t("resending", {time:countdown.toString()})}`
+              : t("resend_sms")}
           </span>
         </button>
         <button

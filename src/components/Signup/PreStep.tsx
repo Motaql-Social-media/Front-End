@@ -32,7 +32,7 @@ const PreStep = ({
   return (
     <div id="Pre Step">
       <div className="m-auto w-[300px] dark:text-white ">
-        <h1 className="mb-4 mt-3 text-3xl font-bold">Join The Line today</h1>
+        <h1 className="mb-4 mt-3 text-3xl font-bold">{t("signup_welcome")}</h1>
         {/* <GoogleLoginButton
           handleCloseModal={handleCloseModal}
           message={"Sign in with Google"}
@@ -44,7 +44,15 @@ const PreStep = ({
           <div className="flex w-full items-center">
             <hr className="mr-2 w-full" />
           </div>
-          &nbsp; or &nbsp;
+          <div className="flex h-10 items-center justify-center">
+            <div className="flex w-full items-center">
+              <hr className="mr-2 w-full" />
+            </div>
+            &nbsp; {t("or")} &nbsp;
+            <div className="flex w-full items-center">
+              <hr className="ml-2 w-full" />
+            </div>
+          </div>{" "}
           <div className="flex w-full items-center">
             <hr className="ml-2 w-full" />
           </div>
