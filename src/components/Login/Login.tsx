@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Modal, Box, Alert } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 
-import Logo from "../../assets/images/mainLogo.png";
+import Logo from "../../assets/images/mainLogo.svg";
 import { styles } from "../../styles/styles";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -102,18 +102,6 @@ const Login = ({
     modalStyle.maxWidth = "none"; // optional, to remove any max-width constraints
   }
 
-  const APIs = {
-    mock: {
-      emailExistAPI:
-        "httpss://ca224727-23e8-4fb6-b73e-dc8eac260c2d.mock.pstmn.io/checkEmail",
-    },
-    actual: {
-      emailExistAPI:
-        "https://backend.gigachat.cloudns.org/api/user/existedEmailORusername",
-      loginAPI: "https://backend.gigachat.cloudns.org/api/user/login",
-    },
-  };
-
   function handleNext(emailExist: boolean) {
     if (emailExist) {
       const firstPage = document.getElementById("firstPage");
@@ -135,11 +123,16 @@ const Login = ({
     if (secondPage) secondPage.style.display = "none";
   };
 
+  const API = axios.create({
+    baseURL: process.env.REACT_APP_API_URL,
+  });
+
   const handleLoginEvent = (e: any) => {
     e.preventDefault();
     let userCredentials = {
-      query: userName,
+      email: userName,
       password: password,
+
       //   push_token: FCMToken,
     };
     // axios
@@ -179,28 +172,17 @@ const Login = ({
   }
 
   const handleEmailCheck = () => {
-    // let userCredentials: { username: string; email?: string } = {
-    //   username: userName,
-    // };
-    // if (validEmail(userName)) {
-    //   userCredentials = { email: userName, username: "" };
-    // }
-    // let emailExist: boolean;
-    // axios
-    //   .post(APIs.actual.emailExistAPI, userCredentials)
-    //   .then((res) => {
-    //     emailExist = res.status === 200;
-    //   })
-    //   .then(() => {
-    // handleNext(emailExist);
-    handleNext(userName === "d@d.d"); // will be removed
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //     emailExist = !(err.message === "Request failed with status code 404");
-    //     handleNext(emailExist);
-    //     // console.log(emailExist)
-    //   });
+    API.post("users/is-user-found", { input: userName })
+      .then((res) => {
+        handleNext(res.data.isFound);
+      })
+      .catch((err) => {
+        console.log(err);
+        setEmailExistError(
+          !(err.message === "Request failed with status code 404")
+        );
+        handleNext(!(err.message === "Request failed with status code 404"));
+      });
   };
 
   const themeColor = useSelector((state: RootState) => state.theme.color);
@@ -265,7 +247,6 @@ const Login = ({
               </div>
 
               <TextField
-                id="outlined-basic"
                 label={t("login_email_placeholder")}
                 variant="outlined"
                 value={userName}
@@ -351,7 +332,6 @@ const Login = ({
                 onSubmit={handleLoginEvent}
               >
                 <TextField
-                  id="outlined-basic"
                   label={t("login_email_placeholder")}
                   variant="outlined"
                   inputProps={{ readOnly: true }}
@@ -391,7 +371,6 @@ const Login = ({
                 />
                 <div className={`relative ${user?.error ? "-mb-4" : ""}`}>
                   <TextField
-                    id="outlined-basic"
                     label={t("login_password_placeholder")}
                     variant="outlined"
                     type={!showPassword ? "password" : "text"}

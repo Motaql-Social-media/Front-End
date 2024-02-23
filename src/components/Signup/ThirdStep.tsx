@@ -1,14 +1,16 @@
 import { TextField } from "@mui/material";
-import { useState,  useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { styles } from "../../styles/styles";
 
 import { useTranslation } from "react-i18next";
 
 const ThirdStep = ({
+  nickName,
   phoneNumber,
   setPosition,
 }: {
+  nickName: string;
   phoneNumber: string;
   setPosition: any;
 }) => {
@@ -17,7 +19,7 @@ const ThirdStep = ({
   const [countdown, setCountdown] = useState(30);
   const [isResending, setIsResending] = useState(false);
 
-    const { t } = useTranslation();
+  const { t } = useTranslation();
 
   const handleResendConfirmationEmail = () => {
     //   axios
@@ -59,11 +61,47 @@ const ThirdStep = ({
     return () => clearTimeout(timer);
   }, [countdown, isResending]);
 
+  const API = axios.create({
+    baseURL: process.env.REACT_APP_API_URL,
+  });
+
+  const handleResendOTP = () => {
+    API.post("auth/send-otpverification", {
+      provider: "phone",
+      input: phoneNumber,
+      name: nickName,
+    })
+      .then((res) => {
+        console.log(res);
+        setIsResending(true);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const [otpError, setOtpError] = useState(false);
+  const handleCheckOTP = () => {
+    API.post("auth/check-otpverification", {
+      provider: "phone",
+      input: phoneNumber,
+      otp: code,
+    })
+      .then((res) => {
+        // console.log(res);
+        setPosition((prev: number) => prev + 1);
+      })
+      .catch((err) => {
+        console.log(err);
+        setOtpError(true);
+      });
+  };
+
   return (
     <div id="Third Step" className=" m-auto w-[350px] dark:text-white hidden">
       <div className="max-w[600px] !h-fit">
         <h1 className="mb-1 mt-3 text-3xl font-bold">{t("signup_welcome4")}</h1>
-        <p className="text-gray-500 mb-4">
+        <div className="text-gray-500 mb-4">
           {t("phone_otp_message")}{" "}
           <span className="text-primary">{phoneNumber}</span>
           <p
@@ -74,9 +112,8 @@ const ThirdStep = ({
           >
             {t("change_phone")}
           </p>
-        </p>
+        </div>
         <TextField
-          id="outlined-basic"
           label={t("code")}
           variant="outlined"
           value={code}
@@ -112,7 +149,7 @@ const ThirdStep = ({
           }}
         />
         <button
-          onClick={handleResendConfirmationEmail}
+          onClick={handleResendOTP}
           className="w-fit cursor-pointer !bg-transparent"
         >
           <span
@@ -123,16 +160,18 @@ const ThirdStep = ({
             }  mt-2 w-fit`}
           >
             {isResending
-              ? `${t("resending", {time:countdown.toString()})}`
+              ? `${t("resending", { time: countdown.toString() })}`
               : t("resend_sms")}
           </span>
         </button>
+        {otpError && <div className="text-red-600">{t("otp_error")}</div>}
+
         <button
           type="button"
           id="next"
           className={`${styles.coloredButton}`}
           onClick={() => {
-            setPosition((prev: number) => prev + 1);
+            handleCheckOTP();
           }}
           disabled={code.length === 0}
         >

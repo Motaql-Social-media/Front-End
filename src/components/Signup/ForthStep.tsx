@@ -3,8 +3,11 @@ import { Alert } from "@mui/material";
 import { styles } from "../../styles/styles";
 
 import { useTranslation } from "react-i18next";
+import axios from "axios";
+import { useState, useEffect } from "react";
 
 const ForthStep = ({
+  nickName,
   email,
   setEmail,
   setPosition,
@@ -12,6 +15,7 @@ const ForthStep = ({
   setEmailExistError,
   validEmail,
 }: {
+  nickName: string;
   email: string;
   setEmail: (value: string) => void;
   setPosition: any;
@@ -19,27 +23,47 @@ const ForthStep = ({
   setEmailExistError: React.Dispatch<React.SetStateAction<boolean>>;
   validEmail: (email: string) => boolean;
 }) => {
-  const handleEmailBlur = () => {
-    //   // let emailExist
-    //   axios
-    //     .post(mock ? APIs.mock.emailExistAPI : APIs.actual.emailExistAPI, {
-    //       email: email,
-    //     })
-    //     .then((res) => {
-    //       setEmailExistError(res.data.message === "Email is existed");
-    //       // emailExist = res.data.message === "Email is existed"
-    //     })
-    //     // .then(() => {
-    //     //   if (emailExist) {
-    //     //     setEmailExistError(true)
-    //     //   } else {
-    //     //     setEmailExistError(false)
-    //     //   }
-    //     // })
-    //     .catch((err) => {
-    //       setEmailExistError(false);
-    //       // console.log(err)
-    //     });
+  const API = axios.create({
+    baseURL: process.env.REACT_APP_API_URL,
+  });
+
+  const handleCheckEmailExist = () => {
+    API.post("/users/is-user-found", {
+      input: email,
+    })
+      .then((res) => {
+        // console.log(res.data.isFound);
+        setEmailExistError(res.data.isFound);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    if (validEmail(email)) {
+      handleCheckEmailExist();
+    }
+  }, [email]);
+
+  const handleSendOTP = () => {
+    // console.log({
+    //   provider: "phone",
+    //   input: phoneNumber,
+    //   name: nickName,
+    // });
+    API.post("auth/send-otpverification", {
+      provider: "email",
+      input: email,
+      name: nickName,
+    })
+      .then((res) => {
+        console.log(res);
+        setPosition((prev: number) => prev + 1);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const { t } = useTranslation();
@@ -49,7 +73,6 @@ const ForthStep = ({
         <h1 className="mb-4 mt-3 text-3xl font-bold">{t("signup_welcome5")}</h1>
 
         <TextField
-          id="outlined-basic"
           label={t("email")}
           variant="outlined"
           value={email}
@@ -58,7 +81,7 @@ const ForthStep = ({
             style: { color: "#40e5da", textAlign: "right" },
           }}
           inputProps={{
-            onBlur: handleEmailBlur,
+            onBlur: handleCheckEmailExist,
             style: {
               border: emailExistError ? "1px solid red" : "",
             },
@@ -92,25 +115,29 @@ const ForthStep = ({
           }}
         />
         {!validEmail(email) && (
-          <div className={`${email ? "flex" : "hidden"}`}>
-            <Alert severity="error" sx={styles.signupPasswordCheckStyleMiddle}>
-              {t("valid_email")}
-            </Alert>
-          </div>
+          <div className="text-red-600"> {t("valid_email")}</div>
         )}
+        {/* {!validEmail(email) && (
+          <div className={`${email ? "flex" : "hidden"}`}>
+            <Alert
+              severity="error"
+              sx={styles.signupPasswordCheckStyleMiddle}
+            ></Alert>
+          </div>
+        )} */}
         <span
           className={`ml-3 text-sm text-red-600 ${
             emailExistError ? "" : "hidden"
           }`}
         >
-          {t("email_taken")}
+          {t("email_exist")}
         </span>
         <button
           type="button"
           id="next"
           className={`${styles.coloredButton}`}
           onClick={() => {
-            setPosition((prev: number) => prev + 1);
+            handleSendOTP();
           }}
           disabled={!validEmail(email) || emailExistError}
         >

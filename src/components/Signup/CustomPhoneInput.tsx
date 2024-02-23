@@ -14,8 +14,6 @@ import {
   usePhoneInput,
 } from "react-international-phone";
 
-
-
 export interface MUIPhoneProps extends BaseTextFieldProps {
   value: string;
   onChange: (phone: string) => void;
@@ -33,7 +31,7 @@ export const MuiPhone: React.FC<MUIPhoneProps> = ({
       countries: defaultCountries,
       onChange: (data) => {
         onChange(data.phone);
-        console.log(data);
+        // console.log(data);
       },
     });
 
@@ -82,8 +80,9 @@ export const MuiPhone: React.FC<MUIPhoneProps> = ({
             style={{ marginRight: "2px", marginLeft: "-8px" }}
           >
             <Select
-              defaultValue={parseCountry(defaultCountries[0])}
+              defaultValue={parseCountry(defaultCountries[0]).iso2}
               MenuProps={{
+                autoFocus: false,
                 style: {
                   height: "300px",
                   width: "360px",
@@ -115,15 +114,15 @@ export const MuiPhone: React.FC<MUIPhoneProps> = ({
                   right: 0,
                 },
               }}
-              value={country}
+              value={country.iso2 || ""}
               onChange={(e) => setCountry(e.target.value as CountryIso2)}
               renderValue={(value) => {
                 return (
                   <img
-                    src={`https://flagcdn.com/${value.iso2}.svg`}
+                    src={`https://flagcdn.com/${value}.svg`}
                     width="30"
                     style={{ aspectRatio: "4/3" }}
-                    alt={value.iso2}
+                    alt={value}
                   ></img>
                 );
               }}

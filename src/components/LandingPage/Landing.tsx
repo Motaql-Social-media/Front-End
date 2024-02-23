@@ -1,12 +1,11 @@
 import { useEffect } from "react";
 import Login from "../Login/Login";
-// import SignUp from "../Signup/SignUp";
 // import GoogleLoginButton from "../General/GoogleLoginButton";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { ThemeState } from "../../store/ThemeSlice";
 
-import Logo from "../../assets/images/mainLogo.png";
+import Logo from "../../assets/images/mainLogo.svg";
 import { useTranslation } from "react-i18next";
 import { styles } from "../../styles/styles";
 import SignUp from "../Signup/Signup";
@@ -35,11 +34,6 @@ const Landing = ({
   };
   const darkMode = useSelector((state: RootState) => state.theme.darkMode);
 
-  // Dark & Light mode
-  //   const logoImgDark = require("../../assets/imgs/giga-chat-logo-dark-removebg-preview.png");
-
-  //   const logoImgLight = require("../../assets/imgs/gigachatLogoOne_light_v2-removebg-preview.png");
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -47,13 +41,13 @@ const Landing = ({
     if (user) {
       navigate("/home");
     } else if (location !== "/password_reset") {
-      navigate("/");
+      // navigate("/");
     }
   }, []);
 
   const { t } = useTranslation();
   return (
-    <div className="landing flex flex-col lg:flex-row justify-center items-center h-full">
+    <div className="landing flex h-[100vh] flex-col mt-5 lg:flex-row sm:justify-center items-center ">
       <div className="w-[50%] flex justify-center items-center lg:pl-[10%] lg:pb-[10%]">
         <img
           src={Logo}
@@ -61,14 +55,14 @@ const Landing = ({
           className="lg:w-[60%] lg:h-[60%] w-26 h-20"
         />
       </div>
-      <div className="lg:w-[40%] flex flex-col p-10 gap-10 lg:self-start lg:pt-16 items-start">
-        <h1 className="dark:text-white text-6xl font-bold">
+      <div className="lg:w-[40%] flex flex-col p-10 gap-8 lg:self-start lg:pt-16  items-start">
+        <h1 className="dark:text-white text-2xl min-[575px]:text-3xl md:text-4xl lg:text-5xl font-bold">
           {t("landing_welcom")}
         </h1>
-        <h3 className="dark: text-white text-4xl font-bold">
+        <h3 className="dark: text-white text-sm min-[575px]:text-md md:text-lg lg:text-xl font-bold">
           {t("landing_welcom2")}.
         </h3>
-        <div className="flex gap-4 flex-col w-[80%]">
+        <div className="flex gap-[10%] max-w-[400px] self-center flex-col w-[80%]">
           <button className={`${styles.coloredButton}`}>
             {t("signin_google")}
           </button>
@@ -77,7 +71,12 @@ const Landing = ({
             <p className="dark:text-white mx-2">{t("or")}</p>
             <hr className="dark:text-white w-[40%]" />
           </div>
-          <button className={`${styles.coloredButton}`} onClick={handleOpenSignupModal}>{t("signup")}</button>
+          <button
+            className={`${styles.coloredButton}`}
+            onClick={handleOpenSignupModal}
+          >
+            {t("signup")}
+          </button>
           <div className="dark:text-gray-400 text-xs">
             {t("landing_agreement")}{" "}
             <a className="text-primary" href="/">

@@ -1,7 +1,7 @@
 {
   "language": "Language",
-  "landing_welcom": "Happening now",
-  "landing_welcom2": "Join us today",
+  "landing_welcom": "Welcome to the world of The Line",
+  "landing_welcom2": "Connect with your friends, discover new communities in your specialty and interest",
   "landing_agreement": "By signing up, you agree to the",
   "landing_terms": "Terms of Service",
   "landing_privacy": "Privacy Policy",
@@ -45,7 +45,7 @@
   "signup_welcome": "Join The Line today",
   "signup_welcome2": "Create your account ",
   "name": "Name",
-  "speciality": "Speciality (e.g. Densist)",
+  "speciality": "Specialty | interest e.g. Dentist or Traveler",
   "birthdate": "Date of birth",
   "birthdate_message": "This will not be shown publicly. Confirm your own age, even if this account is for a business, a pet, or something else.",
   "month": "Month",
@@ -91,5 +91,15 @@
   "cancel": "Cancel",
   "crop": "Crop",
   "age_error": "Can't complete your signup right now.",
-  "close": "Close"
+  "close": "Close",
+  "home": "Home",
+  "explore": "Explore",
+  "notifications": "Notifications",
+  "messages": "Messages",
+  "bookmarks": "Bookmarks",
+  "profile": "Profile",
+  "settings": "Settings",
+  "phone_exist": "Phone number already exists",
+  "email_exist": "Email already exists",
+  "otp_error": "Invalid Code"
 }

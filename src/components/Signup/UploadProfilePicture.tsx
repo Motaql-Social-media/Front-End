@@ -23,12 +23,14 @@ import { useTranslation } from "react-i18next";
 
 import "../../styles/signup.css";
 
+import { signupUser } from "../../store/UserSlice";
+import { useNavigate } from "react-router-dom";
+
 const UploadProfilePicture = ({
   userR,
   setUser,
   handleCompleteSignup,
   handleCloseModal,
-  fromSwitch,
   email,
   password,
 }: {
@@ -36,13 +38,12 @@ const UploadProfilePicture = ({
   setUser: (user: any) => void;
   handleCompleteSignup: (user: any) => void;
   handleCloseModal: () => void;
-  fromSwitch: boolean;
   email: string;
   password: string;
 }) => {
   const darkMode = useSelector((state: any) => state.theme.darkMode);
-  const user = useSelector((state: any) => state.user?.user);
-  const userToken = useSelector((state: any) => state.user?.token);
+  const user = useSelector((state: any) => state.user.user);
+  const userToken = useSelector((state: any) => state.user.token);
 
   const dispatch = useDispatch();
 
@@ -81,101 +82,102 @@ const UploadProfilePicture = ({
   };
 
   const handleAssignProfilePicture = () => {
-    const mediaFormData = new FormData();
-    mediaFormData.append("media", profilePic);
-    let newuser: any;
-    let tmpuser: any;
-    let token: any;
+    handleCompleteSignup(userR);
+
+    // const mediaFormData = new FormData();
+    // mediaFormData.append("media", profilePic);
+    // let newuser: any;
+    // let tmpuser: any;
+    // let token: any;
 
     // console.log(fromSwitch)
-    if (fromSwitch === false) {
-      axios
-        .post(APIs.actual.loginAPI, { query: email, password: password })
-        .then((res) => {
-          console.log(res);
-          tmpuser = res.data.data.user;
-          token = res.data.token;
-          return axios.post(APIs.actual.uploadMedia, mediaFormData, {
-            headers: {
-              authorization: "Bearer " + res.data.token,
-            },
-          });
-        })
-        .then((res) => {
-          console.log(res.data.data.usls[0]);
-          // console.log(userToken)
-          newuser = {
-            ...tmpuser,
-            profileImage: res.data.data.usls[0],
-          };
-          console.log(newuser);
+    // if (fromSwitch === false) {
+    //   axios
+    //     .post(APIs.actual.loginAPI, { query: email, password: password })
+    //     .then((res) => {
+    //       console.log(res);
+    //       tmpuser = res.data.data.user;
+    //       token = res.data.token;
+    //       return axios.post(APIs.actual.uploadMedia, mediaFormData, {
+    //         headers: {
+    //           authorization: "Bearer " + res.data.token,
+    //         },
+    //       });
+    //     })
+    //     .then((res) => {
+    //       console.log(res.data.data.usls[0]);
+    //       // console.log(userToken)
+    //       newuser = {
+    //         ...tmpuser,
+    //         profileImage: res.data.data.usls[0],
+    //       };
+    //       console.log(newuser);
 
-          return axios.patch(
-            APIs.actual.changeProfilePicture,
-            { profile_image: res.data.data.usls[0] },
-            {
-              headers: {
-                authorization: "Bearer " + token,
-              },
-            }
-          );
-        })
-        .then((res) => {
-          console.log("Profile picture changed successfully");
+    //       return axios.patch(
+    //         APIs.actual.changeProfilePicture,
+    //         { profile_image: res.data.data.usls[0] },
+    //         {
+    //           headers: {
+    //             authorization: "Bearer " + token,
+    //           },
+    //         }
+    //       );
+    //     })
+    //     .then((res) => {
+    //       console.log("Profile picture changed successfully");
 
-          handleCompleteSignup(newuser);
-        })
-        .catch((err) => console.log(err));
-    } else {
-      axios
-        .post(APIs.actual.uploadMedia, mediaFormData, {
-          headers: {
-            authorization: "Bearer " + userToken,
-          },
-        })
-        .then((res) => {
-          // console.log(res.data.data.usls[0])
-          // console.log(userToken)
-          newuser = {
-            ...user,
-            // picture: profilePicURL,
-            profileImage: res.data.data.usls[0],
-          };
-          // console.log(newuser)
-          return axios.patch(
-            APIs.actual.changeProfilePicture,
-            { profile_image: res.data.data.usls[0] },
-            {
-              headers: {
-                authorization: "Bearer " + userToken,
-              },
-            }
-          );
-        })
-        .then((res) => {
-          console.log("Profile picture changed successfully");
-          setUser(newuser);
-          // console.log(res)
-          setTimeout(() => {
-            dispatch(changeProfilePicture({ user: newuser, token: userToken }));
-          }, 1000);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    }
+    //       handleCompleteSignup(newuser);
+    //     })
+    //     .catch((err) => console.log(err));
+    // } else {
+    // axios
+    //   .post(APIs.actual.uploadMedia, mediaFormData, {
+    //     headers: {
+    //       authorization: "Bearer " + userToken,
+    //     },
+    //   })
+    //   .then((res) => {
+    //     // console.log(res.data.data.usls[0])
+    //     // console.log(userToken)
+    //     newuser = {
+    //       ...user,
+    //       // picture: profilePicURL,
+    //       profileImage: res.data.data.usls[0],
+    //     };
+    //     // console.log(newuser)
+    //     return axios.patch(
+    //       APIs.actual.changeProfilePicture,
+    //       { profile_image: res.data.data.usls[0] },
+    //       {
+    //         headers: {
+    //           authorization: "Bearer " + userToken,
+    //         },
+    //       }
+    //     );
+    //   })
+    //   .then((res) => {
+    //     console.log("Profile picture changed successfully");
+    //     setUser(newuser);
+    //     // console.log(res)
+    //     setTimeout(() => {
+    //       dispatch(changeProfilePicture({ user: newuser, token: userToken }));
+    //     }, 1000);
+    //   })
+    //   .catch((error) => {
+    //     console.error(error);
+    //   });
+    // }
   };
 
-  useEffect(() => {
-    if (fromSwitch) {
-      const PictureStep = document.getElementById("Picture Step");
-      if (PictureStep) PictureStep.style.display = "block";
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-    
-    
-    const {t} =useTranslation()
+  // useEffect(() => {
+  //   if (fromSwitch) {
+  //     const PictureStep = document.getElementById("Picture Step");
+  //     if (PictureStep) PictureStep.style.display = "block";
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
+
+  const { t } = useTranslation();
 
   return (
     <div
@@ -221,7 +223,7 @@ const UploadProfilePicture = ({
           className={`${styles.coloredButton}`}
           onClick={() => {
             console.log(userR);
-            handleCompleteSignup(userR);
+            handleAssignProfilePicture();
             handleCloseModal();
           }}
           //   disabled={!userTag || usernameError}
@@ -243,7 +245,7 @@ const UploadProfilePicture = ({
             handleCloseModal();
           }}
         >
-          {t('confirm')}
+          {t("confirm")}
         </button>
       </div>
       <div className={`${openCrop ? "!block" : "!hidden"}  !mt-0`}>

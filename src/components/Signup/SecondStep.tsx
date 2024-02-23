@@ -5,6 +5,9 @@ import { PhoneNumberUtil } from "google-libphonenumber";
 import { styles } from "../../styles/styles";
 
 import { useTranslation } from "react-i18next";
+import { useEffect, useState } from "react";
+
+import axios from "axios";
 
 const phoneUtil = PhoneNumberUtil.getInstance();
 
@@ -17,15 +20,62 @@ const isPhoneValid = (phone: string) => {
 };
 
 const SecondStep = ({
+  nickName,
   setPosition,
   phoneNumber,
   setPhoneNumber,
 }: {
+  nickName: string;
   setPosition: any;
   phoneNumber: string;
   setPhoneNumber: any;
 }) => {
   const { t } = useTranslation();
+
+  const API = axios.create({
+    baseURL: process.env.REACT_APP_API_URL,
+  });
+
+  const [phoneExistError, setPhoneExistError] = useState(false);
+
+  const handleCheckPhoneExist = () => {
+    API.post("/users/is-user-found", {
+      input: phoneNumber,
+    })
+      .then((res) => {
+        // console.log(res.data.isFound);
+        setPhoneExistError(res.data.isFound);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    if (isPhoneValid(phoneNumber)) {
+      handleCheckPhoneExist();
+    }
+  }, [phoneNumber]);
+
+  const handleSendOTP = () => {
+    // console.log({
+    //   provider: "phone",
+    //   input: phoneNumber,
+    //   name: nickName,
+    // });
+    API.post("auth/send-otpverification", {
+      provider: "phone",
+      input: phoneNumber,
+      name: nickName,
+    })
+      .then((res) => {
+        console.log(res);
+        setPosition((prev: number) => prev + 1);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   return (
     <div id="Second Step" className=" m-auto w-[350px] dark:text-white hidden">
       <div className="max-w[600px] !h-fit">
@@ -35,15 +85,18 @@ const SecondStep = ({
           {!isPhoneValid(phoneNumber) && phoneNumber.length > 0 && (
             <div className="text-red-600">{t("valid_phone")}</div>
           )}
+          {phoneExistError && (
+            <div className="text-red-600">{t("phone_exist")}</div>
+          )}
         </div>
         <button
           type="button"
           id="next"
           className={`${styles.coloredButton}`}
           onClick={() => {
-            setPosition((prev: number) => prev + 1);
+            handleSendOTP();
           }}
-          disabled={!isPhoneValid(phoneNumber)}
+          disabled={!isPhoneValid(phoneNumber) || phoneExistError}
         >
           {t("next")}
         </button>
