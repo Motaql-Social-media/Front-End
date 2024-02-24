@@ -36,6 +36,7 @@ function App() {
   };
 
   const user = useSelector((state: any) => state.user.user);
+  const darkMode = useSelector((state: any) => state.theme.darkMode);
 
   useEffect(() => {
     document.documentElement.style.setProperty("--color-theme", "dark");
