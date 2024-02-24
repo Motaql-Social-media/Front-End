@@ -47,7 +47,7 @@ const Landing = ({
 
   const { t } = useTranslation();
   return (
-    <div className="landing flex h-[100vh] flex-col mt-16 sm:mt-0 lg:flex-row sm:justify-center items-center ">
+    <div className="landing mx-auto flex h-[100vh] flex-col mt-16 sm:mt-0 lg:flex-row sm:justify-center items-center ">
       <div className="w-[50%] flex justify-center items-center lg:pl-[10%] lg:pb-[10%]">
         <img
           src={Logo}
@@ -55,11 +55,11 @@ const Landing = ({
           className="lg:w-[60%] lg:h-[60%] w-26 h-20"
         />
       </div>
-      <div className="lg:w-[40%] flex flex-col p-10 gap-8 lg:self-start lg:pt-16  items-start">
-        <h1 className="dark:text-white text-2xl min-[575px]:text-3xl md:text-4xl lg:text-5xl font-bold">
+      <div className="lg:w-[40%] flex  flex-col p-10 gap-8 lg:self-start lg:pt-16  items-start">
+        <h1 className="dark:text-white !leading-[4rem] text-2xl min-[575px]:text-3xl md:text-4xl lg:text-5xl font-bold">
           {t("landing_welcom")}
         </h1>
-        <h3 className="dark: text-white text-sm min-[575px]:text-md md:text-lg lg:text-xl font-bold">
+        <h3 className="dark:text-white text-sm min-[575px]:text-md md:text-lg lg:text-xl font-bold">
           {t("landing_welcom2")}.
         </h3>
         <div className="flex gap-[10%] max-w-[400px] self-center flex-col w-[80%]">

@@ -124,13 +124,13 @@ const Birthdate = ({
           </Select>
         </FormControl>
       </Box>
-      <Box sx={{ minWidth: 80 }} className="day">
+      <Box sx={{ minWidth: 100 }} className="day">
         <FormControl
           sx={{
             "&& .MuiFormLabel-root": {
               color: "#40e5da",
             },
-            minWidth: 80,
+            minWidth: 100,
             marginRight: 1,
             marginLeft: 1,
           }}
@@ -186,13 +186,13 @@ const Birthdate = ({
           </Select>
         </FormControl>
       </Box>
-      <Box sx={{ minWidth: 80 }} className="year">
+      <Box sx={{ minWidth: 115 }} className="year">
         <FormControl
           sx={{
             "&& .MuiFormLabel-root": {
               color: "#40e5da",
             },
-            minWidth: 80,
+            minWidth: 115,
             paddingLeft: 0,
           }}
         >
@@ -202,7 +202,7 @@ const Birthdate = ({
             label="Year"
             onChange={handleChangeYear}
             sx={{
-              width: 80,
+              width: 115,
               color: "black",
 
               ".MuiOutlinedInput-notchedOutline": {

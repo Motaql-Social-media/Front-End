@@ -95,7 +95,7 @@ const FirstStep = ({
   };
 
   return (
-    <div id="First Step" className=" m-auto w-[300px] dark:text-white hidden">
+    <div id="First Step" className=" m-auto w-[350px] dark:text-white hidden">
       <div className="max-w[600px] !h-fit">
         <h1 className="mb-4 mt-3 text-3xl font-bold">{t("signup_welcome2")}</h1>
         <TextField
