@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import ThemeProvider from "@mui/material/styles/ThemeProvider";
 import theme from "./styles/theme";
@@ -36,6 +36,10 @@ function App() {
   };
 
   const user = useSelector((state: any) => state.user.user);
+
+  useEffect(() => {
+    document.documentElement.style.setProperty("--color-theme", "dark");
+  }, []);
 
   return (
     <ThemeProvider theme={theme}>
