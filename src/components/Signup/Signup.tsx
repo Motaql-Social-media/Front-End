@@ -253,7 +253,6 @@ const SignUp = ({
       <Modal
         open={openModal}
         onClose={handleCloseModal}
-        data-testid="signupModal"
         disableEscapeKeyDown
         disablePortal
       >

@@ -47,7 +47,7 @@ const Landing = ({
 
   const { t } = useTranslation();
   return (
-    <div className="landing flex h-[100vh] flex-col mt-5 lg:flex-row sm:justify-center items-center ">
+    <div className="landing flex h-[100vh] flex-col mt-16 sm:mt-0 lg:flex-row sm:justify-center items-center ">
       <div className="w-[50%] flex justify-center items-center lg:pl-[10%] lg:pb-[10%]">
         <img
           src={Logo}

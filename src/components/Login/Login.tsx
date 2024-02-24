@@ -157,7 +157,7 @@ const Login = ({
         setLoginError(false);
       } else {
         setLoginError(
-          result.error.message === "Request failed with status code 401"
+          result.error.message === "Request failed with status code 400"
         );
       }
     });
@@ -166,10 +166,6 @@ const Login = ({
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
-
-  function validEmail(emeil: string) {
-    return EMAIL_REGEX.test(emeil);
-  }
 
   const handleEmailCheck = () => {
     API.post("users/is-user-found", { input: userName })
@@ -300,9 +296,7 @@ const Login = ({
                 }}
                 to={"/password_reset"}
               >
-                <button
-                  className={`${styles.normalButton}`}
-                >
+                <button className={`${styles.normalButton}`}>
                   {t("forgot_password")}
                 </button>
               </Link>
@@ -424,28 +418,17 @@ const Login = ({
                     severity="error"
                     sx={styles.signupPasswordCheckStyleMiddle}
                   >
-                    {user?.error}
+                    {t("invalid_credentials")}
                   </Alert>
                 </div>
-                {/* <Link
-                  onClick={() => {
-                    setLocation("/password_reset");
-                  }}
-                  to={"/password_reset"}
-                  className={` text-xs ${"text-gray-400"}`}
-                  data-testid="forgetPassword"
-                >
-                  {t("forgot_password")}
-                </Link> */}
+
                 <Link
                   onClick={() => {
                     setLocation("/password_reset");
                   }}
                   to={"/password_reset"}
                 >
-                  <button
-                    className={`${styles.normalButton}`}
-                  >
+                  <button className={`${styles.normalButton}`}>
                     {t("forgot_password")}
                   </button>
                 </Link>

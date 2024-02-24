@@ -101,5 +101,6 @@
   "settings": "Settings",
   "phone_exist": "Phone number already exists",
   "email_exist": "Email already exists",
-  "otp_error": "Invalid Code"
+  "otp_error": "Invalid Code",
+  "invalid_credentials": "Access Denied, Invalid Credentials"
 }
