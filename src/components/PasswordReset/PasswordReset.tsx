@@ -6,17 +6,14 @@ import { styles } from "../../styles/styles";
 import { Alert } from "@mui/material";
 
 import axios from "axios";
-import { APIs } from "../../constants/index";
 
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
-import FormLabel from "@mui/material/FormLabel";
 
 import React from "react";
 
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 
 import { loginUser } from "../../store/UserSlice";
@@ -31,7 +28,6 @@ import {
   LENGTH_REGEX,
 } from "../../constants/index";
 
-import Stack from "@mui/material/Stack";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 
 import { useSelector } from "react-redux";
@@ -41,7 +37,6 @@ import { useTranslation } from "react-i18next";
 import i18next from "i18next";
 
 const PasswordReset = ({ setLocation }: { setLocation: any }) => {
-  const mock = false;
 
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -102,7 +97,7 @@ const PasswordReset = ({ setLocation }: { setLocation: any }) => {
   const [lastPhoneDigits, setLastPhoneDigits] = useState("");
 
   const handleEmailExistCheck = () => {
-    console.log({ input: email });
+    // console.log({ input: email });
     API.post("users/is-user-found", { input: email })
       .then((res) => {
         setEmailExistError(!res.data.isFound);
@@ -112,7 +107,7 @@ const PasswordReset = ({ setLocation }: { setLocation: any }) => {
         setEmail(res.data.data.email);
         setNickName(res.data.data.name);
         nextShow(1);
-        console.log(res);
+        // console.log(res);
       })
       .catch((err) => {
         console.log(err);
@@ -182,7 +177,7 @@ const PasswordReset = ({ setLocation }: { setLocation: any }) => {
     })
       .then((res) => {
         nextShow(2);
-        console.log(res);
+        // console.log(res);
       })
       .catch((err) => {
         console.log(err);
@@ -197,7 +192,7 @@ const PasswordReset = ({ setLocation }: { setLocation: any }) => {
     })
       .then((res) => {
         nextShow(2);
-        console.log(res);
+        // console.log(res);
       })
       .catch((err) => {
         console.log(err);
@@ -253,7 +248,7 @@ const PasswordReset = ({ setLocation }: { setLocation: any }) => {
       otp: code,
     })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         setResetToken(res.data.data.token);
         nextShow(3);
       })
@@ -270,7 +265,7 @@ const PasswordReset = ({ setLocation }: { setLocation: any }) => {
       otp: code,
     })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         setResetToken(res.data.data.token);
 
         nextShow(3);

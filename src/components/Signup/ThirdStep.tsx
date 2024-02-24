@@ -72,7 +72,7 @@ const ThirdStep = ({
       name: nickName,
     })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         setIsResending(true);
       })
       .catch((err) => {

@@ -75,20 +75,20 @@ const SixthStep = ({
   });
 
   const handleSignup = () => {
-    console.log({
-      name: nickName,
-      email: email,
-      phoneNumber: phoneNumber,
-      password: password,
-      passwordConfirm: password,
-      jobtitle: speciality,
-      // dateOfBirth: "2024-02-23",
-      dateOfBirth: `${year}-${
-        months.indexOf(month) < 10
-          ? `0${months.indexOf(month)}`
-          : months.indexOf(month)
-      }-${parseInt(day) < 10 ? `0${day}` : day}`,
-    });
+    // console.log({
+    //   name: nickName,
+    //   email: email,
+    //   phoneNumber: phoneNumber,
+    //   password: password,
+    //   passwordConfirm: password,
+    //   jobtitle: speciality,
+    //   // dateOfBirth: "2024-02-23",
+    //   dateOfBirth: `${year}-${
+    //     months.indexOf(month) < 10
+    //       ? `0${months.indexOf(month)}`
+    //       : months.indexOf(month)
+    //   }-${parseInt(day) < 10 ? `0${day}` : day}`,
+    // });
     API.post("auth/signup", {
       name: nickName,
       email: email,
@@ -99,7 +99,7 @@ const SixthStep = ({
       dateOfBirth: `${year}-${months.indexOf(month)}-${day}`,
     })
       .then((res) => {
-        console.log(res.data.data.token);
+        // console.log(res.data.data.token);
         setUserToken(res.data.data.token);
         setUser(res.data.data.user);
         setOriginalUsername(res.data.data.user.username);

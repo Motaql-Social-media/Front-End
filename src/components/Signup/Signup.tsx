@@ -98,7 +98,7 @@ const SignUp = ({
     if (TagStep) TagStep.style.display = "none";
     if (PictureStep) PictureStep.style.display = "none";
 
-    console.log("D", position);
+    // console.log("D", position);
 
     switch (position) {
       case 0:

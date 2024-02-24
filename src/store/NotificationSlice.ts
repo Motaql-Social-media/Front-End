@@ -20,7 +20,7 @@ const notificationSlice = createSlice({
       state.FCMToken = action.payload;
     },
     setUnseenCount: (state, action) => {
-      console.log(action.payload);
+      // console.log(action.payload);
       state.unseenCount = action.payload;
     },
   },

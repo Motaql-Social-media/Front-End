@@ -58,7 +58,7 @@ const ForthStep = ({
       name: nickName,
     })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         setPosition((prev: number) => prev + 1);
       })
       .catch((err) => {

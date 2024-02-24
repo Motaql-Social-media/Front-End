@@ -73,7 +73,7 @@ const FifthStep = ({
       name: nickName,
     })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         setIsResending(true);
       })
       .catch((err) => {
@@ -87,7 +87,7 @@ const FifthStep = ({
       otp: code,
     })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         setPosition((prev: number) => prev + 1);
       })
       .catch((err) => {

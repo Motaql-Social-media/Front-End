@@ -6,7 +6,6 @@ import defaultProfilePic from "../../assets/images/Default_Profile_Picture.png";
 
 import axios from "axios";
 
-import { APIs } from "../../constants/index";
 
 import { changeProfilePicture } from "../../store/UserSlice";
 
@@ -222,7 +221,7 @@ const UploadProfilePicture = ({
           ref={skipForNowButton}
           className={`${styles.coloredButton}`}
           onClick={() => {
-            console.log(userR);
+            // console.log(userR);
             handleAssignProfilePicture();
             handleCloseModal();
           }}

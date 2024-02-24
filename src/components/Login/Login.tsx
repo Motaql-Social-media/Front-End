@@ -301,7 +301,6 @@ const Login = ({
                 to={"/password_reset"}
               >
                 <button
-                  id="forgotPassword"
                   className={`${styles.normalButton}`}
                 >
                   {t("forgot_password")}
@@ -445,7 +444,6 @@ const Login = ({
                   to={"/password_reset"}
                 >
                   <button
-                    id="forgotPassword"
                     className={`${styles.normalButton}`}
                   >
                     {t("forgot_password")}
@@ -456,7 +454,6 @@ const Login = ({
                     setLocation("/password_reset");
                   }}
                   type="submit"
-                  id="forgotPassword"
                   className={`${styles.coloredButton}`}
                   disabled={password === ""}
                 >

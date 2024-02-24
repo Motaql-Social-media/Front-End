@@ -38,7 +38,7 @@ export const userSlice = createSlice({
       state.token = null;
     },
     signupUser: (state, action) => {
-      console.log(action.payload);
+      // console.log(action.payload);
       state.user = action.payload.user;
 
       //next line will be removed
@@ -126,7 +126,7 @@ export const loginUser = createAsyncThunk(
     let response;
     if (isgoogle) {
       google = true;
-      console.log(userCredentials);
+      // console.log(userCredentials);
       response = userCredentials;
       userCredentials.data.user = {
         banner_image: userCredentials.data.user.bannerImage,
@@ -136,15 +136,14 @@ export const loginUser = createAsyncThunk(
       localStorage.setItem("token", JSON.stringify(userCredentials.token));
     } else {
       google = false;
-      console.log(userCredentials)
+      // console.log(userCredentials)
 
-      console.log(process.env.REACT_APP_API_URL);
       const request = await axios.post(
         `${process.env.REACT_APP_API_URL}auth/signin`,
         userCredentials
       );
       response = await request.data;
-      console.log(response);
+      // console.log(response);
       // response.data.user = {
       //   banner_image: response.data.user.bannerImage,
       //   ...response.data.user,

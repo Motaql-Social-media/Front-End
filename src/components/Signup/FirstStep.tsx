@@ -79,13 +79,13 @@ const FirstStep = ({
 
   const handleRecaptcha = async () => {
     const token = await executeRecaptcha("login");
-    console.log(token);
+    // console.log(token);
 
     API.post("auth/validate-recaptcha", {
       gRecaptchaResponse: token,
     })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         handleCheckBirthdate();
       })
       .catch((err) => {
