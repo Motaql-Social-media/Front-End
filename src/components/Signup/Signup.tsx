@@ -372,10 +372,9 @@ const SignUp = ({
             <UploadProfilePicture
               userR={user}
               setUser={setUser}
+              userToken={userToken}
               handleCompleteSignup={handleCompleteSignup}
               handleCloseModal={handleCloseModal}
-              email={email}
-              password={password}
             />
             <ErrorPage
               setDay={setDay}

@@ -56,7 +56,7 @@ const Landing = ({
         />
       </div>
       <div className="lg:w-[40%] flex  flex-col p-10 gap-8 lg:self-start lg:pt-16  items-start">
-        <h1 className="dark:text-white !leading-[4rem] text-2xl min-[575px]:text-3xl md:text-4xl lg:text-5xl font-bold">
+        <h1 className="dark:text-white !leading-[2rem] text-2xl min-[575px]:text-3xl md:text-4xl lg:text-5xl font-bold">
           {t("landing_welcom")}
         </h1>
         <h3 className="dark:text-white text-sm min-[575px]:text-md md:text-lg lg:text-xl font-bold">

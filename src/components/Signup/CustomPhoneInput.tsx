@@ -47,6 +47,7 @@ export const MuiPhone: React.FC<MUIPhoneProps> = ({
         style: { color: "#40e5da", textAlign: "right" },
       }}
       sx={{
+        direction: "ltr",
         borderColor: "#40e5da",
         "& .MuiInputBase-input": {
           borderColor: "#40e5da",

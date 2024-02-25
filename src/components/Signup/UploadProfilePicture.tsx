@@ -6,7 +6,6 @@ import defaultProfilePic from "../../assets/images/Default_Profile_Picture.png";
 
 import axios from "axios";
 
-
 import { changeProfilePicture } from "../../store/UserSlice";
 
 import { styles } from "../../styles/styles";
@@ -22,27 +21,22 @@ import { useTranslation } from "react-i18next";
 
 import "../../styles/signup.css";
 
-import { signupUser } from "../../store/UserSlice";
-import { useNavigate } from "react-router-dom";
 
 const UploadProfilePicture = ({
   userR,
   setUser,
+  userToken,
   handleCompleteSignup,
   handleCloseModal,
-  email,
-  password,
 }: {
   userR: any;
   setUser: (user: any) => void;
+  userToken: string;
   handleCompleteSignup: (user: any) => void;
   handleCloseModal: () => void;
-  email: string;
-  password: string;
 }) => {
   const darkMode = useSelector((state: any) => state.theme.darkMode);
   const user = useSelector((state: any) => state.user.user);
-  const userToken = useSelector((state: any) => state.user.token);
 
   const dispatch = useDispatch();
 
@@ -80,14 +74,35 @@ const UploadProfilePicture = ({
       (completeSignupButton.current as HTMLElement).style.display = "block";
   };
 
-  const handleAssignProfilePicture = () => {
-    handleCompleteSignup(userR);
+  const API = axios.create({
+    baseURL: process.env.REACT_APP_API_URL,
+  });
 
-    // const mediaFormData = new FormData();
-    // mediaFormData.append("media", profilePic);
-    // let newuser: any;
-    // let tmpuser: any;
-    // let token: any;
+  const handleAssignProfilePicture = () => {
+    // handleCompleteSignup(userR);
+
+    const mediaFormData = new FormData();
+    mediaFormData.append("image_profile", profilePic);
+
+    API.post("users/current/upload-photo-profile", mediaFormData, {
+      headers: {
+        authorization: "Bearer " + userToken,
+      },
+    })
+      .then((res) => {
+        dispatch(
+          changeProfilePicture({
+            user: { ...userR, imageUrl: res.data.data.imageUrl },
+            token: userToken,
+          })
+        );
+        setUser({ ...userR, imageUrl: res.data.data.imageUrl });
+        console.log({ ...userR, imageUrl: res.data.data.imageUrl })
+        // handleCompleteSignup({ ...userR, imageUrl: res.data.data.imageUrl });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
 
     // console.log(fromSwitch)
     // if (fromSwitch === false) {
@@ -167,14 +182,6 @@ const UploadProfilePicture = ({
     //   });
     // }
   };
-
-  // useEffect(() => {
-  //   if (fromSwitch) {
-  //     const PictureStep = document.getElementById("Picture Step");
-  //     if (PictureStep) PictureStep.style.display = "block";
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
 
   const { t } = useTranslation();
 

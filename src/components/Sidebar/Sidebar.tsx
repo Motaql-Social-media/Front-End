@@ -40,18 +40,18 @@ import i18next from "i18next";
 import { logoutUser } from "../../store/UserSlice";
 import { useDispatch } from "react-redux";
 const Sidebar = () => {
-    const darkMode = useSelector((state: any) => state.theme.darkMode);
-    
-    const {t}=useTranslation()
+  const darkMode = useSelector((state: any) => state.theme.darkMode);
+
+  const { t } = useTranslation();
 
   const optionsNames = [
-    t('home'),
-    t('explore'),
-    t('notifications'),
-    t('messages'),
-    t('bookmarks'),
-    t('profile'),
-    t('settings'),
+    t("home"),
+    t("explore"),
+    t("notifications"),
+    t("messages"),
+    t("bookmarks"),
+    t("profile"),
+    t("settings"),
   ];
   const optionsIcons = [
     [<HomeOutlinedIcon />, <HomeIcon />],
@@ -126,11 +126,11 @@ const Sidebar = () => {
   const dispatch = useDispatch();
 
   const handleLogout = () => {
-      localStorage.removeItem("user");
-      localStorage.removeItem("token");
-      sessionStorage.removeItem("passwordIsConfirmed");
-      dispatch(logoutUser());
-      navigate("/");
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    sessionStorage.removeItem("passwordIsConfirmed");
+    dispatch(logoutUser());
+    navigate("/");
   };
 
   const htmlElement = document.getElementById("htmlid");
@@ -201,12 +201,14 @@ const Sidebar = () => {
     // setComposePostPopup(true);
   };
 
-  const user = useSelector((state: any) => state.user);
+  const user = useSelector((state: any) => state.user?.user);
 
   return (
     <div className=" flex items-center justify-between  border-r border-lightBorder text-center text-black dark:border-darkBorder dark:text-white max-xs:!sticky max-xs:!bottom-0 max-xs:z-10 max-xs:backdrop-brightness-[90%] dark:max-xs:bg-black dark:max-xs:bg-opacity-50  dark:max-xs:backdrop-blur-sm dark:max-xs:backdrop-brightness-[30%] xs:max-w-[400px] xs:justify-end md:flex-grow">
       <div
-        className={`flex h-full w-full flex-row  max-[1278px]:items-end max-xs:w-full max-xs:!items-center max-xs:justify-around xs:flex-col ${i18next.language==='en'?'xs:pl-[30%]':'xs:pr-[30%]'} `}
+        className={`flex h-full w-full flex-row  max-[1278px]:items-end max-xs:w-full max-xs:!items-center max-xs:justify-around xs:flex-col ${
+          i18next.language === "en" ? "xs:pl-[30%]" : "xs:pr-[30%]"
+        } `}
       >
         <div
           className="max-xs:hidden cursor-pointer mt-5"
@@ -247,8 +249,11 @@ const Sidebar = () => {
               id="mahmoud_switch_account"
             >
               <Avatar
-                alt={user?.nickname}
-                src={user?.profileImage}
+                alt={user.name}
+                src={`${process.env.REACT_APP_MEDIA_URL}${user.imageUrl
+                  .split("user")
+                  .pop()
+                  .slice(1)}`}
                 id="demo-positioned-button"
                 aria-controls={openMenu ? "demo-positioned-menu" : undefined}
                 aria-haspopup="true"
