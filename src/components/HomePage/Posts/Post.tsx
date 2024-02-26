@@ -51,21 +51,15 @@ const Post = ({
   setPosts: any
 }) => {
   const [mediaUrls, setMediaUrls] = useState([])
-  const [mediaTypes, setMediaTypes] = useState([])
 
   //   const descriptionLines = description.split("\n"); //need check for writing \n in description
   useEffect(() => {
     const urls = media.map((item: any) => item.img)
-    const types = media.map((item: any) => item.type)
 
     // console.log("urls from post comp", urls)
     // console.log("types from post comp", types)
     setMediaUrls(urls)
-    setMediaTypes(types)
   }, [media])
-
-  
- 
 
   const handlePostClick = () => {
     console.log("post")
@@ -76,7 +70,7 @@ const Post = ({
         <PostHeader userProfilePicture={userProfilePicture} name={name} username={username} date={date} speciality={speciality} isFollowed={isFollowed} id={id} type="diary" />
       </div>
       <div>
-        <PostBody description={description} mediaUrls={mediaUrls} mediaTypes={mediaTypes} media={media} />
+        <PostBody setMediaUrls={setMediaUrls} description={description} mediaUrls={mediaUrls} media={media} />
       </div>
       <div>
         <PostFooter id={id} replyCount={replyCount} reposted={isReposted} repostsNum={repostCount} liked={isLiked} likesNum={likeCount} />

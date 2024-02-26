@@ -53,7 +53,7 @@ const Diaries = () => {
           type: "jpg",
         },
         {
-          img: "https://www.simplilearn.com/ice9/free_resources_article_thumb/what_is_image_Processing.jpg",
+          img: "https://img.freepik.com/free-photo/painting-mountain-lake-with-mountain-background_188544-9126.jpg",
           title: "image2",
           type: "jpg",
         },
@@ -164,7 +164,7 @@ const Diaries = () => {
           type: "jpg",
         },
         {
-          img: "https://imgupscaler.com/images/samples/animal-before.webp",
+          img: "https://images.unsplash.com/photo-1456926631375-92c8ce872def?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
           title: "image2",
           type: "jpg",
         },

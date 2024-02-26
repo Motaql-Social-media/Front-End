@@ -33,6 +33,7 @@ function ComposePostFooter({ buttonName, handleUploadMediaClick, handleUploadMed
   }
 
   const { t } = useTranslation()
+
   return (
     <div className="flex items-center justify-between pt-3">
       <div className="flex bg-transparent">
@@ -49,7 +50,7 @@ function ComposePostFooter({ buttonName, handleUploadMediaClick, handleUploadMed
         <button onClick={handleUploadButton} title="Media" className="h-10 w-10 rounded-full p-1 text-primary dark:hover:bg-gray-800" disabled={mediaDisabled}>
           <InsertPhotoOutlinedIcon />
         </button>
-        <input type="file" accept="image/*, video/*" onChange={handleUploadMedia} ref={inputMedia} style={{ display: "none" }} />
+        <input type="file" accept="image/*" onChange={handleUploadMedia} ref={inputMedia} style={{ display: "none" }} />
         <button title="Gif" className="h-10 w-10 rounded-full p-1 text-primary dark:hover:bg-gray-800" onClick={handleUploadGif} disabled={GIFDisabled}>
           <GifBoxOutlinedIcon />
         </button>
