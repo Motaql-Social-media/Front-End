@@ -61,7 +61,9 @@ const Home = ({ scroll }: { scroll: number }) => {
         >
           {t("home")}
         </div>
-        <ComposePost buttonName="Post" handleNewPost={() => {}} postType="tweet" />
+        <div>
+          <ComposePost buttonName="Post" handleNewPost={() => {}} postType="tweet" />
+        </div>
         <div className="flex h-[53px] items-center border-b border-b-darkBorder pb-2">
           <HorizontalNavbar
             urls={[
