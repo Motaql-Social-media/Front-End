@@ -5,6 +5,7 @@ import { useRef } from "react"
 import OneImage from "./OneImage"
 import TwoImages from "./TwoImages"
 import ThreeImages from "./ThreeImages"
+import FourImages from "./FourImages"
 
 function DisplayMedia({ mediaUrls, setMediaUrls, margin, showCancelButton, deleteCallback }: { mediaUrls: string[]; setMediaUrls: any; margin: number; showCancelButton: boolean; deleteCallback: any }) {
   const [currentImage, setCurrentImage] = useState(0)
@@ -190,32 +191,21 @@ function DisplayMedia({ mediaUrls, setMediaUrls, margin, showCancelButton, delet
   }
 
   return (
-    <div dir="ltr" className="rounded-2xl overflow-hidden">
+    <div dir="ltr" className="overflow-hidden rounded-2xl">
       {imageLength === 1 && <OneImage image={mediaUrls[0]} showCancelButton={showCancelButton} handleDeleteMedia={handleDeleteMedia} />}
       {imageLength === 2 && <TwoImages image1={mediaUrls[0]} image2={mediaUrls[1]} showCancelButton={showCancelButton} handleDeleteMedia={handleDeleteMedia} />}
       {imageLength === 3 && <ThreeImages image1={mediaUrls[0]} image2={mediaUrls[1]} image3={mediaUrls[2]} showCancelButton={showCancelButton} handleDeleteMedia={handleDeleteMedia} />}
-      
-      {imageLength === 4 && (
-        <div className="flex flex-col gap-1">
-          <div className="flex gap-1">
-            <img src={mediaUrls[0]} className="w-[50%]" alt="media" loading="lazy" onClick={() => openImageViewer(0)} />
-            <img src={mediaUrls[1]} className="w-[50%]" alt="media" loading="lazy" onClick={() => openImageViewer(1)} />
-          </div>
-          <div className="flex gap-1">
-            <img src={mediaUrls[2]} className="w-[50%]" alt="media" loading="lazy" onClick={() => openImageViewer(2)} />
-            <img src={mediaUrls[3]} className="w-[50%]" alt="media" loading="lazy" onClick={() => openImageViewer(3)} />
-          </div>
-        </div>
-      )}
 
-      {isViewerOpen && (
+      {imageLength === 4 && <FourImages image1={mediaUrls[0]} image2={ mediaUrls[1]} image3={mediaUrls[2]} image4={mediaUrls[3]} showCancelButton={showCancelButton} handleDeleteMedia={handleDeleteMedia} />}
+
+      {/* {isViewerOpen && (
         <div className="z-[99]">
           {imageLength === 2 && <ImageViewer disableScroll={true} src={sortedHeights} currentIndex={currentImage} closeOnClickOutside={true} onClose={closeImageViewer} />}
           {imageLength === 3 && <ImageViewer disableScroll={true} src={sortedAspectRatio} currentIndex={currentImage} closeOnClickOutside={true} onClose={closeImageViewer} />}
           {!oneHaveColumn && imageLength === 3 && <ImageViewer disableScroll={true} src={sortedWidths} currentIndex={currentImage} closeOnClickOutside={true} onClose={closeImageViewer} />}
           {imageLength !== 2 && imageLength !== 3 && <ImageViewer disableScroll={true} src={mediaUrls} currentIndex={currentImage} closeOnClickOutside={true} onClose={closeImageViewer} />}
         </div>
-      )}
+      )} */}
     </div>
   )
 }

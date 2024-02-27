@@ -81,7 +81,7 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <div ref={appRef} className="app  relative flex  min-h-[100vh]  flex-col overflow-hidden bg-white text-black dark:bg-black  dark:text-white xs:h-[100vh] xs:w-full xs:flex-row">
+      <div ref={appRef} className="app  relative flex  min-h-[100vh]  flex-row overflow-hidden bg-white text-black dark:bg-black  dark:text-white xs:h-[100vh] xs:w-full max-[540px]:flex-col">
         <BrowserRouter>
           <Languages />
           {/* {!user && location !== "/password_reset" && (

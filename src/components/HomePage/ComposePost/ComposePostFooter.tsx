@@ -50,11 +50,11 @@ function ComposePostFooter({ buttonName, handleUploadMediaClick, handleUploadMed
         <button onClick={handleUploadButton} title="Media" className="h-10 w-10 rounded-full p-1 text-primary dark:hover:bg-gray-800" disabled={mediaDisabled}>
           <InsertPhotoOutlinedIcon />
         </button>
-        <input type="file" accept="image/*" onChange={handleUploadMedia} ref={inputMedia} style={{ display: "none" }} />
+        <input type="file" accept="image/, .jpg, .jpeg, .png, .webp, .bmp, .svg, .ico, .tiff" onChange={handleUploadMedia} ref={inputMedia} style={{ display: "none" }} />
         <button title="Gif" className="h-10 w-10 rounded-full p-1 text-primary dark:hover:bg-gray-800" onClick={handleUploadGif} disabled={GIFDisabled}>
           <GifBoxOutlinedIcon />
         </button>
-        <input type="file" accept="gif/*" onChange={handleUploadMediaClick} ref={inputGif} style={{ display: "none" }} />
+        <input type="file" accept="image/gif" onChange={handleUploadMedia} ref={inputGif} style={{ display: "none" }} />
         <button title="Poll" className="h-10 w-10 rounded-full p-1 text-primary dark:hover:bg-gray-800" disabled={pollDisabled}>
           <BallotOutlinedIcon />
         </button>
