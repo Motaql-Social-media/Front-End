@@ -1,6 +1,5 @@
 import { Avatar } from "@mui/material"
 import Logo from "../../assets/images/mainLogo.svg"
-import { useNavigate } from "react-router-dom"
 
 import { useState } from "react"
 
@@ -12,8 +11,6 @@ import { useSelector } from "react-redux"
 import { useEffect } from "react"
 
 const MobileSidebar = ({ optionsNames, optionsIcons, optionLinks, selected, handleLogout }: { optionsNames: string[]; optionsIcons: any[]; optionLinks: string[]; selected: number; handleLogout: any }) => {
-  const navigate = useNavigate()
-
   const [open, setOpen] = useState(false)
 
   const user = useSelector((state: any) => state.user.user)
@@ -22,11 +19,21 @@ const MobileSidebar = ({ optionsNames, optionsIcons, optionLinks, selected, hand
 
   useEffect(() => {
     const handleWheel = (event: any) => {
-        setIsVisible(event.deltaY < 0)
+      setIsVisible(event.deltaY < 0)
     }
 
     window.addEventListener("wheel", handleWheel)
     return () => window.removeEventListener("wheel", handleWheel)
+  }, [])
+
+  useEffect(() => {
+    const handleTouch = (event: any) => {
+      setIsVisible(event.deltaY < 0)
+    }
+
+    window.addEventListener("touchmove", handleTouch)
+
+    return () => window.removeEventListener("touchmove", handleTouch)
   }, [])
 
   return (
