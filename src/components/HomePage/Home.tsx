@@ -40,14 +40,16 @@ const Home = ({ scroll }: { scroll: number }) => {
     <div className="flex flex-1 flex-grow-[8] max-[540px]:mt-16">
       <div ref={homeRef} className="home no-scrollbar ml-0 mr-1 w-full max-w-[620px] shrink-0 flex-grow overflow-y-scroll border border-b-0 border-t-0 border-lightBorder dark:border-darkBorder  max-[540px]:border-l-0 max-[540px]:border-r-0 sm:w-[600px]">
         <div
-          className={` sticky left-0 top-0  ${isVisible ? "opacity-100" : "opacity-0"} max-[540px]:hidden z-[99] cursor-pointer border-b bg-black bg-opacity-80 p-3 text-xl font-bold backdrop-blur-md transition-opacity duration-300 dark:border-b-darkBorder`}
+          className={` sticky left-0 top-0  ${isVisible ? "opacity-100" : "opacity-0"} z-[99] cursor-pointer border-b bg-black bg-opacity-80 p-3 text-xl font-bold backdrop-blur-md transition-opacity duration-300 dark:border-b-darkBorder max-[540px]:hidden`}
           onClick={() => {
             window.location.reload()
           }}
         >
           {t("home")}
         </div>
-        <ComposePost buttonName="Post" handleNewPost={() => {}} postType="tweet" />
+        <div>
+          <ComposePost buttonName="Post" handleNewPost={() => {}} postType="tweet" />
+        </div>
         <div className="flex h-[53px] items-center border-b border-b-darkBorder pb-2">
           <HorizontalNavbar
             urls={[

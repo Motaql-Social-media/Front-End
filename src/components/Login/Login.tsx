@@ -14,7 +14,6 @@ import { ThemeState } from "../../store/ThemeSlice";
 // import GoogleLoginButton from "../General/GoogleLoginButton";
 import axios from "axios";
 
-import { EMAIL_REGEX } from "../../constants/index";
 
 import React from "react";
 

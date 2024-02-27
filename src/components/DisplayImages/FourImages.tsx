@@ -122,7 +122,7 @@ const FourImages = ({ image1, image2, image3, image4, showCancelButton, handleDe
       setFlexDirection1("column")
       setFlexDirection2("column")
       setFlexDirection3("column")
-    } else if (imageAspectRatio1 < 1 && imageAspectRatio2 < 1 && imageAspectRatio3 < 1 && imageAspectRatio4 < 1) {
+    } else if (imageAspectRatio1 < 0.9 && imageAspectRatio2 < 0.9 && imageAspectRatio3 < 0.9 && imageAspectRatio4 < 0.9) {
       setFlexDirection1("row")
       setFlexDirection2("row")
       setFlexDirection3("row")
@@ -131,7 +131,7 @@ const FourImages = ({ image1, image2, image3, image4, showCancelButton, handleDe
       setFlexDirection2("row")
       setFlexDirection3("row")
     }
-  }, [imageAspectRatio1, imageAspectRatio2, imageAspectRatio3])
+  }, [imageAspectRatio1, imageAspectRatio2, imageAspectRatio3,imageAspectRatio4])
 
   const [currentImage, setCurrentImage] = useState(0)
   const [isViewerOpen, setIsViewerOpen] = useState(false)

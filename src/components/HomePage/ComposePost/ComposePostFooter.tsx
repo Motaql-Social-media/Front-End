@@ -14,7 +14,35 @@ import { useSelector } from "react-redux"
 import { styles } from "../../../styles/styles"
 import { useTranslation } from "react-i18next"
 import i18next from "i18next"
-function ComposePostFooter({ buttonName, handleUploadMediaClick, handleUploadMedia, hiddenUploadMediaInput, mediaDisabled, GIFDisabled, pollDisabled, postDisabled, progressCircleSize, charsCount, charsProgressColor, handleSubmit }: { buttonName: string; handleUploadMediaClick: any; handleUploadMedia: (event: React.ChangeEvent<HTMLInputElement>) => void; hiddenUploadMediaInput: any; mediaDisabled: boolean; GIFDisabled: boolean; pollDisabled: boolean; postDisabled: boolean; progressCircleSize: number; charsCount: number; charsProgressColor: string; handleSubmit: any }) {
+function ComposePostFooter({
+  buttonName,
+  handleUploadMediaClick,
+  handleUploadMedia,
+  hiddenUploadMediaInput,
+  mediaDisabled,
+  GIFDisabled,
+  pollDisabled,
+  postDisabled,
+  progressCircleSize,
+  charsCount,
+  charsProgressColor,
+  handleSubmit,
+  handlePollClick,
+}: {
+  buttonName: string
+  handleUploadMediaClick: any
+  handleUploadMedia: (event: React.ChangeEvent<HTMLInputElement>) => void
+  hiddenUploadMediaInput: any
+  mediaDisabled: boolean
+  GIFDisabled: boolean
+  pollDisabled: boolean
+  postDisabled: boolean
+  progressCircleSize: number
+  charsCount: number
+  charsProgressColor: string
+  handleSubmit: any
+  handlePollClick: any
+}) {
   const themeColor = useSelector((state: any) => state.theme.color)
 
   const inputMedia = useRef<HTMLInputElement>(null)
@@ -35,7 +63,7 @@ function ComposePostFooter({ buttonName, handleUploadMediaClick, handleUploadMed
   const { t } = useTranslation()
 
   return (
-    <div className="flex items-center justify-between pt-3">
+    <div className="mt-3 flex items-center justify-between">
       <div className="flex bg-transparent">
         <div className="flex cursor-pointer items-center justify-center gap-2">
           <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary p-1">
@@ -47,15 +75,22 @@ function ComposePostFooter({ buttonName, handleUploadMediaClick, handleUploadMed
         </div>
       </div>
       <div className="flex bg-transparent">
-        <button onClick={handleUploadButton} title="Media" className="h-10 w-10 rounded-full p-1 text-primary dark:hover:bg-gray-800" disabled={mediaDisabled}>
+        <button onClick={handleUploadButton} title="Media" className="h-10 w-10 cursor-pointer rounded-full p-1 text-primary disabled:cursor-default disabled:brightness-50 dark:hover:bg-gray-800" disabled={mediaDisabled}>
           <InsertPhotoOutlinedIcon />
         </button>
         <input type="file" accept="image/, .jpg, .jpeg, .png, .webp, .bmp, .svg, .ico, .tiff" onChange={handleUploadMedia} ref={inputMedia} style={{ display: "none" }} />
-        <button title="Gif" className="h-10 w-10 rounded-full p-1 text-primary dark:hover:bg-gray-800" onClick={handleUploadGif} disabled={GIFDisabled}>
+        <button title="Gif" className="h-10 w-10 cursor-pointer rounded-full p-1 text-primary disabled:cursor-default disabled:brightness-50 dark:hover:bg-gray-800" onClick={handleUploadGif} disabled={GIFDisabled}>
           <GifBoxOutlinedIcon />
         </button>
         <input type="file" accept="image/gif" onChange={handleUploadMedia} ref={inputGif} style={{ display: "none" }} />
-        <button title="Poll" className="h-10 w-10 rounded-full p-1 text-primary dark:hover:bg-gray-800" disabled={pollDisabled}>
+        <button
+          title="Poll"
+          className="h-10 w-10 cursor-pointer rounded-full p-1 text-primary disabled:cursor-default disabled:brightness-50 dark:hover:bg-gray-800"
+          disabled={pollDisabled}
+          onClick={() => {
+            handlePollClick(true)
+          }}
+        >
           <BallotOutlinedIcon />
         </button>
         <button title="Emoji" className="h-10 w-10 rounded-full p-1 text-primary dark:hover:bg-gray-800">

@@ -5,19 +5,13 @@ import { Link } from "react-router-dom"
 import { Avatar } from "@mui/material"
 import DisplayMedia from "../../DisplayImages/DisplayMedia"
 import axios from "axios"
-import PublicOutlinedIcon from "@mui/icons-material/PublicOutlined"
-import HowToRegOutlinedIcon from "@mui/icons-material/HowToRegOutlined"
-import HowToRegIcon from "@mui/icons-material/HowToReg"
-import VerifiedOutlinedIcon from "@mui/icons-material/VerifiedOutlined"
-import VerifiedIcon from "@mui/icons-material/Verified"
-import AlternateEmailIcon from "@mui/icons-material/AlternateEmail"
-import Button from "@mui/material/Button"
-import Menu from "@mui/material/Menu"
-import MenuItem from "@mui/material/MenuItem"
+
 import ComposePostFooter from "./ComposePostFooter"
 import { getColor } from "../../../constants"
 import { useTranslation } from "react-i18next"
 import i18next from "i18next"
+
+import Poll from "./Poll"
 
 function ComposePost({
   buttonName,
@@ -32,10 +26,7 @@ function ComposePost({
   //   referredTweetId: string;
   //   handleClosePopup: any;
 }) {
-  const [anchorPostMenu, setAnchorPostMenu] = useState(null)
   const [description, setDescription] = useState("")
-  const [replyPermissionIndex, setReplyPermissionIndex] = useState(0)
-  const [runningMock, setRunningMock] = useState(false)
   const [charsCount, setCharsCount] = useState(0)
   const [charsProgressColor, setCharsProgressColor] = useState("#1D9BF0")
   const [progressCircleSize, setProgressCircleSize] = useState(24)
@@ -45,10 +36,9 @@ function ComposePost({
 
   const [mediaUrls, setMediaUrls] = useState<string[]>([])
   const [mediaDisabled, setMediaDisabled] = useState(false)
-  const [GIF, setGIF] = useState(null)
   const [GIFDisabled, setGIFDisabled] = useState(false)
   const [poll, setPoll] = useState(null)
-  const [pollDisabled, setpollDisabled] = useState(false)
+  const [pollDisabled, setPollDisabled] = useState(false)
   const [postDisabled, setPostDisabled] = useState(true)
   const hiddenUploadMediaInput = useRef()
 
@@ -77,19 +67,6 @@ function ComposePost({
   const handleDeleteMediaCallback = (index: number) => {
     setMedia(media.filter((i, ind) => ind !== index))
     // setMediaDisabled(false)
-  }
-
-  const openMenu = Boolean(anchorPostMenu)
-
-  const handleMenuButtonClick = (event: any) => {
-    setAnchorPostMenu(event.currentTarget)
-  }
-  const handleMenuClose = (event: any) => {
-    setAnchorPostMenu(null)
-  }
-  const handleMenuItemClick = (event: any, index: any) => {
-    setReplyPermissionIndex(index)
-    setAnchorPostMenu(null)
   }
 
   const handleSubmit = (event: any) => {
@@ -161,9 +138,10 @@ function ComposePost({
         imageUrl: imageUrl,
       },
     ])
+
+    uploadedMedia.target.value = null
     // const mediaFormData = new FormData()
     // mediaFormData.append("media", file)
- 
   }
 
   useEffect(() => {
@@ -175,6 +153,7 @@ function ComposePost({
     if (mediaNames.length === 0) {
       setMediaDisabled(false)
       setGIFDisabled(false)
+      setPollDisabled(false)
     } else if (mediaNames.length === 1) {
       if (mediaNames[0] === "gif") {
         setMediaDisabled(true)
@@ -182,17 +161,21 @@ function ComposePost({
       } else {
         setGIFDisabled(true)
       }
+      setPollDisabled(true)
     } else if (mediaNames.length > 3) {
       setMediaDisabled(true)
+      setPollDisabled(true)
     } else {
       setMediaDisabled(false)
+      setPollDisabled(true)
     }
   }, [mediaNames])
 
-  // useEffect(() => {
-  //   if (media.length > 3) setMediaDisabled(true)
-  //   // else setMediaDisabled(false)
-  // }, [media])
+  const handlePollClick = (newOption: any) => {
+    setPollDisabled(newOption)
+    setGIFDisabled(newOption)
+    setMediaDisabled(newOption)
+  }
 
   const htmlElement = document.getElementById("htmlid")
 
@@ -201,20 +184,20 @@ function ComposePost({
   const { t } = useTranslation()
 
   return (
-    <div className={`ComposePost flex h-fit border-b ${buttonName === "Post" ? "border-t" : ""} !w-full border-lightBorder p-3 text-black dark:border-darkBorder dark:text-white max-xs:hidden`}>
+    <div className={`ComposePost flex h-fit border-b pb-5 ${buttonName === "Post" ? "border-t" : ""} !w-full border-lightBorder p-3 text-black dark:border-darkBorder dark:text-white max-xs:hidden`}>
       <div data-testid="profileImage" className={`h-10 w-10 ${i18next.language === "en" ? "sm:mr-3" : "sm:ml-3"} `}>
         <Link className="hover:underline" to={`/${user.username.split("@")[1]}`}>
           <Avatar alt={user.name} src={`${process.env.REACT_APP_MEDIA_URL}${user.imageUrl.split("user").pop().slice(1)}`} sx={{ width: 40, height: 40 }} />
         </Link>
       </div>
-      <div className="mt-1.5 w-full">
+      <div className="mt-1.5 h-fit w-full">
         <TextField
           id="description"
           variant="standard"
           InputProps={{
             disableUnderline: true,
           }}
-          placeholder={`${buttonName === "Post" ? t("compose_post") : t("compose_reply")}`}
+          placeholder={`${pollDisabled?"Ask a question": buttonName === "Post" ? t("compose_post") : t("compose_reply")}`}
           onChange={(e) => handleDescriptionChange(e)}
           multiline
           value={description}
@@ -228,9 +211,9 @@ function ComposePost({
           }}
         ></TextField>
         <DisplayMedia mediaUrls={mediaUrls} setMediaUrls={setMediaUrls} margin={1.5} showCancelButton={true} deleteCallback={handleDeleteMediaCallback} />
-
+        {pollDisabled && <Poll handlePollClick={handlePollClick} />}
         <hr className={`h-px border-0 bg-lightBorder dark:bg-darkBorder ${buttonName === "Post" ? "" : "hidden"}`} />
-        <ComposePostFooter buttonName={buttonName} handleUploadMediaClick={handleUploadMediaClick} handleUploadMedia={handleUploadMedia} hiddenUploadMediaInput={hiddenUploadMediaInput} mediaDisabled={mediaDisabled} GIFDisabled={GIFDisabled} pollDisabled={pollDisabled} postDisabled={postDisabled} progressCircleSize={progressCircleSize} charsCount={charsCount} charsProgressColor={charsProgressColor} handleSubmit={handleSubmit} />
+        <ComposePostFooter buttonName={buttonName} handleUploadMediaClick={handleUploadMediaClick} handleUploadMedia={handleUploadMedia} hiddenUploadMediaInput={hiddenUploadMediaInput} mediaDisabled={mediaDisabled} GIFDisabled={GIFDisabled} pollDisabled={pollDisabled} postDisabled={postDisabled} progressCircleSize={progressCircleSize} charsCount={charsCount} charsProgressColor={charsProgressColor} handleSubmit={handleSubmit} handlePollClick={handlePollClick} />
       </div>
     </div>
   )
