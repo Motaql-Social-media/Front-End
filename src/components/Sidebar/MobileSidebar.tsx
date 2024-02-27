@@ -26,7 +26,7 @@ const MobileSidebar = ({ optionsNames, optionsIcons, optionLinks, selected, hand
     }
 
     const handleTouch = (event: any) => {
-      setIsVisible(event.deltaY < 0) // Check for upward swipe (negative deltaY)
+      setIsVisible(Math.abs(event.deltaY) > 0)
     }
 
     window.addEventListener("wheel", handleWheel)
