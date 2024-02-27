@@ -65,7 +65,7 @@ const MobileSidebar = ({ optionsNames, optionsIcons, optionLinks, selected, hand
     <div className={` fixed left-0 top-0 bg-black ${isVisible ? "opacity-100" : "opacity-0"} z-[99] flex w-full items-center p-5 transition-opacity duration-300 `}>
       <div
         onClick={() => {
-          if (!open) setOpen(true)
+          if (!open && isVisible) setOpen(true)
         }}
       >
         <Avatar alt={user.name} src={`${process.env.REACT_APP_MEDIA_URL}${user.imageUrl.split("user").pop().slice(1)}`} />
@@ -84,7 +84,7 @@ const MobileSidebar = ({ optionsNames, optionsIcons, optionLinks, selected, hand
         }}
         open={open}
         onClose={() => {
-          if (open) setOpen(false)
+          if (open && isVisible) setOpen(false)
         }}
       >
         <div className=" relative h-[100vh] w-[200px]  bg-white text-black dark:bg-black  dark:text-white">
