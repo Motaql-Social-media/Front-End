@@ -19,21 +19,23 @@ const MobileSidebar = ({ optionsNames, optionsIcons, optionLinks, selected, hand
 
   useEffect(() => {
     const handleWheel = (event: any) => {
-      setIsVisible(event.deltaY < 0)
+      if (typeof event.deltaY !== "undefined") {
+        // Check for wheel event
+        setIsVisible(event.deltaY < 0)
+      }
+    }
+
+    const handleTouch = (event: any) => {
+      setIsVisible(event.deltaY < 0) // Check for upward swipe (negative deltaY)
     }
 
     window.addEventListener("wheel", handleWheel)
-    return () => window.removeEventListener("wheel", handleWheel)
-  }, [])
-
-  useEffect(() => {
-    const handleTouch = (event: any) => {
-      setIsVisible(event.deltaY < 0)
-    }
-
     window.addEventListener("touchmove", handleTouch)
 
-    return () => window.removeEventListener("touchmove", handleTouch)
+    return () => {
+      window.removeEventListener("wheel", handleWheel)
+      window.removeEventListener("touchmove", handleTouch)
+    }
   }, [])
 
   return (
