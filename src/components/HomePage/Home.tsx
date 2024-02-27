@@ -25,28 +25,30 @@ const Home = ({ scroll }: { scroll: number }) => {
     homeRef.current.scrollTop += scroll
   }, [scroll])
 
-  const [isVisible, setIsVisible] = useState(true)
+  const [prevScrollPos, setPrevScrollPos] = useState(window.scrollY)
 
   useEffect(() => {
-    const handleWheel = (event: any) => {
-      if (typeof event.deltaY !== "undefined") {
-        // Check for wheel event
-        setIsVisible(event.deltaY < 0)
+    const handleScroll = () => {
+      const currentScrollPos = window.scrollY
+      const isScrollingDown = currentScrollPos > prevScrollPos
+      setPrevScrollPos(currentScrollPos)
+
+      // Check if scrolling down
+      if (isScrollingDown) {
+        setIsVisible(false)
+      } else {
+        setIsVisible(true)
       }
     }
 
-    const handleTouch = (event: any) => {
-      setIsVisible(event.deltaY < 0) // Check for upward swipe (negative deltaY)
-    }
-
-    window.addEventListener("wheel", handleWheel)
-    window.addEventListener("touchmove", handleTouch)
+    window.addEventListener("scroll", handleScroll)
 
     return () => {
-      window.removeEventListener("wheel", handleWheel)
-      window.removeEventListener("touchmove", handleTouch)
+      window.removeEventListener("scroll", handleScroll)
     }
-  }, [])
+  }, [prevScrollPos])
+
+  const [isVisible, setIsVisible] = useState(true)
 
   return (
     <div className="flex flex-1 flex-grow-[8] max-[540px]:mt-16">

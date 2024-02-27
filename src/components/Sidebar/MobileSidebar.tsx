@@ -15,28 +15,51 @@ const MobileSidebar = ({ optionsNames, optionsIcons, optionLinks, selected, hand
 
   const user = useSelector((state: any) => state.user.user)
 
-  const [isVisible, setIsVisible] = useState(true)
+  const [prevScrollPos, setPrevScrollPos] = useState(window.scrollY)
 
   useEffect(() => {
-    const handleWheel = (event: any) => {
-      if (typeof event.deltaY !== "undefined") {
-        // Check for wheel event
-        setIsVisible(event.deltaY < 0)
+    const handleScroll = () => {
+      const currentScrollPos = window.scrollY
+      const isScrollingDown = currentScrollPos > prevScrollPos
+      setPrevScrollPos(currentScrollPos)
+
+      // Check if scrolling down
+      if (isScrollingDown) {
+        setIsVisible(false)
+      } else {
+        setIsVisible(true)
       }
     }
 
-    const handleTouch = (event: any) => {
-      setIsVisible(Math.abs(event.deltaY) > 0)
-    }
-
-    window.addEventListener("wheel", handleWheel)
-    window.addEventListener("touchmove", handleTouch)
+    window.addEventListener("scroll", handleScroll)
 
     return () => {
-      window.removeEventListener("wheel", handleWheel)
-      window.removeEventListener("touchmove", handleTouch)
+      window.removeEventListener("scroll", handleScroll)
     }
-  }, [])
+  }, [prevScrollPos])
+
+  const [isVisible, setIsVisible] = useState(true)
+
+  //   useEffect(() => {
+  //     const handleWheel = (event: any) => {
+  //       if (typeof event.deltaY !== "undefined") {
+  //         // Check for wheel event
+  //         setIsVisible(event.deltaY < 0)
+  //       }
+  //     }
+
+  //     const handleTouch = (event: any) => {
+  //       setIsVisible(Math.abs(event.deltaY) > 0)
+  //     }
+
+  //     window.addEventListener("wheel", handleWheel)
+  //     window.addEventListener("touchmove", handleTouch)
+
+  //     return () => {
+  //       window.removeEventListener("wheel", handleWheel)
+  //       window.removeEventListener("touchmove", handleTouch)
+  //     }
+  //   }, [])
 
   return (
     <div className={` fixed left-0 top-0 bg-black ${isVisible ? "opacity-100" : "opacity-0"} z-[99] flex w-full items-center p-5 transition-opacity duration-300 `}>
