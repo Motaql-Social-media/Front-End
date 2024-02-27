@@ -50,15 +50,15 @@ const ThreeImages = ({ image1, image2, image3, showCancelButton, handleDeleteMed
   useEffect(() => {
     if (imageAspectRatio1 < imageAspectRatio2 && imageAspectRatio1 < imageAspectRatio3) {
       setLowestAspectRatioImage(image1)
-    //   console.log(image1)
+      //   console.log(image1)
       setLowestAspectRatioImageindex(0)
     } else if (imageAspectRatio2 < imageAspectRatio1 && imageAspectRatio2 < imageAspectRatio3) {
       setLowestAspectRatioImage(image2)
-    //   console.log(image2)
+      //   console.log(image2)
       setLowestAspectRatioImageindex(1)
     } else if (imageAspectRatio3 < imageAspectRatio1 && imageAspectRatio3 < imageAspectRatio2) {
       setLowestAspectRatioImage(image3)
-    //   console.log(image3)
+      //   console.log(image3)
       setLowestAspectRatioImageindex(2)
     }
   }, [imageAspectRatio1, imageAspectRatio2, imageAspectRatio3])
@@ -155,7 +155,7 @@ const ThreeImages = ({ image1, image2, image3, showCancelButton, handleDeleteMed
         imgRef2.current.src = image3
       }
     }
-  }, [lowestAspectRatioImage,image1,image2,image3,flexDirection1,flexDirection2])
+  }, [lowestAspectRatioImage, image1, image2, image3, flexDirection1, flexDirection2])
 
   const closeImageViewer = () => {
     setCurrentImage(0)
@@ -175,7 +175,7 @@ const ThreeImages = ({ image1, image2, image3, showCancelButton, handleDeleteMed
           </div>
         )}
       </div>
-      <div className={`flex ${flexDirection2 === "row" ? "w-[66.6%] flex-row" : "w-[50%] flex-col"} gap-1`}>
+      <div className={`flex ${flexDirection2 === "row" ? "w-[66.6%] flex-row" : "w-full flex-col"} gap-1`}>
         <div className={`relative ${flexDirection2 === "row" ? "h-full w-[50%]" : "h-[50%] w-full"}`}>
           <img src={image2} className={`h-full w-full object-cover`} alt="media" loading="lazy" onClick={() => openImageViewer(1)} />
           {showCancelButton && (

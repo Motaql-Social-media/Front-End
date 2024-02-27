@@ -41,6 +41,8 @@ function ComposePost({
   const [progressCircleSize, setProgressCircleSize] = useState(24)
   const [progressCircleValue, setProgressCircleValue] = useState<number | null>(null)
   const [media, setMedia] = useState<any[]>([])
+  const [mediaNames, setMediaNames] = useState<string[]>([])
+
   const [mediaUrls, setMediaUrls] = useState<string[]>([])
   const [mediaDisabled, setMediaDisabled] = useState(false)
   const [GIF, setGIF] = useState(null)
@@ -74,7 +76,7 @@ function ComposePost({
 
   const handleDeleteMediaCallback = (index: number) => {
     setMedia(media.filter((i, ind) => ind !== index))
-    setMediaDisabled(false)
+    // setMediaDisabled(false)
   }
 
   const openMenu = Boolean(anchorPostMenu)
@@ -148,45 +150,49 @@ function ComposePost({
   }
   const handleUploadMedia = (uploadedMedia: any) => {
     const file = uploadedMedia.target.files[0]
-    // console.log(uploadedMedia.target.files[0])
-    setMedia([...mediaUrls, file])
-    // const mediaFormData = new FormData()
-    // mediaFormData.append("media", uploadedMedia.target.files[0])
-    // call to upload media
-
     const imageUrl = URL.createObjectURL(file)
-    setMediaUrls([...mediaUrls, imageUrl])
 
-    // if (uploadedMedia.target.files[0]) {
-    //   mediaFormData.append("media", uploadedMedia.target.files[0]);
-    //   axios
-    //     .post(APIs.actual.uploadMedia, mediaFormData, {
-    //       headers: {
-    //         authorization: "Bearer " + userToken,
-    //       },
-    //     })
-    //     .then((response) => {
-    //       console.log("in upload media");
-    //       console.log(response.data);
-    //       console.log("media", uploadedMedia.target.files[0]);
-    //       setMedia([...media, uploadedMedia.target.files[0]]);
-    //       if (media.length > 2) setMediaDisabled(true);
-    //       else setMediaDisabled(false);
-    //       setGIFDisabled(true);
-    //       setpollDisabled(true);
-    //       setMediaUrls([...mediaUrls, ...response.data.data.usls]);
-    //       //console.log(response.data.data.usls);
-    //     })
-    //     .catch((error) => {
-    //       console.log(error);
-    //     });
-    // } else console.log("uploading media error");
+    // console.log(uploadedMedia.target.files[0])
+    setMedia([
+      ...media,
+      {
+        file: file,
+        name: file.name.split(".").pop(),
+        imageUrl: imageUrl,
+      },
+    ])
+    // const mediaFormData = new FormData()
+    // mediaFormData.append("media", file)
+ 
   }
 
   useEffect(() => {
-    if (media.length > 3) setMediaDisabled(true)
-    else setMediaDisabled(false)
+    setMediaUrls(media.map((m) => m.imageUrl))
+    setMediaNames(media.map((m) => m.name))
   }, [media])
+
+  useEffect(() => {
+    if (mediaNames.length === 0) {
+      setMediaDisabled(false)
+      setGIFDisabled(false)
+    } else if (mediaNames.length === 1) {
+      if (mediaNames[0] === "gif") {
+        setMediaDisabled(true)
+        setGIFDisabled(true)
+      } else {
+        setGIFDisabled(true)
+      }
+    } else if (mediaNames.length > 3) {
+      setMediaDisabled(true)
+    } else {
+      setMediaDisabled(false)
+    }
+  }, [mediaNames])
+
+  // useEffect(() => {
+  //   if (media.length > 3) setMediaDisabled(true)
+  //   // else setMediaDisabled(false)
+  // }, [media])
 
   const htmlElement = document.getElementById("htmlid")
 
@@ -195,7 +201,7 @@ function ComposePost({
   const { t } = useTranslation()
 
   return (
-    <div className={`ComposePost flex h-fit border-b ${buttonName === "Post" ? "border-t" : ""} !w-full border-lightBorder p-3 text-black dark:border-darkBorder dark:text-white`} data-testid="postId">
+    <div className={`ComposePost flex h-fit border-b ${buttonName === "Post" ? "border-t" : ""} !w-full border-lightBorder p-3 text-black dark:border-darkBorder dark:text-white max-xs:hidden`}>
       <div data-testid="profileImage" className={`h-10 w-10 ${i18next.language === "en" ? "sm:mr-3" : "sm:ml-3"} `}>
         <Link className="hover:underline" to={`/${user.username.split("@")[1]}`}>
           <Avatar alt={user.name} src={`${process.env.REACT_APP_MEDIA_URL}${user.imageUrl.split("user").pop().slice(1)}`} sx={{ width: 40, height: 40 }} />
