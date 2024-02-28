@@ -8,6 +8,7 @@ import { useTranslation } from "react-i18next";
 import { styles } from "../../styles/styles";
 
 import i18next from "i18next";
+import axios from "axios";
 const TagStep = ({
   userTag,
   setUserTag,
@@ -27,48 +28,50 @@ const TagStep = ({
 }) => {
   const [usernameError, setUsernameError] = useState(false);
 
-  const handleUsernameBlur = () => {
-    //   axios
-    //     .post(mock ? APIs.mock.checkUsername : APIs.actual.checkUsername, {
-    //       username: userTag,
-    //     })
-    //     .then((res) => {
-    //       setUsernameError(false);
-    //     })
-    //     .catch((err) => {
-    //       if (userTag !== originalUsername) {
-    //         setUsernameError(true);
-    //         console.log(err);
-    //       } else {
-    //         setUsernameError(false);
-    //       }
-    //     });
+  const API = axios.create({
+    baseURL: process.env.REACT_APP_API_URL,
+  });
+
+  const handleCheckUsernameExist = () => {
+    if (userTag !== originalUsername)
+      API.post("/users/is-user-found", {
+        input: userTag,
+      })
+        .then((res) => {
+          // console.log(res.data.isFound);
+          setUsernameError(res.data.isFound);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    else setUsernameError(false);
   };
 
   const handleAssignUsername = () => {
-    //   axios
-    //     .patch(
-    //       mock ? APIs.mock.assignUsername : APIs.actual.assignUsername,
-    //       {
-    //         username: userTag,
-    //       },
-    //       {
-    //         headers: {
-    //           authorization: "Bearer " + userToken,
-    //         },
-    //       }
-    //     )
-    //     .then((res) => {
-    //       const newuser = {
-    //         ...user,
-    //         username: userTag,
-    //       };
-    //       setUser(newuser);
-    // setPosition((prev: number) => prev + 1);
-    //     })
-    //     .catch((err) => {
-    //       console.log(err);
-    //     });
+    if (userTag !== originalUsername)
+      API.patch(
+        "users/current/change-username",
+        {
+          newUsername: userTag,
+        },
+        {
+          headers: {
+            authorization: "Bearer " + userToken,
+          },
+        }
+      )
+        .then((res) => {
+          const newuser = {
+            ...user,
+            username: userTag,
+          };
+          setUser(newuser);
+          setPosition((prev: number) => prev + 1);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    else setPosition((prev: number) => prev + 1);
   };
   const { t } = useTranslation();
   useEffect(() => {
@@ -82,7 +85,6 @@ const TagStep = ({
         <p className="text-gray-500 mb-4">{t("signup_welcome9")}</p>
         <div className="relative">
           <TextField
-            id="outlined-basic"
             label={t("username")}
             variant="outlined"
             value={userTag}
@@ -93,7 +95,7 @@ const TagStep = ({
               style: { color: "#40e5da", textAlign: "right" },
             }}
             inputProps={{
-              onBlur: handleUsernameBlur,
+              onBlur: handleCheckUsernameExist,
               style: {
                 border: usernameError ? "1px solid red" : "0px",
               },
@@ -149,7 +151,7 @@ const TagStep = ({
             id="next"
             className={`${styles.coloredButton}`}
             onClick={() => {
-              setPosition((prev: number) => prev + 1);
+              handleAssignUsername();
             }}
             disabled={!userTag || usernameError}
           >

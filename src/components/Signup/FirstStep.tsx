@@ -2,19 +2,15 @@ import Alert from "@mui/material/Alert";
 
 import axios from "axios";
 
-import { APIs } from "../../constants/index";
 import { styles } from "../../styles/styles";
 
 import Birthdate from "./Birthdate";
 
 import { TextField } from "@mui/material";
 
-import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
-import { useState } from "react";
-
-import ReCAPTCHA from "react-google-recaptcha";
+import useRecaptchaV3 from "../hooks/reCaptchaV3";
 
 const FirstStep = ({
   nickName,
@@ -49,14 +45,13 @@ const FirstStep = ({
   // validEmail: (email: string) => boolean;
   mock: boolean;
 }) => {
+  const API = axios.create({
+    baseURL: process.env.REACT_APP_API_URL,
+  });
+
+  const executeRecaptcha = useRecaptchaV3(process.env.REACT_APP_RECAPTCHA_KEY);
+
   const { t } = useTranslation();
-
-  const [captchaIsDone, setCaptchaIsDone] = useState(false);
-  const siteKey = "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"; //testing
-
-  const handleCaptchaVerification = () => {
-    setCaptchaIsDone(true);
-  };
 
   const handleCheckBirthdate = () => {
     const currentDate = new Date();
@@ -64,8 +59,6 @@ const FirstStep = ({
     const ageDiff = currentDate.getFullYear() - selectedDate.getFullYear();
     const monthDiff = currentDate.getMonth() - selectedDate.getMonth();
     const dayDiff = currentDate.getDate() - selectedDate.getDate();
-
-    console.log("ageDiff", ageDiff);
 
     if (
       ageDiff < 13 ||
@@ -84,14 +77,31 @@ const FirstStep = ({
     }
   };
 
+  const handleRecaptcha = async () => {
+    const token = await executeRecaptcha("login");
+    // console.log(token);
+
+    API.post("auth/validate-recaptcha", {
+      gRecaptchaResponse: token,
+    })
+      .then((res) => {
+        // console.log(res);
+        handleCheckBirthdate();
+      })
+      .catch((err) => {
+        console.log(err);
+        // handleCheckBirthdate();
+      });
+  };
+
   return (
-    <div id="First Step" className=" m-auto w-[300px] dark:text-white hidden">
+    <div id="First Step" className=" m-auto w-[350px] dark:text-white hidden">
       <div className="max-w[600px] !h-fit">
         <h1 className="mb-4 mt-3 text-3xl font-bold">{t("signup_welcome2")}</h1>
         <TextField
-          id="outlined-basic"
           label={t("name")}
           variant="outlined"
+          type="name"
           value={nickName}
           onChange={(e) => setNickName(e.target.value)}
           InputLabelProps={{
@@ -128,7 +138,6 @@ const FirstStep = ({
         />
         <div>
           <TextField
-            id="outlined-basic"
             label={t("speciality")}
             variant="outlined"
             value={speciality}
@@ -171,62 +180,8 @@ const FirstStep = ({
               marginBottom: "10px",
             }}
           />
-          {/* {!validEmail(email) && (
-            <div className={`${email ? "flex" : "hidden"}`}>
-              <Alert
-                severity="error"
-                sx={styles.signupPasswordCheckStyleMiddle}
-              >
-                Please enter a valid email
-              </Alert>
-            </div>
-          )} */}
-          {/* <span
-            className={`ml-3 text-sm text-red-600 ${
-              emailExistError ? "" : "hidden"
-            }`}
-          >
-            Email has already been taken
-          </span> */}
         </div>
-        {/* <div className="input-container">
-          <input
-            className={`${emailExistError ? "border border-red-600" : ""}`}
-            type="text"
-            data-testid="emailInput"
-            name="email"
-            id="email"
-            autoComplete="off"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            onBlur={handleEmailBlur}
-          />
-          <label
-            className={`input-label ${
-              emailExistError ? "text-red-600" : "text-secondary"
-            }`}
-            htmlFor="email"
-          >
-            Email
-          </label>
-          {!validEmail(email) && (
-            <Alert
-              severity="error"
-              className={`${email ? "flex" : "hidden"}`}
-              sx={styles.signupPasswordCheckStyleMiddle}
-            >
-              Please enter a valid email
-            </Alert>
-          )}
-          <span
-            className={`ml-3 text-sm text-red-600 ${
-              emailExistError ? "" : "hidden"
-            }`}
-          >
-            Email has already been taken
-          </span>
-        </div> */}
-        {/* className={`${emailExistError ? "-mt-5" : ""}`} */}
+
         <div>
           <div className="mes mb-1">
             <p className="font-bold text-lg">{t("birthdate")} </p>
@@ -245,25 +200,21 @@ const FirstStep = ({
             yearwidth={"100px"}
           />
         </div>
-        <ReCAPTCHA
-          className="mt-2"
-          sitekey={siteKey}
-          onChange={handleCaptchaVerification}
-        />
+
         <button
           type="button"
           id="next"
           className={`${styles.coloredButton}`}
-          onClick={handleCheckBirthdate}
+          onClick={handleRecaptcha}
           disabled={
             speciality === "" ||
             nickName === "" ||
             year === "" ||
             month === "" ||
-            day === "" ||
+            day === ""
             // !validEmail(email) ||
             // emailExistError ||
-            !captchaIsDone
+            // !captchaIsDone
           }
         >
           {t("next")}

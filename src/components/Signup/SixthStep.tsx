@@ -5,6 +5,8 @@ import { useState } from "react";
 import i18next from "i18next";
 import { Alert } from "@mui/material";
 import { styles } from "../../styles/styles";
+import axios from "axios";
+import { months } from "../../constants/index";
 import {
   LENGTH_REGEX,
   NUMBER_REGEX,
@@ -15,16 +17,33 @@ import {
 } from "../../constants/index";
 
 const SixthStep = ({
+  nickName,
+  email,
+  phoneNumber,
+  speciality,
+  month,
+  day,
+  year,
   password,
   setPassword,
+  setUserToken,
+  setUser,
   setPosition,
   setOriginalUsername,
 }: {
+  nickName: string;
+  email: string;
+  phoneNumber: string;
+  speciality: string;
+  month: string;
+  day: string;
+  year: string;
   password: string;
   setPassword: any;
+  setUserToken: any;
+  setUser: any;
   setPosition: any;
   setOriginalUsername: any;
-  
 }) => {
   const [showPassword, setShowPassword] = useState(false);
   const togglePasswordVisibility = () => {
@@ -50,16 +69,55 @@ const SixthStep = ({
     return LENGTH_REGEX.test(password);
   }
   const { t } = useTranslation();
+
+  const API = axios.create({
+    baseURL: process.env.REACT_APP_API_URL,
+  });
+
+  const handleSignup = () => {
+    // console.log({
+    //   name: nickName,
+    //   email: email,
+    //   phoneNumber: phoneNumber,
+    //   password: password,
+    //   passwordConfirm: password,
+    //   jobtitle: speciality,
+    //   // dateOfBirth: "2024-02-23",
+    //   dateOfBirth: `${year}-${
+    //     months.indexOf(month) < 10
+    //       ? `0${months.indexOf(month)}`
+    //       : months.indexOf(month)
+    //   }-${parseInt(day) < 10 ? `0${day}` : day}`,
+    // });
+    API.post("auth/signup", {
+      name: nickName,
+      email: email,
+      phoneNumber: phoneNumber,
+      password: password,
+      passwordConfirm: password,
+      jobtitle: speciality,
+      dateOfBirth: `${year}-${months.indexOf(month)}-${day}`,
+    })
+      .then((res) => {
+        // console.log(res.data.data.token);
+        setUserToken(res.data.data.token);
+        setUser(res.data.data.user);
+        setOriginalUsername(res.data.data.user.username);
+        setPosition((prev: number) => prev + 1);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   return (
     <div id="Sixth Step" className=" m-auto w-[350px] dark:text-white hidden">
       <div className="max-w[600px] !h-fit">
         <h1 className="mb-4 mt-3 text-3xl font-bold">{t("signup_welcome7")}</h1>
         <div className="relative">
           <TextField
-            id="outlined-basic"
             label={t("new_password")}
             variant="outlined"
-            type={showPassword ? "password" : "text"}
+            type={!showPassword ? "password" : "text"}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             InputLabelProps={{
@@ -143,7 +201,7 @@ const SixthStep = ({
             type="button"
             className={`${styles.coloredButton}`}
             onClick={() => {
-              setPosition((prev: number) => prev + 1);
+              handleSignup();
             }}
             disabled={checkPassword(password)}
           >

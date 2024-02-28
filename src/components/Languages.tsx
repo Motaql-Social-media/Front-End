@@ -32,7 +32,7 @@ const Languages = () => {
     <div
       className={`w-fit  absolute top-0 ${
         currentLanguage?.dir === "ltr" ? "right-0" : "left-0"
-      } m-3 bg-transparent`}
+      } m-3 bg-transparent z-[999]`}
     >
       <div className="relative">
         <button onClick={handleMenuClick}>

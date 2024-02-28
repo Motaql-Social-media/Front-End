@@ -15,7 +15,7 @@ import FirstStep from "./FirstStep";
 import SecondStep from "./SecondStep";
 import ThirdStep from "./ThirdStep";
 
-import Logo from "../../assets/images/mainLogo.png";
+import Logo from "../../assets/images/mainLogo.svg";
 
 import { EMAIL_REGEX } from "../../constants/index";
 import ForthStep from "./ForthStep";
@@ -65,7 +65,7 @@ const SignUp = ({
 
   const [userToken, setUserToken] = useState("");
   const [user, setUser] = useState<any>();
-  const [userTag, setUserTag] = useState<any>();
+  const [userTag, setUserTag] = useState<any>("");
   const [originalUsername, setOriginalUsername] = useState("");
 
   const [password, setPassword] = useState("");
@@ -98,7 +98,7 @@ const SignUp = ({
     if (TagStep) TagStep.style.display = "none";
     if (PictureStep) PictureStep.style.display = "none";
 
-    console.log("D", position);
+    // console.log("D", position);
 
     switch (position) {
       case 0:
@@ -165,6 +165,7 @@ const SignUp = ({
     //   password: password,
     // }
     dispatch(signupUser({ user: user, token: userToken, navigate }));
+    // navigate("/home");
 
     // dispatch(loginUser({ userCredentials, isgoogle: null })).then((result) => {
     //   // console.log(result)
@@ -252,7 +253,6 @@ const SignUp = ({
       <Modal
         open={openModal}
         onClose={handleCloseModal}
-        data-testid="signupModal"
         disableEscapeKeyDown
         disablePortal
       >
@@ -295,19 +295,22 @@ const SignUp = ({
               year={year}
               setYear={setYear}
               setPosition={setPosition}
-              // emailExistError={emailExistError}
-              // setEmailExistError={setEmailExistError}
-              // validEmail={validEmail}
               mock={mock}
             />
             <SecondStep
+              nickName={nickName}
               setPosition={setPosition}
               phoneNumber={phoneNumber}
               setPhoneNumber={setPhoneNumber}
             />
-            <ThirdStep phoneNumber={phoneNumber} setPosition={setPosition} />
+            <ThirdStep
+              nickName={nickName}
+              phoneNumber={phoneNumber}
+              setPosition={setPosition}
+            />
 
             <ForthStep
+              nickName={nickName}
               email={email}
               setEmail={setEmail}
               setPosition={setPosition}
@@ -315,11 +318,24 @@ const SignUp = ({
               setEmailExistError={setEmailExistError}
               validEmail={validEmail}
             />
-            <FifthStep email={email} setPosition={setPosition} />
+            <FifthStep
+              nickName={nickName}
+              email={email}
+              setPosition={setPosition}
+            />
 
             <SixthStep
+              nickName={nickName}
+              email={email}
+              phoneNumber={phoneNumber}
+              speciality={speciality}
+              month={month}
+              day={day}
+              year={year}
               password={password}
               setPassword={setPassword}
+              setUserToken={setUserToken}
+              setUser={setUser}
               setPosition={setPosition}
               setOriginalUsername={setOriginalUsername}
             />
@@ -347,7 +363,7 @@ const SignUp = ({
               // mock={mock}
               userTag={userTag}
               setUserTag={setUserTag}
-              originalUsername={"originalUsername"}
+              originalUsername={originalUsername}
               userToken={userToken}
               user={user}
               setUser={setUser}
@@ -356,11 +372,9 @@ const SignUp = ({
             <UploadProfilePicture
               userR={user}
               setUser={setUser}
+              userToken={userToken}
               handleCompleteSignup={handleCompleteSignup}
               handleCloseModal={handleCloseModal}
-              fromSwitch={false}
-              email={email}
-              password={password}
             />
             <ErrorPage
               setDay={setDay}
@@ -374,7 +388,9 @@ const SignUp = ({
           <div
             className={`text-white top-8 ${
               document.body.dir === "rtl" ? "left-5" : "right-5"
-            } absolute cursor-pointer`}
+            } absolute cursor-pointer ${
+              (position === 0 || position === 7 || position === 8) && `hidden`
+            }`}
             onClick={() => {
               if (position > 0) setPosition((prev) => prev - 1);
             }}

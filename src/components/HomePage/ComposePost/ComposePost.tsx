@@ -1,0 +1,222 @@
+import { useState, useEffect, useRef } from "react"
+import { useSelector } from "react-redux"
+import TextField from "@mui/material/TextField"
+import { Link } from "react-router-dom"
+import { Avatar } from "@mui/material"
+import DisplayMedia from "../../DisplayImages/DisplayMedia"
+import axios from "axios"
+
+import ComposePostFooter from "./ComposePostFooter"
+import { getColor } from "../../../constants"
+import { useTranslation } from "react-i18next"
+import i18next from "i18next"
+
+import Poll from "./Poll"
+
+function ComposePost({
+  buttonName,
+  handleNewPost,
+  postType,
+}: //   referredTweetId,
+//   handleClosePopup,
+{
+  buttonName: string
+  handleNewPost: any
+  postType: string
+  //   referredTweetId: string;
+  //   handleClosePopup: any;
+}) {
+  const [description, setDescription] = useState("")
+  const [charsCount, setCharsCount] = useState(0)
+  const [charsProgressColor, setCharsProgressColor] = useState("#1D9BF0")
+  const [progressCircleSize, setProgressCircleSize] = useState(24)
+  const [progressCircleValue, setProgressCircleValue] = useState<number | null>(null)
+  const [media, setMedia] = useState<any[]>([])
+  const [mediaNames, setMediaNames] = useState<string[]>([])
+
+  const [mediaUrls, setMediaUrls] = useState<string[]>([])
+  const [mediaDisabled, setMediaDisabled] = useState(false)
+  const [GIFDisabled, setGIFDisabled] = useState(false)
+  const [poll, setPoll] = useState(null)
+  const [pollDisabled, setPollDisabled] = useState(false)
+  const [postDisabled, setPostDisabled] = useState(true)
+  const hiddenUploadMediaInput = useRef()
+
+  const darkMode = useSelector((state: any) => state.theme.darkMode)
+  const user = useSelector((state: any) => state.user.user)
+  const userToken = useSelector((state: any) => state.user.token)
+
+  useEffect(() => {
+    setPostDisabled(((description.length === 0 || (description.match(/\s/g) && description.match(/\s/g)?.length === description.length)) && media.length === 0) || description.length > 280)
+  }, [description, media])
+
+  const getComposeTweet = () => {
+    // return {
+    //   referredTweetId: referredTweetId,
+    //   description: `${runningMock ? "ismail ramadan" : description}`,
+    //   media: media.map((item: any, index) => {
+    //     return {
+    //       data: mediaUrls[index],
+    //       type: item.type.match(/mp4/) ? "mp4" : "jpg",
+    //     };
+    //   }),
+    //   type: postType,
+    // };
+  }
+
+  const handleDeleteMediaCallback = (index: number) => {
+    setMedia(media.filter((i, ind) => ind !== index))
+    // setMediaDisabled(false)
+  }
+
+  const handleSubmit = (event: any) => {
+    // event.preventDefault();
+    // console.log("handleSubmit");
+    // console.log("description ", description);
+    // console.log("userToken ", userToken);
+    // setDescription("");
+    // setCharsCount(0);
+    // setCharsProgressColor("#1D9BF0");
+    // setProgressCircleSize(24);
+    // setProgressCircleValue(null);
+    // setMedia([]);
+    // setMediaUrls([]);
+    // setMediaDisabled(false);
+    // setGIFDisabled(false);
+    // setpollDisabled(false);
+    // console.log("getComposeTweet ", getComposeTweet(postType));
+    // axios
+    //   .post(APIs.actual.postTweetAPI, getComposeTweet(), {
+    //     headers: {
+    //       authorization: "Bearer " + userToken,
+    //     },
+    //   })
+    //   .then((response) => {
+    //     console.log("success in handleSubmit");
+    //     console.log("response.data ", response.data);
+    //     const post = { ...response.data };
+    //     if (runningMock) {
+    //       post.data.description = description;
+    //       post.data.media = media.map((item, index) => {
+    //         return {
+    //           type: item.type.match(/mp4/) ? "mp4" : "jpg",
+    //           data: mediaUrls[index],
+    //         };
+    //       });
+    //       console.log("running mock");
+    //       console.log(post);
+    //     }
+    //     handleNewPost && handleNewPost(post);
+    //     handleClosePopup && handleClosePopup();
+    //   })
+    //   .catch((error) => {
+    //     console.log("error in handleSubmit");
+    //     console.log(error);
+    //   });
+  }
+  const handleDescriptionChange = (e: any) => {
+    if (e.target.value.length < 280) setDescription(e.target.value)
+    setCharsCount((e.target.value.length * 100) / 280)
+    setCharsProgressColor(e.target.value.length < 260 ? "#1D9BF0" : e.target.value.length < 280 ? "#fdd81f" : "#f4212e")
+    setProgressCircleSize(e.target.value.length < 260 ? 24 : 32)
+    setProgressCircleValue(e.target.value.length >= 260 ? 280 - e.target.value.length : null)
+  }
+  const handleUploadMediaClick = (e: any) => {
+    // e.preventDefault();
+    // hiddenUploadMediaInput.current.click();
+  }
+  const handleUploadMedia = (uploadedMedia: any) => {
+    const file = uploadedMedia.target.files[0]
+    const imageUrl = URL.createObjectURL(file)
+
+    // console.log(uploadedMedia.target.files[0])
+    setMedia([
+      ...media,
+      {
+        file: file,
+        name: file.name.split(".").pop(),
+        imageUrl: imageUrl,
+      },
+    ])
+
+    uploadedMedia.target.value = null
+    // const mediaFormData = new FormData()
+    // mediaFormData.append("media", file)
+  }
+
+  useEffect(() => {
+    setMediaUrls(media.map((m) => m.imageUrl))
+    setMediaNames(media.map((m) => m.name))
+  }, [media])
+
+  useEffect(() => {
+    if (mediaNames.length === 0) {
+      setMediaDisabled(false)
+      setGIFDisabled(false)
+      setPollDisabled(false)
+    } else if (mediaNames.length === 1) {
+      if (mediaNames[0] === "gif") {
+        setMediaDisabled(true)
+        setGIFDisabled(true)
+      } else {
+        setGIFDisabled(true)
+      }
+      setPollDisabled(true)
+    } else if (mediaNames.length > 3) {
+      setMediaDisabled(true)
+      setPollDisabled(true)
+    } else {
+      setMediaDisabled(false)
+      setPollDisabled(true)
+    }
+  }, [mediaNames])
+
+  const handlePollClick = (newOption: any) => {
+    setPollDisabled(newOption)
+    setGIFDisabled(newOption)
+    setMediaDisabled(newOption)
+  }
+
+  const htmlElement = document.getElementById("htmlid")
+
+  const themeColor = useSelector((state: any) => state.theme.color)
+
+  const { t } = useTranslation()
+
+  return (
+    <div className={`ComposePost flex h-fit border-b pb-5 ${buttonName === "Post" ? "border-t" : ""} !w-full border-lightBorder p-3 text-black dark:border-darkBorder dark:text-white max-xs:hidden`}>
+      <div data-testid="profileImage" className={`h-10 w-10 ${i18next.language === "en" ? "sm:mr-3" : "sm:ml-3"} `}>
+        <Link className="hover:underline" to={`/${user.username.split("@")[1]}`}>
+          <Avatar alt={user.name} src={`${process.env.REACT_APP_MEDIA_URL}${user.imageUrl.split("user").pop().slice(1)}`} sx={{ width: 40, height: 40 }} />
+        </Link>
+      </div>
+      <div className="mt-1.5 h-fit w-full">
+        <TextField
+          id="description"
+          variant="standard"
+          InputProps={{
+            disableUnderline: true,
+          }}
+          placeholder={`${pollDisabled?"Ask a question": buttonName === "Post" ? t("compose_post") : t("compose_reply")}`}
+          onChange={(e) => handleDescriptionChange(e)}
+          multiline
+          value={description}
+          fullWidth
+          maxRows={23}
+          sx={{
+            border: "0px",
+            "& .MuiInputBase-root": {
+              color: darkMode ? "#ffffff" : "#000000",
+            },
+          }}
+        ></TextField>
+        <DisplayMedia mediaUrls={mediaUrls} setMediaUrls={setMediaUrls} margin={1.5} showCancelButton={true} deleteCallback={handleDeleteMediaCallback} />
+        {pollDisabled && <Poll handlePollClick={handlePollClick} />}
+        <hr className={`h-px border-0 bg-lightBorder dark:bg-darkBorder ${buttonName === "Post" ? "" : "hidden"}`} />
+        <ComposePostFooter buttonName={buttonName} handleUploadMediaClick={handleUploadMediaClick} handleUploadMedia={handleUploadMedia} hiddenUploadMediaInput={hiddenUploadMediaInput} mediaDisabled={mediaDisabled} GIFDisabled={GIFDisabled} pollDisabled={pollDisabled} postDisabled={postDisabled} progressCircleSize={progressCircleSize} charsCount={charsCount} charsProgressColor={charsProgressColor} handleSubmit={handleSubmit} handlePollClick={handlePollClick} />
+      </div>
+    </div>
+  )
+}
+
+export default ComposePost
