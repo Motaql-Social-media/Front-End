@@ -9,7 +9,7 @@ export type ThemeState = {
 };
 
 const initialState: ThemeState = {
-    darkMode: initMode === "true" ? true : false,
+    darkMode: initMode !== "true" ? true : false,
     color: initColor === null ? 1 : parseInt(initColor),
 };
 

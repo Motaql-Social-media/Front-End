@@ -63,13 +63,13 @@ const Birthdate = ({
 
   return (
     <div className="date flex">
-      <Box sx={{ minWidth: 115 }} className="month">
+      <Box sx={{ minWidth: 125 }} className="month">
         <FormControl
           sx={{
             "&& .MuiFormLabel-root": {
               color: "#40e5da",
             },
-            minWidth: 115,
+            minWidth: 125,
           }}
         >
           <InputLabel id="demo-simple-select-label">{t("month")}</InputLabel>
@@ -78,7 +78,7 @@ const Birthdate = ({
             label="Month"
             onChange={handleChangeMonth}
             sx={{
-              width: 115,
+              width: 125,
               color: "black",
               ".MuiOutlinedInput-notchedOutline": {
                 borderColor: "#40e5da",
@@ -124,13 +124,13 @@ const Birthdate = ({
           </Select>
         </FormControl>
       </Box>
-      <Box sx={{ minWidth: 80 }} className="day">
+      <Box sx={{ minWidth: 90 }} className="day">
         <FormControl
           sx={{
             "&& .MuiFormLabel-root": {
               color: "#40e5da",
             },
-            minWidth: 80,
+            minWidth: 90,
             marginRight: 1,
             marginLeft: 1,
           }}
@@ -186,13 +186,13 @@ const Birthdate = ({
           </Select>
         </FormControl>
       </Box>
-      <Box sx={{ minWidth: 80 }} className="year">
+      <Box sx={{ minWidth: 115 }} className="year">
         <FormControl
           sx={{
             "&& .MuiFormLabel-root": {
               color: "#40e5da",
             },
-            minWidth: 80,
+            minWidth: 115,
             paddingLeft: 0,
           }}
         >
@@ -202,7 +202,7 @@ const Birthdate = ({
             label="Year"
             onChange={handleChangeYear}
             sx={{
-              width: 80,
+              width: 115,
               color: "black",
 
               ".MuiOutlinedInput-notchedOutline": {

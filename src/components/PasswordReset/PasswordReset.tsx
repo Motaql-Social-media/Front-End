@@ -1,22 +1,19 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import Logo from "../../assets/images/mainLogo.png";
+import Logo from "../../assets/images/mainLogo.svg";
 import { styles } from "../../styles/styles";
 
 import { Alert } from "@mui/material";
 
 import axios from "axios";
-import { APIs } from "../../constants/index";
 
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
-import FormLabel from "@mui/material/FormLabel";
 
 import React from "react";
 
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 
 import { loginUser } from "../../store/UserSlice";
@@ -31,7 +28,6 @@ import {
   LENGTH_REGEX,
 } from "../../constants/index";
 
-import Stack from "@mui/material/Stack";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 
 import { useSelector } from "react-redux";
@@ -41,14 +37,17 @@ import { useTranslation } from "react-i18next";
 import i18next from "i18next";
 
 const PasswordReset = ({ setLocation }: { setLocation: any }) => {
-  const mock = false;
 
   const [email, setEmail] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [nickName, setNickName] = useState("");
   const [maskedEmail, setMaskedEmail] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [password, setPassword] = useState("");
   const [code, setCode] = useState("");
   const [changedSuccessfully, setChangedSuccessfully] = useState(false);
+  const [resetToken, setResetToken] = useState("");
+  const [otpError, setOtpError] = useState(false);
 
   const [emailExistError, setEmailExistError] = useState(false);
 
@@ -63,6 +62,7 @@ const PasswordReset = ({ setLocation }: { setLocation: any }) => {
     const page1 = document.getElementById("page1");
     const page2 = document.getElementById("page2");
     const page3 = document.getElementById("page3");
+    const page4 = document.getElementById("page4");
 
     switch (select) {
       case 1:
@@ -86,32 +86,37 @@ const PasswordReset = ({ setLocation }: { setLocation: any }) => {
 
         break;
       case 3:
+        if (page3 && page4) {
+          page3.style.display = "none";
+          page4.style.display = "block";
+        }
+        break;
       default:
     }
   };
+  const [lastPhoneDigits, setLastPhoneDigits] = useState("");
 
   const handleEmailExistCheck = () => {
-    // axios
-    //   .post(mock ? APIs.mock.emailExistAPI : APIs.actual.emailExistAPI, {
-    //     email: email,
-    //   })
-    //   .then((res) => {
-    //     setEmailExistError(res.data.message === "Email is existed");
-    setEmailExistError(email === "d@d.com"); //rmove
-
-    setMaskedEmail(maskEmail());
-    nextShow(1);
-    // })
-    // .catch((err) => {
-    //   // setEmailExistError(false)
-    //   // nextShow(1, false);// uncomment
-    //   // console.log(err)
-
-    //   // for testing and will be removed
-    //   setEmailExistError(true);
-    //   setMaskedEmail(maskEmail());
-    //   nextShow(1);
-    // });
+    // console.log({ input: email });
+    API.post("users/is-user-found", { input: email })
+      .then((res) => {
+        setEmailExistError(!res.data.isFound);
+        setMaskedEmail(maskEmail(res.data.data.email));
+        setLastPhoneDigits(res.data.data.phoneNumber.slice(-2));
+        setPhoneNumber(res.data.data.phoneNumber);
+        setEmail(res.data.data.email);
+        setNickName(res.data.data.name);
+        nextShow(1);
+        // console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+        setEmailExistError(
+          !(err.message === "Request failed with status code 404")
+        );
+        nextShow(1, false);
+        // handleNext(!(err.message === "Request failed with status code 404"));
+      });
   };
 
   const togglePasswordVisibility = () => {
@@ -137,7 +142,7 @@ const PasswordReset = ({ setLocation }: { setLocation: any }) => {
     return LENGTH_REGEX.test(password);
   }
 
-  function maskEmail() {
+  function maskEmail(email: string) {
     // Split the email address into local and domain parts
     const [localPart, domainPart] = email.split("@");
 
@@ -159,36 +164,61 @@ const PasswordReset = ({ setLocation }: { setLocation: any }) => {
     return maskedEmail;
   }
 
-  const handleForgotPassword = () => {
-    console.log({
-      query: email,
-    });
-    // axios
-    //   .post(APIs.actual.forgotPassword, {
-    //     query: email,
-    //   })
-    //   .then((res) => {
-    //     console.log(res);
-    nextShow(2);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
+  const handleSendPhoneOTP = () => {
+    // console.log({
+    //   provider: "phone",
+    //   input: phoneNumber,
+    //   name: nickName,
+    // });
+    API.post("auth/send-otpverification", {
+      provider: "phone",
+      input: phoneNumber,
+      name: nickName,
+    })
+      .then((res) => {
+        nextShow(2);
+        // console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
-    //     // for testing and will be removed
-    //     nextShow(2);
-    //   });
+  const handleSendEmailOTP = () => {
+    API.post("auth/send-otpverification", {
+      provider: "email",
+      input: email,
+      name: nickName,
+    })
+      .then((res) => {
+        nextShow(2);
+        // console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const handleForgotPassword = () => {
+    if (choosed === "email") {
+      handleSendEmailOTP();
+    } else {
+      handleSendPhoneOTP();
+    }
   };
 
   const handleResetPassword = () => {
-    console.log({
-      password: password,
-      passwordResetToken: code,
-    });
-    axios
-      .patch(APIs.actual.resetPassword, {
-        password: password,
-        passwordResetToken: code,
-      })
+    API.patch(
+      "users/current/reset-password",
+      {
+        newPassword: password,
+        newPasswordConfirm: password,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${resetToken}`,
+        },
+      }
+    )
       .then((res) => {
         setChangedSuccessfully(true);
         setTimeout(() => {
@@ -206,6 +236,53 @@ const PasswordReset = ({ setLocation }: { setLocation: any }) => {
   const themeColor = useSelector((state: RootState) => state.theme.color);
 
   const { t } = useTranslation();
+
+  const API = axios.create({
+    baseURL: process.env.REACT_APP_API_URL,
+  });
+
+  const handleCheckEmailOTP = () => {
+    API.post("auth/check-otpverification-send-resettoken", {
+      provider: "email",
+      input: email,
+      otp: code,
+    })
+      .then((res) => {
+        // console.log(res);
+        setResetToken(res.data.data.token);
+        nextShow(3);
+      })
+      .catch((err) => {
+        console.log(err);
+        setOtpError(true);
+      });
+  };
+
+  const handleCheckPhoneOTP = () => {
+    API.post("auth/check-otpverification-send-resettoken", {
+      provider: "phone",
+      input: phoneNumber,
+      otp: code,
+    })
+      .then((res) => {
+        // console.log(res);
+        setResetToken(res.data.data.token);
+
+        nextShow(3);
+      })
+      .catch((err) => {
+        console.log(err);
+        setOtpError(true);
+      });
+  };
+
+  const handleCheckOTP = () => {
+    if (choosed === "email") {
+      handleCheckEmailOTP();
+    } else {
+      handleCheckPhoneOTP();
+    }
+  };
 
   return (
     <div className="flex h-[100vh] w-full bg-[#21292f]">
@@ -239,7 +316,6 @@ const PasswordReset = ({ setLocation }: { setLocation: any }) => {
             {t("reset_password_message")}
           </p>
           <TextField
-            id="outlined-basic"
             label={t("login_email_placeholder")}
             variant="outlined"
             value={email}
@@ -338,7 +414,7 @@ const PasswordReset = ({ setLocation }: { setLocation: any }) => {
                 }}
                 value="phone"
                 control={<Radio />}
-                label={`${t("sent_sms")}27`}
+                label={`${t("sent_sms")}${lastPhoneDigits}`}
               />
             </RadioGroup>
           </FormControl>
@@ -360,10 +436,11 @@ const PasswordReset = ({ setLocation }: { setLocation: any }) => {
 
         <div id="page3" className="m-auto hidden w-[320px]">
           <div>
-            <h1>{t("reset_password_message3")}</h1>
+            <h1 className="mb-2 mt-3 text-3xl font-bold">
+              {t("reset_password_message3")}
+            </h1>
             {/* <p className="text-sm text-zinc-600 ">Verify your identity by entering the username associated with your X account.</p> */}
             <TextField
-              id="outlined-basic"
               label={t("code")}
               variant="outlined"
               value={code}
@@ -398,10 +475,25 @@ const PasswordReset = ({ setLocation }: { setLocation: any }) => {
                 marginBottom: "10px",
               }}
             />
+            {otpError && <div className="text-red-600">{t("otp_error")}</div>}
 
+            <button
+              type="button"
+              className={`${styles.coloredButton}`}
+              onClick={handleCheckOTP}
+              disabled={code === ""}
+            >
+              {t("next")}
+            </button>
+          </div>
+        </div>
+        <div id="page4" className="m-auto hidden w-[320px]">
+          <div>
+            <h1 className="mb-2 mt-3 text-3xl font-bold">
+              {t("new_password")}
+            </h1>
             <div className="relative">
               <TextField
-                id="outlined-basic"
                 label={t("new_password")}
                 variant="outlined"
                 type={!showPassword ? "password" : "text"}
@@ -495,19 +587,19 @@ const PasswordReset = ({ setLocation }: { setLocation: any }) => {
               <div
                 className={`${
                   changedSuccessfully ? "" : "hidden"
-                } -mb-9 mt-2 text-xs`}
+                }  mt-2 text-xs`}
               >
                 <Alert severity="success">{t("password_changed")}</Alert>
               </div>
-              <button
-                type="button"
-                className={`${styles.coloredButton}`}
-                onClick={handleResetPassword}
-                disabled={checkPassword(password) || code === ""}
-              >
-                {t("confirm")}
-              </button>
             </div>
+            <button
+              type="button"
+              className={`${styles.coloredButton}`}
+              onClick={handleResetPassword}
+              disabled={checkPassword(password)}
+            >
+              {t("confirm")}
+            </button>
           </div>
         </div>
       </div>

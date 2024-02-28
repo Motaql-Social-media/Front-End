@@ -21,6 +21,7 @@ import { useTranslation } from "react-i18next";
 
 import "../../styles/signup.css";
 
+
 const UploadProfilePicture = ({
   userR,
   setUser,
@@ -96,7 +97,7 @@ const UploadProfilePicture = ({
           })
         );
         setUser({ ...userR, imageUrl: res.data.data.imageUrl });
-        console.log({ ...userR, imageUrl: res.data.data.imageUrl });
+        // console.log({ ...userR, imageUrl: res.data.data.imageUrl })
         // handleCompleteSignup({ ...userR, imageUrl: res.data.data.imageUrl });
       })
       .catch((error) => {
