@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect,useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 import React from "react";
@@ -282,6 +282,7 @@ const SignUp = ({
               handleCloseModal={handleCloseModal}
               setPosition={setPosition}
               setLocation={setLocation}
+              position={position}
             />
             <FirstStep
               nickName={nickName}
@@ -295,33 +296,36 @@ const SignUp = ({
               year={year}
               setYear={setYear}
               setPosition={setPosition}
-              mock={mock}
-            />
+position={position}            />
             <SecondStep
               nickName={nickName}
-              setPosition={setPosition}
               phoneNumber={phoneNumber}
               setPhoneNumber={setPhoneNumber}
+              setPosition={setPosition}
+              position={position}
             />
             <ThirdStep
               nickName={nickName}
               phoneNumber={phoneNumber}
               setPosition={setPosition}
+              position={position}
             />
 
             <ForthStep
               nickName={nickName}
               email={email}
               setEmail={setEmail}
-              setPosition={setPosition}
               emailExistError={emailExistError}
               setEmailExistError={setEmailExistError}
               validEmail={validEmail}
+              setPosition={setPosition}
+              position={position}
             />
             <FifthStep
               nickName={nickName}
               email={email}
               setPosition={setPosition}
+              position={position}
             />
 
             <SixthStep
@@ -336,29 +340,12 @@ const SignUp = ({
               setPassword={setPassword}
               setUserToken={setUserToken}
               setUser={setUser}
-              setPosition={setPosition}
               setOriginalUsername={setOriginalUsername}
+              setPosition={setPosition}
+              position={position}
             />
 
-            {/* <ForthStep
-              setUserTag={setUserTag}
-              setOriginalUsername={setOriginalUsername}
-              setUser={setUser}
-              setUserToken={setUserToken}
-              nextShow={nextShow}
-              handleOpenBirthdateError={handleOpenBirthdateError}
-              mock={mock}
-              email={email}
-            /> */}
-            {/* <FifthStep
-              mock={mock}
-              userToken={userToken}
-              userTag={userTag}
-              setUser={setUser}
-              nextShow={nextShow}
-              password={password}
-              setPassword={setPassword}
-            /> */}
+            
             <TagStep
               // mock={mock}
               userTag={userTag}
@@ -368,6 +355,7 @@ const SignUp = ({
               user={user}
               setUser={setUser}
               setPosition={setPosition}
+              position={position}
             />
             <UploadProfilePicture
               userR={user}

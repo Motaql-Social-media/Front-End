@@ -1,31 +1,16 @@
-import { TextField } from "@mui/material";
-import { Alert } from "@mui/material";
-import { styles } from "../../styles/styles";
+import { TextField } from "@mui/material"
+import { Alert } from "@mui/material"
+import { styles } from "../../styles/styles"
 
-import { useTranslation } from "react-i18next";
-import axios from "axios";
-import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next"
+import axios from "axios"
+import { useEffect } from "react"
+import { useRef } from "react"
 
-const ForthStep = ({
-  nickName,
-  email,
-  setEmail,
-  setPosition,
-  emailExistError,
-  setEmailExistError,
-  validEmail,
-}: {
-  nickName: string;
-  email: string;
-  setEmail: (value: string) => void;
-  setPosition: any;
-  emailExistError: boolean;
-  setEmailExistError: React.Dispatch<React.SetStateAction<boolean>>;
-  validEmail: (email: string) => boolean;
-}) => {
+const ForthStep = ({ nickName, email, setEmail, emailExistError, setEmailExistError, validEmail, setPosition, position }: { nickName: string; email: string; setEmail: (value: string) => void; emailExistError: boolean; setEmailExistError: React.Dispatch<React.SetStateAction<boolean>>; validEmail: (email: string) => boolean; setPosition: any; position: number }) => {
   const API = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
-  });
+  })
 
   const handleCheckEmailExist = () => {
     API.post("/users/is-user-found", {
@@ -33,18 +18,18 @@ const ForthStep = ({
     })
       .then((res) => {
         // console.log(res.data.isFound);
-        setEmailExistError(res.data.isFound);
+        setEmailExistError(res.data.isFound)
       })
       .catch((err) => {
-        console.log(err);
-      });
-  };
+        console.log(err)
+      })
+  }
 
   useEffect(() => {
     if (validEmail(email)) {
-      handleCheckEmailExist();
+      handleCheckEmailExist()
     }
-  }, [email]);
+  }, [email])
 
   const handleSendOTP = () => {
     // console.log({
@@ -59,16 +44,25 @@ const ForthStep = ({
     })
       .then((res) => {
         // console.log(res);
-        setPosition((prev: number) => prev + 1);
+        setPosition((prev: number) => prev + 1)
       })
       .catch((err) => {
-        console.log(err);
-      });
-  };
+        nextButton.current?.removeAttribute("disabled")
 
-  const { t } = useTranslation();
+        console.log(err)
+      })
+  }
+
+  const { t } = useTranslation()
+
+  const nextButton = useRef<HTMLButtonElement>(null)
+
+  useEffect(() => {
+    nextButton.current?.removeAttribute("disabled")
+  }, [position])
+
   return (
-    <div id="Forth Step" className=" m-auto w-[350px] dark:text-white hidden">
+    <div id="Forth Step" className=" m-auto hidden w-[350px] dark:text-white">
       <div className="max-w[600px] !h-fit">
         <h1 className="mb-4 mt-3 text-3xl font-bold">{t("signup_welcome5")}</h1>
 
@@ -114,9 +108,7 @@ const ForthStep = ({
             marginBottom: "10px",
           }}
         />
-        {!validEmail(email) && (
-          <div className="text-red-600"> {t("valid_email")}</div>
-        )}
+        {!validEmail(email) && <div className="text-red-600"> {t("valid_email")}</div>}
         {/* {!validEmail(email) && (
           <div className={`${email ? "flex" : "hidden"}`}>
             <Alert
@@ -125,19 +117,16 @@ const ForthStep = ({
             ></Alert>
           </div>
         )} */}
-        <span
-          className={`ml-3 text-sm text-red-600 ${
-            emailExistError ? "" : "hidden"
-          }`}
-        >
-          {t("email_exist")}
-        </span>
+        <span className={`ml-3 text-sm text-red-600 ${emailExistError ? "" : "hidden"}`}>{t("email_exist")}</span>
         <button
           type="button"
           id="next"
+          ref={nextButton}
           className={`${styles.coloredButton}`}
           onClick={() => {
-            handleSendOTP();
+            nextButton.current?.setAttribute("disabled", "true")
+
+            handleSendOTP()
           }}
           disabled={!validEmail(email) || emailExistError}
         >
@@ -145,7 +134,7 @@ const ForthStep = ({
         </button>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ForthStep;
+export default ForthStep

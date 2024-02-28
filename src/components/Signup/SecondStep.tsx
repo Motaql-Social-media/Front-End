@@ -1,42 +1,33 @@
-import { MuiPhone } from "./CustomPhoneInput";
+import { MuiPhone } from "./CustomPhoneInput"
 
-import { PhoneNumberUtil } from "google-libphonenumber";
+import { PhoneNumberUtil } from "google-libphonenumber"
+import { useRef } from "react"
 
-import { styles } from "../../styles/styles";
+import { styles } from "../../styles/styles"
 
-import { useTranslation } from "react-i18next";
-import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next"
+import { useEffect, useState } from "react"
 
-import axios from "axios";
+import axios from "axios"
 
-const phoneUtil = PhoneNumberUtil.getInstance();
+const phoneUtil = PhoneNumberUtil.getInstance()
 
 const isPhoneValid = (phone: string) => {
   try {
-    return phoneUtil.isValidNumber(phoneUtil.parseAndKeepRawInput(phone));
+    return phoneUtil.isValidNumber(phoneUtil.parseAndKeepRawInput(phone))
   } catch (error) {
-    return false;
+    return false
   }
-};
+}
 
-const SecondStep = ({
-  nickName,
-  setPosition,
-  phoneNumber,
-  setPhoneNumber,
-}: {
-  nickName: string;
-  setPosition: any;
-  phoneNumber: string;
-  setPhoneNumber: any;
-}) => {
-  const { t } = useTranslation();
+const SecondStep = ({ nickName, setPosition, phoneNumber, setPhoneNumber, position }: { nickName: string; setPosition: any; phoneNumber: string; setPhoneNumber: any; position: number }) => {
+  const { t } = useTranslation()
 
   const API = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
-  });
+  })
 
-  const [phoneExistError, setPhoneExistError] = useState(false);
+  const [phoneExistError, setPhoneExistError] = useState(false)
 
   const handleCheckPhoneExist = () => {
     API.post("/users/is-user-found", {
@@ -44,18 +35,18 @@ const SecondStep = ({
     })
       .then((res) => {
         // console.log(res.data.isFound);
-        setPhoneExistError(res.data.isFound);
+        setPhoneExistError(res.data.isFound)
       })
       .catch((err) => {
-        console.log(err);
-      });
-  };
+        console.log(err)
+      })
+  }
 
   useEffect(() => {
     if (isPhoneValid(phoneNumber)) {
-      handleCheckPhoneExist();
+      handleCheckPhoneExist()
     }
-  }, [phoneNumber]);
+  }, [phoneNumber])
 
   const handleSendOTP = () => {
     // console.log({
@@ -70,31 +61,39 @@ const SecondStep = ({
     })
       .then((res) => {
         // console.log(res);
-        setPosition((prev: number) => prev + 1);
+        setPosition((prev: number) => prev + 1)
       })
       .catch((err) => {
-        console.log(err);
-      });
-  };
+        nextButton.current?.removeAttribute("disabled")
+
+        console.log(err)
+      })
+  }
+
+  const nextButton = useRef<HTMLButtonElement>(null)
+
+  useEffect(() => {
+    nextButton.current?.removeAttribute("disabled")
+  }, [position])
+
   return (
-    <div id="Second Step" className=" m-auto w-[350px] dark:text-white hidden">
+    <div id="Second Step" className=" m-auto hidden w-[350px] dark:text-white">
       <div className="max-w[600px] !h-fit">
         <h1 className="mb-4 mt-3 text-3xl font-bold">{t("signup_welcome3")}</h1>
         <div style={{ zIndex: 3 }}>
           <MuiPhone value={phoneNumber} onChange={setPhoneNumber} />
-          {!isPhoneValid(phoneNumber) && phoneNumber.length > 0 && (
-            <div className="text-red-600">{t("valid_phone")}</div>
-          )}
-          {phoneExistError && (
-            <div className="text-red-600">{t("phone_exist")}</div>
-          )}
+          {!isPhoneValid(phoneNumber) && phoneNumber.length > 0 && <div className="text-red-600">{t("valid_phone")}</div>}
+          {phoneExistError && <div className="text-red-600">{t("phone_exist")}</div>}
         </div>
         <button
           type="button"
           id="next"
+          ref={nextButton}
           className={`${styles.coloredButton}`}
           onClick={() => {
-            handleSendOTP();
+            nextButton.current?.setAttribute("disabled", "true")
+
+            handleSendOTP()
           }}
           disabled={!isPhoneValid(phoneNumber) || phoneExistError}
         >
@@ -102,7 +101,7 @@ const SecondStep = ({
         </button>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default SecondStep;
+export default SecondStep
