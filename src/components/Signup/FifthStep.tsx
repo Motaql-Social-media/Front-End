@@ -6,9 +6,11 @@ import { styles } from "../../styles/styles";
 import { useTranslation } from "react-i18next";
 
 const FifthStep = ({
+  nickName,
   email,
   setPosition,
 }: {
+  nickName: string;
   email: string;
   setPosition: any;
 }) => {
@@ -58,11 +60,46 @@ const FifthStep = ({
 
     return () => clearTimeout(timer);
   }, [countdown, isResending]);
+
+  const API = axios.create({
+    baseURL: process.env.REACT_APP_API_URL,
+  });
+
+  const [otpError, setOtpError] = useState(false);
+  const handleResendOTP = () => {
+    API.post("auth/send-otpverification", {
+      provider: "email",
+      input: email,
+      name: nickName,
+    })
+      .then((res) => {
+        // console.log(res);
+        setIsResending(true);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const handleCheckOTP = () => {
+    API.post("auth/check-otpverification", {
+      provider: "email",
+      input: email,
+      otp: code,
+    })
+      .then((res) => {
+        // console.log(res);
+        setPosition((prev: number) => prev + 1);
+      })
+      .catch((err) => {
+        console.log(err);
+        setOtpError(true);
+      });
+  };
   return (
     <div id="Fifth Step" className=" m-auto w-[350px] dark:text-white hidden">
       <div className="max-w[600px] !h-fit">
         <h1 className="mb-1 mt-3 text-3xl font-bold">{t("signup_welcome6")}</h1>
-        <p className="text-gray-500 mb-4">
+        <div className="text-gray-500 mb-4">
           {t("email_otp_message")} <span className="text-primary">{email}</span>
           <p
             className="text-primary cursor-pointer mt-2 w-fit"
@@ -72,9 +109,8 @@ const FifthStep = ({
           >
             {t("change_email")}
           </p>
-        </p>
+        </div>
         <TextField
-          id="outlined-basic"
           label={t("code")}
           variant="outlined"
           value={code}
@@ -110,7 +146,7 @@ const FifthStep = ({
           }}
         />
         <button
-          onClick={handleResendConfirmationEmail}
+          onClick={handleResendOTP}
           className="w-fit cursor-pointer !bg-transparent"
         >
           <span
@@ -125,12 +161,14 @@ const FifthStep = ({
               : t("redend_email")}{" "}
           </span>
         </button>
+        {otpError && <div className="text-red-600">{t("otp_error")}</div>}
+
         <button
           type="button"
           id="next"
           className={`${styles.coloredButton}`}
           onClick={() => {
-            setPosition((prev: number) => prev + 1);
+            handleCheckOTP();
           }}
           disabled={code.length === 0}
         >
