@@ -1,21 +1,18 @@
+import { Skeleton } from "@mui/material"
 import PostBody from "./PostBody"
 import PostFooter from "./PostFooter"
 import PostHeader from "./PostHeader"
 import React, { useEffect, useState } from "react"
-
+import CachedOutlinedIcon from "@mui/icons-material/CachedOutlined"
+import i18next from "i18next"
+import HoveredProfile from "./HoveredProfile"
+import { useNavigate } from "react-router-dom"
 const Post = ({
   cascade,
   inPostPage,
-  userProfilePicture,
   postType,
-  isFollowed,
-  replyReferredTweetId,
-  bio,
   id,
-  name,
-  username,
   date,
-  speciality,
   description,
   media,
   replyCount,
@@ -23,22 +20,21 @@ const Post = ({
   likeCount,
   isLiked,
   isReposted,
-  followingUser,
+  isBookmarked,
+  tweeter,
   posts,
   setPosts,
+  displayFooter,
+  mentions,
+  originalTweet,
+  originalTweeter,
+  poll,
 }: {
   cascade: boolean
   inPostPage: boolean
-  userProfilePicture: string
   postType: string
-  isFollowed: boolean
-  replyReferredTweetId: string
-  bio: string
   id: string
-  name: string
-  username: string
   date: string
-  speciality: string
   description: string
   media: any
   replyCount: number
@@ -46,35 +42,71 @@ const Post = ({
   likeCount: number
   isLiked: boolean
   isReposted: boolean
-  followingUser: {}
+  isBookmarked: boolean
+  tweeter: any
   posts: any
   setPosts: any
+  displayFooter: boolean
+  mentions: any
+  originalTweet: any
+  originalTweeter: any
+  poll: any
 }) => {
-  const [mediaUrls, setMediaUrls] = useState([])
-
-  //   const descriptionLines = description.split("\n"); //need check for writing \n in description
-  useEffect(() => {
-    const urls = media.map((item: any) => item.img)
-
-    // console.log("urls from post comp", urls)
-    // console.log("types from post comp", types)
-    setMediaUrls(urls)
-  }, [media])
-
   const handlePostClick = () => {
     console.log("post")
   }
+
+  const [isVisible, setIsVisible] = useState(false)
+
+  const [timeoutRef, setTimeoutRef] = useState<any>(null)
+
+  const handleMouseEnter = () => {
+    clearTimeout(timeoutRef)
+    const timer = setTimeout(() => setIsVisible(true), 1000) // Change 1000 to desired delay
+    setTimeoutRef(timer)
+  }
+
+  const handleMouseLeave = () => {
+    clearTimeout(timeoutRef)
+    setIsVisible(false)
+  }
+
+  const [followState, setFollowState] = useState<boolean>(tweeter.isFollowed)
+  const navigate = useNavigate()
+
   return (
-    <div className="cursor-pointer border-b border-b-darkBorder p-4 hover:bg-lightHover dark:hover:bg-darkHover" onClick={handlePostClick}>
-      <div>
-        <PostHeader userProfilePicture={userProfilePicture} name={name} username={username} date={date} speciality={speciality} isFollowed={isFollowed} id={id} type="diary" />
+    <div className={`cursor-pointer ${postType !== "retweet" ? "border-b" : ""} border-b-darkBorder p-4 hover:bg-lightHover dark:hover:bg-darkHover`} onClick={handlePostClick}>
+      <div className={`relative text-sm ${postType === "Repost" ? "" : "hidden"} text-primary no-underline hover:underline`} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={() => navigate(`/${tweeter.username}`)}>
+        <CachedOutlinedIcon
+          className={`${i18next.language === "en" ? "mr-2" : "ml-2"}  text-primary`}
+          sx={{
+            fontSize: 25,
+          }}
+        />
+        <span>{tweeter.username} reposted</span>
+        {isVisible && <HoveredProfile hoveredUser={originalTweeter} state={followState} setState={setFollowState} />}
       </div>
       <div>
-        <PostBody setMediaUrls={setMediaUrls} description={description} mediaUrls={mediaUrls} media={media} />
+        <PostHeader tweeter={postType === "Repost" ? originalTweeter : tweeter} date={date} id={id} type={postType === "Repost" ? originalTweet.type : postType} posts={posts} setPosts={setPosts} />
       </div>
-      <div>
-        <PostFooter id={id} replyCount={replyCount} reposted={isReposted} repostsNum={repostCount} liked={isLiked} likesNum={likeCount} />
-      </div>
+      {displayFooter && (
+        <div>
+          <PostBody description={description} media={media} />
+        </div>
+      )}
+      {/* {!displayFooter && (
+        <Skeleton
+          sx={{
+            width: "70%",
+            height: "70%",
+          }}
+        />
+      )} */}
+      {displayFooter && postType !== "fromQuote" && (
+        <div>
+          <PostFooter id={id} replyCount={replyCount} reposted={isReposted} repostsNum={repostCount} liked={isLiked} likesNum={likeCount} isBookmarked={isBookmarked} username={postType === "Repost" ? originalTweeter.username : tweeter.username} />
+        </div>
+      )}
     </div>
   )
 }

@@ -17,6 +17,12 @@ import Sidebar from "./components/Sidebar/Sidebar"
 import Diaries from "./components/HomePage/Posts/Diaries"
 import Reels from "./components/HomePage/Posts/Reels"
 import useCheckMobileScreen from "./components/hooks/useCheckMobileScreen"
+import Bookmarks from "./components/Bookmarks/Bookmarks"
+import PostEngagement from "./components/PostEngagement/PostEngagement"
+import Reposts from "./components/PostEngagement/Reposts"
+import Quotes from "./components/PostEngagement/Quotes"
+import Likes from "./components/PostEngagement/Likes"
+import Explore from "./components/Explore/Explore"
 
 function App() {
   const [location, setLocation] = useState(window.location.pathname)
@@ -68,7 +74,7 @@ function App() {
 
     appRef.current.addEventListener("wheel", handleWheel)
 
-    return () => appRef.current.removeEventListener("wheel", handleWheel)
+    return () => appRef.current?.removeEventListener("wheel", handleWheel)
   }, [])
 
   useEffect(() => {
@@ -81,7 +87,7 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <div ref={appRef} className="app  relative flex  min-h-[100vh]  flex-row overflow-hidden bg-white text-black dark:bg-black  dark:text-white xs:h-[100vh] xs:w-full max-[540px]:flex-col">
+      <div ref={appRef} className="app  relative flex  min-h-[100vh]  flex-row overflow-hidden bg-white text-black dark:bg-black  dark:text-white max-[540px]:flex-col xs:h-[100vh] xs:w-full">
         <BrowserRouter>
           <Languages />
           {/* {!user && location !== "/password_reset" && (
@@ -105,6 +111,18 @@ function App() {
               <Route path="reels" element={<Reels />} />
               <Route path="" element={<Diaries />} />
             </Route>
+            <Route path="/bookmarks" element={<Bookmarks scroll={deltaY} />}>
+              <Route path="diaries" element={<Diaries />} />
+              <Route path="reels" element={<Reels />} />
+              <Route path="" element={<Diaries />} />
+            </Route>
+            <Route path="/:tag/status/:id/engagement" element={<PostEngagement scroll={deltaY} />}>
+              <Route path="likes" element={<Likes />}></Route>
+              <Route path="quotes" element={<Quotes />}></Route>
+              <Route path="reposts" element={<Reposts />}></Route>
+              <Route path="" element={<Quotes />}></Route>
+            </Route>
+            <Route path="/explore" element={<Explore scroll={deltaY} />}></Route>
             <Route path="/password_reset" element={<PasswordReset setLocation={setLocation} />} />
             <Route path="/login" element={<Login openModal={true} handleCloseModal={handleCloseLoginModal} setLocation={setLocation} />} />
             <Route path="/signup" element={<SignUp openModal={true} setLocation={setLocation} handleCloseModal={handleCloseSignupModal} />} />

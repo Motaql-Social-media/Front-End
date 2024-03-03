@@ -1,30 +1,18 @@
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import MoreHorizOutlinedIcon from "@mui/icons-material/MoreHorizOutlined";
-import { Avatar } from "@mui/material";
+import Menu from "@mui/material/Menu"
+import MenuItem from "@mui/material/MenuItem"
+import MoreHorizOutlinedIcon from "@mui/icons-material/MoreHorizOutlined"
+import { Avatar } from "@mui/material"
 
-import { useEffect, useState } from "react";
+import { useEffect, useState } from "react"
 
-import { useSelector } from "react-redux";
+import { useSelector } from "react-redux"
 
-function SwitchAccount({
-  handleLogout,
-  openMenu,
-  anchorMenu,
-  handleCloseMenu,
-  handleClickMenu,
-}: {
-  handleLogout: () => void;
-  openMenu: boolean;
-  anchorMenu: HTMLElement | null;
-  handleCloseMenu: any;
-  handleClickMenu: any;
-}) {
-  const htmlElement = document.getElementById("htmlid");
+function SwitchAccount({ handleLogout, openMenu, anchorMenu, handleCloseMenu, handleClickMenu }: { handleLogout: () => void; openMenu: boolean; anchorMenu: HTMLElement | null; handleCloseMenu: any; handleClickMenu: any }) {
+  const htmlElement = document.getElementById("htmlid")
 
-  const user = useSelector((state: any) => state.user?.user);
+  const user = useSelector((state: any) => state.user?.user)
 
-  const darkMode = useSelector((state: any) => state.theme.darkMode);
+  const darkMode = useSelector((state: any) => state.theme.darkMode)
 
   // useEffect(() => {
   //   console.log(
@@ -35,34 +23,15 @@ function SwitchAccount({
   return (
     <>
       <div className="group !mb-0 mt-auto box-border w-full cursor-pointer border-0">
-        <div
-          title="Accounts"
-          className=" flex w-full items-center justify-around rounded-full group-hover:bg-lightHover dark:group-hover:bg-darkHover xs:!p-3"
-        >
-          <Avatar
-            alt={user.name}
-            src={`${process.env.REACT_APP_MEDIA_URL}${user.imageUrl
-              .split("user")
-              .pop()
-              .slice(1)}`}
-          />
+        <div title="Accounts" className=" flex w-full items-center justify-around rounded-full group-hover:bg-lightHover dark:group-hover:bg-darkHover xs:!p-3">
+          <Avatar alt={user.name} src={`${process.env.REACT_APP_MEDIA_URL}${user.imageUrl}`} />
           <div>
             <div className="truncate font-semibold">{user.name}</div>
-            <div className="truncate text-secondary">{user.username}</div>
+            <div className="text-secondary truncate">{user.username}</div>
           </div>
 
-          <div
-            title="moreIcon"
-            className="w-[10%]"
-            id="mahmoud_account_options"
-          >
-            <MoreHorizOutlinedIcon
-              id="demo-positioned-button"
-              aria-controls={openMenu ? "demo-positioned-menu" : undefined}
-              aria-haspopup="true"
-              aria-expanded={openMenu ? "true" : undefined}
-              onClick={handleClickMenu}
-            />
+          <div title="moreIcon" className="w-[10%]" id="mahmoud_account_options">
+            <MoreHorizOutlinedIcon id="demo-positioned-button" aria-controls={openMenu ? "demo-positioned-menu" : undefined} aria-haspopup="true" aria-expanded={openMenu ? "true" : undefined} onClick={handleClickMenu} />
 
             <Menu
               id="demo-positioned-menu"
@@ -87,24 +56,22 @@ function SwitchAccount({
                       "& .MuiMenu-paper": {
                         background: "black",
                         borderRadius: "20px",
-                        boxShadow:
-                          "0 0 #0000, 0 0 #0000, 0px 0px 10px 1px #333435",
+                        boxShadow: "0 0 #0000, 0 0 #0000, 0px 0px 10px 1px #333435",
                         border: "solid 1px #333435",
                       },
                     }
                   : {
                       "& .MuiMenu-paper": {
                         borderRadius: "20px",
-                        boxShadow:
-                          "0 0 #0000, 0 0 #0000, 0px 0px 10px 1px #767C86",
+                        boxShadow: "0 0 #0000, 0 0 #0000, 0px 0px 10px 1px #767C86",
                       },
                     }
               }
             >
               <MenuItem
                 onClick={() => {
-                  handleCloseMenu();
-                  handleLogout();
+                  handleCloseMenu()
+                  handleLogout()
                 }}
                 className="text-base dark:text-white"
               >
@@ -115,7 +82,7 @@ function SwitchAccount({
         </div>
       </div>
     </>
-  );
+  )
 }
 
-export default SwitchAccount;
+export default SwitchAccount

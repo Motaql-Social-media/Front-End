@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { TextField } from "@mui/material"
 import { useTranslation } from "react-i18next"
 import { Box, FormControl, InputLabel, MenuItem, Select } from "@mui/material"
@@ -6,7 +6,7 @@ import { SelectChangeEvent } from "@mui/material"
 import { ReactNode } from "react"
 import { useSelector } from "react-redux"
 
-const Poll = ({ handlePollClick }: { handlePollClick: any }) => {
+const Poll = ({ handlePollClick, poll, setPoll }: { handlePollClick: any; poll: any; setPoll: any }) => {
   const { t } = useTranslation()
   const [numOfOptions, setNumOfOptions] = useState(2)
   const [option1, setOption1] = useState("")
@@ -39,7 +39,22 @@ const Poll = ({ handlePollClick }: { handlePollClick: any }) => {
     setMinutes("0")
     setNumOfOptions(2)
     handlePollClick(false)
+    setPoll(null)
   }
+
+  useEffect(() => {
+    let tmpPoll: any = {
+      minutes: minutes,
+      hours: hours,
+      days: days,
+    }
+    if (option1 !== "") tmpPoll = { ...tmpPoll, choice1: option1 }
+    if (option2 !== "") tmpPoll = { ...tmpPoll, choice2: option2 }
+    if (option3 !== "") tmpPoll = { ...tmpPoll, choice3: option3 }
+    if (option4 !== "") tmpPoll = { ...tmpPoll, choice4: option4 }
+
+    setPoll(tmpPoll)
+  }, [days, minutes, hours, option1, option2, option3, option4])
 
   const darkMode = useSelector((state: any) => state.theme.darkMode)
   return (
@@ -52,6 +67,7 @@ const Poll = ({ handlePollClick }: { handlePollClick: any }) => {
             value={option1}
             onChange={(e) => {
               const newValue = e.target.value.slice(0, 25) // Limit to 25 characters
+
               setOption1(newValue)
             }}
             InputLabelProps={{
@@ -95,6 +111,7 @@ const Poll = ({ handlePollClick }: { handlePollClick: any }) => {
             value={option2}
             onChange={(e) => {
               const newValue = e.target.value.slice(0, 25) // Limit to 25 characters
+
               setOption2(newValue)
             }}
             InputLabelProps={{
@@ -143,6 +160,7 @@ const Poll = ({ handlePollClick }: { handlePollClick: any }) => {
             value={option3}
             onChange={(e) => {
               const newValue = e.target.value.slice(0, 25) // Limit to 25 characters
+
               setOption3(newValue)
             }}
             InputLabelProps={{
@@ -191,6 +209,7 @@ const Poll = ({ handlePollClick }: { handlePollClick: any }) => {
             value={option4}
             onChange={(e) => {
               const newValue = e.target.value.slice(0, 25) // Limit to 25 characters
+
               setOption4(newValue)
             }}
             InputLabelProps={{

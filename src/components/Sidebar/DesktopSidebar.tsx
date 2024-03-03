@@ -32,7 +32,7 @@ const DesktopSidebar = ({ optionsNames, optionsIcons, optionLinks, selected, shr
     <div className=" flex items-center justify-between  border-r border-lightBorder text-center text-black dark:border-darkBorder dark:text-white  xs:max-w-[400px] xs:justify-end md:flex-grow">
       <div className={`flex h-full w-full flex-col ${mobile ? "pl-5" : "max-lg:items-end"} ${i18next.language === "en" ? "xs:pl-[30%]" : "xs:pr-[30%]"} `}>
         <div
-          className="mt-5 cursor-pointer mr-5"
+          className="mr-5 mt-5 cursor-pointer"
           onClick={() => {
             navigate("/home")
           }}
@@ -58,7 +58,7 @@ const DesktopSidebar = ({ optionsNames, optionsIcons, optionLinks, selected, shr
         {shrink || mobile ? (
           <div className="group mr-2 mt-auto box-border w-fit cursor-pointer border-0">
             <div title="switchAccountContainer" className=" flex w-fit  items-center justify-around rounded-full p-3 group-hover:bg-lightHover dark:group-hover:bg-darkHover" id="mahmoud_switch_account">
-              <Avatar alt={user.name} src={`${process.env.REACT_APP_MEDIA_URL}${user.imageUrl.split("user").pop().slice(1)}`} id="demo-positioned-button" aria-controls={openMenu ? "demo-positioned-menu" : undefined} aria-haspopup="true" aria-expanded={openMenu ? "true" : undefined} onClick={handleClickMenu} />
+              <Avatar alt={user.name} src={`${process.env.REACT_APP_MEDIA_URL}${user.imageUrl}`} id="demo-positioned-button" aria-controls={openMenu ? "demo-positioned-menu" : undefined} aria-haspopup="true" aria-expanded={openMenu ? "true" : undefined} onClick={handleClickMenu} />
               <Menu
                 id="demo-positioned-menu"
                 aria-labelledby="demo-positioned-button"

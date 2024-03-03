@@ -1,317 +1,82 @@
 import Post from "./Post"
-import ElementVisibleObserver from "../../General/ElementVisibleObserver"
+
+import { useContext } from "react"
+import { HomeContext } from "../Home"
+import { BookmarksContext } from "../../Bookmarks/Bookmarks"
+import QuotePost from "./QuotePost"
+
 const Diaries = () => {
-  const p = [
-    {
-      cascade: false,
-      inPostPage: false,
-      userProfilePicture: "https://img.freepik.com/free-photo/painting-mountain-lake-with-mountain-background_188544-9126.jpg",
-      postType: "tweet",
-      isFollowed: false,
-      replyReferredTweetId: "1",
-      bio: "bio",
-      id: "1",
-      name: "Mohamed Samir",
-      username: "mohamedsamir",
-      date: "2h",
-      speciality: "Engineer",
-      description: "Building the future with code! #programming is not just about lines, it's about creativity, problem-solving, and making a difference. What are you building today?",
-      media: [
-        {
-          img: "https://t4.ftcdn.net/jpg/04/95/28/65/360_F_495286577_rpsT2Shmr6g81hOhGXALhxWOfx1vOQBa.jpg",
-          title: "image1",
-          type: "jpg",
-        },
-      ],
-      replyCount: 50,
-      repostCount: 50,
-      likeCount: 50,
-      isLiked: false,
-      isReposted: false,
-      followingUser: {},
-      posts: [],
-      setPosts: () => {},
-    },
-    {
-      cascade: false,
-      inPostPage: false,
-      userProfilePicture: "https://img.freepik.com/free-photo/painting-mountain-lake-with-mountain-background_188544-9126.jpg",
-      postType: "tweet",
-      isFollowed: false,
-      replyReferredTweetId: "1",
-      bio: "bio",
-      id: "2",
-      name: "Mohamed Samir",
-      username: "mohamedsamir",
-      date: "2h",
-      speciality: "Engineer",
-      description: "The web connects us all. Join the conversation, share your ideas, and make a global impact.  #webdev #community #openweb",
-      media: [
-        {
-          img: "https://img.freepik.com/free-photo/painting-mountain-lake-with-mountain-background_188544-9126.jpg",
-          title: "image1",
-          type: "jpg",
-        },
-        {
-          img: "https://img.freepik.com/free-photo/painting-mountain-lake-with-mountain-background_188544-9126.jpg",
-          title: "image2",
-          type: "jpg",
-        },
-      ],
-      replyCount: 50,
-      repostCount: 50,
-      likeCount: 50,
-      isLiked: false,
-      isReposted: false,
-      followingUser: {},
-      posts: [],
-      setPosts: () => {},
-    },
-
-    {
-      cascade: false,
-      inPostPage: false,
-      userProfilePicture: "https://img.freepik.com/free-photo/painting-mountain-lake-with-mountain-background_188544-9126.jpg",
-      postType: "tweet",
-      isFollowed: false,
-      replyReferredTweetId: "1",
-      bio: "bio",
-      id: "5",
-      name: "Mohamed Samir",
-      username: "mohamedsamir",
-      date: "2h",
-      speciality: "Engineer",
-      description: "The web connects us all. Join the conversation, share your ideas, and make a global impact.  #webdev #community #openweb",
-      media: [
-        {
-          img: "https://imgupscaler.com/images/samples/animal-before.webp",
-          title: "image1",
-          type: "jpg",
-        },
-        {
-          img: "https://imgupscaler.com/images/samples/animal-before.webp",
-          title: "image2",
-          type: "jpg",
-        },
-      ],
-      replyCount: 50,
-      repostCount: 50,
-      likeCount: 50,
-      isLiked: false,
-      isReposted: false,
-      followingUser: {},
-      posts: [],
-      setPosts: () => {},
-    },
-    {
-      cascade: false,
-      inPostPage: false,
-      userProfilePicture: "https://img.freepik.com/free-photo/painting-mountain-lake-with-mountain-background_188544-9126.jpg",
-      postType: "tweet",
-      isFollowed: false,
-      replyReferredTweetId: "1",
-      bio: "bio",
-      id: "3",
-      name: "Mohamed Samir",
-      username: "mohamedsamir",
-      date: "2h",
-      speciality: "Engineer",
-      description: "Data science: the art of asking the right questions.  Uncover hidden insights and unlock the power of your data. #datascience #machinelearning",
-      media: [
-        {
-          img: "https://img.freepik.com/free-photo/painting-mountain-lake-with-mountain-background_188544-9126.jpg",
-          title: "image1",
-          type: "jpg",
-        },
-        {
-          img: "https://th.bing.com/th/id/OIG.MxQxUggA0RKmKdTjwAqw",
-          title: "image2",
-          type: "jpg",
-        },
-        {
-          img: "https://imgupscaler.com/images/samples/animal-before.webp",
-          title: "image3",
-          type: "jpg",
-        },
-      ],
-      replyCount: 50,
-      repostCount: 50,
-      likeCount: 50,
-      isLiked: false,
-      isReposted: false,
-      followingUser: {},
-      posts: [],
-      setPosts: () => {},
-    },
-    {
-      cascade: false,
-      inPostPage: false,
-      userProfilePicture: "https://img.freepik.com/free-photo/painting-mountain-lake-with-mountain-background_188544-9126.jpg",
-      postType: "tweet",
-      isFollowed: false,
-      replyReferredTweetId: "1",
-      bio: "bio",
-      id: "6",
-      name: "Mohamed Samir",
-      username: "mohamedsamir",
-      date: "2h",
-      speciality: "Engineer",
-      description: "Data science: the art of asking the right questions.  Uncover hidden insights and unlock the power of your data. #datascience #machinelearning",
-      media: [
-        {
-          img: "https://img.freepik.com/free-photo/painting-mountain-lake-with-mountain-background_188544-9126.jpg",
-          title: "image1",
-          type: "jpg",
-        },
-        {
-          img: "https://images.unsplash.com/photo-1456926631375-92c8ce872def?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-          title: "image2",
-          type: "jpg",
-        },
-        {
-          img: "https://imgupscaler.com/images/samples/animal-before.webp",
-          title: "image3",
-          type: "jpg",
-        },
-      ],
-      replyCount: 50,
-      repostCount: 50,
-      likeCount: 50,
-      isLiked: false,
-      isReposted: false,
-      followingUser: {},
-      posts: [],
-      setPosts: () => {},
-    },
-    {
-      cascade: false,
-      inPostPage: false,
-      userProfilePicture: "https://img.freepik.com/free-photo/painting-mountain-lake-with-mountain-background_188544-9126.jpg",
-      postType: "tweet",
-      isFollowed: false,
-      replyReferredTweetId: "1",
-      bio: "bio",
-      id: "4",
-      name: "Mohamed Samir",
-      username: "mohamedsamir",
-      date: "2h",
-      speciality: "Engineer",
-      description: "Data science: the art of asking the right questions.  Uncover hidden insights and unlock the power of your data. #datascience #machinelearning",
-      media: [
-        {
-          img: "https://img.freepik.com/free-photo/painting-mountain-lake-with-mountain-background_188544-9126.jpg",
-          title: "image1",
-          type: "jpg",
-        },
-        {
-          img: "https://img.freepik.com/free-photo/painting-mountain-lake-with-mountain-background_188544-9126.jpg",
-          title: "image2",
-          type: "jpg",
-        },
-        {
-          img: "https://img.freepik.com/free-photo/painting-mountain-lake-with-mountain-background_188544-9126.jpg",
-          title: "image3",
-          type: "jpg",
-        },
-        {
-          img: "https://img.freepik.com/free-photo/painting-mountain-lake-with-mountain-background_188544-9126.jpg",
-          title: "image4",
-          type: "jpg",
-        },
-      ],
-      replyCount: 50,
-      repostCount: 50,
-      likeCount: 50,
-      isLiked: false,
-      isReposted: false,
-      followingUser: {},
-      posts: [],
-      setPosts: () => {},
-    },
-    {
-      cascade: false,
-      inPostPage: false,
-      userProfilePicture: "https://img.freepik.com/free-photo/painting-mountain-lake-with-mountain-background_188544-9126.jpg",
-      postType: "tweet",
-      isFollowed: false,
-      replyReferredTweetId: "1",
-      bio: "bio",
-      id: "7",
-      name: "Mohamed Samir",
-      username: "mohamedsamir",
-      date: "2h",
-      speciality: "Engineer",
-      description: "Data science: the art of asking the right questions.  Uncover hidden insights and unlock the power of your data. #datascience #machinelearning",
-      media: [
-        {
-          img: "https://imgupscaler.com/images/samples/animal-before.webp",
-          title: "image1",
-          type: "jpg",
-        },
-        {
-          img: "https://imgupscaler.com/images/samples/animal-before.webp",
-          title: "image2",
-          type: "jpg",
-        },
-        {
-          img: "https://imgupscaler.com/images/samples/animal-before.webp",
-          title: "image3",
-          type: "jpg",
-        },
-        {
-          img: "https://imgupscaler.com/images/samples/animal-before.webp",
-          title: "image4",
-          type: "jpg",
-        },
-      ],
-      replyCount: 50,
-      repostCount: 50,
-      likeCount: 50,
-      isLiked: false,
-      isReposted: false,
-      followingUser: {},
-      posts: [],
-      setPosts: () => {},
-    },
-  ]
-
-  const handleFetchMore = () => {
-    console.log("fetch more Diaries")
-  }
+  const { diaries: homediaries, setDiaries: homesetDiaries } = useContext(HomeContext) || {}
+  const { diaries: bookmarksdiaries, setDiaries: bookmarkssetDiaries } = useContext(BookmarksContext) || {}
 
   return (
     <div>
-      {p.map((post) => {
-        return (
-          <div key={post.id}>
-            <Post
-              cascade={post.cascade}
-              inPostPage={post.inPostPage}
-              userProfilePicture={post.userProfilePicture}
-              postType={post.postType}
-              isFollowed={post.isFollowed}
-              replyReferredTweetId={post.replyReferredTweetId}
-              bio={post.bio}
-              id={post.id}
-              name={post.name}
-              username={post.username}
-              date={post.date}
-              speciality={post.speciality}
-              description={post.description}
-              media={post.media}
-              replyCount={post.replyCount}
-              repostCount={post.repostCount}
-              likeCount={post.likeCount}
-              isLiked={post.isLiked}
-              isReposted={post.isReposted}
-              followingUser={post.followingUser}
-              posts={post.posts}
-              setPosts={post.setPosts}
-            />
-          </div>
-        )
-      })}
-      <ElementVisibleObserver handler={handleFetchMore} />
+      {homediaries &&
+        homediaries?.length > 0 &&
+        homediaries.map((post: any) => {
+          return (
+            <div key={post.tweetId}>
+              {post.type !== "Quote" ? (
+                <Post
+                  cascade={false}
+                  inPostPage={false}
+                  postType={post.type}
+                  id={post.type === "Repost" ? post.originalTweet.tweetId : post.tweetId}
+                  date={post.type === "Repost" ? post.originalTweet.createdAt : post.createdAt}
+                  description={post.type === "Repost" ? post.originalTweet.content : post.content}
+                  media={post.type === "Repost" ? (post.originalTweet.imageUrls.length > 0 ? post.originalTweet.imageUrls : post.originalTweet.gifUrl !== "" ? [post.originalTweet.gifUrl] : []) : post.imageUrls.length > 0 ? post.imageUrls : post.gifUrl !== "" ? [post.gifUrl] : []}
+                  replyCount={post.type === "Repost" ? post.originalTweet.repliesCount : post.repliesCount}
+                  repostCount={post.type === "Repost" ? post.originalTweet.reTweetCount : post.reTweetCount}
+                  likeCount={post.type === "Repost" ? post.originalTweet.reactCount : post.reactCount}
+                  isLiked={post.type === "Repost" ? post.originalTweet.isReacted : post.isReacted}
+                  isReposted={post.type === "Repost" ? post.originalTweet.isRetweeted : post.isRetweeted}
+                  isBookmarked={post.type === "Repost" ? post.originalTweet.isBookmarked : post.isBookmarked}
+                  tweeter={post.tweeter}
+                  posts={homediaries}
+                  setPosts={homesetDiaries}
+                  displayFooter={true}
+                  mentions={post.type === "Repost" ? post.originalTweet.mentions : post.mentions}
+                  originalTweet={post.originalTweet}
+                  originalTweeter={post.originalTweeter}
+                  poll={post.poll}
+                />
+              ) : (
+                <QuotePost content={post.content} gifUrl={post.gifUrl} imageUrls={post.imageUrls} createdAt={post.createdAt} isBookmarked={post.isBookmarked} isReacted={post.isReacted} isRetweeted={post.isRetweeted} reTweetCount={post.reTweetCount} reactCount={post.reactCount} repliesCount={post.repliesCount} retweetId={post.tweetId} retweeter={post.tweeter} tweet={post.originalTweet} tweeter={post.originalTweeter} quotes={[]} setQuotes={() => {}} />
+              )}
+            </div>
+          )
+        })}
+      {bookmarksdiaries &&
+        bookmarksdiaries.length > 0 &&
+        bookmarksdiaries.map((post: any) => {
+          return (
+            <div key={post.tweetId}>
+              <Post
+                cascade={false}
+                inPostPage={false}
+                postType={post.type}
+                id={post.tweetId}
+                date={post.createdAt}
+                description={post.content}
+                media={post.imageUrls.length > 0 ? post.imageUrls : post.gifUrl !== "" ? [post.gifUrl] : []}
+                replyCount={post.repliesCount}
+                repostCount={post.reTweetCount}
+                likeCount={post.reactCount}
+                isLiked={post.isReacted}
+                isReposted={post.isRetweeted}
+                isBookmarked={post.isBookmarked}
+                tweeter={post.tweeter}
+                posts={bookmarksdiaries}
+                setPosts={bookmarkssetDiaries}
+                displayFooter={true}
+                mentions={post.mentions}
+                originalTweet={post.originalTweet}
+                originalTweeter={post.originalTweeter}
+                poll={post.poll}
+              />
+            </div>
+          )
+        })}
     </div>
   )
 }

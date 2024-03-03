@@ -1,15 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const APIs = {
-  mock: {
-    loginAPI:
-      "https://ca224727-23e8-4fb6-b73e-dc8eac260c2d.mock.pstmn.io/login",
-  },
-  actual: {
-    loginAPI: "https://backend.gigachat.cloudns.org/api/user/login",
-  },
-};
 
 const initialUser = localStorage.getItem("user");
 const initialToken = localStorage.getItem("token");

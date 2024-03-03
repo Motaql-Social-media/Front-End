@@ -17,12 +17,14 @@ function ComposePost({
   buttonName,
   handleNewPost,
   postType,
+  addTweetCallback,
 }: //   referredTweetId,
 //   handleClosePopup,
 {
   buttonName: string
   handleNewPost: any
   postType: string
+  addTweetCallback: any
   //   referredTweetId: string;
   //   handleClosePopup: any;
 }) {
@@ -37,10 +39,9 @@ function ComposePost({
   const [mediaUrls, setMediaUrls] = useState<string[]>([])
   const [mediaDisabled, setMediaDisabled] = useState(false)
   const [GIFDisabled, setGIFDisabled] = useState(false)
-  const [poll, setPoll] = useState(null)
+  const [poll, setPoll] = useState<any>(null)
   const [pollDisabled, setPollDisabled] = useState(false)
   const [postDisabled, setPostDisabled] = useState(true)
-  const hiddenUploadMediaInput = useRef()
 
   const darkMode = useSelector((state: any) => state.theme.darkMode)
   const user = useSelector((state: any) => state.user.user)
@@ -50,69 +51,68 @@ function ComposePost({
     setPostDisabled(((description.length === 0 || (description.match(/\s/g) && description.match(/\s/g)?.length === description.length)) && media.length === 0) || description.length > 280)
   }, [description, media])
 
-  const getComposeTweet = () => {
-    // return {
-    //   referredTweetId: referredTweetId,
-    //   description: `${runningMock ? "ismail ramadan" : description}`,
-    //   media: media.map((item: any, index) => {
-    //     return {
-    //       data: mediaUrls[index],
-    //       type: item.type.match(/mp4/) ? "mp4" : "jpg",
-    //     };
-    //   }),
-    //   type: postType,
-    // };
-  }
-
   const handleDeleteMediaCallback = (index: number) => {
     setMedia(media.filter((i, ind) => ind !== index))
     // setMediaDisabled(false)
   }
 
-  const handleSubmit = (event: any) => {
-    // event.preventDefault();
-    // console.log("handleSubmit");
-    // console.log("description ", description);
-    // console.log("userToken ", userToken);
-    // setDescription("");
-    // setCharsCount(0);
-    // setCharsProgressColor("#1D9BF0");
-    // setProgressCircleSize(24);
-    // setProgressCircleValue(null);
-    // setMedia([]);
-    // setMediaUrls([]);
-    // setMediaDisabled(false);
-    // setGIFDisabled(false);
-    // setpollDisabled(false);
-    // console.log("getComposeTweet ", getComposeTweet(postType));
-    // axios
-    //   .post(APIs.actual.postTweetAPI, getComposeTweet(), {
-    //     headers: {
-    //       authorization: "Bearer " + userToken,
-    //     },
-    //   })
-    //   .then((response) => {
-    //     console.log("success in handleSubmit");
-    //     console.log("response.data ", response.data);
-    //     const post = { ...response.data };
-    //     if (runningMock) {
-    //       post.data.description = description;
-    //       post.data.media = media.map((item, index) => {
-    //         return {
-    //           type: item.type.match(/mp4/) ? "mp4" : "jpg",
-    //           data: mediaUrls[index],
-    //         };
-    //       });
-    //       console.log("running mock");
-    //       console.log(post);
-    //     }
-    //     handleNewPost && handleNewPost(post);
-    //     handleClosePopup && handleClosePopup();
-    //   })
-    //   .catch((error) => {
-    //     console.log("error in handleSubmit");
-    //     console.log(error);
-    //   });
+  const publishButton = useRef<HTMLButtonElement>(null)
+
+  const API = axios.create({
+    baseURL: process.env.REACT_APP_API_URL,
+  })
+
+  const handleAddTweet = (mediaFormData: any) => {
+    media.forEach((m) => {
+      if (!(mediaNames[0] === "gif")) mediaFormData.append("images", m.file)
+      else mediaFormData.append("gif", m.file)
+    })
+
+    API.post("tweets/add-tweet", mediaFormData, {
+      headers: {
+        authorization: "Bearer " + userToken,
+      },
+    })
+      .then((res) => {
+        console.log(res)
+        const t = { ...res.data.data.tweet, replyCount: 0, repostCount: 0, likeCount: 0, isLiked: false, isReposted: false, isBookmarked: false }
+
+        addTweetCallback(t)
+        setMedia([])
+        setDescription("")
+        setMediaUrls([])
+        setMediaDisabled(false)
+        setGIFDisabled(false)
+        setPollDisabled(false)
+        setCharsCount(0)
+        setCharsProgressColor("#1D9BF0")
+        setProgressCircleSize(24)
+        setProgressCircleValue(null)
+        publishButton.current?.removeAttribute("disabled")
+      })
+      .catch((err) => {
+        console.log(err)
+        publishButton.current?.removeAttribute("disabled")
+      })
+  }
+
+  const handleAddPool = () => {
+    console.log("poll ", poll)
+    console.log("question ", description)
+  }
+
+  const handleSubmit = (e: any) => {
+    e.preventDefault()
+
+    const mediaFormData = new FormData()
+    mediaFormData.append("content", description)
+
+    if (poll) {
+      handleAddPool()
+    } else {
+      console.log("no poll")
+      handleAddTweet(mediaFormData)
+    }
   }
   const handleDescriptionChange = (e: any) => {
     if (e.target.value.length < 280) setDescription(e.target.value)
@@ -121,10 +121,7 @@ function ComposePost({
     setProgressCircleSize(e.target.value.length < 260 ? 24 : 32)
     setProgressCircleValue(e.target.value.length >= 260 ? 280 - e.target.value.length : null)
   }
-  const handleUploadMediaClick = (e: any) => {
-    // e.preventDefault();
-    // hiddenUploadMediaInput.current.click();
-  }
+
   const handleUploadMedia = (uploadedMedia: any) => {
     const file = uploadedMedia.target.files[0]
     const imageUrl = URL.createObjectURL(file)
@@ -185,9 +182,9 @@ function ComposePost({
 
   return (
     <div className={`ComposePost flex h-fit border-b pb-5 ${buttonName === "Post" ? "border-t" : ""} !w-full border-lightBorder p-3 text-black dark:border-darkBorder dark:text-white max-xs:hidden`}>
-      <div data-testid="profileImage" className={`h-10 w-10 ${i18next.language === "en" ? "sm:mr-3" : "sm:ml-3"} `}>
-        <Link className="hover:underline" to={`/${user.username.split("@")[1]}`}>
-          <Avatar alt={user.name} src={`${process.env.REACT_APP_MEDIA_URL}${user.imageUrl.split("user").pop().slice(1)}`} sx={{ width: 40, height: 40 }} />
+      <div className={`h-10 w-10 ${i18next.language === "en" ? "sm:mr-3" : "sm:ml-3"} `}>
+        <Link className="hover:underline" to={`/${user.username}`}>
+          <Avatar alt={user.name} src={`${process.env.REACT_APP_MEDIA_URL}${user.imageUrl}`} sx={{ width: 40, height: 40 }} />
         </Link>
       </div>
       <div className="mt-1.5 h-fit w-full">
@@ -197,7 +194,7 @@ function ComposePost({
           InputProps={{
             disableUnderline: true,
           }}
-          placeholder={`${pollDisabled?"Ask a question": buttonName === "Post" ? t("compose_post") : t("compose_reply")}`}
+          placeholder={`${pollDisabled ? "Ask a question" : buttonName === "Post" ? t("compose_post") : t("compose_reply")}`}
           onChange={(e) => handleDescriptionChange(e)}
           multiline
           value={description}
@@ -211,9 +208,9 @@ function ComposePost({
           }}
         ></TextField>
         <DisplayMedia mediaUrls={mediaUrls} setMediaUrls={setMediaUrls} margin={1.5} showCancelButton={true} deleteCallback={handleDeleteMediaCallback} />
-        {pollDisabled && <Poll handlePollClick={handlePollClick} />}
+        {pollDisabled && media.length === 0 && <Poll handlePollClick={handlePollClick} poll={poll} setPoll={setPoll} />}
         <hr className={`h-px border-0 bg-lightBorder dark:bg-darkBorder ${buttonName === "Post" ? "" : "hidden"}`} />
-        <ComposePostFooter buttonName={buttonName} handleUploadMediaClick={handleUploadMediaClick} handleUploadMedia={handleUploadMedia} hiddenUploadMediaInput={hiddenUploadMediaInput} mediaDisabled={mediaDisabled} GIFDisabled={GIFDisabled} pollDisabled={pollDisabled} postDisabled={postDisabled} progressCircleSize={progressCircleSize} charsCount={charsCount} charsProgressColor={charsProgressColor} handleSubmit={handleSubmit} handlePollClick={handlePollClick} />
+        <ComposePostFooter buttonName={buttonName} handleUploadMedia={handleUploadMedia} mediaDisabled={mediaDisabled} GIFDisabled={GIFDisabled} pollDisabled={pollDisabled} postDisabled={postDisabled} progressCircleSize={progressCircleSize} charsCount={charsCount} charsProgressColor={charsProgressColor} handleSubmit={handleSubmit} handlePollClick={handlePollClick} poll={poll} publishButton={publishButton} fromQuote={false} />
       </div>
     </div>
   )

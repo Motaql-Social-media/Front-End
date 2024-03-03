@@ -1,6 +1,8 @@
 import DisplayMedia from "../../DisplayImages/DisplayMedia"
 
-const PostBody = ({ description, mediaUrls, setMediaUrls, media }: { description: string; mediaUrls: string[]; setMediaUrls: any; media: any }) => {
+const PostBody = ({ description, media }: { description: string; media: string[] }) => {
+  const mediaUrls = media.map((item: any) => process.env.REACT_APP_MEDIA_URL + item)
+
   return (
     <div className="pl-12">
       <div className="post-text mt-1 ">
@@ -8,7 +10,7 @@ const PostBody = ({ description, mediaUrls, setMediaUrls, media }: { description
       </div>
 
       <div className="post-media mt-3">
-        <DisplayMedia mediaUrls={mediaUrls} setMediaUrls={setMediaUrls} margin={1} deleteCallback={() => {}} showCancelButton={false} />
+        <DisplayMedia mediaUrls={mediaUrls} setMediaUrls={() => {}} margin={1} deleteCallback={() => {}} showCancelButton={false} />
       </div>
     </div>
   )

@@ -1,0 +1,173 @@
+import { useRef, useEffect, useState } from "react"
+import ArrowBackIcon from "@mui/icons-material/ArrowBack"
+import { useNavigate } from "react-router-dom"
+import { useSelector } from "react-redux"
+import { useTranslation } from "react-i18next"
+import axios from "axios"
+import i18next from "i18next"
+import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft"
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight"
+const Explore = ({ scroll }: { scroll: number }) => {
+  const navigate = useNavigate()
+
+  const user = useSelector((state: any) => state.user)
+
+  const userToken = useSelector((state: any) => state.user.token)
+
+  useEffect(() => {
+    if (!user) {
+      navigate("/")
+    }
+  }, [user])
+
+  const API = axios.create({
+    baseURL: process.env.REACT_APP_API_URL,
+  })
+
+  const { t } = useTranslation()
+
+  const exploreRef = useRef<any>(null)
+
+  useEffect(() => {
+    exploreRef.current.scrollTop += scroll
+  }, [scroll])
+
+  const [prevScrollPos, setPrevScrollPos] = useState(window.scrollY)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollPos = window.scrollY
+      const isScrollingDown = currentScrollPos > prevScrollPos
+      setPrevScrollPos(currentScrollPos)
+
+      // Check if scrolling down
+      if (isScrollingDown) {
+        setIsVisible(false)
+      } else {
+        setIsVisible(true)
+      }
+    }
+
+    window.addEventListener("scroll", handleScroll)
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll)
+    }
+  }, [prevScrollPos])
+
+  const [isVisible, setIsVisible] = useState(true)
+
+  const handleBack = () => {
+    navigate(-1)
+  }
+
+  const [selectedTopic, setSelectedTopic] = useState("")
+  const [selectedDescription, setSelectedDescription] = useState("Select a topic to see its description")
+
+  const handleChooseTopic = (topic: string) => {
+    setSelectedTopic(topic)
+    setSelectedDescription((topics.find((t: any) => t.topic === topic) as any)?.description)
+  }
+
+  const [topics, setTopics] = useState<any[]>([])
+  useEffect(() => {
+    API.get("topics", {
+      headers: {
+        authorization: "Bearer " + userToken,
+        "accept-language": i18next.language,
+      },
+    })
+      .then((res) => {
+        // console.log(res.data.data.topics)
+        setTopics(res.data.data.topics)
+      })
+      .catch((err) => console.log(err))
+  }, [])
+
+  const topicsRef = useRef<any>(null)
+
+  const handleScroll = (dir: string) => {
+    const scrollContainer = topicsRef.current
+    const scrollAmount = 150
+    const targetScrollLeft = dir === "left" ? Math.max(0, scrollContainer.scrollLeft - scrollAmount) : Math.min(scrollContainer.scrollWidth - scrollContainer.clientWidth, scrollContainer.scrollLeft + scrollAmount)
+
+    const scrollStep = () => {
+      const step = dir === "left" ? -5 : 5
+      const delta = targetScrollLeft - scrollContainer.scrollLeft
+
+      if (scrollContainer.scrollLeft < 5) {
+        setLeftArrow(false)
+      } else {
+        setLeftArrow(true)
+      }
+      if (scrollContainer.scrollLeft > scrollContainer.scrollWidth - scrollContainer.clientWidth - 5) {
+        setRightArrow(false)
+      } else {
+        setRightArrow(true)
+      }
+
+      if (Math.abs(delta) > 5) {
+        scrollContainer.scrollLeft += step
+        requestAnimationFrame(scrollStep)
+      } else {
+        scrollContainer.scrollLeft = targetScrollLeft
+      }
+    }
+
+    requestAnimationFrame(scrollStep)
+  }
+
+  const [leftArrow, setLeftArrow] = useState(false)
+  const [rightArrow, setRightArrow] = useState(true)
+
+  return (
+    <div className="flex flex-1 flex-grow-[8] max-[540px]:mt-16">
+      <div ref={exploreRef} className="no-scrollbar ml-0 mr-1 w-full max-w-[620px] shrink-0 flex-grow overflow-y-scroll border border-b-0 border-t-0 border-lightBorder dark:border-darkBorder  max-[540px]:border-l-0 max-[540px]:border-r-0 sm:w-[600px]">
+        <div className="flex items-center justify-start gap-7 pl-2">
+          <div onClick={handleBack} className="cursor-pointer">
+            <ArrowBackIcon fontSize="small" />
+          </div>
+          <div
+            className={` sticky left-0 top-0  ${isVisible ? "opacity-100" : "opacity-0"} z-[99] cursor-pointer bg-black bg-opacity-80 p-3 text-xl font-bold backdrop-blur-md transition-opacity duration-300  max-[540px]:hidden`}
+            onClick={() => {
+              window.location.reload()
+            }}
+          >
+            Explore
+          </div>
+        </div>
+        <div className="flex items-center gap-1 border-y border-y-darkBorder px-1 ">
+          <div>
+            <div
+              onClick={() => {
+                handleScroll("left")
+              }}
+              className={`cursor-pointer ${leftArrow ? "opacity-100" : "pointer-events-none opacity-0"} transition-opacity duration-200`}
+            >
+              <KeyboardArrowLeftIcon fontSize="large" />
+            </div>
+          </div>
+          <div ref={topicsRef} className=" no-scrollbar my-1 flex gap-2 overflow-x-scroll px-1 py-3 ">
+            {topics.map((topic: any) => (
+              <div key={topic.topic} title={topic.description} className={` w-fit cursor-pointer rounded-full bg-primary px-2 py-1 font-semibold text-black  max-[600px]:text-sm max-[560px]:text-[0.5rem]  min-[700px]:px-4 min-[700px]:py-2 ${topic.topic === selectedTopic ? "brightness-100" : "brightness-50"}`} onClick={() => handleChooseTopic(topic.topic)}>
+                {topic.topic}
+              </div>
+            ))}
+          </div>
+          <div>
+            <div
+              onClick={() => {
+                handleScroll("right")
+              }}
+              className={`cursor-pointer ${rightArrow ? "opacity-100" : "pointer-events-none opacity-0"} transition-opacity duration-200`}
+            >
+              <KeyboardArrowRightIcon fontSize="large" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default Explore

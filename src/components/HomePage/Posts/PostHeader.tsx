@@ -1,8 +1,5 @@
 import { Avatar } from "@mui/material"
 
-import VerifiedIcon from "@mui/icons-material/Verified"
-import Menu from "@mui/material/Menu"
-import MenuItem from "@mui/material/MenuItem"
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz"
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt"
 import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied"
@@ -16,13 +13,13 @@ import { Box } from "@mui/material"
 
 import { Link } from "react-router-dom"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
-import { styles } from "../../../styles/styles"
 import HoveredProfile from "./HoveredProfile"
 import { useTranslation } from "react-i18next"
+import axios from "axios"
 
-const PostHeader = ({ userProfilePicture, name, username, date, speciality, isFollowed, id, type }: { userProfilePicture: string; name: string; username: string; date: string; speciality: string; isFollowed: boolean; id: string; type: string }) => {
+const PostHeader = ({ date, tweeter, id, type, posts, setPosts }: { date: string; tweeter: any; id: string; type: string; posts: any; setPosts: any }) => {
   const [menuToggle, setMenuToggle] = useState(false)
 
   const user = useSelector((state: any) => state.user.user)
@@ -55,106 +52,204 @@ const PostHeader = ({ userProfilePicture, name, username, date, speciality, isFo
     setIsVisible(false)
   }
 
-  const tmpUser = {
-    followings_num: 120,
-    followers_num: 125,
-    bio: "this is my bio hhhhhh",
-    profile_picture: userProfilePicture,
-  } // replace with actual user data me or the post publisher
-
   const darkMode = useSelector((state: any) => state.theme.darkMode)
+
+  const [timeDifference, setTimeDifference] = useState("")
+
+  const getTimeDifference = (date: string) => {
+    const currentDate = new Date().getTime()
+
+    const targetDate = new Date(date).getTime()
+
+    const differenceMs = targetDate - currentDate
+
+    const differenceSeconds = Math.floor(Math.abs(differenceMs / 1000))
+
+    const differenceMinutes = Math.floor(differenceSeconds / 60)
+
+    const differenceHours = Math.floor(differenceMinutes / 60)
+
+    const differenceDays = Math.floor(differenceHours / 24)
+
+    const final = differenceDays > 0 ? `${differenceDays}d` : differenceHours > 0 ? `${differenceHours % 24}h` : differenceMinutes > 0 ? `${differenceMinutes % 60}m` : `${differenceSeconds % 60}s`
+    return final
+  }
+
+  useEffect(() => {
+    setTimeDifference(getTimeDifference(date))
+  }, [])
+
+  const userToken = useSelector((state: any) => state.user.token)
+  const API = axios.create({
+    baseURL: process.env.REACT_APP_API_URL,
+  })
+
+  const handleFollowState = () => {
+    API.patch(
+      `users/current/toggle-follow/${tweeter.username}`,
+      {},
+      {
+        headers: {
+          authorization: `Bearer ${userToken}`,
+        },
+      }
+    )
+      .then((res) => {
+        setFollowState((prev: boolean) => !prev)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
+  const handleBlockState = () => {
+    API.patch(
+      `users/current/toggle-block/${tweeter.username}`,
+      {},
+      {
+        headers: {
+          authorization: `Bearer ${userToken}`,
+        },
+      }
+    )
+      .then((res) => {
+        setBlockState((prev: boolean) => !prev)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
+  const handleMuteState = () => {
+    API.patch(
+      `users/current/toggle-mute/${tweeter.username}`,
+      {},
+      {
+        headers: {
+          authorization: `Bearer ${userToken}`,
+        },
+      }
+    )
+      .then((res) => {
+        setMuteState((prev: boolean) => !prev)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
+  const [followState, setFollowState] = useState<boolean>(tweeter.isFollowed)
+  const [blockState, setBlockState] = useState<boolean>(tweeter.isBlocked)
+  const [muteState, setMuteState] = useState<boolean>(tweeter.isMuted)
+
+  const handleDeletePost = () => {
+    API.delete(`/tweets/${id}`, {
+      headers: {
+        authorization: `Bearer ${userToken}`,
+      },
+    })
+      .then((res) => {
+        // console.log(res)
+        setPosts(posts.filter((post: any) => post.tweetId !== id))
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
 
   const { t } = useTranslation()
   return (
     <div className="flex items-center gap-2">
       <div onClick={handleProfileClick} className="relative" onMouseEnter={() => handleMouseEnter(1)} onMouseLeave={() => handleMouseLeave(1)}>
-        <Avatar alt={name} src={userProfilePicture} sx={{ width: 40, height: 40 }} />
-        {isVisible && <HoveredProfile username={username} hoveredUser={tmpUser} />}
+        <Avatar alt={tweeter.name} src={process.env.REACT_APP_MEDIA_URL + tweeter.imageUrl} sx={{ width: 40, height: 40 }} />
+        {isVisible && <HoveredProfile hoveredUser={tweeter} state={followState} setState={setFollowState} />}
       </div>
       <div className="flex gap-1">
         <div className="relative flex flex-col justify-center" onMouseEnter={() => handleMouseEnter(2)} onMouseLeave={() => handleMouseLeave(2)}>
           <div className="font-semibold text-gray-200 hover:underline" onClick={handleProfileClick}>
-            {name}
+            {tweeter.name}
           </div>
-          <div className="text-gray-400">{speciality}</div>
-          {isVisible2 && <HoveredProfile username={username} hoveredUser={tmpUser} />}
+          <div className="text-gray-400">{tweeter.jobtitle}</div>
+          {isVisible2 && <HoveredProfile hoveredUser={tweeter} state={followState} setState={setFollowState} />}
         </div>
         <div className="flex items-start  gap-1">
           <div className="relative flex items-center" onMouseEnter={() => handleMouseEnter(3)} onMouseLeave={() => handleMouseLeave(3)}>
             <div className="text-gray-400" onClick={handleProfileClick}>
-              <span dir="ltr">@{username}</span>
+              <span dir="ltr">@{tweeter.username}</span>
             </div>
             <div className={` bg-ternairy m-1 h-[2px] w-[2px] rounded-full dark:bg-gray-200`}></div>
-            <div className="text-gray-400">{date}</div>
-            {isVisible3 && <HoveredProfile username={username} hoveredUser={tmpUser} />}
+            <div className="text-gray-400">{timeDifference}</div>
+            {isVisible3 && <HoveredProfile hoveredUser={tweeter} state={followState} setState={setFollowState} />}
           </div>
         </div>
       </div>
       <div className="flex-grow"></div>
-      <div className="more relative ">
-        <button onClick={handleMenuClick}>
-          <MoreHorizIcon className="text-primary " />
-        </button>
-        <div className={`absolute ${i18next.language === "en" ? "right-2" : "left-2"}  top-6 z-10 w-[110px] rounded-md bg-white  dark:bg-black ${menuToggle ? "" : "hidden"} w-fit border border-gray-200 dark:border-gray-600 `}>
-          <ul className="list-none">
-            <MenuItem
-              onClick={() => {
-                // handleDeletePost();
-                // handleMenuClose();
-              }}
-              className={`flex items-center ${username === user.username ? "" : "hidden"}`}
-            >
-              <DeleteOutlineIcon className={`${i18next.language === "en" ? "mr-3" : "ml-3"} text-base dark:text-white`} />
-              <span className="text-[15px] text-red-600">
-                {t("delete")} {t(type)}
-              </span>
-            </MenuItem>
+      {type !== "fromQuote" && (
+        <div className="more relative ">
+          <button onClick={handleMenuClick}>
+            <MoreHorizIcon className="text-primary " />
+          </button>
+          <div className={`absolute ${i18next.language === "en" ? "right-2" : "left-2"}  top-6 z-10 w-[250px] rounded-md bg-white  dark:bg-black ${menuToggle ? "" : "hidden"} border border-gray-200 dark:border-gray-600 `}>
+            <ul className="list-none">
+              <li
+                className={`items-center p-2 pl-3 text-red-600 ${tweeter.username === user.username ? "flex" : "hidden"}`}
+                onClick={(e: any) => {
+                  handleDeletePost()
+                  handleMenuClick(e)
+                }}
+              >
+                <DeleteOutlineIcon className={`${i18next.language === "en" ? "mr-3" : "ml-3"} text-base `} />
+                <span className="text-[15px] ">
+                  {t("delete")} {t(type)}
+                </span>
+              </li>
 
-            <MenuItem
-              onClick={() => {
-                // isFollowed ? handleUnfollow() : handleFollow();
-                // handleMenuClose();
-              }}
-              className={`${username !== user.username ? "" : "hidden"}`}
-            >
-              <PersonAddAltIcon className={`${i18next.language === "en" ? "mr-3" : "ml-3"} text-base dark:text-white`} />
-              <span className="text-[15px] dark:text-white">
-                {isFollowed ? t("unfollow") : t("follow")} <span dir="ltr">@{username}</span>
-              </span>
-            </MenuItem>
-            <MenuItem
-              onClick={() => {
-                // ProfileRequests.mute(false, APIs, userToken);
-                // handleMenuClose();
-              }}
-              className={`${username !== user.username ? "" : "hidden"}`}
-            >
-              <VolumeOffOutlinedIcon className={`${i18next.language === "en" ? "mr-3" : "ml-3"} text-base dark:text-white`} />
-              <span className="text-[15px] dark:text-white">
-                {t("mute")} <span dir="ltr">@{username}</span>
-              </span>
-            </MenuItem>
-            <MenuItem
-              onClick={() => {
-                // ProfileRequests.block(false, APIs, userToken);
-                // handleMenuClose();
-              }}
-              className={`${username !== user.username ? "" : "hidden"}`}
-            >
-              <BlockOutlinedIcon className={`${i18next.language === "en" ? "mr-3" : "ml-3"} text-base dark:text-white`} />
-              <span className="text-[15px] dark:text-white">
-                {t("block")} <span dir="ltr">@{username}</span>
-              </span>
-            </MenuItem>
-            <MenuItem onClick={handleMenuClick}>
-              <Link className="pointer-events-auto" to={`/${username}/status/${id}/retweets`}>
-                <QueryStatsOutlinedIcon className={`${i18next.language === "en" ? "mr-3" : "ml-3"} text-base dark:text-white`} />
-                <span className="text-[15px] dark:text-white">{t("view_post_engagement")}</span>
-              </Link>
-            </MenuItem>
-          </ul>
+              <li
+                onClick={(e: any) => {
+                  handleFollowState()
+                  handleMenuClick(e)
+                }}
+                className={`flex items-center p-2 pl-3  ${tweeter.username !== user.username ? "" : "hidden"}`}
+              >
+                <PersonAddAltIcon className={`${i18next.language === "en" ? "mr-3" : "ml-3"} text-base dark:text-white`} />
+                <span className="text-[14px] dark:text-white">
+                  {followState ? t("unfollow") : t("follow")} <span dir="ltr">@{tweeter.username}</span>
+                </span>
+              </li>
+              <li
+                onClick={(e: any) => {
+                  handleMuteState()
+                  handleMenuClick(e)
+                }}
+                className={`flex items-center p-2 pl-3  ${tweeter.username !== user.username ? "" : "hidden"}`}
+              >
+                <VolumeOffOutlinedIcon className={`${i18next.language === "en" ? "mr-3" : "ml-3"} text-base dark:text-white`} />
+                <span className="text-[14px] dark:text-white">
+                  {muteState ? t("unmute") : t("mute")} <span dir="ltr">@{tweeter.username}</span>
+                </span>
+              </li>
+              <li
+                onClick={(e: any) => {
+                  handleBlockState()
+                  handleMenuClick(e)
+                }}
+                className={`flex items-center p-2 pl-3  ${tweeter.username !== user.username ? "" : "hidden"}`}
+              >
+                <BlockOutlinedIcon className={`${i18next.language === "en" ? "mr-3" : "ml-3"} text-base dark:text-white`} />
+                <span className=" text-[14px] dark:text-white">
+                  {blockState ? t("unblock") : t("block")} <span dir="ltr">@{tweeter.username}</span>
+                </span>
+              </li>
+              <li onClick={handleMenuClick} className={`flex items-center p-2 pl-3  `}>
+                <Link className="pointer-events-auto" to={`/${tweeter.username}/status/${id}/engagement`}>
+                  <QueryStatsOutlinedIcon className={`${i18next.language === "en" ? "mr-3" : "ml-3"} text-base dark:text-white`} />
+                  <span className=" text-[14px] dark:text-white">{t("view_post_engagement")}</span>
+                </Link>
+              </li>
+            </ul>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   )
 }

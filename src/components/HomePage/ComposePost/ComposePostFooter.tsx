@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import InsertPhotoOutlinedIcon from "@mui/icons-material/InsertPhotoOutlined"
 import GifBoxOutlinedIcon from "@mui/icons-material/GifBoxOutlined"
 import BallotOutlinedIcon from "@mui/icons-material/BallotOutlined"
@@ -6,43 +6,15 @@ import SentimentSatisfiedOutlinedIcon from "@mui/icons-material/SentimentSatisfi
 import EditCalendarIcon from "@mui/icons-material/EditCalendar"
 import CircularProgress from "@mui/material/CircularProgress"
 import AddRoundedIcon from "@mui/icons-material/AddRounded"
-import Box from "@mui/material/Box"
-import Typography from "@mui/material/Typography"
 import AddIcon from "@mui/icons-material/Add"
+import { Modal } from "@mui/material"
 
 import { useSelector } from "react-redux"
 import { styles } from "../../../styles/styles"
 import { useTranslation } from "react-i18next"
 import i18next from "i18next"
-function ComposePostFooter({
-  buttonName,
-  handleUploadMediaClick,
-  handleUploadMedia,
-  hiddenUploadMediaInput,
-  mediaDisabled,
-  GIFDisabled,
-  pollDisabled,
-  postDisabled,
-  progressCircleSize,
-  charsCount,
-  charsProgressColor,
-  handleSubmit,
-  handlePollClick,
-}: {
-  buttonName: string
-  handleUploadMediaClick: any
-  handleUploadMedia: (event: React.ChangeEvent<HTMLInputElement>) => void
-  hiddenUploadMediaInput: any
-  mediaDisabled: boolean
-  GIFDisabled: boolean
-  pollDisabled: boolean
-  postDisabled: boolean
-  progressCircleSize: number
-  charsCount: number
-  charsProgressColor: string
-  handleSubmit: any
-  handlePollClick: any
-}) {
+import ComposeReel from "./ComposeReel"
+function ComposePostFooter({ buttonName, handleUploadMedia, mediaDisabled, GIFDisabled, pollDisabled, postDisabled, progressCircleSize, charsCount, charsProgressColor, handleSubmit, handlePollClick, poll, publishButton, fromQuote }: { buttonName: string; handleUploadMedia: (event: React.ChangeEvent<HTMLInputElement>) => void; mediaDisabled: boolean; GIFDisabled: boolean; pollDisabled: boolean; postDisabled: boolean; progressCircleSize: number; charsCount: number; charsProgressColor: string; handleSubmit: any; handlePollClick: any; poll: any; publishButton: any; fromQuote: boolean }) {
   const themeColor = useSelector((state: any) => state.theme.color)
 
   const inputMedia = useRef<HTMLInputElement>(null)
@@ -61,19 +33,34 @@ function ComposePostFooter({
   }
 
   const { t } = useTranslation()
+  const [pollError, setPollError] = useState(true)
+
+  useEffect(() => {
+    if (poll === null || !("days" in poll) || !("minutes" in poll) || !("hours" in poll) || !("choice1" in poll) || !("choice2" in poll)) {
+      setPollError(true)
+    } else {
+      setPollError(false)
+    }
+  }, [poll])
+
+  const [open, setOpen] = useState(false)
+  const handleOpen = () => setOpen(true)
+  const handleClose = () => setOpen(false)
 
   return (
     <div className="mt-3 flex items-center justify-between">
-      <div className="flex bg-transparent">
-        <div className="flex cursor-pointer items-center justify-center gap-2">
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary p-1">
-            <AddIcon fontSize="large" />
+      {!fromQuote && (
+        <div className="flex bg-transparent">
+          <div className="flex cursor-pointer items-center justify-center gap-2 " onClick={handleOpen}>
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary p-1">
+              <AddIcon fontSize="large" />
+            </div>
+            <span className="text-xl">
+              {t("publish")} {i18next.language === "ar" ? t("reel").slice(2) : t("reel")}
+            </span>
           </div>
-          <span className="text-xl">
-            {t("publish")} {i18next.language === "ar" ? t("reel").slice(2) : t("reel")}
-          </span>
         </div>
-      </div>
+      )}
       <div className="flex bg-transparent">
         <button onClick={handleUploadButton} title="Media" className="h-10 w-10 cursor-pointer rounded-full p-1 text-primary disabled:cursor-default disabled:brightness-50 dark:hover:bg-gray-800" disabled={mediaDisabled}>
           <InsertPhotoOutlinedIcon />
@@ -102,9 +89,22 @@ function ComposePostFooter({
       </div>
       <CircularProgress variant="determinate" value={charsCount} size={progressCircleSize} sx={{ color: charsProgressColor }} />
 
-      <button className={`${styles.coloredButton} !h-9 !w-fit px-2`} disabled={postDisabled}>
+      <button
+        ref={publishButton}
+        className={`${styles.coloredButton} !h-9 !w-fit px-2`}
+        disabled={postDisabled && pollError}
+        onClick={(e) => {
+          publishButton.current?.setAttribute("disabled", "true")
+          handleSubmit(e)
+        }}
+      >
         <span className="font-bold">{t("publish")}</span>
       </button>
+      <Modal open={open} onClose={handleClose}>
+        <div className="absolute left-1/2 top-1/2 h-full w-[90%] -translate-x-1/2 -translate-y-1/2 rounded-3xl border p-4 shadow-card dark:border-darkBorder dark:bg-black ">
+          <ComposeReel handleClose={handleClose} />
+        </div>
+      </Modal>
     </div>
   )
 }

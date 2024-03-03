@@ -3,9 +3,6 @@ import ReactDOM from "react-dom/client"
 
 import reportWebVitals from "./reportWebVitals"
 
-
-
-
 import i18n from "i18next"
 import { initReactI18next } from "react-i18next"
 import LanguageDetector from "i18next-browser-languagedetector"
@@ -47,11 +44,11 @@ const loadingMarkup = (
 
 root.render(
   <Suspense fallback={loadingMarkup}>
-    <React.StrictMode>
-      <Provider store={store}>
-        <App />
-      </Provider>
-    </React.StrictMode>
+    {/* <React.StrictMode> */}
+    <Provider store={store}>
+      <App />
+    </Provider>
+    {/* </React.StrictMode> */}
   </Suspense>
 )
 

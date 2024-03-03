@@ -55,7 +55,7 @@ const Reel = ({
   return (
     <div className="cursor-pointer border-b border-b-darkBorder p-4 hover:bg-lightHover dark:hover:bg-darkHover" onClick={handleReelClick}>
       <div>
-        <PostHeader userProfilePicture={userProfilePicture} name={name} username={username} date={date} speciality={speciality} isFollowed={isFollowed} id={id} type="reel"/>
+        <PostHeader tweeter={{}} date={date}  id={id} type="reel" posts={reels} setPosts={setReels} />
       </div>
       <div className="flex w-full">
         <ReelBar id={id} replyCount={replyCount} reposted={isReposted} repostsNum={repostCount} liked={isLiked} likesNum={likeCount} topic={topic} />

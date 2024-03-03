@@ -1,0 +1,232 @@
+import { useTranslation } from "react-i18next"
+import { styles } from "../../../styles/styles"
+import i18next, { use } from "i18next"
+import { Link } from "react-router-dom"
+import { Avatar } from "@mui/material"
+import { useSelector } from "react-redux"
+import TextField from "@mui/material/TextField"
+import { useEffect, useRef, useState } from "react"
+import CircularProgress from "@mui/material/CircularProgress"
+import upload from "../../../assets/images/upload.png"
+
+import axios from "axios"
+import { Cancel } from "@mui/icons-material"
+
+const ComposeReel = ({ handleClose }: { handleClose: any }) => {
+  const { t } = useTranslation()
+  const user = useSelector((state: any) => state.user.user)
+  const userToken = useSelector((state: any) => state.user.token)
+  const darkMode = useSelector((state: any) => state.theme.darkMode)
+
+  const [description, setDescription] = useState("")
+  const [charsCount, setCharsCount] = useState(0)
+  const [charsProgressColor, setCharsProgressColor] = useState("#1D9BF0")
+  const [progressCircleSize, setProgressCircleSize] = useState(24)
+  const [progressCircleValue, setProgressCircleValue] = useState<number | null>(null)
+
+  const handleDescriptionChange = (e: any) => {
+    if (e.target.value.length < 280) setDescription(e.target.value)
+    setCharsCount((e.target.value.length * 100) / 280)
+    setCharsProgressColor(e.target.value.length < 260 ? "#1D9BF0" : e.target.value.length < 280 ? "#fdd81f" : "#f4212e")
+    setProgressCircleSize(e.target.value.length < 260 ? 24 : 32)
+    setProgressCircleValue(e.target.value.length >= 260 ? 280 - e.target.value.length : null)
+  }
+
+  const [selectedTopic, setSelectedTopic] = useState("")
+  const [selectedDescription, setSelectedDescription] = useState("Select a topic to see its description")
+
+  const handleChooseTopic = (topic: string) => {
+    setSelectedTopic(topic)
+    setSelectedDescription((topics.find((t: any) => t.topic === topic) as any)?.description)
+  }
+
+  const [topics, setTopics] = useState<any[]>([])
+
+  const API = axios.create({
+    baseURL: process.env.REACT_APP_API_URL,
+  })
+
+  useEffect(() => {
+    API.get("topics", {
+      headers: {
+        authorization: "Bearer " + userToken,
+        "accept-language": i18next.language,
+      },
+    })
+      .then((res) => {
+        // console.log(res.data.data.topics)
+        setTopics(res.data.data.topics)
+      })
+      .catch((err) => console.log(err))
+  }, [])
+
+  const reelInput = useRef<HTMLInputElement>(null)
+
+  const handleUploadClick = () => {
+    if (reelInput.current) {
+      reelInput.current.click()
+    }
+  }
+
+  const [fileSizeError, setFileSizeError] = useState(false)
+  const [fileUploaded, setFileUploaded] = useState(false)
+  const [reel, setReel] = useState<any>(null)
+  const [reelUrl, setReelUrl] = useState("")
+
+  const maxFileSize = 50 * 1024 * 1024
+
+  const handleUploadReel = (e: any) => {
+    const file = e.target.files[0]
+    // console.log(e.target.files[0])
+    if (file && file.size > maxFileSize) {
+      setFileSizeError(true)
+    } else if (file) {
+      setFileSizeError(false)
+      setFileUploaded(true)
+      setReel(file)
+      const url = URL.createObjectURL(file)
+      setReelUrl(url)
+    }
+    // console.log(file)
+    e.target.value = null
+  }
+
+  useEffect(() => {
+    if (fileSizeError) {
+      setTimeout(() => {
+        setFileSizeError(false)
+      }, 3000)
+    }
+  }, [fileSizeError])
+
+  const handleVideoClick = (e: any) => {
+    e.stopPropagation()
+  }
+
+  const handleRemoveReel = () => {
+    setFileUploaded(false)
+    setReel(null)
+    setReelUrl("")
+  }
+
+  const [isDragging, setIsDragging] = useState(false)
+
+  const handleDragEnter = (e: any) => {
+    e.preventDefault()
+    setIsDragging(true)
+  }
+
+  const handleDragLeave = (e: any) => {
+    e.preventDefault()
+    setIsDragging(false)
+  }
+
+  const handleDragOver = (e: any) => {
+    e.preventDefault()
+    setIsDragging(true)
+  }
+
+  const handleDrop = (e: any) => {
+    e.preventDefault()
+    setIsDragging(false)
+
+    const file = e.dataTransfer.files[0]
+    // console.log(e.target.files[0])
+    if (file && file.size > maxFileSize) {
+      setFileSizeError(true)
+    } else if (file) {
+      setFileSizeError(false)
+      setFileUploaded(true)
+      setReel(file)
+      const url = URL.createObjectURL(file)
+      setReelUrl(url)
+    }
+    // console.log(file)
+    e.target.value = null
+  }
+
+  return (
+    <>
+      <div className="flex w-full gap-2">
+        <div className={`my-2  w-[80%] rounded-2xl border border-primary p-3 `}>
+          <div className={`flex items-center justify-between gap-2 ${i18next.language === "en" ? "sm:mr-3" : "sm:ml-3"} `}>
+            <div className="flex flex-col items-center justify-center gap-2">
+              <Link className="hover:underline" to={`/${user.username}`}>
+                <Avatar alt={user.name} src={`${process.env.REACT_APP_MEDIA_URL}${user.imageUrl}`} sx={{ width: 40, height: 40 }} />
+              </Link>
+              <CircularProgress variant="determinate" value={charsCount} size={progressCircleSize} sx={{ color: charsProgressColor }} />
+            </div>
+            <TextField
+              id="description"
+              variant="standard"
+              InputProps={{
+                disableUnderline: true,
+                sx: {
+                  fontSize: window.innerWidth > 500 ? "13px" : window.innerWidth > 430 ? "11px" : "9px",
+                },
+              }}
+              placeholder={`Write your reel description here`}
+              onChange={(e) => handleDescriptionChange(e)}
+              multiline
+              value={description}
+              fullWidth
+              maxRows={23}
+              sx={{
+                border: "0px",
+                "& .MuiInputBase-root": {
+                  color: darkMode ? "#ffffff" : "#000000",
+                },
+              }}
+            />
+          </div>
+        </div>
+        <div className={`flex w-[20%] flex-col justify-center gap-2 max-xs:text-xs`}>
+          <button className={`${styles.normalButton} !border-primary`} onClick={handleClose}>
+            {t("cancel")}
+          </button>
+          <button className={`${styles.coloredButton}`} disabled={description === "" || selectedTopic === ""}>
+            {t("publish")}
+          </button>
+        </div>
+      </div>
+      <div className={`composeReelForth:h-[69%] mt-2 flex justify-around  composeReelFifth:h-[66%] composeReelThird:h-[72%] composeReelSecond:h-[75%] composeReelFirst:h-[78%]`}>
+        <div className="relative w-[47%]">
+          {!fileUploaded && (
+            <div className={`flex h-full cursor-pointer items-center justify-center rounded-2xl  border border-primary bg-gray-500 p-5`} onClick={handleUploadClick} onDragEnter={handleDragEnter} onDragLeave={handleDragLeave} onDragOver={handleDragOver} onDrop={handleDrop}>
+              <div className="flex flex-col items-center justify-center">
+                <img src={upload} alt="" className={` `} />
+                <div className="text-3xl font-semibold text-black">Drag the reel here</div>
+                <div className="text-lg font-semibold text-black">Limit 50. Supported files: .mp4, .mov, .avi, .mkv, .webm, .flv</div>
+              </div>
+              <input ref={reelInput} style={{ display: "none" }} accept="video/*" type="file" onChange={handleUploadReel} />
+            </div>
+          )}
+          {fileUploaded && <video controls className={`h-full w-full rounded-2xl `} src={reelUrl} onClick={handleVideoClick} />}
+          {fileUploaded && (
+            <div className="absolute right-1 top-1 cursor-pointer text-primary" onClick={handleRemoveReel}>
+              <Cancel fontSize="large" />
+            </div>
+          )}
+        </div>
+
+        <div className={` flex w-[47%] flex-col gap-2 rounded-2xl border border-primary p-3`}>
+          <div className="mb-3 border-b border-b-primary pb-1 text-center text-xl font-bold dark:text-white">Select Topic</div>
+
+          <div className=" flex flex-wrap gap-1 ">
+            {topics.map((topic: any) => (
+              <div key={topic.topic} className={` w-fit cursor-pointer rounded-full bg-primary px-2 py-1 font-semibold text-black  max-[600px]:text-sm max-[560px]:text-[0.5rem]  min-[700px]:px-4 min-[700px]:py-2 ${topic.topic === selectedTopic ? "brightness-100" : "brightness-50"}`} onClick={() => handleChooseTopic(topic.topic)}>
+                {topic.topic}
+              </div>
+            ))}
+          </div>
+          <div className="flex flex-grow"></div>
+          <div className="flex flex-grow items-center justify-center rounded-2xl border border-primary p-3 text-white max-lg:text-sm max-[853px]:text-xs max-[560px]:text-[0.5rem] ">{selectedDescription}</div>
+          <div className="flex flex-grow"></div>
+        </div>
+      </div>
+      <div className={`${fileSizeError ? "" : "hidden"} absolute bottom-10 left-1/2 -translate-x-1/2 rounded-2xl bg-primary p-2 text-xl font-semibold text-black`}>Sorry, maximum file size is 50MB</div>
+    </>
+  )
+}
+
+export default ComposeReel

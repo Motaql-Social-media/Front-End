@@ -122,7 +122,15 @@
   "repost":"Repost",
   "share":"Share",
   "like":"Like",
-  "bookmark":"Bookmark"
+  "bookmark":"Bookmark",
+  "bookmards":"Bookmarks",
+  "unmute":"Unmute",
+  "unblock":"Unblock",
+  "quote":"Quote",
+  "reposts":"Reposts",
+  "quotes":"Quotes",
+  "likes":"Likes",
+  "undo_repost":"Undo Repost"
 
 
 }
