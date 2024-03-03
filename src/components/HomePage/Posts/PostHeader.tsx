@@ -19,7 +19,7 @@ import HoveredProfile from "./HoveredProfile"
 import { useTranslation } from "react-i18next"
 import axios from "axios"
 
-const PostHeader = ({ date, tweeter, id, type, posts, setPosts }: { date: string; tweeter: any; id: string; type: string; posts: any; setPosts: any }) => {
+const PostHeader = ({ date, tweeter, id, type, posts, setPosts, base }: { date: string; tweeter: any; id: string; type: string; posts: any; setPosts: any; base: string }) => {
   const [menuToggle, setMenuToggle] = useState(false)
 
   const user = useSelector((state: any) => state.user.user)
@@ -161,7 +161,7 @@ const PostHeader = ({ date, tweeter, id, type, posts, setPosts }: { date: string
   return (
     <div className="flex items-center gap-2">
       <div onClick={handleProfileClick} className="relative" onMouseEnter={() => handleMouseEnter(1)} onMouseLeave={() => handleMouseLeave(1)}>
-        <Avatar alt={tweeter.name} src={process.env.REACT_APP_MEDIA_URL + tweeter.imageUrl} sx={{ width: 40, height: 40 }} />
+        <Avatar alt={tweeter.name} src={process.env.REACT_APP_USERS_MEDIA_URL + tweeter.imageUrl.split("/").pop()} sx={{ width: 40, height: 40 }} />
         {isVisible && <HoveredProfile hoveredUser={tweeter} state={followState} setState={setFollowState} />}
       </div>
       <div className="flex gap-1">

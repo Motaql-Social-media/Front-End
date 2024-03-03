@@ -21,7 +21,7 @@ const HoveredProfile = ({ hoveredUser, state, setState }: { hoveredUser: any; st
   return (
     <Box className="cursor-auto transition-all" sx={{ zIndex: 5, position: "absolute", top: "20px", backgroundColor: darkMode ? "black" : "white", color: darkMode ? "white" : "black", padding: "10px", borderRadius: "10px", boxShadow: darkMode ? "0px 0px 1px 1px gray" : "0px 0px 1px 1px black", width: "250px" }}>
       <div className="flex w-full justify-between ">
-        <Avatar alt="Remy Sharp" src={process.env.REACT_APP_MEDIA_URL + hoveredUser.imageUrl} sx={{ width: 50, height: 50 }} />
+        <Avatar alt="Remy Sharp" src={process.env.REACT_APP_USERS_MEDIA_URL+hoveredUser.imageUrl.split("/").pop()} sx={{ width: 50, height: 50 }} />
         <FollowButton username={hoveredUser.username} state={state} setState={setState} />
       </div>
       <Link className="hover:pointer-events-pointer block w-full font-semibold hover:underline" to={`/${hoveredUser.username}`}>

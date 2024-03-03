@@ -145,6 +145,26 @@ const ComposeReel = ({ handleClose }: { handleClose: any }) => {
     e.target.value = null
   }
 
+  const handleAddReel = () => {
+    const mediaFormData = new FormData()
+    mediaFormData.append("content", description)
+    mediaFormData.append("topics", selectedTopic)
+    mediaFormData.append("reel", reel)
+
+    API.post("reels/add-reel", mediaFormData, {
+      headers: {
+        authorization: "Bearer " + userToken,
+      },
+    })
+      .then((res) => {
+        console.log(res)
+        handleClose()
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
   return (
     <>
       <div className="flex w-full gap-2">
@@ -152,7 +172,7 @@ const ComposeReel = ({ handleClose }: { handleClose: any }) => {
           <div className={`flex items-center justify-between gap-2 ${i18next.language === "en" ? "sm:mr-3" : "sm:ml-3"} `}>
             <div className="flex flex-col items-center justify-center gap-2">
               <Link className="hover:underline" to={`/${user.username}`}>
-                <Avatar alt={user.name} src={`${process.env.REACT_APP_MEDIA_URL}${user.imageUrl}`} sx={{ width: 40, height: 40 }} />
+                <Avatar alt={user.name} src={`${process.env.REACT_APP_USERS_MEDIA_URL}${user.imageUrl.split("/").pop()}`} sx={{ width: 40, height: 40 }} />
               </Link>
               <CircularProgress variant="determinate" value={charsCount} size={progressCircleSize} sx={{ color: charsProgressColor }} />
             </div>
@@ -184,7 +204,13 @@ const ComposeReel = ({ handleClose }: { handleClose: any }) => {
           <button className={`${styles.normalButton} !border-primary`} onClick={handleClose}>
             {t("cancel")}
           </button>
-          <button className={`${styles.coloredButton}`} disabled={description === "" || selectedTopic === ""}>
+          <button
+            className={`${styles.coloredButton}`}
+            disabled={description === "" || selectedTopic === "" || !fileUploaded}
+            onClick={() => {
+              handleAddReel()
+            }}
+          >
             {t("publish")}
           </button>
         </div>

@@ -129,12 +129,29 @@ const Home = ({ scroll }: { scroll: number }) => {
   })
 
   const [diariesPage, setDiariesPage] = useState<number>(1)
+  const [reelsPage, setReelsPage] = useState<number>(1)
+
+  // useEffect(() => {
+  //   if (diariesPage > 1) if (window.location.pathname === "/home/diaries" || window.location.pathname === "/home") fetchDiaries()
+  // }, [diariesPage])
+
+  // useEffect(() => {
+  //   if (reelsPage > 1 && window.location.pathname === "/home/reels") fetchReels()
+  // }, [reelsPage])
 
   useEffect(() => {
-    if (diariesPage === 1) fetchDiary()
-  }, [diariesPage])
+    if ((window.location.pathname === "/home/diaries" || window.location.pathname === "/home") && diariesPage === 1) {
+      setDiaries([])
+      setDiariesPage(1)
+      fetchDiaries()
+    } else if( window.location.pathname === "/home/reels" && reelsPage === 1){
+      setReels([])
+      setReelsPage(1)
+      fetchReels()
+    }
+  }, [window.location.pathname])
 
-  const fetchDiary = () => {
+  const fetchDiaries = () => {
     API.get(`tweets/timeline?page=${diariesPage}&limit=${20}`, { headers: { authorization: "Bearer " + userToken } })
       .then((res) => {
         console.log(res.data.data.timelineTweets)
@@ -145,8 +162,19 @@ const Home = ({ scroll }: { scroll: number }) => {
       })
   }
 
+  const fetchReels = () => {
+    API.get(`reels/timeline?page=${reelsPage}&limit=${20}`, { headers: { authorization: "Bearer " + userToken } })
+      .then((res) => {
+        console.log(res.data.data.timelineReels)
+        setReels((prev) => prev.concat(res.data.data.timelineReels).filter((item, index, self) => self.indexOf(item) === index))
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
   const [diaries, setDiaries] = useState<Diary[]>([])
-  const [reels, setReels] = useState(r)
+  const [reels, setReels] = useState([])
 
   const { t } = useTranslation()
 
@@ -182,7 +210,8 @@ const Home = ({ scroll }: { scroll: number }) => {
   const [isVisible, setIsVisible] = useState(true)
 
   const handleFetchMore = () => {
-    setDiariesPage((prev) => prev + 1)
+    if (window.location.pathname === "/home/reels") setReelsPage((prev) => prev + 1)
+    else setDiariesPage((prev) => prev + 1)
   }
 
   const addTweetCallback = (t: any) => {

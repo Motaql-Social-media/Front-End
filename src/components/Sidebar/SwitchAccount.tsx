@@ -24,7 +24,7 @@ function SwitchAccount({ handleLogout, openMenu, anchorMenu, handleCloseMenu, ha
     <>
       <div className="group !mb-0 mt-auto box-border w-full cursor-pointer border-0">
         <div title="Accounts" className=" flex w-full items-center justify-around rounded-full group-hover:bg-lightHover dark:group-hover:bg-darkHover xs:!p-3">
-          <Avatar alt={user.name} src={`${process.env.REACT_APP_MEDIA_URL}${user.imageUrl}`} />
+          <Avatar alt={user.name} src={`${process.env.REACT_APP_USERS_MEDIA_URL}${user.imageUrl.split("/").pop()}`} />
           <div>
             <div className="truncate font-semibold">{user.name}</div>
             <div className="text-secondary truncate">{user.username}</div>

@@ -68,7 +68,7 @@ const MobileSidebar = ({ optionsNames, optionsIcons, optionLinks, selected, hand
           if (!open && isVisible) setOpen(true)
         }}
       >
-        <Avatar alt={user.name} src={`${process.env.REACT_APP_MEDIA_URL}${user.imageUrl}`} />
+        <Avatar alt={user.name} src={`${process.env.REACT_APP_USERS_MEDIA_URL}${user.imageUrl.split("/").pop()}`} />
       </div>
       <div
         className=" absolute  left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform cursor-pointer"

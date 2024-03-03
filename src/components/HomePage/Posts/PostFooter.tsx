@@ -154,7 +154,7 @@ const PostFooter = ({ id, replyCount, reposted, repostsNum, liked, likesNum, isB
               }}
             >
               <CachedOutlinedIcon className={`${i18next.language === "en" ? "mr-3" : "ml-3"} text-base dark:text-white`} />
-              <span className="text-[15px] dark:text-white">{repost?t('undo_repost'): t("repost")}</span>
+              <span className="text-[15px] dark:text-white">{repost ? t("undo_repost") : t("repost")}</span>
             </li>
 
             <li

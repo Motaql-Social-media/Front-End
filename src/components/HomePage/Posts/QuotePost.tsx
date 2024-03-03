@@ -12,7 +12,7 @@ const QuotePost = ({ content, gifUrl, imageUrls, createdAt, isBookmarked, isReac
   return (
     <div className="cursor-pointer border-b border-b-darkBorder p-4 hover:bg-lightHover dark:hover:bg-darkHover" onClick={handlePostClick}>
       <div className="mb-3">
-        <PostHeader tweeter={retweeter} date={createdAt} id={retweetId} type={"tweet"} posts={quotes} setPosts={setQuotes} />
+        <PostHeader base={'diary'} tweeter={retweeter} date={createdAt} id={retweetId} type={"tweet"} posts={quotes} setPosts={setQuotes} />
       </div>
       <div className="mb-2">
         <PostBody description={content} media={gifUrl !== "" ? gifUrl : imageUrls} />

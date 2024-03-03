@@ -1,7 +1,7 @@
 import DisplayMedia from "../../DisplayImages/DisplayMedia"
 
 const PostBody = ({ description, media }: { description: string; media: string[] }) => {
-  const mediaUrls = media.map((item: any) => process.env.REACT_APP_MEDIA_URL + item)
+  const mediaUrls = media.map((item: any) => process.env.REACT_APP_TWEETS_MEDIA_URL + item.split('/').pop())
 
   return (
     <div className="pl-12">

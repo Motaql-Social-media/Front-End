@@ -1,23 +1,29 @@
-import ElementVisibleObserver from "../../General/ElementVisibleObserver"
+// import ElementVisibleObserver from "../../General/ElementVisibleObserver"
 import Reel from "./Reel"
 import { HomeContext } from "../Home"
-import { useContext } from "react"
+import { BookmarksContext } from "../../Bookmarks/Bookmarks"
+import { useContext, useEffect } from "react"
 
 const Reels = () => {
-  const handleFetchMore = () => {
-    console.log("fetch more Reels")
-  }
+  // const handleFetchMore = () => {
+  //   console.log("fetch more Reels")
+  // }
 
-  const { diaries, setDiaries, reels, setReels } = useContext(HomeContext)
+  const { reels: homereels, setReels: homesetReels } = useContext(HomeContext) || {}
+  const { reels: bookmarksreels, setReels: bookmarkssetReels } = useContext(BookmarksContext) || {}
+
+  // useEffect(() => {
+  //   console.log(homereels)
+  // }, [homereels])
 
   return (
     <div>
-      {reels.map((post: any) => (
-        <div key={post.id}>
-          <Reel inPostPage={post.inPostPage} userProfilePicture={post.userProfilePicture} postType={post.postType} isFollowed={post.isFollowed} replyReferredTweetId={post.replyReferredTweetId} bio={post.bio} id={post.id} name={post.name} username={post.username} date={post.date} speciality={post.speciality} description={post.description} media={post.media} replyCount={post.replyCount} repostCount={post.repostCount} likeCount={post.likeCount} isLiked={post.isLiked} followingUser={post.followingUser} isReposted={post.isReposted} reels={post.reels} setReels={post.setReels} topic={post.topic} />
+      {homereels.map((reel: any) => (
+        <div key={reel.reelId}>
+          <Reel inPostPage={false} content={reel.content} createdAt={reel.createdAt} isBookmarked={reel.isBookmarked} isReacted={reel.isReacted} isRereeled={reel.isRereeled} mentions={reel.mentions} originalReel={reel.originalReel} originalReeler={reel.originalReeler} reReelCount={reel.reReelCount} reactCount={reel.reactCount} reelUrl={reel.reelUrl} reeler={reel.reeler} repliesCount={reel.repliesCount} postType={reel.type} id={reel.reelId} topic={"tmp"} reels={homereels} setReels={homesetReels} />
         </div>
       ))}
-      <ElementVisibleObserver handler={handleFetchMore} />
+      {/* <ElementVisibleObserver handler={handleFetchMore} /> */}
     </div>
   )
 }
