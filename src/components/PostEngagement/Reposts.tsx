@@ -6,7 +6,7 @@ import PersonsContainer from "../Person/PersonsContainer"
 import NoReposts from "./NoReposts"
 
 const Reposts = () => {
-  const { id } = useParams()
+  const { id,type } = useParams()
   const API = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
   })
@@ -17,7 +17,7 @@ const Reposts = () => {
 
   useEffect(() => {
     if (id) {
-      API.get(`/tweets/${id}/retweeters`, {
+      API.get(`${type!=='reel'?'tweets':'reels'}/${id}/${type!=='reel'?'retweeters':'rereelers'}`, {
         headers: {
           Authorization: `Bearer ${userToken}`,
         },

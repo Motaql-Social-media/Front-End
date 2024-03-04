@@ -12,7 +12,7 @@ const QuotePost = ({ content, mentions, media, createdAt, isBookmarked, isReacte
   return (
     <div className="cursor-pointer border-b border-b-darkBorder p-4 hover:bg-lightHover dark:hover:bg-darkHover" onClick={handlePostClick}>
       <div className="mb-3">
-        <PostHeader base={"Quote"} tweeter={retweeter} date={createdAt} id={retweetId} type={"tweet"} posts={quotes} setPosts={setQuotes} />
+        <PostHeader base={"Quote"} tweeter={retweeter} date={createdAt} id={retweetId} type={"tweet"} posts={quotes} setPosts={setQuotes} parent ='diary'/>
       </div>
       <div className="mb-2">
         <PostBody description={content} media={media} mentions={mentions} />

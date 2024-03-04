@@ -6,7 +6,7 @@ import PersonsContainer from "../Person/PersonsContainer"
 import NoLikes from "./NoLikes"
 
 const Likes = () => {
-  const { id } = useParams()
+  const { id, type } = useParams()
   const API = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
   })
@@ -17,7 +17,7 @@ const Likes = () => {
 
   useEffect(() => {
     if (id) {
-      API.get(`/tweets/${id}/reacters`, {
+      API.get(`${type==='diary'?'tweets':'reels'}/${id}/reacters`, {
         headers: {
           Authorization: `Bearer ${userToken}`,
         },

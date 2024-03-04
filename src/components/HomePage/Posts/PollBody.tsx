@@ -53,29 +53,53 @@ const PollBody = ({ poll, mentions, id }: { poll: any; mentions: string[]; id: s
 
   const userToken = useSelector((state: any) => state.user.token)
 
-  const [polled, setPolled] = useState(false)
-  const [polledIdx, setPolledIdx] = useState(-1)
+  const [polled, setPolled] = useState(poll.votedOption !== undefined ? true : false)
+  const [polledIdx, setPolledIdx] = useState(poll.votedOption !== undefined ? poll.votedOption : -1)
+  const [totalVotes, setTotalVotes] = useState(poll.totalVotesCount)
+  const [optionsVotesCount, setOptionsVotesCount] = useState(poll.options.map((option: any) => option.votesCount))
+
+  // useEffect(() => {
+  //   console.log(poll.votedOption !== undefined ? true : false)
+  // }, [])
+
+  // useEffect(() => {
+  //   console.log(poll.votedOption)
+  //   if (poll.VotedOption) {
+  //     setPolledIdx(poll.VotedOption)
+  //     console.log("H")
+  //     setPolled(true)
+  //   } else {
+  //     // setPolled(false)
+  //   }
+  // }, [])
 
   const handleVote = (optionIdx: number) => {
-    // API.patch(
-    //   `tweets/${id}/toggle-vote`,
-    //   {
-    //     optionIdx,
-    //   },
-    //   {
-    //     headers: {
-    //       authorization: "Bearer " + userToken,
-    //     },
-    //   }
-    // )
-    //   .then((res) => {
-    //     console.log(res)
-    //     setPolledIdx(optionIdx)
-    //     setPolled(true)
-    //   })
-    //   .catch((err) => console.log(err))
-    setPolledIdx(optionIdx)
-    setPolled(true)
+    console.log(optionIdx)
+    API.patch(
+      `tweets/${id}/toggle-vote`,
+      {
+        optionIdx,
+      },
+      {
+        headers: {
+          authorization: "Bearer " + userToken,
+        },
+      }
+    )
+      .then((res) => {
+        console.log(res)
+        setPolledIdx(optionIdx)
+        setTotalVotes((prev: number) => prev + 1)
+        setOptionsVotesCount((prev: any) => {
+          const newVotes = [...prev]
+          newVotes[optionIdx]++
+          return newVotes
+        })
+        setPolled(true)
+      })
+      .catch((err) => console.log(err))
+    // setPolledIdx(optionIdx)
+    // setPolled(true)
   }
 
   return (
@@ -107,12 +131,12 @@ const PollBody = ({ poll, mentions, id }: { poll: any; mentions: string[]; id: s
       {polled && (
         <div>
           {poll.options.map((p: any, index: number) => (
-            <PollOptionResult option={p.text} percentage={poll.polled ? (p.votesCount * 100) / poll.totalVotesCount : ((p.votesCount + (index === polledIdx)) * 100) / (poll.totalVotesCount + 1)} key={index} />
+            <PollOptionResult option={p.text} percentage={(optionsVotesCount[index] * 100) / totalVotes} key={index} />
           ))}
         </div>
       )}
       <div className="flex gap-3">
-        <div className="pl-8 text-primary">{poll.polled ? poll.totalVotesCount : poll.totalVotesCount + 1} votes</div>
+        <div className="pl-8 text-primary">{totalVotes} votes</div>
         <div className="text-primary">{timeRemaining}</div>
       </div>
     </div>

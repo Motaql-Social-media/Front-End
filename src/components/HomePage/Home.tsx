@@ -144,7 +144,7 @@ const Home = ({ scroll }: { scroll: number }) => {
       setDiaries([])
       setDiariesPage(1)
       fetchDiaries()
-    } else if( window.location.pathname === "/home/reels" && reelsPage === 1){
+    } else if (window.location.pathname === "/home/reels" && reelsPage === 1) {
       setReels([])
       setReelsPage(1)
       fetchReels()
@@ -174,7 +174,7 @@ const Home = ({ scroll }: { scroll: number }) => {
   }
 
   const [diaries, setDiaries] = useState<Diary[]>([])
-  const [reels, setReels] = useState([])
+  const [reels, setReels] = useState<Reel[]>([])
 
   const { t } = useTranslation()
 
@@ -218,6 +218,9 @@ const Home = ({ scroll }: { scroll: number }) => {
     // console.log(t)
     setDiaries((prev) => [t, ...prev])
   }
+  const addReelCallback = (r: any) => {
+    setReels((prev) => [r, ...prev])
+  }
 
   return (
     <div className="flex flex-1 flex-grow-[8] max-[540px]:mt-16">
@@ -231,7 +234,7 @@ const Home = ({ scroll }: { scroll: number }) => {
           {t("home")}
         </div>
         <div>
-          <ComposePost buttonName="Post" handleNewPost={() => {}} postType="tweet" addTweetCallback={addTweetCallback} />
+          <ComposePost buttonName="Post" handleNewPost={() => {}} postType="tweet" addTweetCallback={addTweetCallback} addReelCallback={addReelCallback} />
         </div>
         <div className="flex h-[53px] items-center border-b border-b-darkBorder pb-2">
           <HorizontalNavbar

@@ -13,6 +13,7 @@ import axios from "axios"
 import FormatQuoteIcon from "@mui/icons-material/FormatQuote"
 import i18next from "i18next"
 import { Modal } from "@mui/material"
+import ComposeQuote from "../ComposePost/ComposeQuote"
 
 const ReelBar = ({ id, replyCount, reposted, repostsNum, liked, likesNum, topic, isBookmarked, username }: { id: string; replyCount: number; reposted: boolean; repostsNum: number; liked: boolean; likesNum: number; topic: any; isBookmarked: boolean; username: string }) => {
   const [like, setLike] = useState(liked)
@@ -116,8 +117,8 @@ const ReelBar = ({ id, replyCount, reposted, repostsNum, liked, likesNum, topic,
   }
 
   return (
-    <div className="text-ternairy mt-3 flex w-[20%] max-xs:w-[10%] flex-col justify-around items-center dark:text-gray-500 ">
-      <button className={`${styles.coloredButton} max-xs-rotate-90 flex justify-center items-center  !h-fit !min-w-fit max-[600px]:text-sm max-xs:rounded-sm max-xs:-rotate-90`} title={topic.description}>
+    <div className="text-ternairy mt-3 flex w-[20%] flex-col items-center justify-around dark:text-gray-500 max-xs:w-[10%] ">
+      <button className={`${styles.coloredButton} max-xs-rotate-90 flex !h-fit !min-w-fit  items-center justify-center max-[600px]:text-sm max-xs:-rotate-90 max-xs:rounded-sm`} title={topic.description}>
         {topic.topic}
       </button>
       <div className={`group pointer-events-auto flex cursor-pointer flex-col items-center transition-colors  duration-300 hover:text-primary`} title={t("reply")}>
@@ -220,7 +221,9 @@ const ReelBar = ({ id, replyCount, reposted, repostsNum, liked, likesNum, topic,
         </div>
       </div>
       <Modal open={open} onClose={handleClose}>
-        <div className="absolute left-1/2 top-1/2 w-[50%] -translate-x-1/2 -translate-y-1/2 border p-4 dark:border-darkBorder dark:bg-black ">{/* <ComposeQuote id={id} handleClose={handleClose} setRepost={setRepost} repost={repost} repostCount={repostCount} setRepostCount={setRepostCount} /> */}</div>
+        <div className="absolute left-1/2 top-1/2 w-[50%] -translate-x-1/2 -translate-y-1/2 border p-4 dark:border-darkBorder dark:bg-black ">
+          <ComposeQuote id={id} handleClose={handleClose} setRepost={setRepost} repost={repost} repostCount={repostCount} setRepostCount={setRepostCount} type="reel" />
+        </div>
       </Modal>
       <div className={`absolute bottom-8 left-1/2 ${openSnackbar ? "opacity-100" : "opacity-0"} z-[999] -translate-x-1/2 rounded-full bg-primary p-2 transition-opacity duration-[750]`}>
         <span className="font-semibold text-black">Link Copied to Clipboard</span>

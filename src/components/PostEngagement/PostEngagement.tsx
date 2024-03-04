@@ -57,7 +57,7 @@ const PostEngagement = ({ scroll }: { scroll: number }) => {
 
   const [isVisible, setIsVisible] = useState(true)
 
-  const { id, tag } = useParams()
+  const { id, tag, type } = useParams()
 
   //   useEffect(() => {
   //     console.log(id, tag)
@@ -90,7 +90,7 @@ const PostEngagement = ({ scroll }: { scroll: number }) => {
               { title: t("reposts"), location: "reposts" },
               { title: t("likes"), location: "likes" },
             ]}
-            originalUrl={`/${tag}/status/${id}/engagement`}
+            originalUrl={`/${tag}/${type}/${id}/engagement`}
             handlers={[null, null]}
           />
         </div>

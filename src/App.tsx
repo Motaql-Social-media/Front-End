@@ -116,7 +116,7 @@ function App() {
               <Route path="reels" element={<Reels />} />
               <Route path="" element={<Diaries />} />
             </Route>
-            <Route path="/:tag/status/:id/engagement" element={<PostEngagement scroll={deltaY} />}>
+            <Route path="/:tag/:type/:id/engagement" element={<PostEngagement scroll={deltaY} />}>
               <Route path="likes" element={<Likes />}></Route>
               <Route path="quotes" element={<Quotes />}></Route>
               <Route path="reposts" element={<Reposts />}></Route>

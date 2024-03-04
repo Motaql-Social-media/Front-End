@@ -125,7 +125,7 @@ const Bookmarks = ({ scroll }: { scroll: number }) => {
   })
 
   const [diaries, setDiaries] = useState<Diary[]>([])
-  const [reels, setReels] = useState(r)
+  const [reels, setReels] = useState<Reel[]>([])
 
   const { t } = useTranslation()
 
@@ -168,16 +168,41 @@ const Bookmarks = ({ scroll }: { scroll: number }) => {
     })
       .then((res) => {
         console.log(res)
-        // setDiaries(res.data.data.tweets)
+        setDiaries(res.data.data.bookmarks)
       })
       .catch((err) => {
         console.log(err)
       })
   }
 
+  const fetchBookmarksReels = () => {
+    API.get("users/current/reel-bookmarks", {
+      headers: {
+        authorization: "Bearer " + userToken,
+      },
+    })
+      .then((res) => {
+        console.log(res)
+        setReels(res.data.data.bookmarks)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
+  // useEffect(() => {
+  //   fetchBookmarksDiaries()
+  // }, [])
+
   useEffect(() => {
-    fetchBookmarksDiaries()
-  }, [])
+    if ((window.location.pathname === "/bookmarks/diaries" || window.location.pathname === "/bookmarks")) {
+      setDiaries([])
+      fetchBookmarksDiaries()
+    } else if (window.location.pathname === "/bookmarks/reels") {
+      setReels([])
+      fetchBookmarksReels()
+    }
+  }, [window.location.pathname])
 
   return (
     <div className="flex flex-1 flex-grow-[8] max-[540px]:mt-16">

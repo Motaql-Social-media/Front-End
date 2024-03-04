@@ -7,6 +7,8 @@ import axios from "axios"
 import i18next from "i18next"
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft"
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight"
+import Reel from "../HomePage/Posts/Reel"
+import NoReels from "./NoReels"
 const Explore = ({ scroll }: { scroll: number }) => {
   const navigate = useNavigate()
 
@@ -61,7 +63,7 @@ const Explore = ({ scroll }: { scroll: number }) => {
     navigate(-1)
   }
 
-  const [selectedTopic, setSelectedTopic] = useState("")
+  const [selectedTopic, setSelectedTopic] = useState("Art")
   const [selectedDescription, setSelectedDescription] = useState("Select a topic to see its description")
 
   const handleChooseTopic = (topic: string) => {
@@ -120,6 +122,25 @@ const Explore = ({ scroll }: { scroll: number }) => {
   const [leftArrow, setLeftArrow] = useState(false)
   const [rightArrow, setRightArrow] = useState(true)
 
+  const [reels, setReels] = useState<Reel[]>([])
+
+  const fetchReels = () => {
+    API.get(`topics/${selectedTopic}/reels`, {
+      headers: {
+        authorization: "Bearer " + userToken,
+      },
+    })
+      .then((res) => {
+        // console.log(res.data.data.supportingreels)
+        setReels(res.data.data.supportingreels)
+      })
+      .catch((err) => console.log(err))
+  }
+
+  useEffect(() => {
+    fetchReels()
+  }, [selectedTopic])
+
   return (
     <div className="flex flex-1 flex-grow-[8] max-[540px]:mt-16">
       <div ref={exploreRef} className="no-scrollbar ml-0 mr-1 w-full max-w-[620px] shrink-0 flex-grow overflow-y-scroll border border-b-0 border-t-0 border-lightBorder dark:border-darkBorder  max-[540px]:border-l-0 max-[540px]:border-r-0 sm:w-[600px]">
@@ -164,6 +185,16 @@ const Explore = ({ scroll }: { scroll: number }) => {
               <KeyboardArrowRightIcon fontSize="large" />
             </div>
           </div>
+        </div>
+        <div>
+          {reels.map((reel: any) => {
+            return (
+              <div key={reel.reelId}>
+                <Reel inPostPage={false} content={reel.content} createdAt={reel.createdAt} isBookmarked={reel.isBookmarked} isReacted={reel.isReacted} isRereeled={reel.isRereeled} mentions={reel.mentions} originalReel={reel.originalReel} originalReeler={reel.originalReeler} reReelCount={reel.reReelCount} reactCount={reel.reactCount} reelUrl={reel.reelUrl} reeler={reel.reeler} repliesCount={reel.repliesCount} postType={reel.type} id={reel.reelId} topic={reel.topics[0]} reels={reels} setReels={setReels} />
+              </div>
+            )
+          })}
+          {reels.length === 0 && <NoReels />}
         </div>
       </div>
     </div>

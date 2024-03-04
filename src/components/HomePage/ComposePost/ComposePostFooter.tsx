@@ -30,6 +30,8 @@ function ComposePostFooter({
   publishButton,
   fromQuote,
   description,
+  media,
+  addReelCallback,
 }: {
   buttonName: string
   handleUploadMedia: (event: React.ChangeEvent<HTMLInputElement>) => void
@@ -46,6 +48,8 @@ function ComposePostFooter({
   publishButton: any
   fromQuote: boolean
   description: string
+  media: any
+  addReelCallback: any
 }) {
   const themeColor = useSelector((state: any) => state.theme.color)
 
@@ -124,7 +128,7 @@ function ComposePostFooter({
       <button
         ref={publishButton}
         className={`${styles.coloredButton} !h-9 !w-fit px-2`}
-        disabled={(postDisabled && pollError) || description.length === 0}
+        disabled={(postDisabled && pollError) || (description.length === 0 && media.length === 0)}
         onClick={(e) => {
           publishButton.current?.setAttribute("disabled", "true")
           handleSubmit(e)
@@ -134,7 +138,7 @@ function ComposePostFooter({
       </button>
       <Modal open={open} onClose={handleClose}>
         <div className="absolute left-1/2 top-1/2 h-full w-[90%] -translate-x-1/2 -translate-y-1/2 rounded-3xl border p-4 shadow-card dark:border-darkBorder dark:bg-black ">
-          <ComposeReel handleClose={handleClose} />
+          <ComposeReel handleClose={handleClose} addReelCallback={addReelCallback} />
         </div>
       </Modal>
     </div>

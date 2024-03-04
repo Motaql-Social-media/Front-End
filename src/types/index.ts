@@ -1,8 +1,8 @@
-export {};
+export {}
 
 declare global {
   interface Window {
-    grecaptcha: any; 
+    grecaptcha: any
   }
 
   interface Diary {
@@ -29,5 +29,30 @@ declare global {
     isBookmarked: boolean
     isReacted: boolean
     isRetweeted: boolean
+  }
+
+  interface Reel {
+    reelId: number
+    reelUrl: string
+    content: string
+    createdAt: string
+    poll: {}
+    reeler: {
+      imageUrl: string
+      username: string
+      jobtitle: string
+      name: string
+      followersCount: number
+      followingsCount: number
+      isMuted: boolean
+      isBlocked: boolean
+    }
+    mentions: string[]
+    reactCount: number
+    reReelCount: number
+    repliesCount: number
+    isBookmarked: boolean
+    isReacted: boolean
+    isRereeled: boolean
   }
 }

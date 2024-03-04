@@ -18,6 +18,7 @@ function ComposePost({
   handleNewPost,
   postType,
   addTweetCallback,
+  addReelCallback,
 }: //   referredTweetId,
 //   handleClosePopup,
 {
@@ -25,6 +26,7 @@ function ComposePost({
   handleNewPost: any
   postType: string
   addTweetCallback: any
+  addReelCallback: any
   //   referredTweetId: string;
   //   handleClosePopup: any;
 }) {
@@ -130,7 +132,7 @@ function ComposePost({
         const t = { ...res.data.data.tweet, repliesCount: 0, reTweetCount: 0, reactCount: 0, isReacted: false, isRetweeted: false, isBookmarked: false }
         // console.log(t)
 
-        // addTweetCallback(t)
+        addTweetCallback(t)
         setMedia([])
         setDescription("")
         setMediaUrls([])
@@ -258,7 +260,7 @@ function ComposePost({
         <DisplayMedia mediaUrls={mediaUrls} setMediaUrls={setMediaUrls} margin={1.5} showCancelButton={true} deleteCallback={handleDeleteMediaCallback} />
         {pollDisabled && media.length === 0 && <Poll handlePollClick={handlePollClick} poll={poll} setPoll={setPoll} />}
         <hr className={`h-px border-0 bg-lightBorder dark:bg-darkBorder ${buttonName === "Post" ? "" : "hidden"}`} />
-        <ComposePostFooter buttonName={buttonName} handleUploadMedia={handleUploadMedia} mediaDisabled={mediaDisabled} GIFDisabled={GIFDisabled} pollDisabled={pollDisabled} postDisabled={postDisabled} progressCircleSize={progressCircleSize} charsCount={charsCount} charsProgressColor={charsProgressColor} handleSubmit={handleSubmit} handlePollClick={handlePollClick} poll={poll} publishButton={publishButton} fromQuote={false} description={description} />
+        <ComposePostFooter buttonName={buttonName} handleUploadMedia={handleUploadMedia} mediaDisabled={mediaDisabled} GIFDisabled={GIFDisabled} pollDisabled={pollDisabled} postDisabled={postDisabled} progressCircleSize={progressCircleSize} charsCount={charsCount} charsProgressColor={charsProgressColor} handleSubmit={handleSubmit} handlePollClick={handlePollClick} poll={poll} publishButton={publishButton} fromQuote={false} description={description} media={media} addReelCallback={addReelCallback} />
       </div>
     </div>
   )

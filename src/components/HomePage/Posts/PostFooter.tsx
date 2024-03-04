@@ -120,7 +120,7 @@ const PostFooter = ({ id, replyCount, reposted, repostsNum, liked, likesNum, isB
   }, [openSnackbar])
 
   return (
-    <div className="post-footer text-ternairy mt-3 flex w-full justify-around min-xs:pl-12 dark:text-gray-500 ">
+    <div className="post-footer text-ternairy min-xs:pl-12 mt-3 flex w-full justify-around dark:text-gray-500 ">
       <div className={`group pointer-events-auto -ml-2 flex cursor-pointer items-center transition-colors  duration-300 hover:text-primary`} title={t("reply")}>
         <div className={`flex h-10 w-10  items-center justify-center rounded-full bg-inherit group-hover:bg-[#e7f5fd] dark:group-hover:bg-[#031018] `}>
           <ChatBubbleOutlineOutlinedIcon
@@ -222,7 +222,7 @@ const PostFooter = ({ id, replyCount, reposted, repostsNum, liked, likesNum, isB
       </div>
       <Modal open={open} onClose={handleClose}>
         <div className="absolute left-1/2 top-1/2 w-[50%] -translate-x-1/2 -translate-y-1/2 border p-4 dark:border-darkBorder dark:bg-black ">
-          <ComposeQuote id={id} handleClose={handleClose} setRepost={setRepost} repost={repost} repostCount={repostCount} setRepostCount={setRepostCount} />
+          <ComposeQuote id={id} handleClose={handleClose} setRepost={setRepost} repost={repost} repostCount={repostCount} setRepostCount={setRepostCount} type="diary" />
         </div>
       </Modal>
       <div className={`absolute bottom-8 left-1/2 ${openSnackbar ? "opacity-100" : "opacity-0"} z-[999] -translate-x-1/2 rounded-full bg-primary p-2 transition-opacity duration-[750]`}>

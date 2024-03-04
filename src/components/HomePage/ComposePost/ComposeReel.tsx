@@ -12,7 +12,7 @@ import upload from "../../../assets/images/upload.png"
 import axios from "axios"
 import { Cancel } from "@mui/icons-material"
 
-const ComposeReel = ({ handleClose }: { handleClose: any }) => {
+const ComposeReel = ({ handleClose, addReelCallback }: { handleClose: any; addReelCallback: any }) => {
   const { t } = useTranslation()
   const user = useSelector((state: any) => state.user.user)
   const userToken = useSelector((state: any) => state.user.token)
@@ -158,6 +158,8 @@ const ComposeReel = ({ handleClose }: { handleClose: any }) => {
     })
       .then((res) => {
         console.log(res)
+        const t = { ...res.data.data.reel, isBookmarked: false, isReacted: false, isRereeled: false, reactCount: 0, reReelCount: 0, repliesCount: 0, reeler: user }
+        addReelCallback(t)
         handleClose()
       })
       .catch((err) => {

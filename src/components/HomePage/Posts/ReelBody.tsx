@@ -1,7 +1,7 @@
 import { Skeleton } from "@mui/material"
 import { useState, useEffect, useRef } from "react"
 
-const ReelBody = ({ media, content, mentions }: { media: string; content: string; mentions: any }) => {
+const ReelBody = ({ media, content, mentions, displayReel }: { media: string; content: string; mentions: string[]; displayReel: boolean }) => {
   const handleVideoClick = (e: any) => {
     e.stopPropagation()
   }
@@ -26,32 +26,50 @@ const ReelBody = ({ media, content, mentions }: { media: string; content: string
     }
   }, [videoRef.current])
 
-
-
   const mediaUrl = (process.env.REACT_APP_REELS_MEDIA_URL || "") + media
+
+  const [processedMentions, setProcessedMentions] = useState<string[]>([])
+
+  useEffect(() => {
+    setProcessedMentions(mentions.map((mention) => `@${mention}`))
+  }, [mentions])
 
   return (
     <div className="w-full">
       <div className="ml-5 mt-1 ">
-        <p className=" ">{content}</p>
+        <p>
+          {content.split(" ").map((word, index) => (
+            <span key={index}>
+              {processedMentions.includes(word) ? (
+                <a href={`/${word.slice(1)}`} onClick={(e: any) => e.stopPropagation()} className="text-white hover:text-primary">
+                  {` ${word} `}
+                </a>
+              ) : (
+                ` ${word} `
+              )}
+            </span>
+          ))}
+        </p>
       </div>
-      <div className={`flex  ${isLoading ? "justify-center " : " justify-end"} pl-5 pt-5`}>
-        <Skeleton
-          variant="rectangular"
-          animation="wave"
-          width={"80%"}
-          height={600}
-          sx={{
-            display: isLoading ? "block" : "none",
-            borderRadius: "30px",
-            backgroundColor: "#3b3b3b",
-            "::after": {
-              background: "linear-gradient(to right, transparent, #4a4a4a, transparent) !important",
-            },
-          }}
-        />
-        <video ref={videoRef} controls className={`h-[600px] w-full  ${isLoading ? "hidden" : ""}`} src={mediaUrl} onClick={handleVideoClick} />
-      </div>
+      {displayReel && (
+        <div className={`flex  ${isLoading ? "justify-center " : " justify-end"} pl-5 pt-5`}>
+          <Skeleton
+            variant="rectangular"
+            animation="wave"
+            width={"80%"}
+            height={600}
+            sx={{
+              display: isLoading ? "block" : "none",
+              borderRadius: "30px",
+              backgroundColor: "#3b3b3b",
+              "::after": {
+                background: "linear-gradient(to right, transparent, #4a4a4a, transparent) !important",
+              },
+            }}
+          />
+          <video ref={videoRef} controls className={`h-[600px] w-full  ${isLoading ? "hidden" : ""}`} src={mediaUrl} onClick={handleVideoClick} />
+        </div>
+      )}
     </div>
   )
 }

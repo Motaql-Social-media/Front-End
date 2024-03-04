@@ -8,8 +8,9 @@ import DisplayMedia from "../../DisplayImages/DisplayMedia"
 import ComposePostFooter from "./ComposePostFooter"
 import { Link } from "react-router-dom"
 import Post from "../Posts/Post"
+import { styles } from "../../../styles/styles"
 
-const ComposeQuote = ({ id, handleClose, setRepost, repost, repostCount, setRepostCount }: { id: any; handleClose: any; setRepost: any; repost: boolean; repostCount: number; setRepostCount: any }) => {
+const ComposeQuote = ({ id, handleClose, setRepost, repost, repostCount, setRepostCount, type }: { id: any; handleClose: any; setRepost: any; repost: boolean; repostCount: number; setRepostCount: any; type: string }) => {
   const [description, setDescription] = useState("")
   const [charsCount, setCharsCount] = useState(0)
   const [charsProgressColor, setCharsProgressColor] = useState("#1D9BF0")
@@ -45,20 +46,23 @@ const ComposeQuote = ({ id, handleClose, setRepost, repost, repostCount, setRepo
   const handleSubmit = (e: any) => {
     e.stopPropagation()
     const mediaFormData = new FormData()
+    console.log(description)
     mediaFormData.append("content", description)
 
-    media.forEach((m) => {
-      if (!(mediaNames[0] === "gif")) mediaFormData.append("images", m.file)
-      else mediaFormData.append("gif", m.file)
-    })
+    if (type === "diary") {
+      media.forEach((m) => {
+        if (!(mediaNames[0] === "gif")) mediaFormData.append("images", m.file)
+        else mediaFormData.append("gif", m.file)
+      })
+    }
 
-    API.post(`tweets/${id}/retweet`, mediaFormData, {
+    API.post(type === "diary" ? `tweets/${id}/retweet` : `reels/${id}/rereel`, mediaFormData, {
       headers: {
         authorization: "Bearer " + userToken,
       },
     })
       .then((res) => {
-        // console.log(res)
+        console.log(res)
         setRepostCount(repost ? repostCount - 1 : repostCount + 1)
 
         setRepost(!repost)
@@ -169,7 +173,7 @@ const ComposeQuote = ({ id, handleClose, setRepost, repost, repostCount, setRepo
             },
           }}
         ></TextField>
-        <DisplayMedia mediaUrls={mediaUrls} setMediaUrls={setMediaUrls} margin={1.5} showCancelButton={true} deleteCallback={handleDeleteMediaCallback} />
+        {type === "diary" && <DisplayMedia mediaUrls={mediaUrls} setMediaUrls={setMediaUrls} margin={1.5} showCancelButton={true} deleteCallback={handleDeleteMediaCallback} />}{" "}
         {/* {post && (
           <Post
             cascade={false}
@@ -199,7 +203,12 @@ const ComposeQuote = ({ id, handleClose, setRepost, repost, repostCount, setRepo
           />
         )} */}
         <hr className={`h-px border-0 bg-lightBorder dark:bg-darkBorder ${buttonName === "Post" ? "" : "hidden"}`} />
-        <ComposePostFooter buttonName={buttonName} handleUploadMedia={handleUploadMedia} mediaDisabled={mediaDisabled} GIFDisabled={GIFDisabled} pollDisabled={true} postDisabled={postDisabled} progressCircleSize={progressCircleSize} charsCount={charsCount} charsProgressColor={charsProgressColor} handleSubmit={handleSubmit} handlePollClick={() => {}} poll={{}} publishButton={publishButton} fromQuote={true} description={description} />
+        {type === "diary" && <ComposePostFooter buttonName={buttonName} handleUploadMedia={handleUploadMedia} mediaDisabled={mediaDisabled} GIFDisabled={GIFDisabled} pollDisabled={true} postDisabled={postDisabled} progressCircleSize={progressCircleSize} charsCount={charsCount} charsProgressColor={charsProgressColor} handleSubmit={handleSubmit} handlePollClick={() => {}} poll={{}} publishButton={publishButton} fromQuote={true} description={description} media={media} addReelCallback={() => {}} />}
+        {type === "reel" && (
+          <button className={`${styles.coloredButton}`} disabled={description.length === 0} onClick={handleSubmit}>
+            {t("publish")}
+          </button>
+        )}
       </div>
     </div>
   )

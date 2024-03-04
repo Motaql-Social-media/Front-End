@@ -85,10 +85,10 @@ const Post = ({
           }}
         />
         <span>{tweeter.username} reposted</span>
-        {isVisible && <HoveredProfile hoveredUser={originalTweeter} state={followState} setState={setFollowState} />}
+        {isVisible && <HoveredProfile hoveredUser={tweeter} state={followState} setState={setFollowState} />}
       </div>
       <div>
-        <PostHeader base={"diary"} tweeter={postType === "Repost" ? originalTweeter : tweeter} date={date} id={id} type={postType === "Repost" ? originalTweet.type : postType} posts={posts} setPosts={setPosts} />
+        <PostHeader base={"diary"} tweeter={postType === "Repost" ? originalTweeter : tweeter} date={date} id={id} type={postType === "Repost" ? originalTweet.type : postType} posts={posts} setPosts={setPosts} parent="diary"/>
       </div>
       {displayFooter && !poll?.pollId && (
         <div>

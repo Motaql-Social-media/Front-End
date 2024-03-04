@@ -19,7 +19,7 @@ import HoveredProfile from "./HoveredProfile"
 import { useTranslation } from "react-i18next"
 import axios from "axios"
 
-const PostHeader = ({ date, tweeter, id, type, posts, setPosts, base }: { date: string; tweeter: any; id: string; type: string; posts: any; setPosts: any; base: string }) => {
+const PostHeader = ({ date, tweeter, id, type, posts, setPosts, base, parent }: { date: string; tweeter: any; id: string; type: string; posts: any; setPosts: any; base: string; parent: string }) => {
   const [menuToggle, setMenuToggle] = useState(false)
 
   const user = useSelector((state: any) => state.user.user)
@@ -143,14 +143,15 @@ const PostHeader = ({ date, tweeter, id, type, posts, setPosts, base }: { date: 
   const [muteState, setMuteState] = useState<boolean>(tweeter.isMuted)
 
   const handleDeletePost = () => {
-    API.delete(`/tweets/${id}`, {
+    API.delete(`${parent === "diary" ? "tweets" : "reels"}/${id}`, {
       headers: {
         authorization: `Bearer ${userToken}`,
       },
     })
       .then((res) => {
         // console.log(res)
-        setPosts(posts.filter((post: any) => post.tweetId !== id))
+        if (parent === "diary") setPosts(posts.filter((post: any) => post.tweetId !== id))
+        else setPosts(posts.filter((post: any) => post.reelId !== id))
       })
       .catch((err) => {
         console.log(err)
@@ -241,7 +242,7 @@ const PostHeader = ({ date, tweeter, id, type, posts, setPosts, base }: { date: 
                 </span>
               </li>
               <li onClick={handleMenuClick} className={`flex items-center p-2 pl-3  `}>
-                <Link className="pointer-events-auto" to={`/${tweeter.username}/status/${id}/engagement`}>
+                <Link className="pointer-events-auto" to={`/${tweeter.username}/${parent}/${id}/engagement`}>
                   <QueryStatsOutlinedIcon className={`${i18next.language === "en" ? "mr-3" : "ml-3"} text-base dark:text-white`} />
                   <span className=" text-[14px] dark:text-white">{t("view_post_engagement")}</span>
                 </Link>
