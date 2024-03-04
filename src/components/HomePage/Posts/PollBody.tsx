@@ -73,8 +73,8 @@ const PollBody = ({ poll, mentions, id }: { poll: any; mentions: string[]; id: s
   //   }
   // }, [])
 
-  const handleVote = (optionIdx: number) => {
-    console.log(optionIdx)
+  const handleVote = (e: any, optionIdx: number) => {
+    e.stopPropagation()
     API.patch(
       `tweets/${id}/toggle-vote`,
       {
@@ -88,11 +88,11 @@ const PollBody = ({ poll, mentions, id }: { poll: any; mentions: string[]; id: s
     )
       .then((res) => {
         console.log(res)
-        setPolledIdx(optionIdx)
+        setPolledIdx(optionIdx - 1)
         setTotalVotes((prev: number) => prev + 1)
         setOptionsVotesCount((prev: any) => {
           const newVotes = [...prev]
-          newVotes[optionIdx]++
+          newVotes[optionIdx - 1]++
           return newVotes
         })
         setPolled(true)
@@ -122,7 +122,7 @@ const PollBody = ({ poll, mentions, id }: { poll: any; mentions: string[]; id: s
       {!polled && (
         <div>
           {poll.options.map((p: any, index: number) => (
-            <button key={index} className={`${styles.normalButton} !border-primary hover:dark:bg-darkHover`} onClick={() => handleVote(index)}>
+            <button key={index} className={`${styles.normalButton} !border-primary hover:dark:bg-darkHover`} onClick={(e: any) => handleVote(e, index + 1)}>
               {p.text}
             </button>
           ))}
