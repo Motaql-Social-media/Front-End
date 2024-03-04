@@ -98,8 +98,8 @@ function ComposePost({
   }
 
   const handleAddPool = () => {
-    console.log("poll ", poll)
-    console.log("question ", description)
+    // console.log("poll ", poll)
+    // console.log("question ", description)
 
     const now = new Date()
 
@@ -107,7 +107,46 @@ function ComposePost({
     now.setHours(now.getHours() + parseInt(poll.hours))
     now.setMinutes(now.getMinutes() + parseInt(poll.minutes))
 
-    console.log(now.getTime())
+    const options = []
+    if (poll.choice1) options.push(poll.choice1)
+    if (poll.choice2) options.push(poll.choice2)
+    if (poll.choice3) options.push(poll.choice3)
+    if (poll.choice4) options.push(poll.choice4)
+
+    const t = {
+      question: description,
+      length: now.toISOString(),
+      options,
+    }
+    // console.log(t)
+
+    API.post("tweets/add-poll", t, {
+      headers: {
+        authorization: "Bearer " + userToken,
+      },
+    })
+      .then((res) => {
+        // console.log(res)
+        const t = { ...res.data.data.tweet, repliesCount: 0, reTweetCount: 0, reactCount: 0, isReacted: false, isRetweeted: false, isBookmarked: false }
+        // console.log(t)
+
+        // addTweetCallback(t)
+        setMedia([])
+        setDescription("")
+        setMediaUrls([])
+        setMediaDisabled(false)
+        setGIFDisabled(false)
+        setPollDisabled(false)
+        setCharsCount(0)
+        setCharsProgressColor("#1D9BF0")
+        setProgressCircleSize(24)
+        setProgressCircleValue(null)
+        publishButton.current?.removeAttribute("disabled")
+      })
+      .catch((err) => {
+        console.log(err)
+        publishButton.current?.removeAttribute("disabled")
+      })
   }
 
   const handleSubmit = (e: any) => {

@@ -7,6 +7,7 @@ import CachedOutlinedIcon from "@mui/icons-material/CachedOutlined"
 import i18next from "i18next"
 import HoveredProfile from "./HoveredProfile"
 import { useNavigate } from "react-router-dom"
+import PollBody from "./PollBody"
 const Post = ({
   cascade,
   inPostPage,
@@ -89,9 +90,14 @@ const Post = ({
       <div>
         <PostHeader base={"diary"} tweeter={postType === "Repost" ? originalTweeter : tweeter} date={date} id={id} type={postType === "Repost" ? originalTweet.type : postType} posts={posts} setPosts={setPosts} />
       </div>
-      {displayFooter && (
+      {displayFooter && !poll?.pollId && (
         <div>
-          <PostBody description={description} media={media} mentions={mentions}/>
+          <PostBody description={description} media={media} mentions={mentions} />
+        </div>
+      )}
+      {poll?.pollId && (
+        <div>
+          <PollBody poll={poll} mentions={mentions} id={id} />
         </div>
       )}
       {/* {!displayFooter && (

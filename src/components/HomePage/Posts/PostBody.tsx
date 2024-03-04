@@ -5,27 +5,6 @@ import { useState } from "react"
 const PostBody = ({ description, media, mentions }: { description: string; media: string[]; mentions: string[] }) => {
   const mediaUrls = media.map((item: any) => process.env.REACT_APP_TWEETS_MEDIA_URL + item)
 
-  function splitTextAndWords(text: any, mentions: string[]) {
-    const mentionRegex = new RegExp(`\b@(${mentions.join("|")})\b|(@(${mentions.join("|")})[.,?!])`, "gi")
-
-    // Split the text into plain text and mention components
-    const textFragments = mentions.length > 0 ? text.split(mentionRegex) : [text]
-    console.log(textFragments)
-
-    return textFragments
-  }
-
-  // useEffect(() => {
-  //   const text = "I'm really impressed with these images, thanks @mohameds245 for sharing them"
-  //   const words: string[] = ["@mohameds245"]
-
-  //   splitTextAndWords(text, words)
-  //   // const { textFragments, matchingWords } = splitTextAndWords(text, words)
-
-  //   // console.log("Text fragments:", textFragments) // Output: ["This is a ", "sample", " text with ", "some", " words."]
-  //   // console.log("Matching words:", matchingWords) // Output: ["sample", "text", "some"]
-  // }, [description])
-
   const [processedMentions, setProcessedMentions] = useState<string[]>([])
 
   useEffect(() => {
