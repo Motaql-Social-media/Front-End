@@ -46,29 +46,51 @@ const ComposeQuote = ({ id, handleClose, setRepost, repost, repostCount, setRepo
   const handleSubmit = (e: any) => {
     e.stopPropagation()
     const mediaFormData = new FormData()
-    console.log(description)
-    mediaFormData.append("content", description)
+    // console.log(description)
 
     if (type === "diary") {
+      mediaFormData.append("content", description)
+
       media.forEach((m) => {
         if (!(mediaNames[0] === "gif")) mediaFormData.append("images", m.file)
         else mediaFormData.append("gif", m.file)
       })
     }
-
-    API.post(type === "diary" ? `tweets/${id}/retweet` : `reels/${id}/rereel`, mediaFormData, {
-      headers: {
-        authorization: "Bearer " + userToken,
-      },
-    })
-      .then((res) => {
-        console.log(res)
-        setRepostCount(repost ? repostCount - 1 : repostCount + 1)
-
-        setRepost(!repost)
-        handleClose()
+    if (type === "diary") {
+      API.post(`tweets/${id}/retweet`, mediaFormData, {
+        headers: {
+          authorization: "Bearer " + userToken,
+        },
       })
-      .catch((err) => console.log(err))
+        .then((res) => {
+          console.log(res)
+          setRepostCount(repost ? repostCount - 1 : repostCount + 1)
+
+          setRepost(!repost)
+          handleClose()
+        })
+        .catch((err) => console.log(err))
+    } else {
+      API.post(
+        `reels/${id}/rereel`,
+        {
+          content: description,
+        },
+        {
+          headers: {
+            authorization: "Bearer " + userToken,
+          },
+        }
+      )
+        .then((res) => {
+          console.log(res)
+          setRepostCount(repost ? repostCount - 1 : repostCount + 1)
+
+          setRepost(!repost)
+          handleClose()
+        })
+        .catch((err) => console.log(err))
+    }
   }
 
   const handleDescriptionChange = (e: any) => {

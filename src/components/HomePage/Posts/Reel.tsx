@@ -32,7 +32,7 @@ const Reel = ({ inPostPage, content, createdAt, isBookmarked, isReacted, isReree
   const navigate = useNavigate()
   return (
     <div className="cursor-pointer border-b border-b-darkBorder p-4 hover:bg-lightHover dark:hover:bg-darkHover max-xs:p-2" onClick={handleReelClick}>
-      <div className={`relative text-sm ${postType === "Rereel" ? "" : "hidden"} text-primary no-underline hover:underline`} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={() => navigate(`/${reeler.username}`)}>
+      <div className={`relative text-sm ${postType === "Repost" ? "" : "hidden"} text-primary no-underline hover:underline`} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={() => navigate(`/${reeler.username}`)}>
         <CachedOutlinedIcon
           className={`${i18next.language === "en" ? "mr-2" : "ml-2"}  text-primary`}
           sx={{
@@ -40,10 +40,10 @@ const Reel = ({ inPostPage, content, createdAt, isBookmarked, isReacted, isReree
           }}
         />
         <span>{reeler.username} reposted</span>
-        {isVisible && <HoveredProfile hoveredUser={originalReeler} state={followState} setState={setFollowState} />}
+        {isVisible && <HoveredProfile hoveredUser={reeler} state={followState} setState={setFollowState} />}
       </div>
       <div>
-        <PostHeader base={"reel"} tweeter={reeler} date={createdAt} id={id} type={postType} posts={reels} setPosts={setReels} parent="reel"/>
+        <PostHeader base={"reel"} tweeter={postType === "Repost" ? originalReeler : reeler} date={createdAt} id={id} type={postType} posts={reels} setPosts={setReels} parent="reel" />
       </div>
       <div className="flex w-full">
         {postType !== "fromQuote" && <ReelBar id={id} replyCount={repliesCount} reposted={isRereeled} repostsNum={reReelCount} liked={isReacted} likesNum={reactCount} topic={topic} isBookmarked={isBookmarked} username={postType === "ReReel" ? originalReeler.username : reeler.username} />}

@@ -19,7 +19,7 @@ const QuoteReel = ({ inPostPage, content, createdAt, isBookmarked, isReacted, is
       <div className="flex w-full">
         <ReelBar id={id} replyCount={repliesCount} reposted={isRereeled} repostsNum={reReelCount} liked={isReacted} likesNum={reactCount} topic={topic} isBookmarked={isBookmarked} username={reeler.username} />
         <div className="min-xs:w-[90%] min-xs:ml-[10%] ml-[5%] w-[95%] rounded-3xl border-2 border-darkBorder">
-          <Reel inPostPage={false} content={content} createdAt={originalReel.createdAt} isBookmarked={originalReel.isBookmarked} isReacted={originalReel.isReacted} isRereeled={originalReel.isRereeled} mentions={originalReel.mentions} originalReel={{}} originalReeler={originalReeler} reReelCount={originalReel.reReelCount} reactCount={originalReel.reactCount} reelUrl={originalReel.reelUrl} reeler={originalReel.reeler} repliesCount={originalReel.repliesCount} postType={"fromQuote"} id={originalReel.reelId} topic={originalReel.topics[0]} reels={[]} setReels={() => {}} />
+          <Reel inPostPage={false} content={originalReel.content} createdAt={originalReel.createdAt} isBookmarked={originalReel.isBookmarked} isReacted={originalReel.isReacted} isRereeled={originalReel.isRereeled} mentions={originalReel.mentions} originalReel={{}} originalReeler={originalReeler} reReelCount={originalReel.reReelCount} reactCount={originalReel.reactCount} reelUrl={originalReel.reelUrl} reeler={originalReeler} repliesCount={originalReel.repliesCount} postType={"fromQuote"} id={originalReel.reelId} topic={originalReel.topics[0]} reels={[]} setReels={() => {}} />
         </div>
       </div>
     </div>

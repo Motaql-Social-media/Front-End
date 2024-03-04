@@ -79,23 +79,25 @@ const ReelBar = ({ id, replyCount, reposted, repostsNum, liked, likesNum, topic,
   const handleRepostClick = (e: any, quote: string) => {
     e.stopPropagation()
 
-    // API.post(
-    //   `reels/${id}/rereel`,
-    //   {
-    //     content: quote,
-    //   },
-    //   {
-    //     headers: {
-    //       authorization: "Bearer " + userToken,
-    //     },
-    //   }
-    // )
-    //   .then((res) => {
-    //     setRepostCount(repost ? repostCount - 1 : repostCount + 1)
-    //     setRepost(!repost)
-    //     console.log(res)
-    //   })
-    //   .catch((err) => console.log(err))
+    API.post(
+      `reels/${id}/rereel`,
+      {
+        content: "",
+      },
+      {
+        headers: {
+          authorization: "Bearer " + userToken,
+        },
+      }
+    )
+      .then((res) => {
+        console.log(res)
+        setRepostCount(repost ? repostCount - 1 : repostCount + 1)
+
+        setRepost(!repost)
+        handleClose()
+      })
+      .catch((err) => console.log(err))
   }
 
   const handelBookmarkClick = (e: any) => {
