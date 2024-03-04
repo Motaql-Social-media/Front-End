@@ -215,6 +215,7 @@ const Home = ({ scroll }: { scroll: number }) => {
   }
 
   const addTweetCallback = (t: any) => {
+    // console.log(t)
     setDiaries((prev) => [t, ...prev])
   }
 

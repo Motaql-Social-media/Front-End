@@ -91,7 +91,7 @@ const Post = ({
       </div>
       {displayFooter && (
         <div>
-          <PostBody description={description} media={media} />
+          <PostBody description={description} media={media} mentions={mentions}/>
         </div>
       )}
       {/* {!displayFooter && (

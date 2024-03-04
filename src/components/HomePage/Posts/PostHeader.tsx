@@ -166,19 +166,19 @@ const PostHeader = ({ date, tweeter, id, type, posts, setPosts, base }: { date: 
       </div>
       <div className="flex gap-1">
         <div className="relative flex flex-col justify-center" onMouseEnter={() => handleMouseEnter(2)} onMouseLeave={() => handleMouseLeave(2)}>
-          <div className="font-semibold text-gray-200 hover:underline" onClick={handleProfileClick}>
+          <div className="font-semibold text-gray-200 hover:underline max-xs:text-sm" onClick={handleProfileClick}>
             {tweeter.name}
           </div>
-          <div className="text-gray-400">{tweeter.jobtitle}</div>
+          <div className="text-gray-400 max-xs:hidden">{tweeter.jobtitle}</div>
           {isVisible2 && <HoveredProfile hoveredUser={tweeter} state={followState} setState={setFollowState} />}
         </div>
         <div className="flex items-start  gap-1">
           <div className="relative flex items-center" onMouseEnter={() => handleMouseEnter(3)} onMouseLeave={() => handleMouseLeave(3)}>
-            <div className="text-gray-400" onClick={handleProfileClick}>
+            <div className="text-gray-400 max-xs:text-sm max-[400px]:hidden" onClick={handleProfileClick}>
               <span dir="ltr">@{tweeter.username}</span>
             </div>
             <div className={` bg-ternairy m-1 h-[2px] w-[2px] rounded-full dark:bg-gray-200`}></div>
-            <div className="text-gray-400">{timeDifference}</div>
+            <div className={`text-gray-400  `}>{timeDifference}</div>
             {isVisible3 && <HoveredProfile hoveredUser={tweeter} state={followState} setState={setFollowState} />}
           </div>
         </div>

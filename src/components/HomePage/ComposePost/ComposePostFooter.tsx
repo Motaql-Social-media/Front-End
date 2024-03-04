@@ -14,7 +14,39 @@ import { styles } from "../../../styles/styles"
 import { useTranslation } from "react-i18next"
 import i18next from "i18next"
 import ComposeReel from "./ComposeReel"
-function ComposePostFooter({ buttonName, handleUploadMedia, mediaDisabled, GIFDisabled, pollDisabled, postDisabled, progressCircleSize, charsCount, charsProgressColor, handleSubmit, handlePollClick, poll, publishButton, fromQuote }: { buttonName: string; handleUploadMedia: (event: React.ChangeEvent<HTMLInputElement>) => void; mediaDisabled: boolean; GIFDisabled: boolean; pollDisabled: boolean; postDisabled: boolean; progressCircleSize: number; charsCount: number; charsProgressColor: string; handleSubmit: any; handlePollClick: any; poll: any; publishButton: any; fromQuote: boolean }) {
+function ComposePostFooter({
+  buttonName,
+  handleUploadMedia,
+  mediaDisabled,
+  GIFDisabled,
+  pollDisabled,
+  postDisabled,
+  progressCircleSize,
+  charsCount,
+  charsProgressColor,
+  handleSubmit,
+  handlePollClick,
+  poll,
+  publishButton,
+  fromQuote,
+  description,
+}: {
+  buttonName: string
+  handleUploadMedia: (event: React.ChangeEvent<HTMLInputElement>) => void
+  mediaDisabled: boolean
+  GIFDisabled: boolean
+  pollDisabled: boolean
+  postDisabled: boolean
+  progressCircleSize: number
+  charsCount: number
+  charsProgressColor: string
+  handleSubmit: any
+  handlePollClick: any
+  poll: any
+  publishButton: any
+  fromQuote: boolean
+  description: string
+}) {
   const themeColor = useSelector((state: any) => state.theme.color)
 
   const inputMedia = useRef<HTMLInputElement>(null)
@@ -92,7 +124,7 @@ function ComposePostFooter({ buttonName, handleUploadMedia, mediaDisabled, GIFDi
       <button
         ref={publishButton}
         className={`${styles.coloredButton} !h-9 !w-fit px-2`}
-        disabled={postDisabled && pollError}
+        disabled={(postDisabled && pollError) || description.length === 0}
         onClick={(e) => {
           publishButton.current?.setAttribute("disabled", "true")
           handleSubmit(e)

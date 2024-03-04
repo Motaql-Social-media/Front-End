@@ -74,8 +74,9 @@ function ComposePost({
       },
     })
       .then((res) => {
-        console.log(res)
-        const t = { ...res.data.data.tweet, replyCount: 0, repostCount: 0, likeCount: 0, isLiked: false, isReposted: false, isBookmarked: false }
+        // console.log(res)
+        const t = { ...res.data.data.tweet, repliesCount: 0, reTweetCount: 0, reactCount: 0, isReacted: false, isRetweeted: false, isBookmarked: false }
+        // console.log(t)
 
         addTweetCallback(t)
         setMedia([])
@@ -99,6 +100,14 @@ function ComposePost({
   const handleAddPool = () => {
     console.log("poll ", poll)
     console.log("question ", description)
+
+    const now = new Date()
+
+    now.setDate(now.getDate() + parseInt(poll.days))
+    now.setHours(now.getHours() + parseInt(poll.hours))
+    now.setMinutes(now.getMinutes() + parseInt(poll.minutes))
+
+    console.log(now.getTime())
   }
 
   const handleSubmit = (e: any) => {
@@ -180,10 +189,6 @@ function ComposePost({
 
   const { t } = useTranslation()
 
-  useEffect(() => {
-    console.log(`${process.env.REACT_APP_USERS_MEDIA_URL}${user.imageUrl.split("/").pop()}`)
-  }, [])
-
   return (
     <div className={`ComposePost flex h-fit border-b pb-5 ${buttonName === "Post" ? "border-t" : ""} !w-full border-lightBorder p-3 text-black dark:border-darkBorder dark:text-white max-xs:hidden`}>
       <div className={`h-10 w-10 ${i18next.language === "en" ? "sm:mr-3" : "sm:ml-3"} `}>
@@ -214,7 +219,7 @@ function ComposePost({
         <DisplayMedia mediaUrls={mediaUrls} setMediaUrls={setMediaUrls} margin={1.5} showCancelButton={true} deleteCallback={handleDeleteMediaCallback} />
         {pollDisabled && media.length === 0 && <Poll handlePollClick={handlePollClick} poll={poll} setPoll={setPoll} />}
         <hr className={`h-px border-0 bg-lightBorder dark:bg-darkBorder ${buttonName === "Post" ? "" : "hidden"}`} />
-        <ComposePostFooter buttonName={buttonName} handleUploadMedia={handleUploadMedia} mediaDisabled={mediaDisabled} GIFDisabled={GIFDisabled} pollDisabled={pollDisabled} postDisabled={postDisabled} progressCircleSize={progressCircleSize} charsCount={charsCount} charsProgressColor={charsProgressColor} handleSubmit={handleSubmit} handlePollClick={handlePollClick} poll={poll} publishButton={publishButton} fromQuote={false} />
+        <ComposePostFooter buttonName={buttonName} handleUploadMedia={handleUploadMedia} mediaDisabled={mediaDisabled} GIFDisabled={GIFDisabled} pollDisabled={pollDisabled} postDisabled={postDisabled} progressCircleSize={progressCircleSize} charsCount={charsCount} charsProgressColor={charsProgressColor} handleSubmit={handleSubmit} handlePollClick={handlePollClick} poll={poll} publishButton={publishButton} fromQuote={false} description={description} />
       </div>
     </div>
   )

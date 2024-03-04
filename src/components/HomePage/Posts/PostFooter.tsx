@@ -120,7 +120,7 @@ const PostFooter = ({ id, replyCount, reposted, repostsNum, liked, likesNum, isB
   }, [openSnackbar])
 
   return (
-    <div className="post-footer text-ternairy mt-3 flex w-full justify-around pl-12 dark:text-gray-500 ">
+    <div className="post-footer text-ternairy mt-3 flex w-full justify-around min-xs:pl-12 dark:text-gray-500 ">
       <div className={`group pointer-events-auto -ml-2 flex cursor-pointer items-center transition-colors  duration-300 hover:text-primary`} title={t("reply")}>
         <div className={`flex h-10 w-10  items-center justify-center rounded-full bg-inherit group-hover:bg-[#e7f5fd] dark:group-hover:bg-[#031018] `}>
           <ChatBubbleOutlineOutlinedIcon

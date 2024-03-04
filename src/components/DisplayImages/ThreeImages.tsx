@@ -7,9 +7,7 @@ const ThreeImages = ({ image1, image2, image3, showCancelButton, handleDeleteMed
       const image = new Image()
       image.src = img
       image.onload = () => {
-        // if (img === "https://th.bing.com/th/id/OIG.MxQxUggA0RKmKdTjwAqw") console.log("fox", image.width / image.height)
-        // if (img === "https://imgupscaler.com/images/samples/animal-before.webp") console.log("parrot", image.width / image.height)
-        // if (img === "https://img.freepik.com/free-photo/painting-mountain-lake-with-mountain-background_188544-9126.jpg") console.log("view", image.width / image.height)
+        
 
         resolve(image.width / image.height)
       }
@@ -175,7 +173,7 @@ const ThreeImages = ({ image1, image2, image3, showCancelButton, handleDeleteMed
           </div>
         )}
       </div>
-      <div className={`flex ${flexDirection2 === "row" ? "w-[66.6%] flex-row" : "w-full flex-col"} gap-1`}>
+      <div className={`flex ${flexDirection2 === "row" ? "w-[66.6%] h-full flex-row" : flexDirection1 === 'row'? "w-full flex-col h-full":'w-full flex-col h-[66.6%]'} gap-1`}>
         <div className={`relative ${flexDirection2 === "row" ? "h-full w-[50%]" : "h-[50%] w-full"}`}>
           <img src={image2} className={`h-full w-full object-cover`} alt="media" loading="lazy" onClick={() => openImageViewer(1)} />
           {showCancelButton && (

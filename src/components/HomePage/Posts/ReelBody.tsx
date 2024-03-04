@@ -30,7 +30,7 @@ const ReelBody = ({ media, content, mentions }: { media: string; content: string
   //   console.log("media", media)
   // }, [media])
 
-  const mediaUrl = (process.env.REACT_APP_REELS_MEDIA_URL || "") + media.split("/").pop()
+  const mediaUrl = (process.env.REACT_APP_REELS_MEDIA_URL || "") + media
 
   return (
     <div className="w-full">

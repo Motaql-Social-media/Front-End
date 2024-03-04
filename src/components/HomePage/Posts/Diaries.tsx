@@ -24,7 +24,7 @@ const Diaries = () => {
                   id={post.type === "Repost" ? post.originalTweet.tweetId : post.tweetId}
                   date={post.type === "Repost" ? post.originalTweet.createdAt : post.createdAt}
                   description={post.type === "Repost" ? post.originalTweet.content : post.content}
-                  media={post.type === "Repost" ? (post.originalTweet.imageUrls.length > 0 ? post.originalTweet.imageUrls : post.originalTweet.gifUrl !== "" ? [post.originalTweet.gifUrl] : []) : post.imageUrls.length > 0 ? post.imageUrls : post.gifUrl !== "" ? [post.gifUrl] : []}
+                  media={post.type === "Repost" ? post.originalTweet.media.map((m: any) => m.url) : post.media.map((m: any) => m.url)}
                   replyCount={post.type === "Repost" ? post.originalTweet.repliesCount : post.repliesCount}
                   repostCount={post.type === "Repost" ? post.originalTweet.reTweetCount : post.reTweetCount}
                   likeCount={post.type === "Repost" ? post.originalTweet.reactCount : post.reactCount}
@@ -41,7 +41,7 @@ const Diaries = () => {
                   poll={post.poll}
                 />
               ) : (
-                <QuotePost content={post.content} gifUrl={post.gifUrl} imageUrls={post.imageUrls} createdAt={post.createdAt} isBookmarked={post.isBookmarked} isReacted={post.isReacted} isRetweeted={post.isRetweeted} reTweetCount={post.reTweetCount} reactCount={post.reactCount} repliesCount={post.repliesCount} retweetId={post.tweetId} retweeter={post.tweeter} tweet={post.originalTweet} tweeter={post.originalTweeter} quotes={[]} setQuotes={() => {}} />
+                <QuotePost mentions={post.mentions} content={post.content} gifUrl={post.gifUrl} imageUrls={post.imageUrls} createdAt={post.createdAt} isBookmarked={post.isBookmarked} isReacted={post.isReacted} isRetweeted={post.isRetweeted} reTweetCount={post.reTweetCount} reactCount={post.reactCount} repliesCount={post.repliesCount} retweetId={post.tweetId} retweeter={post.tweeter} tweet={post.originalTweet} tweeter={post.originalTweeter} quotes={[]} setQuotes={() => {}} />
               )}
             </div>
           )

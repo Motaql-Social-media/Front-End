@@ -148,7 +148,7 @@ const FourImages = ({ image1, image2, image3, image4, showCancelButton, handleDe
 
   return (
     <div className={`flex ${flexDirection1 === "row" ? "flex-row" : "flex-col"}  h-[550px] max-h-[550px] gap-1 overflow-hidden`}>
-      <div className={`flex ${flexDirection2 === "row" ? "flex-row" : "flex-col"} ${flexDirection1 === "row" ? "h-full w-[50%]" : "h-[50%] w-full"}`}>
+      <div className={`flex gap-1 ${flexDirection2 === "row" ? "flex-row" : "flex-col"} ${flexDirection1 === "row" ? "h-full w-[50%]" : "h-[50%] w-full"}`}>
         <div className={`relative ${flexDirection2 === "row" ? "h-full w-[50%]" : "h-[50%] w-full"} `}>
           <img src={image1} className={`h-full w-full object-cover`} alt="media" loading="lazy" onClick={() => openImageViewer(0)} />
           {showCancelButton && (
@@ -166,7 +166,7 @@ const FourImages = ({ image1, image2, image3, image4, showCancelButton, handleDe
           )}
         </div>
       </div>
-      <div className={`flex ${flexDirection3 === "row" ? "flex-row" : "flex-col"} ${flexDirection1 === "row" ? "h-full w-[50%]" : "h-[50%] w-full"}`}>
+      <div className={`flex gap-1 ${flexDirection3 === "row" ? "flex-row" : "flex-col"} ${flexDirection1 === "row" ? "h-full w-[50%]" : "h-[50%] w-full"}`}>
         <div className={`relative ${flexDirection2 === "row" ? "h-full w-[50%]" : "h-[50%] w-full"} `}>
           <img src={image3} className={`h-full w-full object-cover`} alt="media" loading="lazy" onClick={() => openImageViewer(2)} />
           {showCancelButton && (
