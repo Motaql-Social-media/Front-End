@@ -14,7 +14,7 @@ import FormatQuoteIcon from "@mui/icons-material/FormatQuote"
 import i18next from "i18next"
 import { Modal } from "@mui/material"
 
-const ReelBar = ({ id, replyCount, reposted, repostsNum, liked, likesNum, topic, isBookmarked, username }: { id: string; replyCount: number; reposted: boolean; repostsNum: number; liked: boolean; likesNum: number; topic: string; isBookmarked: boolean; username: string }) => {
+const ReelBar = ({ id, replyCount, reposted, repostsNum, liked, likesNum, topic, isBookmarked, username }: { id: string; replyCount: number; reposted: boolean; repostsNum: number; liked: boolean; likesNum: number; topic: any; isBookmarked: boolean; username: string }) => {
   const [like, setLike] = useState(liked)
   const [repost, setRepost] = useState(reposted)
   const [bookmark, setBookmark] = useState(isBookmarked)
@@ -42,7 +42,7 @@ const ReelBar = ({ id, replyCount, reposted, repostsNum, liked, likesNum, topic,
   const handleShare = (e: any) => {
     e.stopPropagation()
 
-    navigator.clipboard.writeText(`https://theline.social/${username}/status/${id}`)
+    navigator.clipboard.writeText(`https://theline.social/${username}/reel/${id}`)
     setOpenSnackbar(true)
   }
 
@@ -116,8 +116,10 @@ const ReelBar = ({ id, replyCount, reposted, repostsNum, liked, likesNum, topic,
   }
 
   return (
-    <div className="text-ternairy mt-3 flex w-[8%] flex-col justify-around dark:text-gray-500 ">
-      <button className={`${styles.coloredButton}  !h-fit`}>{topic}</button>
+    <div className="text-ternairy mt-3 flex w-[20%] max-xs:w-[10%] flex-col justify-around items-center dark:text-gray-500 ">
+      <button className={`${styles.coloredButton} max-xs-rotate-90 flex justify-center items-center  !h-fit !min-w-fit max-[600px]:text-sm max-xs:rounded-sm max-xs:-rotate-90`} title={topic.description}>
+        {topic.topic}
+      </button>
       <div className={`group pointer-events-auto flex cursor-pointer flex-col items-center transition-colors  duration-300 hover:text-primary`} title={t("reply")}>
         <div className="flex h-10 w-10 flex-col items-center justify-center rounded-full bg-inherit group-hover:bg-[#e7f5fd] dark:group-hover:bg-[#031018] ">
           <ChatBubbleOutlineOutlinedIcon

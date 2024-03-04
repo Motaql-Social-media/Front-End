@@ -26,9 +26,7 @@ const ReelBody = ({ media, content, mentions }: { media: string; content: string
     }
   }, [videoRef.current])
 
-  // useEffect(() => {
-  //   console.log("media", media)
-  // }, [media])
+
 
   const mediaUrl = (process.env.REACT_APP_REELS_MEDIA_URL || "") + media
 
@@ -37,7 +35,7 @@ const ReelBody = ({ media, content, mentions }: { media: string; content: string
       <div className="ml-5 mt-1 ">
         <p className=" ">{content}</p>
       </div>
-      <div className={`flex w-[90%] ${isLoading ? "justify-center " : " justify-end"} pl-5 pt-5`}>
+      <div className={`flex  ${isLoading ? "justify-center " : " justify-end"} pl-5 pt-5`}>
         <Skeleton
           variant="rectangular"
           animation="wave"
@@ -52,7 +50,7 @@ const ReelBody = ({ media, content, mentions }: { media: string; content: string
             },
           }}
         />
-        <video ref={videoRef} controls className={`h-[600px] w-full rounded-2xl ${isLoading ? "hidden" : ""}`} src={mediaUrl} onClick={handleVideoClick} />
+        <video ref={videoRef} controls className={`h-[600px] w-full  ${isLoading ? "hidden" : ""}`} src={mediaUrl} onClick={handleVideoClick} />
       </div>
     </div>
   )

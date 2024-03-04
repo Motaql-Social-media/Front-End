@@ -31,7 +31,7 @@ const Reel = ({ inPostPage, content, createdAt, isBookmarked, isReacted, isReree
   const [followState, setFollowState] = useState<boolean>(reeler.isFollowed)
   const navigate = useNavigate()
   return (
-    <div className="cursor-pointer border-b border-b-darkBorder p-4 hover:bg-lightHover dark:hover:bg-darkHover" onClick={handleReelClick}>
+    <div className="cursor-pointer border-b border-b-darkBorder max-xs:p-2 p-4 hover:bg-lightHover dark:hover:bg-darkHover" onClick={handleReelClick}>
       <div className={`relative text-sm ${postType === "Rereel" ? "" : "hidden"} text-primary no-underline hover:underline`} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={() => navigate(`/${reeler.username}`)}>
         <CachedOutlinedIcon
           className={`${i18next.language === "en" ? "mr-2" : "ml-2"}  text-primary`}
