@@ -303,7 +303,7 @@ const Poll = ({ handlePollClick, poll, setPoll }: { handlePollClick: any; poll: 
                   },
                 }}
               >
-                {Array.from({ length: 7 }, (_, i) => i + 1).map((d) => (
+                {Array.from({ length: 8 }, (_, i) => i ).map((d) => (
                   <MenuItem value={d} key={d}>
                     {d}
                   </MenuItem>

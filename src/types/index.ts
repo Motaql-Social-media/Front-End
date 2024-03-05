@@ -6,12 +6,13 @@ declare global {
   }
 
   interface Diary {
-    tweetId: number
-    gifUrl: string
-    imageUrls: string[]
+    tweetId: string
+    media: any[]
     content: string
     createdAt: string
-    poll: {}
+    poll?: {}
+    originalTweet?: any
+    originalTweeter?: any
     tweeter: {
       imageUrl: string
       username: string
@@ -29,6 +30,7 @@ declare global {
     isBookmarked: boolean
     isReacted: boolean
     isRetweeted: boolean
+    type: string
   }
 
   interface Reel {

@@ -77,7 +77,7 @@ function ComposePost({
     })
       .then((res) => {
         // console.log(res)
-        const t = { ...res.data.data.tweet, repliesCount: 0, reTweetCount: 0, reactCount: 0, isReacted: false, isRetweeted: false, isBookmarked: false }
+        const t = { ...res.data.data.tweet, repliesCount: 0, reTweetCount: 0, reactCount: 0, isReacted: false, isRetweeted: false, isBookmarked: false, tweeter: { bio: user.bio, followersCount: user.followersCount, followingsCount: user.followingsCount, imageUrl: user.imageUrl, isBlocked: false, isFollowed: false, isMuted: false, jobtitle: user.jobtitle, name: user.name, username: user.username, userId: user.userId } }
         // console.log(t)
 
         addTweetCallback(t)
@@ -129,7 +129,7 @@ function ComposePost({
     })
       .then((res) => {
         // console.log(res)
-        const t = { ...res.data.data.tweet, repliesCount: 0, reTweetCount: 0, reactCount: 0, isReacted: false, isRetweeted: false, isBookmarked: false }
+        const t = { ...res.data.data.tweet, repliesCount: 0, reTweetCount: 0, reactCount: 0, isReacted: false, isRetweeted: false, isBookmarked: false, content: "", media: [], tweeter: { bio: user.bio, followersCount: user.followersCount, followingsCount: user.followingsCount, imageUrl: user.imageUrl, isBlocked: false, isFollowed: false, isMuted: false, jobtitle: user.jobtitle, name: user.name, username: user.username, userId: user.userId } }
         // console.log(t)
 
         addTweetCallback(t)

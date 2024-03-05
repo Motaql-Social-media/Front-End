@@ -191,21 +191,12 @@ function DisplayMedia({ mediaUrls, setMediaUrls, margin, showCancelButton, delet
   }
 
   return (
-    <div dir="ltr" className="overflow-hidden rounded-2xl">
+    <div dir="ltr" className="overflow-hidden rounded-2xl" onClick={(e: any) => e.stopPropagation()}>
       {imageLength === 1 && <OneImage image={mediaUrls[0]} showCancelButton={showCancelButton} handleDeleteMedia={handleDeleteMedia} />}
       {imageLength === 2 && <TwoImages image1={mediaUrls[0]} image2={mediaUrls[1]} showCancelButton={showCancelButton} handleDeleteMedia={handleDeleteMedia} />}
       {imageLength === 3 && <ThreeImages image1={mediaUrls[0]} image2={mediaUrls[1]} image3={mediaUrls[2]} showCancelButton={showCancelButton} handleDeleteMedia={handleDeleteMedia} />}
 
-      {imageLength === 4 && <FourImages image1={mediaUrls[0]} image2={ mediaUrls[1]} image3={mediaUrls[2]} image4={mediaUrls[3]} showCancelButton={showCancelButton} handleDeleteMedia={handleDeleteMedia} />}
-
-      {/* {isViewerOpen && (
-        <div className="z-[99]">
-          {imageLength === 2 && <ImageViewer disableScroll={true} src={sortedHeights} currentIndex={currentImage} closeOnClickOutside={true} onClose={closeImageViewer} />}
-          {imageLength === 3 && <ImageViewer disableScroll={true} src={sortedAspectRatio} currentIndex={currentImage} closeOnClickOutside={true} onClose={closeImageViewer} />}
-          {!oneHaveColumn && imageLength === 3 && <ImageViewer disableScroll={true} src={sortedWidths} currentIndex={currentImage} closeOnClickOutside={true} onClose={closeImageViewer} />}
-          {imageLength !== 2 && imageLength !== 3 && <ImageViewer disableScroll={true} src={mediaUrls} currentIndex={currentImage} closeOnClickOutside={true} onClose={closeImageViewer} />}
-        </div>
-      )} */}
+      {imageLength === 4 && <FourImages image1={mediaUrls[0]} image2={mediaUrls[1]} image3={mediaUrls[2]} image4={mediaUrls[3]} showCancelButton={showCancelButton} handleDeleteMedia={handleDeleteMedia} />}
     </div>
   )
 }

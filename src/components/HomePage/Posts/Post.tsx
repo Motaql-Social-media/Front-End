@@ -2,7 +2,7 @@ import { Skeleton } from "@mui/material"
 import PostBody from "./PostBody"
 import PostFooter from "./PostFooter"
 import PostHeader from "./PostHeader"
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import CachedOutlinedIcon from "@mui/icons-material/CachedOutlined"
 import i18next from "i18next"
 import HoveredProfile from "./HoveredProfile"
@@ -53,10 +53,6 @@ const Post = ({
   originalTweeter: any
   poll: any
 }) => {
-  const handlePostClick = () => {
-    console.log("post")
-  }
-
   const [isVisible, setIsVisible] = useState(false)
 
   const [timeoutRef, setTimeoutRef] = useState<any>(null)
@@ -75,6 +71,10 @@ const Post = ({
   const [followState, setFollowState] = useState<boolean>(tweeter.isFollowed)
   const navigate = useNavigate()
 
+  const handlePostClick = () => {
+    navigate(`/${tweeter.username}/diary/${id}`)
+  }
+
   return (
     <div className={`cursor-pointer ${postType !== "retweet" ? "border-b" : ""} border-b-darkBorder p-4 hover:bg-lightHover dark:hover:bg-darkHover`} onClick={handlePostClick}>
       <div className={`relative text-sm ${postType === "Repost" ? "" : "hidden"} text-primary no-underline hover:underline`} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={() => navigate(`/${tweeter.username}`)}>
@@ -88,7 +88,7 @@ const Post = ({
         {isVisible && <HoveredProfile hoveredUser={tweeter} state={followState} setState={setFollowState} />}
       </div>
       <div>
-        <PostHeader base={"diary"} tweeter={postType === "Repost" ? originalTweeter : tweeter} date={date} id={id} type={postType === "Repost" ? originalTweet.type : postType} posts={posts} setPosts={setPosts} parent="diary"/>
+        <PostHeader base={"diary"} tweeter={postType === "Repost" ? originalTweeter : tweeter} date={date} id={id} type={postType === "Repost" ? originalTweet.type : postType} posts={posts} setPosts={setPosts} parent="diary" />
       </div>
       {displayFooter && !poll?.pollId && (
         <div>

@@ -24,6 +24,8 @@ import Quotes from "./components/PostEngagement/Quotes"
 import Likes from "./components/PostEngagement/Likes"
 import Explore from "./components/Explore/Explore"
 
+import DiaryPage from "./components/PostPage/DiaryPage"
+
 function App() {
   const [location, setLocation] = useState(window.location.pathname)
 
@@ -122,6 +124,7 @@ function App() {
               <Route path="reposts" element={<Reposts />}></Route>
               <Route path="" element={<Quotes />}></Route>
             </Route>
+            <Route path="/:tag/diary/:id" element={<DiaryPage scroll={deltaY}/>} />
             <Route path="/explore" element={<Explore scroll={deltaY} />}></Route>
             <Route path="/password_reset" element={<PasswordReset setLocation={setLocation} />} />
             <Route path="/login" element={<Login openModal={true} handleCloseModal={handleCloseLoginModal} setLocation={setLocation} />} />

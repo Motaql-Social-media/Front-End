@@ -53,8 +53,8 @@ const PollBody = ({ poll, mentions, id }: { poll: any; mentions: string[]; id: s
 
   const userToken = useSelector((state: any) => state.user.token)
 
-  const [polled, setPolled] = useState(poll.votedOption !== undefined ? true : false)
-  const [polledIdx, setPolledIdx] = useState(poll.votedOption !== undefined ? poll.votedOption : -1)
+  const [polled, setPolled] = useState(poll.votedOptionId !== undefined ? true : false)
+  const [polledId, setPolledId] = useState(poll.votedOptionId !== undefined ? poll.votedOptionId : -1)
   const [totalVotes, setTotalVotes] = useState(poll.totalVotesCount)
   const [optionsVotesCount, setOptionsVotesCount] = useState(poll.options.map((option: any) => option.votesCount))
 
@@ -73,13 +73,11 @@ const PollBody = ({ poll, mentions, id }: { poll: any; mentions: string[]; id: s
   //   }
   // }, [])
 
-  const handleVote = (e: any, optionIdx: number) => {
+  const handleVote = (e: any, optionId: number, index: number) => {
     e.stopPropagation()
     API.patch(
-      `tweets/${id}/toggle-vote`,
-      {
-        optionIdx,
-      },
+      `tweets/${poll.pollId}/toggle-vote/${optionId}`,
+      {},
       {
         headers: {
           authorization: "Bearer " + userToken,
@@ -88,11 +86,11 @@ const PollBody = ({ poll, mentions, id }: { poll: any; mentions: string[]; id: s
     )
       .then((res) => {
         console.log(res)
-        setPolledIdx(optionIdx - 1)
+        setPolledId(optionId)
         setTotalVotes((prev: number) => prev + 1)
         setOptionsVotesCount((prev: any) => {
           const newVotes = [...prev]
-          newVotes[optionIdx - 1]++
+          newVotes[index]++
           return newVotes
         })
         setPolled(true)
@@ -122,7 +120,7 @@ const PollBody = ({ poll, mentions, id }: { poll: any; mentions: string[]; id: s
       {!polled && (
         <div>
           {poll.options.map((p: any, index: number) => (
-            <button key={index} className={`${styles.normalButton} !border-primary hover:dark:bg-darkHover`} onClick={(e: any) => handleVote(e, index + 1)}>
+            <button key={index} className={`${styles.normalButton} !border-primary hover:dark:bg-darkHover`} onClick={(e: any) => handleVote(e, p.optionId, index)}>
               {p.text}
             </button>
           ))}
