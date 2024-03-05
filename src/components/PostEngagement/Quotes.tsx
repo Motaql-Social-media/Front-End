@@ -39,8 +39,8 @@ const Quotes = () => {
           },
         })
           .then((res) => {
-            console.log(res.data.data.retweets)
-            // setReelQuotes(res.data.data.retweets)
+            // console.log(res.data.data)
+            setReelQuotes(res.data.data.rereels)
           })
           .catch((err) => {
             console.log(err)
