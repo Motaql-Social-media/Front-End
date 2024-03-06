@@ -7,10 +7,53 @@ import CachedOutlinedIcon from "@mui/icons-material/CachedOutlined"
 import HoveredProfile from "./HoveredProfile"
 import { useNavigate } from "react-router-dom"
 import { useState } from "react"
-
-const Reel = ({ inPostPage, content, createdAt, isBookmarked, isReacted, isRereeled, mentions, originalReel, originalReeler, reReelCount, reactCount, reelUrl, reeler, repliesCount, postType, id, topic, reels, setReels }: { inPostPage: boolean; content: string; createdAt: string; isBookmarked: boolean; isReacted: boolean; isRereeled: boolean; mentions: any; originalReel: any; originalReeler: any; reReelCount: number; reactCount: number; reelUrl: string; reeler: any; repliesCount: number; postType: string; id: string; topic: string; reels: any; setReels: any }) => {
+const Reel = ({
+  muted,
+  setMuted,
+  inPostPage,
+  content,
+  createdAt,
+  isBookmarked,
+  isReacted,
+  isRereeled,
+  mentions,
+  originalReel,
+  originalReeler,
+  reReelCount,
+  reactCount,
+  reelUrl,
+  reeler,
+  repliesCount,
+  postType,
+  id,
+  topic,
+  reels,
+  setReels,
+}: {
+  muted: boolean
+  setMuted: any
+  inPostPage: boolean
+  content: string
+  createdAt: string
+  isBookmarked: boolean
+  isReacted: boolean
+  isRereeled: boolean
+  mentions: any
+  originalReel: any
+  originalReeler: any
+  reReelCount: number
+  reactCount: number
+  reelUrl: string
+  reeler: any
+  repliesCount: number
+  postType: string
+  id: string
+  topic: string
+  reels: any
+  setReels: any
+}) => {
   const handleReelClick = () => {
-    console.log("Reel")
+    navigate(`/${reeler.username}/reel/${id}`)
   }
 
   const [isVisible, setIsVisible] = useState(false)
@@ -19,7 +62,7 @@ const Reel = ({ inPostPage, content, createdAt, isBookmarked, isReacted, isReree
 
   const handleMouseEnter = () => {
     clearTimeout(timeoutRef)
-    const timer = setTimeout(() => setIsVisible(true), 1000) // Change 1000 to desired delay
+    const timer = setTimeout(() => setIsVisible(true), 1000)
     setTimeoutRef(timer)
   }
 
@@ -45,9 +88,9 @@ const Reel = ({ inPostPage, content, createdAt, isBookmarked, isReacted, isReree
       <div>
         <PostHeader base={"reel"} tweeter={postType === "Repost" ? originalReeler : reeler} date={createdAt} id={id} type={postType} posts={reels} setPosts={setReels} parent="reel" />
       </div>
-      <div className="flex w-full">
+      <div className="flex w-full flex-col">
+        <ReelBody muted={muted} setMuted={setMuted} media={reelUrl} mentions={mentions} content={content} displayReel={true} />
         {postType !== "fromQuote" && <ReelBar id={id} replyCount={repliesCount} reposted={isRereeled} repostsNum={reReelCount} liked={isReacted} likesNum={reactCount} topic={topic} isBookmarked={isBookmarked} username={postType === "ReReel" ? originalReeler.username : reeler.username} />}
-        <ReelBody media={reelUrl} mentions={mentions} content={content} displayReel={true} />
       </div>
     </div>
   )

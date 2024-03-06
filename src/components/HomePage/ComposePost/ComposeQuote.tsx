@@ -225,7 +225,7 @@ const ComposeQuote = ({ id, handleClose, setRepost, repost, repostCount, setRepo
           />
         )} */}
         <hr className={`h-px border-0 bg-lightBorder dark:bg-darkBorder ${buttonName === "Post" ? "" : "hidden"}`} />
-        {type === "diary" && <ComposePostFooter buttonName={buttonName} handleUploadMedia={handleUploadMedia} mediaDisabled={mediaDisabled} GIFDisabled={GIFDisabled} pollDisabled={true} postDisabled={postDisabled} progressCircleSize={progressCircleSize} charsCount={charsCount} charsProgressColor={charsProgressColor} handleSubmit={handleSubmit} handlePollClick={() => {}} poll={{}} publishButton={publishButton} fromQuote={true} description={description} media={media} addReelCallback={() => {}} />}
+        {type === "diary" && <ComposePostFooter postType={buttonName} handleUploadMedia={handleUploadMedia} mediaDisabled={mediaDisabled} GIFDisabled={GIFDisabled} pollDisabled={true} postDisabled={postDisabled} progressCircleSize={progressCircleSize} charsCount={charsCount} charsProgressColor={charsProgressColor} handleSubmit={handleSubmit} handlePollClick={() => {}} poll={{}} publishButton={publishButton} fromQuote={true} description={description} media={media} addReelCallback={() => {}} />}
         {type === "reel" && (
           <button className={`${styles.coloredButton}`} disabled={description.length === 0} onClick={handleSubmit}>
             {t("publish")}

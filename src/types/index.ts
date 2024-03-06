@@ -34,10 +34,14 @@ declare global {
   }
 
   interface Reel {
-    reelId: number
+    reelId: string
     reelUrl: string
     content: string
     createdAt: string
+    type: string
+    originalReel?: any
+    originalReeler?: any
+    topics: string[]
     poll: {}
     reeler: {
       imageUrl: string

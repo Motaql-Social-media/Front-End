@@ -9,105 +9,7 @@ import { useRef } from "react"
 import axios from "axios"
 import ElementVisibleObserver from "../General/ElementVisibleObserver"
 
-const r = [
-  {
-    inPostPage: false,
-    userProfilePicture: "https://img.freepik.com/free-photo/painting-mountain-lake-with-mountain-background_188544-9126.jpg",
-    postType: "tweet",
-    isFollowed: false,
-    replyReferredTweetId: "1",
-    bio: "bio",
-    id: "1",
-    name: "Mohamed Samir",
-    username: "mohamedsamir",
-    date: "2h",
-    speciality: "Engineer",
-    description: "Building the future with code! #programming is not just about lines, it's about creativity, problem-solving, and making a difference. What are you building today?",
-    media: "https://cp.theline.social:7800/down/TzCowbmCpxnC?fname=/ReelTest.mp4",
-    replyCount: 50,
-    repostCount: 50,
-    likeCount: 50,
-    isLiked: false,
-    isReposted: false,
-    followingUser: {},
-    posts: [],
-    setPosts: () => {},
-    topic: "Life",
-  },
-  {
-    inPostPage: false,
-    userProfilePicture: "https://img.freepik.com/free-photo/painting-mountain-lake-with-mountain-background_188544-9126.jpg",
-    postType: "tweet",
-    isFollowed: false,
-    replyReferredTweetId: "1",
-    bio: "bio",
-    id: "4",
-    name: "Mohamed Samir",
-    username: "mohamedsamir",
-    date: "2h",
-    speciality: "Engineer",
-    description: "The web connects us all. Join the conversation, share your ideas, and make a global impact.  #webdev #community #openweb",
-    media: "https://cp.theline.social:7800/down/TzCowbmCpxnC?fname=/ReelTest.mp4",
-    replyCount: 50,
-    repostCount: 50,
-    likeCount: 50,
-    isLiked: false,
-    isReposted: false,
-    followingUser: {},
-    reels: [],
-    setReels: () => {},
-    topic: "Life",
-  },
-  {
-    inPostPage: false,
-    userProfilePicture: "https://img.freepik.com/free-photo/painting-mountain-lake-with-mountain-background_188544-9126.jpg",
-    postType: "tweet",
-    isFollowed: false,
-    replyReferredTweetId: "1",
-    bio: "bio",
-    id: "2",
-    name: "Mohamed Samir",
-    username: "mohamedsamir",
-    date: "2h",
-    speciality: "Engineer",
-    description: "Data science: the art of asking the right questions.  Uncover hidden insights and unlock the power of your data. #datascience #machinelearning",
-    media: "https://cp.theline.social:7800/down/TzCowbmCpxnC?fname=/ReelTest.mp4",
-    replyCount: 50,
-    repostCount: 50,
-    likeCount: 50,
-    isLiked: false,
-    isReposted: false,
-    followingUser: {},
-    reels: [],
-    setReels: () => {},
-    topic: "Life",
-  },
-  {
-    cascade: false,
-    inPostPage: false,
-    userProfilePicture: "https://img.freepik.com/free-photo/painting-mountain-lake-with-mountain-background_188544-9126.jpg",
-    postType: "tweet",
-    isFollowed: false,
-    replyReferredTweetId: "1",
-    bio: "bio",
-    id: "3",
-    name: "Mohamed Samir",
-    username: "mohamedsamir",
-    date: "2h",
-    speciality: "Engineer",
-    description: "Data science: the art of asking the right questions.  Uncover hidden insights and unlock the power of your data. #datascience #machinelearning",
-    media: "https://cp.theline.social:7800/down/TzCowbmCpxnC?fname=/ReelTest.mp4",
-    replyCount: 50,
-    repostCount: 50,
-    likeCount: 50,
-    isLiked: false,
-    isReposted: false,
-    followingUser: {},
-    reels: [],
-    setReels: () => {},
-    topic: "Life",
-  },
-]
+
 
 export const HomeContext = createContext<any>(null)
 
@@ -234,7 +136,7 @@ const Home = ({ scroll }: { scroll: number }) => {
           {t("home")}
         </div>
         <div>
-          <ComposePost buttonName="Post" handleNewPost={() => {}} postType="tweet" addTweetCallback={addTweetCallback} addReelCallback={addReelCallback} />
+          <ComposePost buttonName="Post" postId={""} postType="diary" addTweetCallback={addTweetCallback} addReelCallback={addReelCallback} />
         </div>
         <div className="flex h-[53px] items-center border-b border-b-darkBorder pb-2">
           <HorizontalNavbar

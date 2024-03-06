@@ -1,0 +1,91 @@
+import { useEffect } from "react"
+import axios from "axios"
+import { useSelector } from "react-redux"
+import Post from "../HomePage/Posts/Post"
+import { useRef } from "react"
+
+const Replies = ({ replies, setReplies, id, type }: { replies: any; setReplies: any; id: string | undefined; type: string }) => {
+  const API = axios.create({
+    baseURL: process.env.REACT_APP_API_URL,
+  })
+
+  const userToken = useSelector((state: any) => state.user.token)
+
+  const fetchReplies = () => {
+    if (type === "diary") {
+      API.get(`tweets/${id}/replies`, {
+        headers: {
+          authorization: `Bearer ${userToken}`,
+        },
+      })
+        .then((res) => {
+          console.log(res.data.data.replies)
+          setReplies(res.data.data.replies)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    } else {
+      API.get(`reels/${id}/replies`, {
+        headers: {
+          authorization: `Bearer ${userToken}`,
+        },
+      })
+        .then((res) => {
+          console.log(res.data.data.replies)
+          setReplies(res.data.data.replies)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    }
+  }
+
+  useEffect(() => {
+    if (id) fetchReplies()
+  }, [id])
+
+  return (
+    <div>
+      {replies.map((reply: any) => (
+        <div key={reply.replyId} className="border-b border-darkBorder hover:dark:bg-darkHover">
+          <Post cascade={false} inPostPage={true} postType={reply.type} id={reply.replyId} date={reply.createdAt} description={reply.content} media={reply.media.map((m: any) => m.url)} replyCount={reply.repliesCount} repostCount={reply.reTweetCount} likeCount={reply.reactCount} isLiked={reply.isReacted} isReposted={reply.isRetweeted} isBookmarked={reply.isBookmarked} tweeter={reply.replier} posts={replies} setPosts={setReplies} displayFooter={true} mentions={reply.mentions} originalTweet={{}} originalTweeter={{}} poll={null} />
+          {reply.replies.replyId && (
+            <div className="relative ml-[5%] w-[95%]">
+              <Post
+                cascade={false}
+                inPostPage={true}
+                postType={reply.replies.type}
+                id={reply.replies.replyId}
+                date={reply.replies.createdAt}
+                description={reply.replies.content}
+                media={reply.replies.media.map((m: any) => m.url)}
+                replyCount={reply.replies.repliesCount}
+                repostCount={reply.replies.reTweetCount}
+                likeCount={reply.replies.reactCount}
+                isLiked={reply.replies.isReacted}
+                isReposted={reply.replies.isRetweeted}
+                isBookmarked={reply.replies.isBookmarked}
+                tweeter={reply.replies.replier}
+                posts={replies}
+                setPosts={setReplies}
+                displayFooter={true}
+                mentions={reply.replies.mentions}
+                originalTweet={{}}
+                originalTweeter={{}}
+                poll={null}
+              />
+              <div className="absolute -left-[1%] -top-5 flex flex-col items-center">
+                <div className="h-2 w-2 rounded-full bg-primary"></div>
+                <div className="h-12 w-[2px] bg-primary"></div>
+                <div className="h-2 w-2 rounded-full bg-primary"></div>
+              </div>
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  )
+}
+
+export default Replies

@@ -25,6 +25,9 @@ import Likes from "./components/PostEngagement/Likes"
 import Explore from "./components/Explore/Explore"
 
 import DiaryPage from "./components/PostPage/DiaryPage"
+import ReelPage from "./components/PostPage/ReelPage"
+import Notifications from "./components/Notifications/Notifications"
+import All from "./components/Notifications/All"
 
 function App() {
   const [location, setLocation] = useState(window.location.pathname)
@@ -124,7 +127,12 @@ function App() {
               <Route path="reposts" element={<Reposts />}></Route>
               <Route path="" element={<Quotes />}></Route>
             </Route>
-            <Route path="/:tag/diary/:id" element={<DiaryPage scroll={deltaY}/>} />
+            <Route path="/notifications" element={<Notifications scroll={deltaY} />}>
+              <Route path="all" element={<All />} />
+              <Route path="" element={<All />} />
+            </Route>
+            <Route path="/:tag/diary/:id" element={<DiaryPage scroll={deltaY} />} />
+            <Route path="/:tag/reel/:id" element={<ReelPage scroll={deltaY} />} />
             <Route path="/explore" element={<Explore scroll={deltaY} />}></Route>
             <Route path="/password_reset" element={<PasswordReset setLocation={setLocation} />} />
             <Route path="/login" element={<Login openModal={true} handleCloseModal={handleCloseLoginModal} setLocation={setLocation} />} />

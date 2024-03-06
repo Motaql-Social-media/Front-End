@@ -2,7 +2,7 @@
 import Reel from "./Reel"
 import { HomeContext } from "../Home"
 import { BookmarksContext } from "../../Bookmarks/Bookmarks"
-import { useContext, useEffect } from "react"
+import { useContext, useState } from "react"
 import QuoteReel from "./QuoteReel"
 
 const Reels = () => {
@@ -16,6 +16,10 @@ const Reels = () => {
   // useEffect(() => {
   //   console.log(bookmarksreels)
   // }, [bookmarksreels])
+
+  const [muted, setMuted] = useState(false)
+
+  
 
   return (
     <div>
@@ -44,9 +48,11 @@ const Reels = () => {
                 topic={reel.type === "Repost" ? reel.originalReel.topics[0] : reel.topics[0]}
                 reels={homereels}
                 setReels={homesetReels}
+                muted={muted}
+                setMuted={setMuted}
               />
             ) : (
-              <QuoteReel inPostPage={false} content={reel.content} createdAt={reel.createdAt} isBookmarked={reel.isBookmarked} isReacted={reel.isReacted} isRereeled={reel.isRereeled} mentions={reel.mentions} originalReel={reel.originalReel} originalReeler={reel.originalReeler} reReelCount={reel.reReelCount} reactCount={reel.reactCount} reelUrl={reel.reelUrl} reeler={reel.reeler} repliesCount={reel.repliesCount} id={reel.reelId} topic={""} reels={homereels} setReels={homesetReels} />
+              <QuoteReel muted={muted} setMuted={setMuted} inPostPage={false} content={reel.content} createdAt={reel.createdAt} isBookmarked={reel.isBookmarked} isReacted={reel.isReacted} isRereeled={reel.isRereeled} mentions={reel.mentions} originalReel={reel.originalReel} originalReeler={reel.originalReeler} reReelCount={reel.reReelCount} reactCount={reel.reactCount} reelUrl={reel.reelUrl} reeler={reel.reeler} repliesCount={reel.repliesCount} id={reel.reelId} topic={""} reels={homereels} setReels={homesetReels} />
             )}
           </div>
         ))}
@@ -76,9 +82,11 @@ const Reels = () => {
                   topic={reel.type === "Repost" ? reel.originalReel.topics[0] : reel.topics[0]}
                   reels={homereels}
                   setReels={homesetReels}
+                  muted={muted}
+                  setMuted={setMuted}
                 />
               ) : (
-                <QuoteReel inPostPage={false} content={reel.content} createdAt={reel.createdAt} isBookmarked={reel.isBookmarked} isReacted={reel.isReacted} isRereeled={reel.isRereeled} mentions={reel.mentions} originalReel={reel.originalReel} originalReeler={reel.originalReeler} reReelCount={reel.reReelCount} reactCount={reel.reactCount} reelUrl={reel.reelUrl} reeler={reel.reeler} repliesCount={reel.repliesCount} id={reel.reelId} topic={""} reels={homereels} setReels={homesetReels} />
+                <QuoteReel muted={muted} setMuted={setMuted} inPostPage={false} content={reel.content} createdAt={reel.createdAt} isBookmarked={reel.isBookmarked} isReacted={reel.isReacted} isRereeled={reel.isRereeled} mentions={reel.mentions} originalReel={reel.originalReel} originalReeler={reel.originalReeler} reReelCount={reel.reReelCount} reactCount={reel.reactCount} reelUrl={reel.reelUrl} reeler={reel.reeler} repliesCount={reel.repliesCount} id={reel.reelId} topic={""} reels={homereels} setReels={homesetReels} />
               )}
             </div>
           )

@@ -2,11 +2,13 @@ import Post from "./Post"
 import PostHeader from "./PostHeader"
 import PostFooter from "./PostFooter"
 import PostBody from "./PostBody"
-import { useEffect } from "react"
+import { useNavigate } from "react-router-dom"
 
 const QuotePost = ({ content, mentions, media, createdAt, isBookmarked, isReacted, isRetweeted, reTweetCount, reactCount, repliesCount, retweetId, retweeter, tweet, tweeter, quotes, setQuotes }: { content: string;  mentions: string[]; media: any; createdAt: string; isBookmarked: boolean; isReacted: boolean; isRetweeted: boolean; reTweetCount: number; reactCount: number; repliesCount: number; retweetId: string; retweeter: any; tweet: any; tweeter: any; quotes: any; setQuotes: any }) => {
+  const navigate = useNavigate()
+  
   const handlePostClick = () => {
-    console.log("post")
+    navigate(`/${retweeter.username}/diary/${retweetId}`)
   }
 
   return (

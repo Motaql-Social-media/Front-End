@@ -49,6 +49,8 @@ const Quotes = () => {
     }
   }, [id])
 
+  const [muted, setMuted] = useState(false)
+
   return (
     <div>
       {diaryQuotes &&
@@ -64,7 +66,7 @@ const Quotes = () => {
         type === "reel" &&
         reelQuotes.map((q: any) => (
           <div key={q.reelId}>
-            <QuoteReel inPostPage={false} content={q.content} createdAt={q.createdAt} isBookmarked={q.isBookmarked} isReacted={q.isReacted} isRereeled={q.isRereeled} mentions={q.mentions} originalReel={q.originalReel} originalReeler={q.originalReeler} reReelCount={q.reReelCount} reactCount={q.reactCount} reelUrl={q.reelUrl} reeler={q.reeler} repliesCount={q.repliesCount} id={q.reelId} topic={""} reels={setReelQuotes} setReels={reelQuotes} />
+            <QuoteReel muted={muted} setMuted={setMuted} inPostPage={false} content={q.content} createdAt={q.createdAt} isBookmarked={q.isBookmarked} isReacted={q.isReacted} isRereeled={q.isRereeled} mentions={q.mentions} originalReel={q.originalReel} originalReeler={q.originalReeler} reReelCount={q.reReelCount} reactCount={q.reactCount} reelUrl={q.reelUrl} reeler={q.reeler} repliesCount={q.repliesCount} id={q.reelId} topic={""} reels={setReelQuotes} setReels={reelQuotes} />
           </div>
         ))}
       {diaryQuotes.length === 0 && reelQuotes.length === 0 && <NoQuotes />}

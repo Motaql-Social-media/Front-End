@@ -7,6 +7,8 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack"
 import { useParams } from "react-router-dom"
 import Post from "../HomePage/Posts/Post"
 import QuotePost from "../HomePage/Posts/QuotePost"
+import ComposePost from "../HomePage/ComposePost/ComposePost"
+import Replies from "./Replies"
 
 const PostPage = ({ scroll }: { scroll: number }) => {
   const navigate = useNavigate()
@@ -56,12 +58,18 @@ const PostPage = ({ scroll }: { scroll: number }) => {
       .catch((err) => {
         console.log(err)
       })
-  }, [])
+  }, [id])
+
+  const addReplyCallback = (reply: any) => {
+    setReplies((prev) => [reply, ...prev])
+  }
+
+  const [replies, setReplies] = useState<any[]>([])
 
   return (
     <div className="flex flex-1 flex-grow-[8] max-[540px]:mt-16">
       <div ref={diaryPageRef} className="no-scrollbar ml-0 mr-1 w-full max-w-[620px] shrink-0 flex-grow overflow-y-scroll border border-b-0 border-t-0 border-lightBorder dark:border-darkBorder  max-[540px]:border-l-0 max-[540px]:border-r-0 sm:w-[600px]">
-        <div className="flex items-center justify-start gap-7 pl-2">
+        <div className="flex items-center justify-start gap-7 pl-2 max-[540px]:hidden">
           <div onClick={handleBack} className="cursor-pointer">
             <ArrowBackIcon fontSize="small" />
           </div>
@@ -102,6 +110,15 @@ const PostPage = ({ scroll }: { scroll: number }) => {
           ) : (
             <QuotePost mentions={diary.mentions} content={diary.content} media={diary.media.map((m: any) => m.url)} createdAt={diary.createdAt} isBookmarked={diary.isBookmarked} isReacted={diary.isReacted} isRetweeted={diary.isRetweeted} reTweetCount={diary.reTweetCount} reactCount={diary.reactCount} repliesCount={diary.repliesCount} retweetId={diary.tweetId} retweeter={diary.tweeter} tweet={diary.originalTweet} tweeter={diary.originalTweeter} quotes={[]} setQuotes={() => {}} />
           ))}
+        <div className="border-b border-darkBorder">
+          <div className="p-2 text-gray-500">
+            Replying to <span className="text-primary hover:underline ">@{tag}</span>
+          </div>
+          <ComposePost buttonName="Post" postId={id} postType="reply" addTweetCallback={addReplyCallback} addReelCallback={() => {}} />
+        </div>
+        <div>
+          <Replies replies={replies} setReplies={setReplies} id={id} type='diary'/>
+        </div>
       </div>
     </div>
   )

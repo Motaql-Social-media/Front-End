@@ -119,12 +119,12 @@ const ReelBar = ({ id, replyCount, reposted, repostsNum, liked, likesNum, topic,
   }
 
   return (
-    <div className="text-ternairy mt-3 flex w-[20%] flex-col items-center justify-around dark:text-gray-500 max-xs:w-[10%] ">
-      <button className={`${styles.coloredButton} max-xs-rotate-90 flex !h-fit !min-w-fit  items-center justify-center max-[600px]:text-sm max-xs:-rotate-90 max-xs:rounded-sm`} title={topic.description}>
+    <div className="text-ternairy mt-3 flex   items-center justify-around dark:text-gray-500  ">
+      <button className={`${styles.coloredButton} flex !h-fit !w-fit  items-center justify-center max-[600px]:text-sm px-2`} title={topic.description}>
         {topic.topic}
       </button>
-      <div className={`group pointer-events-auto flex cursor-pointer flex-col items-center transition-colors  duration-300 hover:text-primary`} title={t("reply")}>
-        <div className="flex h-10 w-10 flex-col items-center justify-center rounded-full bg-inherit group-hover:bg-[#e7f5fd] dark:group-hover:bg-[#031018] ">
+      <div className={`group pointer-events-auto flex cursor-pointer items-center transition-colors  duration-300 hover:text-primary`} title={t("reply")}>
+        <div className="flex h-10 w-10  items-center justify-center rounded-full bg-inherit group-hover:bg-[#e7f5fd] dark:group-hover:bg-[#031018] ">
           <ChatBubbleOutlineOutlinedIcon
             sx={{
               width: 16,
@@ -135,7 +135,7 @@ const ReelBar = ({ id, replyCount, reposted, repostsNum, liked, likesNum, topic,
         <span className="text-sm">{replyCount}</span>
       </div>
       <div className="relative">
-        <div className={`group pointer-events-auto flex cursor-pointer flex-col items-center transition-colors duration-300 ${repost ? "text-green-500" : ""} hover:text-green-500`} title={t("repost")} onClick={handleMenuClick}>
+        <div className={`group pointer-events-auto flex cursor-pointer  items-center transition-colors duration-300 ${repost ? "text-green-500" : ""} hover:text-green-500`} title={t("repost")} onClick={handleMenuClick}>
           <div className={` flex  h-10 w-10 items-center justify-center rounded-full bg-inherit group-hover:bg-[#e8f9ee] dark:group-hover:bg-[#031309] `}>
             <CachedOutlinedIcon
               sx={{
@@ -173,7 +173,7 @@ const ReelBar = ({ id, replyCount, reposted, repostsNum, liked, likesNum, topic,
           </ul>
         </div>
       </div>
-      <div className={`group  pointer-events-auto flex cursor-pointer flex-col items-center transition-colors duration-300 ${like ? "text-pink-600" : ""} hover:text-pink-600`} title={t("like")} onClick={handleLikeClick}>
+      <div className={`group  pointer-events-auto flex cursor-pointer  items-center transition-colors duration-300 ${like ? "text-pink-600" : ""} hover:text-pink-600`} title={t("like")} onClick={handleLikeClick}>
         <div className="flex h-10 w-10 items-center justify-center rounded-full bg-inherit group-hover:bg-[#f9e5ef] dark:group-hover:bg-[#14000a]">
           {like && (
             <FavoriteOutlinedIcon
@@ -194,7 +194,7 @@ const ReelBar = ({ id, replyCount, reposted, repostsNum, liked, likesNum, topic,
         </div>
         <span className="text-sm">{likeCount}</span>
       </div>
-      <div className="flex flex-col items-center justify-center ">
+      <div className="flex  items-center justify-center ">
         <div className={`group pointer-events-auto flex cursor-pointer items-center transition-colors duration-300 ${bookmark ? "text-primary" : ""} hover:text-primary`} title={t("bookmark")} onClick={handelBookmarkClick}>
           <div className="flex h-10 w-10 items-center justify-center rounded-full bg-inherit group-hover:bg-[#e7f5fd] dark:group-hover:bg-[#031018]">
             <BookmarkBorderOutlinedIcon

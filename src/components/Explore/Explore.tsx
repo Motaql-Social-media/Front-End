@@ -141,6 +141,8 @@ const Explore = ({ scroll }: { scroll: number }) => {
     fetchReels()
   }, [selectedTopic])
 
+  const [muted, setMuted] = useState(false)
+
   return (
     <div className="flex flex-1 flex-grow-[8] max-[540px]:mt-16">
       <div ref={exploreRef} className="no-scrollbar ml-0 mr-1 w-full max-w-[620px] shrink-0 flex-grow overflow-y-scroll border border-b-0 border-t-0 border-lightBorder dark:border-darkBorder  max-[540px]:border-l-0 max-[540px]:border-r-0 sm:w-[600px]">
@@ -190,7 +192,7 @@ const Explore = ({ scroll }: { scroll: number }) => {
           {reels.map((reel: any) => {
             return (
               <div key={reel.reelId}>
-                <Reel inPostPage={false} content={reel.content} createdAt={reel.createdAt} isBookmarked={reel.isBookmarked} isReacted={reel.isReacted} isRereeled={reel.isRereeled} mentions={reel.mentions} originalReel={reel.originalReel} originalReeler={reel.originalReeler} reReelCount={reel.reReelCount} reactCount={reel.reactCount} reelUrl={reel.reelUrl} reeler={reel.reeler} repliesCount={reel.repliesCount} postType={reel.type} id={reel.reelId} topic={reel.topics[0]} reels={reels} setReels={setReels} />
+                <Reel muted={muted} setMuted={setMuted} inPostPage={false} content={reel.content} createdAt={reel.createdAt} isBookmarked={reel.isBookmarked} isReacted={reel.isReacted} isRereeled={reel.isRereeled} mentions={reel.mentions} originalReel={reel.originalReel} originalReeler={reel.originalReeler} reReelCount={reel.reReelCount} reactCount={reel.reactCount} reelUrl={reel.reelUrl} reeler={reel.reeler} repliesCount={reel.repliesCount} postType={reel.type} id={reel.reelId} topic={reel.topics[0]} reels={reels} setReels={setReels} />
               </div>
             )
           })}

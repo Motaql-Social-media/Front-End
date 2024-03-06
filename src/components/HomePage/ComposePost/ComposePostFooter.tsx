@@ -15,7 +15,7 @@ import { useTranslation } from "react-i18next"
 import i18next from "i18next"
 import ComposeReel from "./ComposeReel"
 function ComposePostFooter({
-  buttonName,
+  postType,
   handleUploadMedia,
   mediaDisabled,
   GIFDisabled,
@@ -33,7 +33,7 @@ function ComposePostFooter({
   media,
   addReelCallback,
 }: {
-  buttonName: string
+  postType: string
   handleUploadMedia: (event: React.ChangeEvent<HTMLInputElement>) => void
   mediaDisabled: boolean
   GIFDisabled: boolean
@@ -85,7 +85,7 @@ function ComposePostFooter({
 
   return (
     <div className="mt-3 flex items-center justify-between">
-      {!fromQuote && (
+      {!fromQuote && postType !== "reply" && postType !== "reply_reel" && (
         <div className="flex bg-transparent">
           <div className="flex cursor-pointer items-center justify-center gap-2 " onClick={handleOpen}>
             <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary p-1">
@@ -106,22 +106,24 @@ function ComposePostFooter({
           <GifBoxOutlinedIcon />
         </button>
         <input type="file" accept="image/gif" onChange={handleUploadMedia} ref={inputGif} style={{ display: "none" }} />
-        <button
-          title="Poll"
-          className="h-10 w-10 cursor-pointer rounded-full p-1 text-primary disabled:cursor-default disabled:brightness-50 dark:hover:bg-gray-800"
-          disabled={pollDisabled}
-          onClick={() => {
-            handlePollClick(true)
-          }}
-        >
-          <BallotOutlinedIcon />
-        </button>
+        {postType !== "reply" && postType !== "reply_reel" && (
+          <button
+            title="Poll"
+            className="h-10 w-10 cursor-pointer rounded-full p-1 text-primary disabled:cursor-default disabled:brightness-50 dark:hover:bg-gray-800"
+            disabled={pollDisabled}
+            onClick={() => {
+              handlePollClick(true)
+            }}
+          >
+            <BallotOutlinedIcon />
+          </button>
+        )}
         <button title="Emoji" className="h-10 w-10 rounded-full p-1 text-primary dark:hover:bg-gray-800">
           <SentimentSatisfiedOutlinedIcon />
         </button>
-        <button title="Calender" className="h-10 w-10 rounded-full p-1 text-primary dark:hover:bg-gray-800">
+        {/* <button title="Calender" className="h-10 w-10 rounded-full p-1 text-primary dark:hover:bg-gray-800">
           <EditCalendarIcon />
-        </button>
+        </button> */}
       </div>
       <CircularProgress variant="determinate" value={charsCount} size={progressCircleSize} sx={{ color: charsProgressColor }} />
 

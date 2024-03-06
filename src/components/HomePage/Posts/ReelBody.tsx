@@ -1,7 +1,8 @@
 import { Skeleton } from "@mui/material"
 import { useState, useEffect, useRef } from "react"
+import VolumeOffIcon from "@mui/icons-material/VolumeOff"
 
-const ReelBody = ({ media, content, mentions, displayReel }: { media: string; content: string; mentions: string[]; displayReel: boolean }) => {
+const ReelBody = ({ muted, setMuted, media, content, mentions, displayReel }: { muted: boolean; setMuted: any; media: string; content: string; mentions: string[]; displayReel: boolean }) => {
   const handleVideoClick = (e: any) => {
     e.stopPropagation()
   }
@@ -33,6 +34,60 @@ const ReelBody = ({ media, content, mentions, displayReel }: { media: string; co
   useEffect(() => {
     setProcessedMentions(mentions.map((mention) => `@${mention}`))
   }, [mentions])
+
+  const [isVisible, setIsVisible] = useState(false)
+
+  useEffect(() => {
+    let timeoutId: any
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          clearTimeout(timeoutId)
+          timeoutId = setTimeout(() => {
+            videoRef.current?.play()
+          }, 100)
+        } else {
+          clearTimeout(timeoutId)
+          videoRef.current?.pause()
+        }
+      },
+      { threshold: 0.7 }
+    )
+
+    if (videoRef.current) {
+      observer.observe(videoRef.current)
+    }
+
+    return () => {
+      if (observer) {
+        observer.disconnect()
+      }
+      clearTimeout(timeoutId)
+    }
+  }, [videoRef])
+
+  // useEffect(() => {
+  //   if (isVisible) videoRef.current?.play()
+  //   else videoRef.current?.pause()
+  // }, [isVisible])
+
+  const handleVolumeChange = (event: any) => {
+    const video = event.target
+    if (video.muted) {
+      setMuted(false)
+    } else {
+      setMuted(true)
+    }
+  }
+
+  const handleClick = (e: any) => {
+    e.stopPropagation()
+    if (videoRef.current) {
+      if (videoRef.current.paused) videoRef.current.play()
+      else videoRef.current.pause()
+    }
+  }
 
   return (
     <div className="w-full">
@@ -67,7 +122,14 @@ const ReelBody = ({ media, content, mentions, displayReel }: { media: string; co
               },
             }}
           />
-          <video ref={videoRef} controls className={`h-[600px] w-full  ${isLoading ? "hidden" : ""}`} src={mediaUrl} onClick={handleVideoClick} />
+          <div className="relative w-full">
+            <video ref={videoRef} onClickCapture={handleClick} onVolumeChange={handleVolumeChange} muted={!muted} autoPlay className={`h-[600px] w-full  ${isLoading ? "hidden" : ""}`} src={mediaUrl} onClick={handleVideoClick} />
+            {!muted && (
+              <div className="absolute bottom-[1%] right-0 text-primary" onClick={() => setMuted(true)}>
+                <VolumeOffIcon />
+              </div>
+            )}
+          </div>
         </div>
       )}
     </div>
