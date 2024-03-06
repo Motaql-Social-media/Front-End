@@ -1,12 +1,14 @@
-import FavoriteIcon from "@mui/icons-material/Favorite"
 import { Avatar } from "@mui/material"
 import { useState } from "react"
 import HoveredProfile from "../HomePage/Posts/HoveredProfile"
 import { useNavigate } from "react-router"
 import { useSelector } from "react-redux"
+import FavoriteIcon from "@mui/icons-material/Favorite"
 import AlternateEmailIcon from "@mui/icons-material/AlternateEmail"
 import ChatBubbleOutlineOutlinedIcon from "@mui/icons-material/ChatBubbleOutlineOutlined"
 import CachedOutlinedIcon from "@mui/icons-material/CachedOutlined"
+import PersonAddIcon from "@mui/icons-material/PersonAdd"
+import EmailIcon from "@mui/icons-material/Email"
 
 const Notification = ({ content, createdAt, isSeen, metadata, notificationFrom, notificationId, type }: { content: string; createdAt: any; isSeen: boolean; metadata: any; notificationFrom: any; notificationId: string; type: string }) => {
   const icons: any = {
@@ -28,6 +30,16 @@ const Notification = ({ content, createdAt, isSeen, metadata, notificationFrom, 
     MENTION: (
       <div className="text-blue-600">
         <AlternateEmailIcon sx={{ width: 30, height: 30 }} />
+      </div>
+    ),
+    MESSAGE: (
+      <div className="text-blue-600">
+        <EmailIcon sx={{ width: 30, height: 30 }} />
+      </div>
+    ),
+    FOLLOW: (
+      <div className="text-blue-600">
+        <PersonAddIcon sx={{ width: 30, height: 30 }} />
       </div>
     ),
   }
@@ -60,8 +72,8 @@ const Notification = ({ content, createdAt, isSeen, metadata, notificationFrom, 
   const navigate = useNavigate()
 
   const handleNotificationClick = (e: any) => {
-    if (type === "REACT") {
-      navigate(`/${user.username}/diary/${metadata.tweetId}`)
+    if (type.split("_")[0] === "REACT" || type.split("_")[0] === "MENTION" || type.split("_")[0] === "REPOST" || type.split("_")[0] === "REPLY") {
+      navigate(`/${user.username}/${type.split("_")[1] === "REEL" ? "reel" : "diary"}/${type.split("_")[1] === "TWEET" ? metadata.tweetId : metadata.reelId}`)
     }
   }
 
@@ -82,9 +94,9 @@ const Notification = ({ content, createdAt, isSeen, metadata, notificationFrom, 
   }
 
   return (
-    <div className="border-y border-y-darkBorder p-3" onClick={handleNotificationClick}>
+    <div className="border-y cursor-pointer border-y-darkBorder p-3" onClick={handleNotificationClick}>
       <div className="flex items-center justify-start gap-2">
-        {icons[type]}
+        {icons[type.split("_")[0]]}
         <div onClick={handleProfileClick} className="relative cursor-pointer" onMouseEnter={() => handleMouseEnter(1)} onMouseLeave={() => handleMouseLeave(1)}>
           <Avatar alt={notificationFrom.name} src={process.env.REACT_APP_USERS_MEDIA_URL + notificationFrom.imageUrl} sx={{ width: 30, height: 30 }} />
           {isVisible && <HoveredProfile hoveredUser={notificationFrom} state={followState} setState={setFollowState} />}

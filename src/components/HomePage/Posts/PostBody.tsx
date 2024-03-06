@@ -15,7 +15,7 @@ const PostBody = ({ description, media, mentions }: { description: string; media
     <div className="min-xs:pl-12">
       <div className="post-text mt-1 ">
         <p>
-          {description.split(" ").map((word, index) => (
+          {description?.split(" ").map((word, index) => (
             <span key={index}>
               {processedMentions.includes(word) ? (
                 <a href={`/${word.slice(1)}`} onClick={(e: any) => e.stopPropagation()} className="text-white hover:text-primary">
