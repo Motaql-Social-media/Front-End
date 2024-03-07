@@ -29,7 +29,54 @@ import ReelPage from "./components/PostPage/ReelPage"
 import Notifications from "./components/Notifications/Notifications"
 import All from "./components/Notifications/All"
 
+import io from "socket.io-client"
+import { createContext } from "react"
+
+const SocketContext = createContext<any>(null)
+
 function App() {
+  const [socket, setSocket] = useState<any>(null)
+  const userToken = useSelector((state: any) => state.user.token)
+
+  useEffect(() => {
+    // const initSocket = async () => {
+    //   const newSocket = await io("https://theline.social/api/v1")
+    //   setSocket(newSocket)
+    //   console.log(newSocket)
+    // }
+
+    // initSocket()
+
+    // return () => {
+    //   if (socket) socket.disconnect()
+    // }
+    const socketURL = "https://theline.social/api/v1/"
+    const maxRetries = 3
+    const initialDelay = 1000 // 1 second
+    const maxDelay = 5000 // 5 seconds
+
+    const socket = io(socketURL, {
+      withCredentials: true,
+      extraHeaders: {
+        token: userToken,
+      },
+      reconnectionAttempts: maxRetries,
+      reconnectionDelay: initialDelay,
+      reconnectionDelayMax: maxDelay,
+    })
+
+    const handleConnect = () => {
+      console.log("Socket connected successfully")
+    }
+
+    const handleReconnectFailed = () => {
+      console.error("Connection failed after max retries")
+    }
+
+    socket.on("connect", handleConnect)
+    socket.on("reconnect_failed", handleReconnectFailed)
+  }, [])
+
   const [location, setLocation] = useState(window.location.pathname)
 
   const [openLoginModal, setOpenLoginModal] = useState(false)
@@ -91,11 +138,12 @@ function App() {
   }, [isMobile])
 
   return (
-    <ThemeProvider theme={theme}>
-      <div ref={appRef} className="app  relative flex  min-h-[100vh]  flex-row overflow-hidden bg-white text-black dark:bg-black  dark:text-white max-[540px]:flex-col xs:h-[100vh] xs:w-full">
-        <BrowserRouter>
-          <Languages />
-          {/* {!user && location !== "/password_reset" && (
+    <SocketContext.Provider value={socket}>
+      <ThemeProvider theme={theme}>
+        <div ref={appRef} className="app  relative flex  min-h-[100vh]  flex-row overflow-hidden bg-white text-black dark:bg-black  dark:text-white max-[540px]:flex-col xs:h-[100vh] xs:w-full">
+          <BrowserRouter>
+            <Languages />
+            {/* {!user && location !== "/password_reset" && (
             <Landing
               openLoginModal={openLoginModal}
               handleOpenLoginModal={handleOpenLoginModal}
@@ -107,40 +155,41 @@ function App() {
               setLocation={setLocation}
             />
           )} */}
-          {/* {location !== "/password_reset" && <Sidebar />} */}
-          {user && location !== "/password_reset" && <Sidebar />}
-          <Routes>
-            <Route path="/" element={<Landing openLoginModal={openLoginModal} handleOpenLoginModal={handleOpenLoginModal} handleCloseLoginModal={handleCloseLoginModal} openSignupModal={openSignupModal} handleOpenSignupModal={handleOpenSignupModal} handleCloseSignupModal={handleCloseSignupModal} location={location} setLocation={setLocation} />}></Route>
-            <Route path="/home" element={<Home scroll={deltaY} />}>
-              <Route path="diaries" element={<Diaries />} />
-              <Route path="reels" element={<Reels />} />
-              <Route path="" element={<Diaries />} />
-            </Route>
-            <Route path="/bookmarks" element={<Bookmarks scroll={deltaY} />}>
-              <Route path="diaries" element={<Diaries />} />
-              <Route path="reels" element={<Reels />} />
-              <Route path="" element={<Diaries />} />
-            </Route>
-            <Route path="/:tag/:type/:id/engagement" element={<PostEngagement scroll={deltaY} />}>
-              <Route path="likes" element={<Likes />}></Route>
-              <Route path="quotes" element={<Quotes />}></Route>
-              <Route path="reposts" element={<Reposts />}></Route>
-              <Route path="" element={<Quotes />}></Route>
-            </Route>
-            <Route path="/notifications" element={<Notifications scroll={deltaY} />}>
-              <Route path="all" element={<All />} />
-              <Route path="" element={<All />} />
-            </Route>
-            <Route path="/:tag/diary/:id" element={<DiaryPage scroll={deltaY} />} />
-            <Route path="/:tag/reel/:id" element={<ReelPage scroll={deltaY} />} />
-            <Route path="/explore" element={<Explore scroll={deltaY} />}></Route>
-            <Route path="/password_reset" element={<PasswordReset setLocation={setLocation} />} />
-            <Route path="/login" element={<Login openModal={true} handleCloseModal={handleCloseLoginModal} setLocation={setLocation} />} />
-            <Route path="/signup" element={<SignUp openModal={true} setLocation={setLocation} handleCloseModal={handleCloseSignupModal} />} />
-          </Routes>
-        </BrowserRouter>
-      </div>
-    </ThemeProvider>
+            {/* {location !== "/password_reset" && <Sidebar />} */}
+            {user && location !== "/password_reset" && <Sidebar />}
+            <Routes>
+              <Route path="/" element={<Landing openLoginModal={openLoginModal} handleOpenLoginModal={handleOpenLoginModal} handleCloseLoginModal={handleCloseLoginModal} openSignupModal={openSignupModal} handleOpenSignupModal={handleOpenSignupModal} handleCloseSignupModal={handleCloseSignupModal} location={location} setLocation={setLocation} />}></Route>
+              <Route path="/home" element={<Home scroll={deltaY} />}>
+                <Route path="diaries" element={<Diaries />} />
+                <Route path="reels" element={<Reels />} />
+                <Route path="" element={<Diaries />} />
+              </Route>
+              <Route path="/bookmarks" element={<Bookmarks scroll={deltaY} />}>
+                <Route path="diaries" element={<Diaries />} />
+                <Route path="reels" element={<Reels />} />
+                <Route path="" element={<Diaries />} />
+              </Route>
+              <Route path="/:tag/:type/:id/engagement" element={<PostEngagement scroll={deltaY} />}>
+                <Route path="likes" element={<Likes />}></Route>
+                <Route path="quotes" element={<Quotes />}></Route>
+                <Route path="reposts" element={<Reposts />}></Route>
+                <Route path="" element={<Quotes />}></Route>
+              </Route>
+              <Route path="/notifications" element={<Notifications scroll={deltaY} />}>
+                <Route path="all" element={<All />} />
+                <Route path="" element={<All />} />
+              </Route>
+              <Route path="/:tag/diary/:id" element={<DiaryPage scroll={deltaY} />} />
+              <Route path="/:tag/reel/:id" element={<ReelPage scroll={deltaY} />} />
+              <Route path="/explore" element={<Explore scroll={deltaY} />}></Route>
+              <Route path="/password_reset" element={<PasswordReset setLocation={setLocation} />} />
+              <Route path="/login" element={<Login openModal={true} handleCloseModal={handleCloseLoginModal} setLocation={setLocation} />} />
+              <Route path="/signup" element={<SignUp openModal={true} setLocation={setLocation} handleCloseModal={handleCloseSignupModal} />} />
+            </Routes>
+          </BrowserRouter>
+        </div>
+      </ThemeProvider>
+    </SocketContext.Provider>
   )
 }
 

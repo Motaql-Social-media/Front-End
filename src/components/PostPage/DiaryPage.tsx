@@ -52,7 +52,7 @@ const PostPage = ({ scroll }: { scroll: number }) => {
       },
     })
       .then((res) => {
-        // console.log(res)
+        // console.log(res.data.data.tweet)
         setDiary(res.data.data.tweet)
       })
       .catch((err) => {

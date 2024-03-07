@@ -10,6 +10,7 @@ import TagIcon from "@mui/icons-material/Tag"
 import BookmarkBorderOutlinedIcon from "@mui/icons-material/BookmarkBorderOutlined"
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined"
 import SettingsIcon from "@mui/icons-material/Settings"
+import Badge from "@mui/material/Badge"
 
 import HomeIcon from "@mui/icons-material/Home"
 import SearchIcon from "@mui/icons-material/Search"
@@ -28,35 +29,50 @@ import { useLocation } from "react-router-dom"
 
 import { useSelector } from "react-redux"
 
-import Logo from "../../assets/images/mainLogo.svg"
-
-import { Avatar, Menu, MenuItem } from "@mui/material"
-import SwitchAccount from "./SwitchAccount"
-
 import { useNavigate } from "react-router-dom"
 import { useTranslation } from "react-i18next"
-import i18next from "i18next"
 
 import { logoutUser } from "../../store/UserSlice"
 import { useDispatch } from "react-redux"
 import MobileSidebar from "./MobileSidebar"
 import DesktopSidebar from "./DesktopSidebar"
+import axios from "axios"
+
+import { setUnseenCount } from "../../store/NotificationSlice"
 const Sidebar = () => {
   const darkMode = useSelector((state: any) => state.theme.darkMode)
 
   const { t } = useTranslation()
+
+  const [count, setCount] = useState(0)
 
   const optionsNames = [t("home"), t("explore"), t("notifications"), t("messages"), t("bookmarks"), t("profile"), t("settings")]
   const optionsIcons = [
     [<HomeOutlinedIcon />, <HomeIcon />],
     [<TagIcon sx={{ color: darkMode ? "#ffffff" : "#000000" }} />, <TagIcon sx={{ color: darkMode ? "#ffffff" : "#000000" }} />],
     [
-      //   <Badge badgeContent={unseenCount} color="primary">
-      <NotificationsNoneRoundedIcon />,
-      //   </Badge>,
-      //   <Badge badgeContent={unseenCount} color="primary">
-      <NotificationsIcon />,
-      //   </Badge>,
+      <Badge
+        badgeContent={count}
+        sx={{
+          ".MuiBadge-badge": {
+            backgroundColor: "#40e5da",
+            color: "white",
+          },
+        }}
+      >
+        <NotificationsNoneRoundedIcon />
+      </Badge>,
+      <Badge
+        badgeContent={count}
+        sx={{
+          ".MuiBadge-badge": {
+            backgroundColor: "#40e5da",
+            color: "white",
+          },
+        }}
+      >
+        <NotificationsIcon />
+      </Badge>,
     ],
     [<MailOutlineRoundedIcon />, <EmailIcon />],
     // [<ListAltRoundedIco sx={{color:darkMode?"#d9d9d9":"#1f1f1f"}}/>,<ListAltIcon sx={{color:darkMode?"#ffffff":"#000000"}}/>],
@@ -96,22 +112,24 @@ const Sidebar = () => {
     }
   }, [])
 
+  const API = axios.create({
+    baseURL: process.env.REACT_APP_API_URL,
+  })
+  const userToken = useSelector((state: any) => state.user.token)
+
   useEffect(() => {
-    //   axios
-    //     .get(APIs.actual.getNotificationUnseenCount, {
-    //       params: {},
-    //       headers: {
-    //         authorization: "Bearer " + userToken,
-    //       },
-    //     })
-    //     .then((res) => {
-    //       // console.log(res.data.data.notificationsCount)
-    //       dispatch(setUnseenCount(res.data.data.notificationsCount));
-    //       // setUnseenCount(res.data.data.notificationsCount)
-    //     })
-    //     .catch((err) => {
-    //       console.log(err);
-    //     });
+    API.get("users/current/notifications/unseen-count", {
+      headers: {
+        Authorization: `Bearer ${userToken}`,
+      },
+    })
+      .then((res) => {
+        setCount(res.data.data.count)
+        dispatch(setUnseenCount(res.data.data.count))
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   }, [])
 
   const dispatch = useDispatch()

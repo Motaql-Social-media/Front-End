@@ -125,7 +125,13 @@ const ReelBody = ({ muted, setMuted, media, content, mentions, displayReel }: { 
           <div className="relative w-full">
             <video ref={videoRef} onClickCapture={handleClick} onVolumeChange={handleVolumeChange} muted={!muted} autoPlay className={`h-[600px] w-full  ${isLoading ? "hidden" : ""}`} src={mediaUrl} onClick={handleVideoClick} />
             {!muted && (
-              <div className="absolute bottom-[1%] right-0 text-primary" onClick={() => setMuted(true)}>
+              <div
+                className="absolute bottom-[1%] right-0 text-primary"
+                onClick={(e: any) => {
+                  e.stopPropagation()
+                  setMuted(true)
+                }}
+              >
                 <VolumeOffIcon />
               </div>
             )}
