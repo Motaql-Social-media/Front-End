@@ -94,19 +94,6 @@ function ColorlibStepIcon(props: StepIconProps) {
   );
 }
 
-/*
- const steps = [
-  "Basic Information",
-  "reCAPTCHA",
-  "Phone Number",
-  "Phone Verification",
-  "Email",
-  "Email Verification",
-  "Password",
-  "Username",
-  "Profile Picture",
-];
-*/
 
 const steps = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 

@@ -13,6 +13,7 @@ import { ThemeState } from "../../store/ThemeSlice"
 import { useTranslation } from "react-i18next"
 
 import { useNavigate } from "react-router-dom"
+import GoogleButton from "../General/GoogleButton"
 const PreStep = ({ handleCloseModal, setPosition, position, setLocation }: { handleCloseModal: any; setPosition: any; position: number; setLocation: (location: string) => void }) => {
   type RootState = {
     theme: ThemeState
@@ -33,11 +34,7 @@ const PreStep = ({ handleCloseModal, setPosition, position, setLocation }: { han
     <div id="Pre Step">
       <div className="m-auto w-[300px] dark:text-white ">
         <h1 className="mb-4 mt-3 text-3xl font-bold">{t("signup_welcome")}</h1>
-        {/* <GoogleLoginButton
-          handleCloseModal={handleCloseModal}
-          message={"Sign in with Google"}
-        /> */}
-        <button className={`${styles.coloredButton}`}>{t("signin_google")}</button>
+        <GoogleButton />
         <div className="flex h-10 items-center justify-center">
           <div className="flex w-full items-center">
             <hr className="mr-2 w-full" />

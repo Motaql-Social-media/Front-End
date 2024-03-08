@@ -24,6 +24,7 @@ import { useTranslation } from "react-i18next"
 import TextField from "@mui/material/TextField"
 import ArrowBackIcon from "@mui/icons-material/ArrowBack"
 import i18next from "i18next"
+import GoogleButton from "../General/GoogleButton"
 
 const Login = ({ openModal, handleCloseModal, setLocation }: { openModal: boolean; handleCloseModal: any; setLocation: any }) => {
   const [userName, setUserName] = useState("")
@@ -192,11 +193,7 @@ const Login = ({ openModal, handleCloseModal, setLocation }: { openModal: boolea
             {/* --------------------------------------First Login Page------------------------------------- */}
             <div id="firstPage" className="m-auto mt-12 w-[300px] dark:text-white">
               <h1 className="mb-4 mt-3 text-3xl font-bold">{t("login_welcome")}</h1>
-              <button className={`${styles.coloredButton}`}>{t("signin_google")}</button>
-              {/* <GoogleLoginButton
-                  handleCloseModal={handleCloseModal}
-                  message={"Sign in with Google"}
-                /> */}
+              <GoogleButton />
               <div className="flex h-10 items-center justify-center">
                 <div className="flex w-full items-center">
                   <hr className="mr-2 w-full" />

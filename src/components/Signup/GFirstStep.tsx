@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next"
 
 import useRecaptchaV3 from "../hooks/reCaptchaV3"
 
-const FirstStep = ({ nickName, setNickName, speciality, setSpeciality, month, setMonth, day, setDay, year, setYear, setPosition, position }: { nickName: string; setNickName: React.Dispatch<React.SetStateAction<string>>; speciality: string; setSpeciality: React.Dispatch<React.SetStateAction<string>>; month: string; setMonth: (value: string) => void; day: string; setDay: (value: string) => void; year: string; setYear: (value: string) => void; setPosition: any; position: number }) => {
+const GFirstStep = ({ nickName, setNickName, speciality, setSpeciality, month, setMonth, day, setDay, year, setYear, setPosition, position }: { nickName: string; setNickName: React.Dispatch<React.SetStateAction<string>>; speciality: string; setSpeciality: React.Dispatch<React.SetStateAction<string>>; month: string; setMonth: (value: string) => void; day: string; setDay: (value: string) => void; year: string; setYear: (value: string) => void; setPosition: any; position: number }) => {
   const API = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
   })
@@ -29,7 +29,7 @@ const FirstStep = ({ nickName, setNickName, speciality, setSpeciality, month, se
     const dayDiff = currentDate.getDate() - selectedDate.getDate()
 
     if (ageDiff < 13 || (ageDiff === 13 && (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)))) {
-      const FirstStep = document.getElementById("First Step")
+      const FirstStep = document.getElementById("Google First Step")
       const ErrorPage = document.getElementById("Error Page")
       if (FirstStep) {
         FirstStep.style.display = "none"
@@ -44,33 +44,30 @@ const FirstStep = ({ nickName, setNickName, speciality, setSpeciality, month, se
 
   const handleRecaptcha = async () => {
     const token = await executeRecaptcha("login")
-    // console.log(token);
 
     API.post("auth/validate-recaptcha", {
       gRecaptchaResponse: token,
     })
       .then((res) => {
-        // console.log(res);
         handleCheckBirthdate()
       })
       .catch((err) => {
         nextButton.current?.removeAttribute("disabled")
 
         console.log(err)
-        // handleCheckBirthdate();
       })
   }
 
   const nextButton = useRef<HTMLButtonElement>(null)
 
-  useEffect(() => {
-    nextButton.current?.removeAttribute("disabled")
-  }, [position])
+  //   useEffect(() => {
+  //     nextButton.current?.removeAttribute("disabled")
+  //   }, [position])
 
   return (
-    <div id="First Step" className="First_Step m-auto hidden w-[350px] dark:text-white">
+    <div id="Google First Step" className=" m-auto hidden w-[350px] dark:text-white">
       <div className="max-w[600px] !h-fit">
-        <h1 className="mb-4 mt-3 text-3xl font-bold">{t("signup_welcome2")}</h1>
+        <h1 className="mb-4 mt-3 text-3xl font-bold">Complete some data</h1>
         <TextField
           label={t("name")}
           variant="outlined"
@@ -118,12 +115,6 @@ const FirstStep = ({ nickName, setNickName, speciality, setSpeciality, month, se
             InputLabelProps={{
               style: { color: "#40e5da", textAlign: "right" },
             }}
-            // inputProps={{
-            //   onBlur: handleEmailBlur,
-            //   style: {
-            //     border: emailExistError ? "1px solid red" : "",
-            //   },
-            // }}
             sx={{
               borderColor: "#40e5da",
 
@@ -170,15 +161,9 @@ const FirstStep = ({ nickName, setNickName, speciality, setSpeciality, month, se
           className={`${styles.coloredButton}`}
           onClick={() => {
             nextButton.current?.setAttribute("disabled", "true")
-
             handleRecaptcha()
           }}
-          disabled={
-            speciality === "" || nickName === "" || year === "" || month === "" || day === ""
-            // !validEmail(email) ||
-            // emailExistError ||
-            // !captchaIsDone
-          }
+          disabled={speciality === "" || nickName === "" || year === "" || month === "" || day === ""}
         >
           {t("next")}
         </button>
@@ -187,4 +172,4 @@ const FirstStep = ({ nickName, setNickName, speciality, setSpeciality, month, se
   )
 }
 
-export default FirstStep
+export default GFirstStep

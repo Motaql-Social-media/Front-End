@@ -14,28 +14,7 @@ const FifthStep = ({ nickName, email, setPosition, position }: { nickName: strin
 
   const { t } = useTranslation()
 
-  const handleResendConfirmationEmail = () => {
-    //   axios
-    //     .post(
-    //       mock
-    //         ? APIs.mock.resendConfirmationEmail
-    //         : APIs.actual.resendConfirmationEmail,
-    //       {
-    //         email: email,
-    //       }
-    //     )
-    //     .then(() => {
-    //       setIsResending(true);
-    //     })
-    //     .catch((err) => {
-    //       if (mock) {
-    //         setIsResending(true);
-    //       }
 
-    //       console.log(err);
-    //     });
-    setIsResending(true)
-  }
 
   useEffect(() => {
     let timer: any

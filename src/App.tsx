@@ -31,6 +31,26 @@ import All from "./components/Notifications/All"
 
 import io from "socket.io-client"
 import { createContext } from "react"
+import Mentions from "./components/Notifications/Mentions"
+import ReelsMentions from "./components/Notifications/ReelsMentions"
+import DiariesMentions from "./components/Notifications/DiariesMentions"
+import Followers from "./components/Profile/Followers"
+import Followings from "./components/Profile/Followings"
+import FollowersFollowings from "./components/Profile/FollowersFollowings"
+
+import { GoogleOAuthProvider } from "@react-oauth/google"
+import Settings from "./components/Settings/Settings"
+import Account from "./components/Settings/Account/Account"
+import Privacy from "./components/Settings/Privacy/Privacy"
+import AccountInformations from "./components/Settings/Account/Information/AccountInformations"
+import ChangeUsername from "./components/Settings/Account/Information/ChangeUsername"
+import PasswordChange from "./components/Settings/Account/PasswordChange"
+import ChangePhoneNumber from "./components/Settings/Account/Information/ChangePhoneNumber"
+import ChangeEmail from "./components/Settings/Account/Information/ChangeEmail"
+import MuteBlock from "./components/Settings/Privacy/MuteBlock"
+import BlockedAccounts from "./components/Settings/Privacy/BlockedAccounts"
+import MutedAccounts from "./components/Settings/Privacy/MutedAccounts"
+import Profile from "./components/Profile/Profile"
 
 const SocketContext = createContext<any>(null)
 
@@ -39,42 +59,47 @@ function App() {
   const userToken = useSelector((state: any) => state.user.token)
 
   useEffect(() => {
+    // console.log("Socket connecting...")
     // const initSocket = async () => {
-    //   const newSocket = await io("https://theline.social/api/v1")
-    //   setSocket(newSocket)
-    //   console.log(newSocket)
+    //   const newSocket = await io("https://theline.social/api/v1/")
+    //   newSocket.on("connect", () => {
+    //     console.log("Socket connected!")
+    //   })
+    //   console.log(newSocket) // Might still show connected: false initially
     // }
-
     // initSocket()
-
+    // newSocket.on("connect", () => {
+    //   console.log("Connected to server")
+    // })
+    // newSocket.on("disconnect", () => {
+    //   console.log("Disconnected from server")
+    // })
+    //   initSocket()
     // return () => {
     //   if (socket) socket.disconnect()
     // }
-    const socketURL = "https://theline.social/api/v1/"
-    const maxRetries = 3
-    const initialDelay = 1000 // 1 second
-    const maxDelay = 5000 // 5 seconds
-
-    const socket = io(socketURL, {
-      withCredentials: true,
-      extraHeaders: {
-        token: userToken,
-      },
-      reconnectionAttempts: maxRetries,
-      reconnectionDelay: initialDelay,
-      reconnectionDelayMax: maxDelay,
-    })
-
-    const handleConnect = () => {
-      console.log("Socket connected successfully")
-    }
-
-    const handleReconnectFailed = () => {
-      console.error("Connection failed after max retries")
-    }
-
-    socket.on("connect", handleConnect)
-    socket.on("reconnect_failed", handleReconnectFailed)
+    // const socketURL = "https://theline.social/api/v1/"
+    // const maxRetries = 3
+    // const initialDelay = 1000 // 1 second
+    // const maxDelay = 5000 // 5 seconds
+    // const t = io('https://theline.social/api/v1/', {
+    //   withCredentials: true,
+    //   extraHeaders: {
+    //     token: userToken,
+    //   },
+    //   // reconnectionAttempts: maxRetries,
+    //   // reconnectionDelay: initialDelay,
+    //   // reconnectionDelayMax: maxDelay,
+    // })
+    // console.log(t)
+    // const handleConnect = () => {
+    //   console.log("Socket connected successfully")
+    // }
+    // const handleReconnectFailed = () => {
+    //   console.error("Connection failed after max retries")
+    // }
+    // socket.on("connect", handleConnect)
+    // socket.on("reconnect_failed", handleReconnectFailed)
   }, [])
 
   const [location, setLocation] = useState(window.location.pathname)
@@ -138,12 +163,13 @@ function App() {
   }, [isMobile])
 
   return (
-    <SocketContext.Provider value={socket}>
-      <ThemeProvider theme={theme}>
-        <div ref={appRef} className="app  relative flex  min-h-[100vh]  flex-row overflow-hidden bg-white text-black dark:bg-black  dark:text-white max-[540px]:flex-col xs:h-[100vh] xs:w-full">
-          <BrowserRouter>
-            <Languages />
-            {/* {!user && location !== "/password_reset" && (
+    <GoogleOAuthProvider clientId="747286868244-5769tksecnl0s5jds76cdtj13phph6l7.apps.googleusercontent.com">
+      <SocketContext.Provider value={socket}>
+        <ThemeProvider theme={theme}>
+          <div ref={appRef} className="app  relative flex  min-h-[100vh]  flex-row overflow-hidden bg-white text-black dark:bg-black  dark:text-white max-[540px]:flex-col xs:h-[100vh] xs:w-full">
+            <BrowserRouter>
+              <Languages />
+              {/* {!user && location !== "/password_reset" && (
             <Landing
               openLoginModal={openLoginModal}
               handleOpenLoginModal={handleOpenLoginModal}
@@ -155,41 +181,66 @@ function App() {
               setLocation={setLocation}
             />
           )} */}
-            {/* {location !== "/password_reset" && <Sidebar />} */}
-            {user && location !== "/password_reset" && <Sidebar />}
-            <Routes>
-              <Route path="/" element={<Landing openLoginModal={openLoginModal} handleOpenLoginModal={handleOpenLoginModal} handleCloseLoginModal={handleCloseLoginModal} openSignupModal={openSignupModal} handleOpenSignupModal={handleOpenSignupModal} handleCloseSignupModal={handleCloseSignupModal} location={location} setLocation={setLocation} />}></Route>
-              <Route path="/home" element={<Home scroll={deltaY} />}>
-                <Route path="diaries" element={<Diaries />} />
-                <Route path="reels" element={<Reels />} />
-                <Route path="" element={<Diaries />} />
-              </Route>
-              <Route path="/bookmarks" element={<Bookmarks scroll={deltaY} />}>
-                <Route path="diaries" element={<Diaries />} />
-                <Route path="reels" element={<Reels />} />
-                <Route path="" element={<Diaries />} />
-              </Route>
-              <Route path="/:tag/:type/:id/engagement" element={<PostEngagement scroll={deltaY} />}>
-                <Route path="likes" element={<Likes />}></Route>
-                <Route path="quotes" element={<Quotes />}></Route>
-                <Route path="reposts" element={<Reposts />}></Route>
-                <Route path="" element={<Quotes />}></Route>
-              </Route>
-              <Route path="/notifications" element={<Notifications scroll={deltaY} />}>
-                <Route path="all" element={<All />} />
-                <Route path="" element={<All />} />
-              </Route>
-              <Route path="/:tag/diary/:id" element={<DiaryPage scroll={deltaY} />} />
-              <Route path="/:tag/reel/:id" element={<ReelPage scroll={deltaY} />} />
-              <Route path="/explore" element={<Explore scroll={deltaY} />}></Route>
-              <Route path="/password_reset" element={<PasswordReset setLocation={setLocation} />} />
-              <Route path="/login" element={<Login openModal={true} handleCloseModal={handleCloseLoginModal} setLocation={setLocation} />} />
-              <Route path="/signup" element={<SignUp openModal={true} setLocation={setLocation} handleCloseModal={handleCloseSignupModal} />} />
-            </Routes>
-          </BrowserRouter>
-        </div>
-      </ThemeProvider>
-    </SocketContext.Provider>
+              {/* {location !== "/password_reset" && <Sidebar />} */}
+              {user && location !== "/password_reset" && <Sidebar />}
+              <Routes>
+                <Route path="/" element={<Landing openLoginModal={openLoginModal} handleOpenLoginModal={handleOpenLoginModal} handleCloseLoginModal={handleCloseLoginModal} openSignupModal={openSignupModal} handleOpenSignupModal={handleOpenSignupModal} handleCloseSignupModal={handleCloseSignupModal} location={location} setLocation={setLocation} />}></Route>
+                <Route path="/home" element={<Home scroll={deltaY} />}>
+                  <Route path="diaries" element={<Diaries />} />
+                  <Route path="reels" element={<Reels />} />
+                  <Route path="" element={<Diaries />} />
+                </Route>
+                <Route path="/bookmarks" element={<Bookmarks scroll={deltaY} />}>
+                  <Route path="diaries" element={<Diaries />} />
+                  <Route path="reels" element={<Reels />} />
+                  <Route path="" element={<Diaries />} />
+                </Route>
+                <Route path="/:tag/:type/:id/engagement" element={<PostEngagement scroll={deltaY} />}>
+                  <Route path="likes" element={<Likes />}></Route>
+                  <Route path="quotes" element={<Quotes />}></Route>
+                  <Route path="reposts" element={<Reposts />}></Route>
+                  <Route path="" element={<Quotes />}></Route>
+                </Route>
+                <Route path="/notifications" element={<Notifications scroll={deltaY} />}>
+                  <Route path="all" element={<All />} />
+                  <Route path="mentions" element={<Mentions scroll={deltaY} />}>
+                    <Route path="diaries" element={<DiariesMentions />} />
+                    <Route path="reels" element={<ReelsMentions />} />
+                    <Route path="" element={<DiariesMentions />} />
+                  </Route>
+                  <Route path="" element={<All />} />
+                </Route>
+                <Route path="/:tag/followers_followings" element={<FollowersFollowings scroll={deltaY} />}>
+                  <Route path="followers" element={<Followers />}></Route>
+                  <Route path="followings" element={<Followings />}></Route>
+                </Route>
+                <Route path="/settings" element={<Settings />}>
+                  <Route path="account" element={<Account />} />
+                  <Route path="privacy" element={<Privacy />} />
+                  <Route path="account_information" element={<AccountInformations />} />
+                  <Route path="username" element={<ChangeUsername />} />
+                  <Route path="password" element={<PasswordChange />} />
+                  <Route path="phone_number" element={<ChangePhoneNumber />} />
+                  <Route path="email" element={<ChangeEmail />} />
+                  <Route path="mute_block" element={<MuteBlock />} />
+                  <Route path="blocked_accounts" element={<BlockedAccounts />} />
+                  <Route path="muted_accounts" element={<MutedAccounts />} />
+                </Route>
+
+                <Route path="/:tag" element={<Profile scroll={deltaY} />} />
+
+                <Route path="/:tag/diary/:id" element={<DiaryPage scroll={deltaY} />} />
+                <Route path="/:tag/reel/:id" element={<ReelPage scroll={deltaY} />} />
+                <Route path="/explore" element={<Explore scroll={deltaY} />}></Route>
+                <Route path="/password_reset" element={<PasswordReset setLocation={setLocation} />} />
+                <Route path="/login" element={<Login openModal={true} handleCloseModal={handleCloseLoginModal} setLocation={setLocation} />} />
+                <Route path="/signup" element={<SignUp openModal={true} setLocation={setLocation} handleCloseModal={handleCloseSignupModal} />} />
+              </Routes>
+            </BrowserRouter>
+          </div>
+        </ThemeProvider>
+      </SocketContext.Provider>
+    </GoogleOAuthProvider>
   )
 }
 

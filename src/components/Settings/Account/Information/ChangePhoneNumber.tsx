@@ -1,0 +1,286 @@
+import React, { useState, useEffect } from "react"
+import { useNavigate } from "react-router-dom"
+import ArrowBackIcon from "@mui/icons-material/ArrowBack"
+import { useTranslation } from "react-i18next"
+import axios from "axios"
+import { useSelector, useDispatch } from "react-redux"
+import { TextField } from "@mui/material"
+
+import { MuiPhone } from "../../../Signup/CustomPhoneInput"
+
+import { PhoneNumberUtil } from "google-libphonenumber"
+import { styles } from "../../../../styles/styles"
+import { changePhone } from "../../../../store/UserSlice"
+
+const phoneUtil = PhoneNumberUtil.getInstance()
+
+const isPhoneValid = (phone: string) => {
+  try {
+    return phoneUtil.isValidNumber(phoneUtil.parseAndKeepRawInput(phone))
+  } catch (error) {
+    return false
+  }
+}
+
+const ChangePhoneNumber = () => {
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+
+  const user = useSelector((state: any) => state.user.user)
+  const userToken = useSelector((state: any) => state.user.token)
+
+  const [phoneChanged, setPhoneChanged] = useState(false)
+  const [otpChecked, setOtpChecked] = useState(false)
+
+  const [prevScrollPos, setPrevScrollPos] = useState(window.scrollY)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollPos = window.scrollY
+      const isScrollingDown = currentScrollPos > prevScrollPos
+      setPrevScrollPos(currentScrollPos)
+
+      // Check if scrolling down
+      if (isScrollingDown) {
+        setIsVisible(false)
+      } else {
+        setIsVisible(true)
+      }
+    }
+
+    window.addEventListener("scroll", handleScroll)
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll)
+    }
+  }, [prevScrollPos])
+
+  const [isVisible, setIsVisible] = useState(true)
+
+  const handleBack = () => {
+    navigate(-1)
+  }
+
+  const { t } = useTranslation()
+
+  const API = axios.create({
+    baseURL: process.env.REACT_APP_API_URL,
+  })
+
+  const [phoneExistError, setPhoneExistError] = useState(false)
+  const [otpSent, setOtpSent] = useState(false)
+
+  const handleCheckPhoneExist = () => {
+    API.post("users/is-user-found", {
+      input: phoneNumber,
+    })
+      .then((res) => {
+        // console.log(res.data.isFound);
+        if (phoneNumber !== user.phoneNumber) setPhoneExistError(res.data.isFound)
+        else setPhoneExistError(false)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+  const [phoneNumber, setPhoneNumber] = useState(user.phoneNumber)
+
+  useEffect(() => {
+    if (isPhoneValid(phoneNumber)) {
+      handleCheckPhoneExist()
+    }
+  }, [phoneNumber])
+
+  const handleSendOTP = () => {
+    API.post("auth/send-otpverification", {
+      provider: "phone",
+      input: phoneNumber,
+      name: user.name,
+    })
+      .then((res) => {
+        // console.log(res);
+        setOtpSent(true)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
+  const handleButtonClick = () => {
+    if (!otpSent) {
+      handleSendOTP()
+    } else handleCheckOTP()
+  }
+  const [countdown, setCountdown] = useState(30)
+  const [isResending, setIsResending] = useState(false)
+  const [code, setCode] = useState("")
+  const [otpError, setOtpError] = useState(false)
+
+  const handleResendOTP = () => {
+    API.post("auth/send-otpverification", {
+      provider: "phone",
+      input: phoneNumber,
+      name: user.name,
+    })
+      .then((res) => {
+        // console.log(res);
+        setIsResending(true)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
+  useEffect(() => {
+    let timer: any
+
+    if (isResending) {
+      timer = setTimeout(() => {
+        setCountdown((prev) => prev - 1)
+      }, 1000)
+    }
+
+    if (countdown === 0) {
+      setIsResending(false)
+      setCountdown(30)
+    }
+
+    return () => clearTimeout(timer)
+  }, [countdown, isResending])
+
+  const handleCheckOTP = () => {
+    API.post("auth/check-otpverification", {
+      provider: "phone",
+      input: phoneNumber,
+      otp: code,
+    })
+      .then((res) => {
+        // console.log(res);
+        setOtpChecked(true)
+      })
+      .catch((err) => {
+        console.log(err)
+
+        setOtpError(true)
+      })
+  }
+
+  const handleChangePhoneNumber = () => {
+    API.patch(
+      `users/current/change-phonenumber`,
+      {
+        newPhoneNumber: phoneNumber,
+      },
+      {
+        headers: {
+          authorization: `Bearer ${userToken}`,
+        },
+      }
+    )
+      .then((res) => {
+        setPhoneChanged(true)
+        dispatch(changePhone(phoneNumber))
+        setTimeout(() => {
+          navigate(-1)
+        }, 3000)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
+  useEffect(() => {
+    if (otpChecked) {
+      handleChangePhoneNumber()
+    }
+  }, [otpChecked])
+
+  return (
+    <div className="flex justify-center ">
+      <div className="w-[95%]">
+        <div className="mb-5 flex items-center justify-start gap-7 pl-2">
+          <div onClick={handleBack} className="cursor-pointer">
+            <ArrowBackIcon fontSize="small" />
+          </div>
+          <div
+            className={` sticky left-0 top-0  ${isVisible ? "opacity-100" : "opacity-0"} z-[99] cursor-pointer bg-black bg-opacity-80 p-3 text-xl font-bold backdrop-blur-md transition-opacity duration-300  max-[540px]:hidden`}
+            onClick={() => {
+              window.location.reload()
+            }}
+          >
+            Change your phone number
+          </div>
+        </div>
+        {!otpSent && (
+          <div style={{ zIndex: 3 }}>
+            <MuiPhone value={phoneNumber} onChange={setPhoneNumber} />
+            {!isPhoneValid(phoneNumber) && phoneNumber.length > 0 && <div className="text-red-600">{t("valid_phone")}</div>}
+            {phoneExistError && <div className="text-red-600">{t("phone_exist")}</div>}
+          </div>
+        )}
+        {otpSent && (
+          <div>
+            <div className="mb-4 text-gray-500">
+              {t("phone_otp_message")} <span className="text-primary">{phoneNumber}</span>
+              <p
+                className="mt-2 w-fit cursor-pointer text-primary"
+                onClick={() => {
+                  setOtpSent(false)
+                }}
+              >
+                {t("change_phone")}
+              </p>
+            </div>
+            <TextField
+              label={t("code")}
+              variant="outlined"
+              value={code}
+              onChange={(e) => setCode(e.target.value)}
+              InputLabelProps={{
+                style: { color: "#40e5da", textAlign: "right" },
+              }}
+              sx={{
+                "& .MuiInputBase-input": {
+                  borderColor: "#40e5da",
+                  "&$focused": {
+                    borderColor: "#40e5da",
+                  },
+                  color: "#40e5da",
+                },
+                width: "100%",
+                "& .MuiOutlinedInput-root:hover": {
+                  "& .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "#40e5da",
+                  },
+                },
+                "& .MuiOutlinedInput-root": {
+                  borderColor: "#40e5da",
+
+                  "& .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "#40e5da",
+                    "&$focused": {
+                      borderColor: "#40e5da",
+                    },
+                  },
+                },
+                marginBottom: "10px",
+              }}
+            />
+            <button onClick={handleResendOTP} className="w-fit cursor-pointer !bg-transparent">
+              <span className={`${isResending ? "cursor-default text-white" : "cursor-pointer text-primary"}  mt-2 w-fit`}>{isResending ? `${t("resending", { time: countdown.toString() })}` : t("resend_sms")}</span>
+            </button>
+            {otpError && <div className="text-red-600">{t("otp_error")}</div>}
+          </div>
+        )}
+        <div>
+          <button className={`${styles.coloredButton}`} onClick={handleButtonClick} disabled={phoneNumber === user.phoneNumber || (code.length === 0 && otpSent)}>
+            {otpSent ? "Confirm Phone Number" : "Sent the OTP"}
+          </button>
+        </div>
+        {phoneChanged && <div className="text-green-600">Phone number changed successfully</div>}
+      </div>
+    </div>
+  )
+}
+
+export default ChangePhoneNumber

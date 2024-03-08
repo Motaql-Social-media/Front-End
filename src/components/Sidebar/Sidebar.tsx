@@ -81,6 +81,8 @@ const Sidebar = () => {
     [<PersonOutlinedIcon />, <PersonIcon />],
     [<SettingsOutlinedIcon />, <SettingsIcon />],
   ]
+
+  const user = useSelector((state: any) => state.user.user)
   const optionLinks = [
     "/home",
     "/explore",
@@ -88,7 +90,7 @@ const Sidebar = () => {
     "/messages",
     "/bookmarks",
     // `/${userTag}`,
-    `/profile`,
+    `/${user.username}`,
 
     "/settings/account",
   ]

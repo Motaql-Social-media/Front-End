@@ -33,10 +33,10 @@ const HoveredProfile = ({ hoveredUser, state, setState }: { hoveredUser: any; st
         <div className="mt-2">
           <div className="text-sm">{hoveredUser.bio}</div>
           <div className="mt-2 flex w-full ">
-            <Link className={`${i18next.language === "en" ? "mr-2" : "ml-2"}  text-sm hover:underline`} to={`/${hoveredUser.username}/following`}>
+            <Link className={`${i18next.language === "en" ? "mr-2" : "ml-2"}  text-sm hover:underline`} to={`/${hoveredUser.username}/followers_followings/followings`}>
               <span className="font-semibold">{hoveredUser.followingsCount}</span> <span className="text-secondary">{t("followings")}</span>
             </Link>
-            <Link className="text-sm hover:underline" to={`/${hoveredUser.username}/followers`}>
+            <Link className="text-sm hover:underline" to={`/${hoveredUser.username}/followers_followings/followers`}>
               <span className="font-semibold">{hoveredUser.followersCount}</span> <span className="text-secondary">{t("followers")}</span>
             </Link>
           </div>

@@ -1,9 +1,9 @@
 import { useSelector } from "react-redux"
-import { styles } from "../../styles/styles"
 import { useTranslation } from "react-i18next"
 import axios from "axios"
+import { useState } from "react"
 
-const FollowButton = ({ username, state, setState }: { username: string; state: boolean; setState: any }) => {
+const MuteButton = ({ username, state, setState }: { username: string; state: boolean; setState: any }) => {
   const user = useSelector((state: any) => state.user.user)
   const userToken = useSelector((state: any) => state.user.token)
   const { t } = useTranslation()
@@ -14,7 +14,7 @@ const FollowButton = ({ username, state, setState }: { username: string; state: 
 
   const handleState = () => {
     API.patch(
-      `users/current/toggle-follow/${username}`,
+      `users/current/toggle-mute/${username}`,
       {},
       {
         headers: {
@@ -36,15 +36,17 @@ const FollowButton = ({ username, state, setState }: { username: string; state: 
     handleState()
   }
 
+  const [hover, setHover] = useState(false)
+
   return (
     <div>
       {username !== user.username && (
-        <button className={`${styles.coloredButton} !h-8 !w-fit !px-3 hover:bg-white hover:text-primary`} onClick={handleButtonClick}>
-          {state ? t("unfollow") : t("follow")}
+        <button className={`${state ? "bg-red-600 text-black" : "border border-red-600 bg-transparent text-red-600"} !h-8 !w-fit rounded-full !px-3 font-semibold`} onClick={handleButtonClick} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
+          {state ? (!hover ? t("muted") : t("unmute")) : t("mute")}
         </button>
       )}
     </div>
   )
 }
 
-export default FollowButton
+export default MuteButton

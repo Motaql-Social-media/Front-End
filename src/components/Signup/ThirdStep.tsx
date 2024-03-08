@@ -14,29 +14,6 @@ const ThirdStep = ({ nickName, phoneNumber, setPosition, position }: { nickName:
 
   const { t } = useTranslation()
 
-  const handleResendConfirmationEmail = () => {
-    //   axios
-    //     .post(
-    //       mock
-    //         ? APIs.mock.resendConfirmationEmail
-    //         : APIs.actual.resendConfirmationEmail,
-    //       {
-    //         email: email,
-    //       }
-    //     )
-    //     .then(() => {
-    //       setIsResending(true);
-    //     })
-    //     .catch((err) => {
-    //       if (mock) {
-    //         setIsResending(true);
-    //       }
-
-    //       console.log(err);
-    //     });
-    setIsResending(true)
-  }
-
   useEffect(() => {
     let timer: any
 
@@ -98,9 +75,8 @@ const ThirdStep = ({ nickName, phoneNumber, setPosition, position }: { nickName:
     nextButton.current?.removeAttribute("disabled")
   }, [position])
 
-
   return (
-    <div id="Third Step" className=" m-auto hidden w-[350px] dark:text-white">
+    <div id="Third Step" className="Third_Step m-auto hidden w-[350px] dark:text-white">
       <div className="max-w[600px] !h-fit">
         <h1 className="mb-1 mt-3 text-3xl font-bold">{t("signup_welcome4")}</h1>
         <div className="mb-4 text-gray-500">

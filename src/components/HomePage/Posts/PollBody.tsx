@@ -117,7 +117,7 @@ const PollBody = ({ poll, mentions, id }: { poll: any; mentions: string[]; id: s
           ))}
         </p>
       </div>
-      {!polled && (
+      {!polled && timeRemaining !== "Poll has ended" && (
         <div>
           {poll.options.map((p: any, index: number) => (
             <button key={index} className={`${styles.normalButton} !border-primary hover:dark:bg-darkHover`} onClick={(e: any) => handleVote(e, p.optionId, index)}>
@@ -126,7 +126,7 @@ const PollBody = ({ poll, mentions, id }: { poll: any; mentions: string[]; id: s
           ))}
         </div>
       )}
-      {polled && (
+      {(polled || timeRemaining === "Poll has ended") && (
         <div>
           {poll.options.map((p: any, index: number) => (
             <PollOptionResult option={p.text} percentage={(optionsVotesCount[index] * 100) / totalVotes} key={index} />

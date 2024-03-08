@@ -62,6 +62,12 @@ export const userSlice = createSlice({
       temp_user.email = action.payload
       localStorage.setItem("user", JSON.stringify(temp_user))
     },
+    changePhone: (state, action) => {
+      if (state.user) state.user.phoneNumber = action.payload
+      let temp_user = JSON.parse(localStorage.getItem("user") as string)
+      temp_user.phoneNumber = action.payload
+      localStorage.setItem("user", JSON.stringify(temp_user))
+    },
     changeUser: (state, action) => {
       const newuser = {
         profileImage: state.user?.profileImage,
@@ -139,5 +145,6 @@ export const signupUser = userSlice.actions.signupUser
 export const changeProfilePicture = userSlice.actions.changeProfilePicture
 export const changeUsername = userSlice.actions.changeUsername
 export const changeEmail = userSlice.actions.changeEmail
+export const changePhone = userSlice.actions.changePhone
 export const changeUser = userSlice.actions.changeUser
 export default userSlice.reducer

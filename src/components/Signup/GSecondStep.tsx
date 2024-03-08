@@ -20,7 +20,7 @@ const isPhoneValid = (phone: string) => {
   }
 }
 
-const SecondStep = ({ nickName, setPosition, phoneNumber, setPhoneNumber, position }: { nickName: string; setPosition: any; phoneNumber: string; setPhoneNumber: any; position: number }) => {
+const GSecondStep = ({ nickName, setPosition, phoneNumber, setPhoneNumber, position }: { nickName: string; setPosition: any; phoneNumber: string; setPhoneNumber: any; position: number }) => {
   const { t } = useTranslation()
 
   const API = axios.create({
@@ -72,12 +72,12 @@ const SecondStep = ({ nickName, setPosition, phoneNumber, setPhoneNumber, positi
 
   const nextButton = useRef<HTMLButtonElement>(null)
 
-  useEffect(() => {
-    nextButton.current?.removeAttribute("disabled")
-  }, [position])
+  //   useEffect(() => {
+  //     nextButton.current?.removeAttribute("disabled")
+  //   }, [position])
 
   return (
-    <div id="Second Step" className="Second_Step m-auto hidden w-[350px] dark:text-white">
+    <div id="Google Second Step" className="m-auto hidden w-[350px] dark:text-white">
       <div className="max-w[600px] !h-fit">
         <h1 className="mb-4 mt-3 text-3xl font-bold">{t("signup_welcome3")}</h1>
         <div style={{ zIndex: 3 }}>
@@ -104,4 +104,4 @@ const SecondStep = ({ nickName, setPosition, phoneNumber, setPhoneNumber, positi
   )
 }
 
-export default SecondStep
+export default GSecondStep

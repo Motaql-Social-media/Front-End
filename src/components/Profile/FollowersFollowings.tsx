@@ -1,16 +1,19 @@
 import React, { useEffect, useRef, useState } from "react"
-import { useNavigate, useParams } from "react-router"
+import { useNavigate } from "react-router"
 import { useSelector } from "react-redux"
 import axios from "axios"
 import { useTranslation } from "react-i18next"
-import ArrowBackIcon from "@mui/icons-material/ArrowBack"
 import HorizontalNavbar from "../General/HorizontalNavbar"
 import { Outlet } from "react-router-dom"
+import ArrowBackIcon from "@mui/icons-material/ArrowBack"
+import { useParams } from "react-router"
 
-const Notifications = ({ scroll }: { scroll: number }) => {
+const FollowersFollowings = ({ scroll }: { scroll: number }) => {
   const navigate = useNavigate()
 
   const user = useSelector((state: any) => state.user)
+
+  const { tag } = useParams()
 
   const userToken = useSelector((state: any) => state.user.token)
 
@@ -26,10 +29,10 @@ const Notifications = ({ scroll }: { scroll: number }) => {
 
   const { t } = useTranslation()
 
-  const notificationsRef = useRef<any>(null)
+  const FollowersFollowingsRef = useRef<any>(null)
 
   useEffect(() => {
-    notificationsRef.current.scrollTop += scroll
+    FollowersFollowingsRef.current.scrollTop += scroll
   }, [scroll])
 
   const [prevScrollPos, setPrevScrollPos] = useState(window.scrollY)
@@ -61,9 +64,27 @@ const Notifications = ({ scroll }: { scroll: number }) => {
     navigate(-1)
   }
 
+  const [name, setName] = useState("")
+
+  useEffect(() => {
+    if (tag) {
+      API.get(`/users/${tag}/profile`, {
+        headers: {
+          Authorization: `Bearer ${userToken}`,
+        },
+      })
+        .then((res) => {
+          setName(res.data.data.user.name)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    }
+  }, [tag])
+
   return (
     <div className="flex flex-1 flex-grow-[8] max-[540px]:mt-16">
-      <div ref={notificationsRef} className="no-scrollbar ml-0  w-full max-w-[620px] shrink-0 flex-grow overflow-y-scroll border border-b-0 border-t-0 border-lightBorder dark:border-darkBorder  max-[540px]:border-l-0 max-[540px]:border-r-0 sm:w-[600px]">
+      <div ref={FollowersFollowingsRef} className="no-scrollbar ml-0  w-full max-w-[620px] shrink-0 flex-grow overflow-y-scroll border border-b-0 border-t-0 border-lightBorder dark:border-darkBorder  max-[540px]:border-l-0 max-[540px]:border-r-0 sm:w-[600px]">
         <div className="flex items-center justify-start gap-7 pl-2">
           <div onClick={handleBack} className="cursor-pointer">
             <ArrowBackIcon fontSize="small" />
@@ -74,16 +95,17 @@ const Notifications = ({ scroll }: { scroll: number }) => {
               window.location.reload()
             }}
           >
-            Notifications
+            {name}
+            <div className="text-sm text-gray-500">@{tag}</div>
           </div>
         </div>
         <div className="flex h-[53px] items-center border-b border-b-darkBorder pb-2">
           <HorizontalNavbar
             urls={[
-              { title: t("all"), location: "all" },
-              { title: t("mentions"), location: "mentions" },
+              { title: t("followers"), location: "followers" },
+              { title: t("followings"), location: "followings" },
             ]}
-            originalUrl={`/notifications`}
+            originalUrl={`/${tag}/followers_followings`}
             handlers={[null, null]}
           />
         </div>
@@ -93,4 +115,4 @@ const Notifications = ({ scroll }: { scroll: number }) => {
   )
 }
 
-export default Notifications
+export default FollowersFollowings

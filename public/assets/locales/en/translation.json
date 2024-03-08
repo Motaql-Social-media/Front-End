@@ -9,7 +9,7 @@
   "landing_cookie": "Cookie Use",
   "already_have_account": "Already have an account?",
   "signin": "Login",
-  "signin_google": "Login with Google",
+  "signin_google": "Sign in with Google",
   "signup": "Create Account",
   "email": "Email",
   "password": "Password",
@@ -68,7 +68,6 @@
   "signup_welcome4": "Validate your Number",
   "phone_otp_message": "Please, enter the code we have sent to your   phone number",
   "email_otp_message": "Please, enter the code we have sent to your email",
-
   "change_phone": "Change Phone Number",
   "resending": "Resending in {{time}} s",
   "resend_sms": "Resend SMS",
@@ -132,5 +131,10 @@
   "likes": "Likes",
   "undo_repost": "Undo Repost",
   "all": "All",
-  "mentions": "Mentions"
+  "mentions": "Mentions",
+  "account": "Your Account",
+  "privacy": "Privacy and Safety",
+  "accesibility": "Accessibility, Display and Languages",
+  "blocked": "Blocked",
+  "muted": "Muted"
 }

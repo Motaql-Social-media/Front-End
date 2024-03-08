@@ -4,7 +4,6 @@ function SidebarOption({ icon, name, link, select, mobile }: { icon: any; name: 
   const navigate = useNavigate()
   return (
     <div
-      data-testid="link"
       title={name}
       className="group my-1 box-border cursor-pointer border-0 max-[1278px]:w-fit"
       onClick={() => {

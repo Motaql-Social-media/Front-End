@@ -117,7 +117,7 @@ const Birthdate = ({
             }}
           >
             {months.map((month) => (
-              <MenuItem value={month} key={month} data-testid={month}>
+              <MenuItem value={month} key={month}>
                 {t(month)}
               </MenuItem>
             ))}
