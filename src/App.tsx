@@ -66,7 +66,7 @@ function App() {
   useEffect(() => {
     // console.log("Socket connecting...")
     // const initSocket = async () => {
-    //   const newSocket = await io("https://theline.social/api/v1/")
+    //   const newSocket = await io(process.env.REACT_APP_API_URL || "")
     //   newSocket.on("connect", () => {
     //     console.log("Socket connected!")
     //   })
@@ -83,28 +83,36 @@ function App() {
     // return () => {
     //   if (socket) socket.disconnect()
     // }
-    // const socketURL = "https://theline.social/api/v1/"
+    // const socketURL = process.env.REACT_APP_API_URL || ""
     // const maxRetries = 3
-    // const initialDelay = 1000 // 1 second
-    // const maxDelay = 5000 // 5 seconds
-    // const t = io('https://theline.social/api/v1/', {
+    // const initialDelay = 1000
+    // const maxDelay = 5000
+    // const t = io(socketURL, {
     //   withCredentials: true,
     //   extraHeaders: {
     //     token: userToken,
     //   },
-    //   // reconnectionAttempts: maxRetries,
-    //   // reconnectionDelay: initialDelay,
-    //   // reconnectionDelayMax: maxDelay,
+    //   reconnectionAttempts: maxRetries,
+    //   reconnectionDelay: initialDelay,
+    //   reconnectionDelayMax: maxDelay,
     // })
-    // console.log(t)
+    // // console.log(t)
     // const handleConnect = () => {
     //   console.log("Socket connected successfully")
     // }
     // const handleReconnectFailed = () => {
     //   console.error("Connection failed after max retries")
     // }
-    // socket.on("connect", handleConnect)
-    // socket.on("reconnect_failed", handleReconnectFailed)
+    // t.on("connect", handleConnect)
+    // t.on("reconnect_failed", handleReconnectFailed)
+
+    // const socket = io("https://theline.social/api/v1/", {
+    //   withCredentials: true,
+    //   extraHeaders: {
+    //     token: userToken,
+    //   },
+    // })
+    // console.log(socket)
   }, [])
 
   const [location, setLocation] = useState(window.location.pathname)

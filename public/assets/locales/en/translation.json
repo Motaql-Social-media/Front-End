@@ -137,5 +137,18 @@
   "accesibility": "Accessibility, Display and Languages",
   "blocked": "Blocked",
   "muted": "Muted",
-  "trending": "Trending"
+  "trending": "Trending",
+  "search_placeholder": "Search for people or hashtags",
+  "users": "Users",
+  "trends": "Trends",
+  "widgets_trends":"What's happening",
+  "show_more": "Show more",
+  "in_trending": "In Trending",
+  "posts": "Posts",
+  "no_diaries": "No diaries yet",
+  "no_reels": "No reels yet",
+  "votes": "Votes",
+  "post_engagement": "Post Engagement",
+  "poll_ended": "Poll has Ended",
+  "diaries_replies": "Diaries & Replies"
 }

@@ -4,6 +4,7 @@ import axios from "axios"
 import { useEffect, useState } from "react"
 import Post from "../HomePage/Posts/Post"
 import QuotePost from "../HomePage/Posts/QuotePost"
+import {t} from "i18next"
 
 const TrendDiaries = () => {
   const [diaries, setDiaries] = useState<Diary[]>([])
@@ -67,7 +68,7 @@ const TrendDiaries = () => {
             </div>
           )
         })}
-      {diaries.length === 0 && <div className="mt-10 text-center text-2xl font-bold text-primary">No diaries found</div>}
+      {diaries.length === 0 && <div className="mt-10 text-center text-2xl font-bold text-primary">{t("no_diaries")}</div>}
     </div>
   )
 }

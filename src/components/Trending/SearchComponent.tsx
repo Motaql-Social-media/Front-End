@@ -12,6 +12,7 @@ import TrendSearchOption from "./TrendSearchOption"
 import React from "react"
 import { TextField } from "@mui/material"
 import { useParams } from "react-router-dom"
+import { t } from "i18next"
 
 const SearchComponent = ({ query, callback }: { query: string; callback: any }) => {
   const userToken = useSelector((state: any) => state.user.token)
@@ -102,7 +103,7 @@ const SearchComponent = ({ query, callback }: { query: string; callback: any }) 
   //   }, [searchQuery])
 
   return (
-    <div className="mt-2 flex w-full items-center justify-center">
+    <div className="mt-2 flex w-full items-center justify-center" dir="ltr">
       <div className="w-[90%]">
         <Stack spacing={2} sx={{ width: "100%" }}>
           <Autocomplete
@@ -112,15 +113,15 @@ const SearchComponent = ({ query, callback }: { query: string; callback: any }) 
               return (
                 <div key={group.key}>
                   <span className="p-2 text-sm">{group.group}</span>
-                  <div>{group.children}</div>
+                  <div dir="ltr">{group.children}</div>
                 </div>
               )
             }}
             groupBy={(option: any) => {
               if (option.username) {
-                return "Users"
+                return t("users")
               } else {
-                return "Trends"
+                return t("trends")
               }
             }}
             disableClearable
@@ -134,7 +135,7 @@ const SearchComponent = ({ query, callback }: { query: string; callback: any }) 
               return (
                 <div key={params.id} className="w-full" ref={params.InputProps.ref}>
                   <TextField
-                    label={"Search for people or hashtags"}
+                    label={t("search_placeholder")}
                     variant="outlined"
                     value={searchQuery}
                     onChange={(e) => {

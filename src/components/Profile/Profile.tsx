@@ -8,7 +8,7 @@ import ImageViewer from "react-simple-image-viewer"
 import FollowButton from "../General/FollowButton"
 import BlockButton from "../General/BlockButton"
 import MuteButton from "../General/MuteButton"
-import { Cake, CalendarMonth, Edit, LocationOn } from "@mui/icons-material"
+import { ArrowForward, Cake, CalendarMonth, Edit, LocationOn } from "@mui/icons-material"
 import { Link } from "react-router-dom"
 import i18next, { use } from "i18next"
 import { Outlet } from "react-router-dom"
@@ -175,9 +175,9 @@ const Profile = ({ scroll }: { scroll: number }) => {
   return (
     <div className="flex flex-1 flex-grow-[8] max-[540px]:mt-16">
       <div ref={profileRef} className="no-scrollbar ml-0 mr-1 w-full max-w-[620px] shrink-0 flex-grow overflow-y-scroll border border-b-0 border-t-0 border-lightBorder dark:border-darkBorder  max-[540px]:border-l-0 max-[540px]:border-r-0 sm:w-[600px]">
-        <div className="flex items-center justify-start gap-7 pl-2">
+        <div className={`flex items-center justify-start gap-7 ${i18next.language === "en" ? "pl-2" : "pr-2"}`}>
           <div onClick={handleBack} className="cursor-pointer">
-            <ArrowBackIcon fontSize="small" />
+            {i18next.language === "en" ? <ArrowBackIcon fontSize="small" /> : <ArrowForward fontSize="small" />}
           </div>
           <div
             className={` sticky left-0 top-0  ${isVisible ? "opacity-100" : "opacity-0"} z-[99] cursor-pointer bg-black bg-opacity-80 p-3 text-xl font-bold backdrop-blur-md transition-opacity duration-300  max-[540px]:hidden`}
@@ -187,7 +187,9 @@ const Profile = ({ scroll }: { scroll: number }) => {
           >
             <div>
               {name}
-              <div className="text-sm text-gray-500">{postsCount} posts</div>
+              <div className="text-sm text-gray-500">
+                {postsCount} {t("posts")}
+              </div>
             </div>
           </div>
         </div>
@@ -198,7 +200,7 @@ const Profile = ({ scroll }: { scroll: number }) => {
               <img loading="lazy" onClick={() => openImageViewer(0)} alt="profile" className="absolute -bottom-[75px] left-[5%] h-[150px] w-[150px] transform  cursor-pointer rounded-full border-4 border-black" src={process.env.REACT_APP_USERS_MEDIA_URL + imageUrl} />
             </div>
           </div>
-          <div>
+          <div dir="ltr">
             <div className="h-[75px] w-full">
               <div className="flex items-center justify-end gap-4 p-5">
                 <MuteButton state={isMuted} setState={setIsMuted} username={tag as string} />

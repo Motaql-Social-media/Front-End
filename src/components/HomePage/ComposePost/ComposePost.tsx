@@ -82,32 +82,33 @@ function ComposePost({ buttonName, postId, postType, addTweetCallback, addReelCa
           publishButton.current?.removeAttribute("disabled")
         })
     } else if (postType === "reply_reel") {
-       API.post(`reels/${postId}/add-reply`, mediaFormData, {
-         headers: {
-           authorization: "Bearer " + userToken,
-         },
-       })
-         .then((res) => {
-           const t = { ...res.data.data.reelReply, repliesCount: 0, reReelCount: 0, reactCount: 0, isReacted: false, isReReeled: false, isBookmarked: false, replier: { bio: user.bio, followersCount: user.followersCount, followingsCount: user.followingsCount, imageUrl: user.imageUrl, isBlocked: false, isFollowed: false, isMuted: false, jobtitle: user.jobtitle, name: user.name, username: user.username, userId: user.userId }, replies: {} }
+      console.log("this is a reply reel")
+      API.post(`reels/${postId}/add-reply`, mediaFormData, {
+        headers: {
+          authorization: "Bearer " + userToken,
+        },
+      })
+        .then((res) => {
+          const t = { ...res.data.data.reelReply, repliesCount: 0, reReelCount: 0, reactCount: 0, isReacted: false, isReReeled: false, isBookmarked: false, replier: { bio: user.bio, followersCount: user.followersCount, followingsCount: user.followingsCount, imageUrl: user.imageUrl, isBlocked: false, isFollowed: false, isMuted: false, jobtitle: user.jobtitle, name: user.name, username: user.username, userId: user.userId }, replies: {} }
 
-           console.log(res)
-           addTweetCallback(t)
-           setMedia([])
-           setDescription("")
-           setMediaUrls([])
-           setMediaDisabled(false)
-           setGIFDisabled(false)
-           setPollDisabled(false)
-           setCharsCount(0)
-           setCharsProgressColor("#1D9BF0")
-           setProgressCircleSize(24)
-           setProgressCircleValue(null)
-           publishButton.current?.removeAttribute("disabled")
-         })
-         .catch((err) => {
-           console.log(err)
-           publishButton.current?.removeAttribute("disabled")
-         })
+          console.log(res)
+          addTweetCallback(t)
+          setMedia([])
+          setDescription("")
+          setMediaUrls([])
+          setMediaDisabled(false)
+          setGIFDisabled(false)
+          setPollDisabled(false)
+          setCharsCount(0)
+          setCharsProgressColor("#1D9BF0")
+          setProgressCircleSize(24)
+          setProgressCircleValue(null)
+          publishButton.current?.removeAttribute("disabled")
+        })
+        .catch((err) => {
+          console.log(err)
+          publishButton.current?.removeAttribute("disabled")
+        })
     } else {
       API.post("tweets/add-tweet", mediaFormData, {
         headers: {

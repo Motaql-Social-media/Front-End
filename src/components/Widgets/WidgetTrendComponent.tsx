@@ -1,4 +1,5 @@
 import React from "react"
+import { t } from "i18next"
 
 const WidgetsTrendComponent = ({ index, name, numberOfPosts }: { index: number; name: string; numberOfPosts: number }) => {
   return (
@@ -9,9 +10,15 @@ const WidgetsTrendComponent = ({ index, name, numberOfPosts }: { index: number; 
         window.location.href = `/trending/${name}/diaries`
       }}
     >
-      <div className="text-start text-xs text-gray-500">{index}. in trending</div>
-      <div className="self-end">#{name}</div>
-      <div className="text-start text-xs text-gray-500">{numberOfPosts} posts</div>
+      <div className="text-start text-xs text-gray-500">
+        {index}. {t("in_trending")}
+      </div>
+      <div dir="ltr" className="self-end">
+        #{name}
+      </div>
+      <div className="text-start text-xs text-gray-500">
+        {numberOfPosts} {t("posts")}
+      </div>
     </div>
   )
 }

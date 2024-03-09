@@ -98,7 +98,7 @@ const Notification = ({ content, createdAt, isSeen, metadata, notificationFrom, 
   }
 
   return (
-    <div className="cursor-pointer border-y border-y-darkBorder p-3" onClick={handleNotificationClick}>
+    <div className="cursor-pointer border-y border-y-darkBorder p-3" dir="ltr" onClick={handleNotificationClick}>
       <div className="flex items-center justify-start gap-2">
         {icons[type.split("_")[0]]}
         <div onClick={handleProfileClick} className="relative cursor-pointer" onMouseEnter={() => handleMouseEnter(1)} onMouseLeave={() => handleMouseLeave(1)}>

@@ -137,5 +137,18 @@
   "accesibility": "إمكانية الوصول، العرض واللغات",
   "blocked": "محظور",
   "muted": "مكتوم",
-  "trending": "الاكثر تداولا"
+  "trending": "الاكثر تداولا",
+  "search_placeholder": "ابحث عن اشخاص او مواضيع",
+  "users": "المستخدمون",
+  "trends": "الاكثر تداولا",
+  "widgets_trends": "ماذا يحدث",
+  "show_more": "عرض المزيد",
+  "in_trending": "في الاكثر تداولا",
+  "posts": "منشورات",
+  "no_diaries": "لا يوجد مدونات",
+  "no_reels": "لا يوجد قصص",
+  "votes": "تصويتات",
+  "post_engagement": "انخراط المنشور",
+  "poll_ended": "انتهى التصويت",
+  "diaries_replies": "المدونات والردود"
 }

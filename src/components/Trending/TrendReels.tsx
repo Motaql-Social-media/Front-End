@@ -4,6 +4,7 @@ import axios from "axios"
 import { useEffect, useState } from "react"
 import Reel from "../HomePage/Posts/Reel"
 import QuoteReel from "../HomePage/Posts/QuoteReel"
+import { t } from "i18next"
 
 const TrendReels = () => {
   const [reels, setReels] = useState<Diary[]>([])
@@ -69,7 +70,7 @@ const TrendReels = () => {
             </div>
           )
         })}
-      {reels.length === 0 && <div className="mt-10 text-center text-2xl font-bold text-primary">No reels found</div>}
+      {reels.length === 0 && <div className="mt-10 text-center text-2xl font-bold text-primary">{t("no_reels")}</div>}
     </div>
   )
 }

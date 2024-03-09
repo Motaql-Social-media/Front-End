@@ -97,34 +97,36 @@ function ComposePostFooter({
           </div>
         </div>
       )}
-      <div className="flex bg-transparent">
-        <button onClick={handleUploadButton} title="Media" className="h-10 w-10 cursor-pointer rounded-full p-1 text-primary disabled:cursor-default disabled:brightness-50 dark:hover:bg-gray-800" disabled={mediaDisabled}>
-          <InsertPhotoOutlinedIcon />
-        </button>
-        <input type="file" accept="image/, .jpg, .jpeg, .png, .webp, .bmp, .svg, .ico, .tiff" onChange={handleUploadMedia} ref={inputMedia} style={{ display: "none" }} />
-        <button title="Gif" className="h-10 w-10 cursor-pointer rounded-full p-1 text-primary disabled:cursor-default disabled:brightness-50 dark:hover:bg-gray-800" onClick={handleUploadGif} disabled={GIFDisabled}>
-          <GifBoxOutlinedIcon />
-        </button>
-        <input type="file" accept="image/gif" onChange={handleUploadMedia} ref={inputGif} style={{ display: "none" }} />
-        {postType !== "reply" && postType !== "reply_reel" && (
-          <button
-            title="Poll"
-            className="h-10 w-10 cursor-pointer rounded-full p-1 text-primary disabled:cursor-default disabled:brightness-50 dark:hover:bg-gray-800"
-            disabled={pollDisabled}
-            onClick={() => {
-              handlePollClick(true)
-            }}
-          >
-            <BallotOutlinedIcon />
+      {postType !== "reply_reel" && (
+        <div className="flex bg-transparent">
+          <button onClick={handleUploadButton} title="Media" className="h-10 w-10 cursor-pointer rounded-full p-1 text-primary disabled:cursor-default disabled:brightness-50 dark:hover:bg-gray-800" disabled={mediaDisabled}>
+            <InsertPhotoOutlinedIcon />
           </button>
-        )}
-        <button title="Emoji" className="h-10 w-10 rounded-full p-1 text-primary dark:hover:bg-gray-800">
-          <SentimentSatisfiedOutlinedIcon />
-        </button>
-        {/* <button title="Calender" className="h-10 w-10 rounded-full p-1 text-primary dark:hover:bg-gray-800">
+          <input type="file" accept="image/, .jpg, .jpeg, .png, .webp, .bmp, .svg, .ico, .tiff" onChange={handleUploadMedia} ref={inputMedia} style={{ display: "none" }} />
+          <button title="Gif" className="h-10 w-10 cursor-pointer rounded-full p-1 text-primary disabled:cursor-default disabled:brightness-50 dark:hover:bg-gray-800" onClick={handleUploadGif} disabled={GIFDisabled}>
+            <GifBoxOutlinedIcon />
+          </button>
+          <input type="file" accept="image/gif" onChange={handleUploadMedia} ref={inputGif} style={{ display: "none" }} />
+          {postType !== "reply" && postType !== "reply_reel" && (
+            <button
+              title="Poll"
+              className="h-10 w-10 cursor-pointer rounded-full p-1 text-primary disabled:cursor-default disabled:brightness-50 dark:hover:bg-gray-800"
+              disabled={pollDisabled}
+              onClick={() => {
+                handlePollClick(true)
+              }}
+            >
+              <BallotOutlinedIcon />
+            </button>
+          )}
+          <button title="Emoji" className="h-10 w-10 rounded-full p-1 text-primary dark:hover:bg-gray-800">
+            <SentimentSatisfiedOutlinedIcon />
+          </button>
+          {/* <button title="Calender" className="h-10 w-10 rounded-full p-1 text-primary dark:hover:bg-gray-800">
           <EditCalendarIcon />
         </button> */}
-      </div>
+        </div>
+      )}
       <CircularProgress variant="determinate" value={charsCount} size={progressCircleSize} sx={{ color: charsProgressColor }} />
 
       <button
