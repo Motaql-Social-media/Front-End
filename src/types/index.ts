@@ -74,4 +74,26 @@ declare global {
     left?: React.CSSProperties["left"]
     transform?: React.CSSProperties["transform"]
   }
+
+  interface Notification {
+    notificationId: number
+    content: string
+    isSeen: boolean
+    type: string
+    createdAt: string
+    metadata: any
+    notificationFrom: {
+      userId: number
+      imageUrl: string
+      username: string
+      jobtitle: string
+      name: string
+      bio: string
+      followersCount: number
+      followingsCount: number
+      isMuted: boolean
+      isBlocked: boolean
+      isFollowed: boolean
+    }
+  }
 }

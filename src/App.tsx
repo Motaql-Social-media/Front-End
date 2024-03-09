@@ -4,7 +4,7 @@ import ThemeProvider from "@mui/material/styles/ThemeProvider"
 import theme from "./styles/theme"
 import Languages from "./components/Languages"
 import Landing from "./components/LandingPage/Landing"
-import { BrowserRouter, Routes, Route } from "react-router-dom"
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom"
 import PasswordReset from "./components/PasswordReset/PasswordReset"
 import Login from "./components/Login/Login"
 import SignUp from "./components/Signup/Signup"
@@ -56,6 +56,9 @@ import ProfileReels from "./components/Profile/ProfileReels"
 import Trending from "./components/Trending/Trending"
 import TrendDiaries from "./components/Trending/TrendDiaries"
 import TrendReels from "./components/Trending/TrendReels"
+import { useDispatch } from "react-redux"
+import { receiveNotification, setUnseenCount } from "./store/NotificationSlice"
+import PushNotification from "./components/Notifications/PushNotification"
 
 const SocketContext = createContext<any>(null)
 
@@ -64,56 +67,46 @@ function App() {
   const userToken = useSelector((state: any) => state.user.token)
 
   useEffect(() => {
-    // console.log("Socket connecting...")
-    // const initSocket = async () => {
-    //   const newSocket = await io(process.env.REACT_APP_API_URL || "")
-    //   newSocket.on("connect", () => {
-    //     console.log("Socket connected!")
-    //   })
-    //   console.log(newSocket) // Might still show connected: false initially
-    // }
-    // initSocket()
-    // newSocket.on("connect", () => {
-    //   console.log("Connected to server")
-    // })
-    // newSocket.on("disconnect", () => {
-    //   console.log("Disconnected from server")
-    // })
-    //   initSocket()
-    // return () => {
-    //   if (socket) socket.disconnect()
-    // }
-    // const socketURL = process.env.REACT_APP_API_URL || ""
-    // const maxRetries = 3
-    // const initialDelay = 1000
-    // const maxDelay = 5000
-    // const t = io(socketURL, {
-    //   withCredentials: true,
-    //   extraHeaders: {
-    //     token: userToken,
-    //   },
-    //   reconnectionAttempts: maxRetries,
-    //   reconnectionDelay: initialDelay,
-    //   reconnectionDelayMax: maxDelay,
-    // })
-    // // console.log(t)
-    // const handleConnect = () => {
-    //   console.log("Socket connected successfully")
-    // }
-    // const handleReconnectFailed = () => {
-    //   console.error("Connection failed after max retries")
-    // }
-    // t.on("connect", handleConnect)
-    // t.on("reconnect_failed", handleReconnectFailed)
-
-    // const socket = io("https://theline.social/api/v1/", {
-    //   withCredentials: true,
-    //   extraHeaders: {
-    //     token: userToken,
-    //   },
-    // })
-    // console.log(socket)
+    setSocket(
+      io("https://theline.social", {
+        path: "/socket.io",
+        withCredentials: true,
+        extraHeaders: {
+          token: userToken,
+        },
+      })
+    )
   }, [])
+
+  const dispatch = useDispatch()
+  const [notification, setNotification] = useState<any>()
+  const [showNotification, setShowNotification] = useState(false)
+
+  useEffect(() => {
+    if (socket) {
+      socket.on("connect", () => {
+        console.log("Socket connected!")
+      })
+      socket.on("disconnect", () => {
+        console.log("Socket disconnected!")
+      })
+      socket.on("notification-receive", (payload: any) => {
+        dispatch(receiveNotification())
+        setNotification(payload)
+        console.log(payload)
+      })
+    }
+  }, [socket])
+
+  useEffect(() => {
+    if (notification) {
+      setShowNotification(true)
+      setTimeout(() => {
+        setNotification(null)
+        setShowNotification(false)
+      }, 100000)
+    }
+  }, [notification])
 
   const [location, setLocation] = useState(window.location.pathname)
 
@@ -175,12 +168,14 @@ function App() {
     }
   }, [isMobile])
 
+  
   return (
     <GoogleOAuthProvider clientId="747286868244-5769tksecnl0s5jds76cdtj13phph6l7.apps.googleusercontent.com">
       <SocketContext.Provider value={socket}>
         <ThemeProvider theme={theme}>
-          <div ref={appRef} className="app  relative flex  min-h-[100vh]  flex-row overflow-hidden bg-white text-black dark:bg-black  dark:text-white max-[540px]:flex-col xs:h-[100vh] xs:w-full">
+          <div ref={appRef} className="app relative flex  min-h-[100vh]  flex-row overflow-hidden bg-white text-black dark:bg-black  dark:text-white max-[540px]:flex-col xs:h-[100vh] xs:w-full">
             <BrowserRouter>
+              
               <Languages />
               {/* {!user && location !== "/password_reset" && (
             <Landing
@@ -258,6 +253,7 @@ function App() {
                 <Route path="/login" element={<Login openModal={true} handleCloseModal={handleCloseLoginModal} setLocation={setLocation} />} />
                 <Route path="/signup" element={<SignUp openModal={true} setLocation={setLocation} handleCloseModal={handleCloseSignupModal} />} />
               </Routes>
+              {showNotification && location.split("/").pop() !== "notifications" && <PushNotification content={notification.content} createdAt={notification.createdAt} isSeen={notification.isSeen} metadata={notification.metadata} notificationFrom={notification.notificationFrom} notificationId={notification.notificationId} type={notification.type} />}
             </BrowserRouter>
           </div>
         </ThemeProvider>

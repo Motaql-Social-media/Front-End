@@ -47,14 +47,16 @@ const Sidebar = () => {
 
   const [count, setCount] = useState(0)
 
-  const optionsNames = [t("home"),t('trending'), t("explore"), t("notifications"), t("messages"), t("bookmarks"), t("profile"), t("settings")]
+  const unseenCount = useSelector((state: any) => state.notification.unseenCount)
+
+  const optionsNames = [t("home"), t("trending"), t("explore"), t("notifications"), t("messages"), t("bookmarks"), t("profile"), t("settings")]
   const optionsIcons = [
     [<HomeOutlinedIcon />, <HomeIcon />],
     [<TrendingUpIcon />, <TrendingUpIcon />],
     [<TagIcon sx={{ color: darkMode ? "#ffffff" : "#000000" }} />, <TagIcon sx={{ color: darkMode ? "#ffffff" : "#000000" }} />],
     [
       <Badge
-        badgeContent={count}
+        badgeContent={unseenCount}
         sx={{
           ".MuiBadge-badge": {
             backgroundColor: "#40e5da",
@@ -65,7 +67,7 @@ const Sidebar = () => {
         <NotificationsNoneRoundedIcon />
       </Badge>,
       <Badge
-        badgeContent={count}
+        badgeContent={unseenCount}
         sx={{
           ".MuiBadge-badge": {
             backgroundColor: "#40e5da",

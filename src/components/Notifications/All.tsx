@@ -2,20 +2,22 @@ import { useEffect, useState } from "react"
 import axios from "axios"
 import { useSelector } from "react-redux"
 import Notification from "./Notification"
+import { useDispatch } from "react-redux"
+import { resetCount } from "../../store/NotificationSlice"
+import io from "socket.io-client"
 
 const All = () => {
+  const userToken = useSelector((state: any) => state.user.token)
   const API = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
+    headers: {
+      Authorization: `Bearer ${userToken}`,
+    },
   })
-  const userToken = useSelector((state: any) => state.user.token)
 
-  const [notifications, setNotifications] = useState([])
+  const [notifications, setNotifications] = useState<Notification[]>([])
   useEffect(() => {
-    API.get(`users/current/notifications`, {
-      headers: {
-        Authorization: `Bearer ${userToken}`,
-      },
-    })
+    API.get(`users/current/notifications`)
       .then((res) => {
         console.log(res.data.data.notifications.notifications)
         setNotifications(res.data.data.notifications.notifications)
@@ -24,6 +26,48 @@ const All = () => {
         console.log(error)
       })
   }, [])
+
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    API.patch("users/current/notifications/mark-all-seen")
+      .then((res) => {
+        console.log(res)
+        dispatch(resetCount())
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }, [])
+
+  const [socket, setSocket] = useState<any>(null)
+
+  useEffect(() => {
+    setSocket(
+      io("https://theline.social", {
+        path: "/socket.io",
+        withCredentials: true,
+        extraHeaders: {
+          token: userToken,
+        },
+      })
+    )
+  }, [])
+
+  useEffect(() => {
+    if (socket) {
+      socket.on("connect", () => {
+        console.log("Socket connected!")
+      })
+      socket.on("disconnect", () => {
+        console.log("Socket disconnected!")
+      })
+      socket.on("notification-receive", (payload: Notification) => {
+        setNotifications((prev: any) => [payload, ...prev])
+        console.log(payload)
+      })
+    }
+  }, [socket])
 
   return (
     <div>
