@@ -107,7 +107,7 @@ const PostFooter = ({ id, replyCount, reposted, repostsNum, liked, likesNum, isB
   const handleShare = (e: any) => {
     e.stopPropagation()
 
-    navigator.clipboard.writeText(`https://theline.social/${username}/diary /${id}`)
+    navigator.clipboard.writeText(`https://theline.social/${username}/diary/${id}`)
     setOpenSnackbar(true)
   }
 
