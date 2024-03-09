@@ -126,15 +126,6 @@ const Login = ({ openModal, handleCloseModal, setLocation }: { openModal: boolea
 
       //   push_token: FCMToken,
     }
-    // axios
-    //   .post(APIs.actual.loginAPI, userCredentials)
-    //   .then((res) => {
-    //     console.log(res.data.data.user)
-    //     console.log(res.data.token)
-    //   })
-    //   .catch((err) => {
-    //      setLoginError(err.message === "Request failed with status code 401")
-    //   })
 
     dispatch(loginUser({ userCredentials, isgoogle: false }) as unknown as AnyAction).then((result: any) => {
       // console.log(result)
@@ -176,7 +167,7 @@ const Login = ({ openModal, handleCloseModal, setLocation }: { openModal: boolea
 
   return (
     <>
-      <Modal open={openModal} onClose={handleCloseModal} data-testid="loginModal" disableEscapeKeyDown disablePortal>
+      <Modal open={openModal} onClose={handleCloseModal} disableEscapeKeyDown disablePortal>
         <Box style={modalStyle}>
           <div className="relative h-full min-w-[350px] bg-white dark:bg-black md:rounded-2xl">
             <button

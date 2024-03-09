@@ -69,12 +69,8 @@ export const userSlice = createSlice({
       localStorage.setItem("user", JSON.stringify(temp_user))
     },
     changeUser: (state, action) => {
-      const newuser = {
-        profileImage: state.user?.profileImage,
-        ...action.payload,
-      }
-      state.user = newuser
-      localStorage.setItem("user", JSON.stringify(newuser))
+      state.user = action.payload
+      localStorage.setItem("user", JSON.stringify(action.payload))
     },
   },
   extraReducers: (builder) => {

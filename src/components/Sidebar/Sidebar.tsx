@@ -6,6 +6,7 @@ import ListAltRoundedIco from "@mui/icons-material/ListAltRounded"
 import TurnedInNotOutlinedIcon from "@mui/icons-material/TurnedInNotOutlined"
 import HistoryEduOutlinedIcon from "@mui/icons-material/HistoryEduOutlined"
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined"
+import TrendingUpIcon from "@mui/icons-material/TrendingUp"
 import TagIcon from "@mui/icons-material/Tag"
 import BookmarkBorderOutlinedIcon from "@mui/icons-material/BookmarkBorderOutlined"
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined"
@@ -46,9 +47,10 @@ const Sidebar = () => {
 
   const [count, setCount] = useState(0)
 
-  const optionsNames = [t("home"), t("explore"), t("notifications"), t("messages"), t("bookmarks"), t("profile"), t("settings")]
+  const optionsNames = [t("home"),t('trending'), t("explore"), t("notifications"), t("messages"), t("bookmarks"), t("profile"), t("settings")]
   const optionsIcons = [
     [<HomeOutlinedIcon />, <HomeIcon />],
+    [<TrendingUpIcon />, <TrendingUpIcon />],
     [<TagIcon sx={{ color: darkMode ? "#ffffff" : "#000000" }} />, <TagIcon sx={{ color: darkMode ? "#ffffff" : "#000000" }} />],
     [
       <Badge
@@ -85,6 +87,7 @@ const Sidebar = () => {
   const user = useSelector((state: any) => state.user.user)
   const optionLinks = [
     "/home",
+    "/trending",
     "/explore",
     "/notifications",
     "/messages",

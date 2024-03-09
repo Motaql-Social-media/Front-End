@@ -9,6 +9,7 @@ import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft"
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight"
 import Reel from "../HomePage/Posts/Reel"
 import NoReels from "./NoReels"
+import Widgets from "../Widgets/Widgets"
 const Explore = ({ scroll }: { scroll: number }) => {
   const navigate = useNavigate()
 
@@ -199,6 +200,7 @@ const Explore = ({ scroll }: { scroll: number }) => {
           {reels.length === 0 && <NoReels />}
         </div>
       </div>
+      {user && <Widgets />}
     </div>
   )
 }

@@ -61,4 +61,17 @@ declare global {
     isReacted: boolean
     isRereeled: boolean
   }
+
+  interface modalStyleT {
+    position: React.CSSProperties["position"]
+    backgroundColor: React.CSSProperties["backgroundColor"]
+    border?: React.CSSProperties["border"]
+    borderRadius: React.CSSProperties["borderRadius"]
+    width?: React.CSSProperties["width"]
+    height?: React.CSSProperties["height"]
+    maxWidth?: React.CSSProperties["maxWidth"]
+    top?: React.CSSProperties["top"]
+    left?: React.CSSProperties["left"]
+    transform?: React.CSSProperties["transform"]
+  }
 }

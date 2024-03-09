@@ -1,14 +1,13 @@
 import React, { useEffect, useRef, useState } from "react"
-import { useNavigate, useParams } from "react-router"
+import { Outlet, useNavigate } from "react-router-dom"
 import { useSelector } from "react-redux"
-import axios from "axios"
 import { useTranslation } from "react-i18next"
+import axios from "axios"
 import ArrowBackIcon from "@mui/icons-material/ArrowBack"
+import SearchComponent from "./SearchComponent"
 import HorizontalNavbar from "../General/HorizontalNavbar"
-import { Outlet } from "react-router-dom"
-import Widgets from "../Widgets/Widgets"
 
-const Notifications = ({ scroll }: { scroll: number }) => {
+const Trending = ({ scroll }: { scroll: number }) => {
   const navigate = useNavigate()
 
   const user = useSelector((state: any) => state.user)
@@ -27,10 +26,10 @@ const Notifications = ({ scroll }: { scroll: number }) => {
 
   const { t } = useTranslation()
 
-  const notificationsRef = useRef<any>(null)
+  const engagementRef = useRef<any>(null)
 
   useEffect(() => {
-    notificationsRef.current.scrollTop += scroll
+    engagementRef.current.scrollTop += scroll
   }, [scroll])
 
   const [prevScrollPos, setPrevScrollPos] = useState(window.scrollY)
@@ -62,9 +61,10 @@ const Notifications = ({ scroll }: { scroll: number }) => {
     navigate(-1)
   }
 
+  const [query, setQuery] = useState("")
   return (
     <div className="flex flex-1 flex-grow-[8] max-[540px]:mt-16">
-      <div ref={notificationsRef} className="no-scrollbar ml-0  w-full max-w-[620px] shrink-0 flex-grow overflow-y-scroll border border-b-0 border-t-0 border-lightBorder dark:border-darkBorder  max-[540px]:border-l-0 max-[540px]:border-r-0 sm:w-[600px]">
+      <div ref={engagementRef} className="no-scrollbar ml-0 mr-1 w-full max-w-[620px] shrink-0 flex-grow overflow-y-scroll border border-b-0 border-t-0 border-lightBorder dark:border-darkBorder  max-[540px]:border-l-0 max-[540px]:border-r-0 sm:w-[600px]">
         <div className="flex items-center justify-start gap-7 pl-2">
           <div onClick={handleBack} className="cursor-pointer">
             <ArrowBackIcon fontSize="small" />
@@ -75,24 +75,31 @@ const Notifications = ({ scroll }: { scroll: number }) => {
               window.location.reload()
             }}
           >
-            Notifications
+            Trending
           </div>
+        </div>
+        <div>
+          <SearchComponent
+            query={query}
+            callback={(query: string) => {
+              setQuery(query)
+            }}
+          />
         </div>
         <div className="flex h-[53px] items-center border-b border-b-darkBorder pb-2">
           <HorizontalNavbar
             urls={[
-              { title: t("all"), location: "all" },
-              { title: t("mentions"), location: "mentions" },
+              { title: t("diaries"), location: `${query ? query + "/diaries" : ""}` },
+              { title: t("reels"), location: `${query ? query + "/reels" : ""}` },
             ]}
-            originalUrl={`/notifications`}
+            originalUrl="/trending"
             handlers={[null, null]}
           />
         </div>
         <Outlet />
       </div>
-      {user && <Widgets />}
     </div>
   )
 }
 
-export default Notifications
+export default Trending

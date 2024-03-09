@@ -8,8 +8,7 @@ import { useTranslation } from "react-i18next"
 import { useRef } from "react"
 import axios from "axios"
 import ElementVisibleObserver from "../General/ElementVisibleObserver"
-
-
+import Widgets from "../Widgets/Widgets"
 
 export const HomeContext = createContext<any>(null)
 
@@ -153,6 +152,7 @@ const Home = ({ scroll }: { scroll: number }) => {
         </HomeContext.Provider>
         <ElementVisibleObserver handler={handleFetchMore} />
       </div>
+      {user && <Widgets />}
     </div>
   )
 }

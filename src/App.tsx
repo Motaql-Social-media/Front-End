@@ -51,6 +51,11 @@ import MuteBlock from "./components/Settings/Privacy/MuteBlock"
 import BlockedAccounts from "./components/Settings/Privacy/BlockedAccounts"
 import MutedAccounts from "./components/Settings/Privacy/MutedAccounts"
 import Profile from "./components/Profile/Profile"
+import ProfileDiaries from "./components/Profile/ProfileDiaries"
+import ProfileReels from "./components/Profile/ProfileReels"
+import Trending from "./components/Trending/Trending"
+import TrendDiaries from "./components/Trending/TrendDiaries"
+import TrendReels from "./components/Trending/TrendReels"
 
 const SocketContext = createContext<any>(null)
 
@@ -227,7 +232,16 @@ function App() {
                   <Route path="muted_accounts" element={<MutedAccounts />} />
                 </Route>
 
-                <Route path="/:tag" element={<Profile scroll={deltaY} />} />
+                <Route path="/:tag" element={<Profile scroll={deltaY} />}>
+                  <Route path="diaries" element={<ProfileDiaries />} />
+                  <Route path="reels" element={<ProfileReels />} />
+                  <Route path="" element={<ProfileDiaries />} />
+                </Route>
+                <Route path="/trending" element={<Trending scroll={deltaY} />}>
+                  <Route path=":query/diaries" element={<TrendDiaries />} />
+                  <Route path=":query/reels" element={<TrendReels />} />
+                  <Route path="" element={<TrendDiaries />} />
+                </Route>
 
                 <Route path="/:tag/diary/:id" element={<DiaryPage scroll={deltaY} />} />
                 <Route path="/:tag/reel/:id" element={<ReelPage scroll={deltaY} />} />

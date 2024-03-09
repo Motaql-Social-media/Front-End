@@ -1,6 +1,6 @@
 import AddAPhotoOutlinedIcon from "@mui/icons-material/AddAPhotoOutlined"
 
-import { useEffect, useRef, useState } from "react"
+import {  useRef, useState } from "react"
 
 import defaultProfilePic from "../../assets/images/Default_Profile_Picture.png"
 
@@ -89,83 +89,7 @@ const UploadProfilePicture = ({ userR, setUser, userToken, handleCompleteSignup,
         console.error(error)
       })
 
-    // console.log(fromSwitch)
-    // if (fromSwitch === false) {
-    //   axios
-    //     .post(APIs.actual.loginAPI, { query: email, password: password })
-    //     .then((res) => {
-    //       console.log(res);
-    //       tmpuser = res.data.data.user;
-    //       token = res.data.token;
-    //       return axios.post(APIs.actual.uploadMedia, mediaFormData, {
-    //         headers: {
-    //           authorization: "Bearer " + res.data.token,
-    //         },
-    //       });
-    //     })
-    //     .then((res) => {
-    //       console.log(res.data.data.usls[0]);
-    //       // console.log(userToken)
-    //       newuser = {
-    //         ...tmpuser,
-    //         profileImage: res.data.data.usls[0],
-    //       };
-    //       console.log(newuser);
-
-    //       return axios.patch(
-    //         APIs.actual.changeProfilePicture,
-    //         { profile_image: res.data.data.usls[0] },
-    //         {
-    //           headers: {
-    //             authorization: "Bearer " + token,
-    //           },
-    //         }
-    //       );
-    //     })
-    //     .then((res) => {
-    //       console.log("Profile picture changed successfully");
-
-    //       handleCompleteSignup(newuser);
-    //     })
-    //     .catch((err) => console.log(err));
-    // } else {
-    // axios
-    //   .post(APIs.actual.uploadMedia, mediaFormData, {
-    //     headers: {
-    //       authorization: "Bearer " + userToken,
-    //     },
-    //   })
-    //   .then((res) => {
-    //     // console.log(res.data.data.usls[0])
-    //     // console.log(userToken)
-    //     newuser = {
-    //       ...user,
-    //       // picture: profilePicURL,
-    //       profileImage: res.data.data.usls[0],
-    //     };
-    //     // console.log(newuser)
-    //     return axios.patch(
-    //       APIs.actual.changeProfilePicture,
-    //       { profile_image: res.data.data.usls[0] },
-    //       {
-    //         headers: {
-    //           authorization: "Bearer " + userToken,
-    //         },
-    //       }
-    //     );
-    //   })
-    //   .then((res) => {
-    //     console.log("Profile picture changed successfully");
-    //     setUser(newuser);
-    //     // console.log(res)
-    //     setTimeout(() => {
-    //       dispatch(changeProfilePicture({ user: newuser, token: userToken }));
-    //     }, 1000);
-    //   })
-    //   .catch((error) => {
-    //     console.error(error);
-    //   });
-    // }
+    
   }
 
   const { t } = useTranslation()
