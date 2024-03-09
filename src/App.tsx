@@ -104,7 +104,7 @@ function App() {
       setTimeout(() => {
         setNotification(null)
         setShowNotification(false)
-      }, 100000)
+      }, 5000)
     }
   }, [notification])
 
