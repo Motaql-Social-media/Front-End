@@ -109,10 +109,16 @@ const Message = ({ scroll }: { scroll: number }) => {
 
     return () => {
       if (socket) {
-        socket.emit("chat-closed", {
-          conversationId: id,
-          contactId: otherContact.userId,
-        })
+        socket.emit(
+          "chat-closed",
+          {
+            conversationId: id,
+            contactId: otherContact.userId,
+          },
+          (response: any) => {
+            console.log("Chat closed:", response)
+          }
+        )
       }
     }
   }, [socket])
