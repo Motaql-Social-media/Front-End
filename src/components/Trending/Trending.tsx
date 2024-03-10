@@ -33,7 +33,6 @@ const Trending = ({ scroll }: { scroll: number }) => {
     engagementRef.current.scrollTop += scroll
   }, [scroll])
 
-
   const [query, setQuery] = useState("")
   return (
     <div className="flex flex-1 flex-grow-[8] max-[540px]:mt-16">
@@ -45,6 +44,7 @@ const Trending = ({ scroll }: { scroll: number }) => {
             callback={(query: string) => {
               setQuery(query)
             }}
+            fromMessage={false}
           />
         </div>
         <div className="flex h-[53px] items-center border-b border-b-darkBorder pb-2">

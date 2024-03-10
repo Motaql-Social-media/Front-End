@@ -40,12 +40,11 @@ import DesktopSidebar from "./DesktopSidebar"
 import axios from "axios"
 
 import { setUnseenCount } from "../../store/NotificationSlice"
+import { setMessageUnseenCount } from "../../store/MessageSlice"
 const Sidebar = () => {
   const darkMode = useSelector((state: any) => state.theme.darkMode)
 
   const { t } = useTranslation()
-
-  const [count, setCount] = useState(0)
 
   const unseenCount = useSelector((state: any) => state.notification.unseenCount)
 
@@ -119,20 +118,27 @@ const Sidebar = () => {
     }
   }, [])
 
-  const API = axios.create({
-    baseURL: process.env.REACT_APP_API_URL,
-  })
   const userToken = useSelector((state: any) => state.user.token)
 
+  const API = axios.create({
+    baseURL: process.env.REACT_APP_API_URL,
+    headers: {
+      Authorization: `Bearer ${userToken}`,
+    },
+  })
+
   useEffect(() => {
-    API.get("users/current/notifications/unseen-count", {
-      headers: {
-        Authorization: `Bearer ${userToken}`,
-      },
-    })
+    API.get("users/current/notifications/unseen-count")
       .then((res) => {
-        setCount(res.data.data.count)
         dispatch(setUnseenCount(res.data.data.count))
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+
+    API.get("chats/unseen-chats-count")
+      .then((res) => {
+        dispatch(setMessageUnseenCount(res.data.data.count))
       })
       .catch((err) => {
         console.log(err)

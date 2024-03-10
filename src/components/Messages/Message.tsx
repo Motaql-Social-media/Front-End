@@ -88,10 +88,11 @@ const Message = ({ scroll }: { scroll: number }) => {
   useEffect(() => {
     if (socket) {
       socket.on("msg-redirect", (payload: Message) => {
+        console.log(payload)
         setMessages((prev) => [...prev, payload])
       })
       socket.on("msg-receive", (payload: Message) => {
-        console.log(payload)
+        setMessages((prev) => [...prev, payload])
       })
 
       socket.emit("chat-opened", {

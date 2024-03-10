@@ -14,7 +14,7 @@ import { TextField } from "@mui/material"
 import { useParams } from "react-router-dom"
 import { t } from "i18next"
 
-const SearchComponent = ({ query, callback }: { query: string; callback: any }) => {
+const SearchComponent = ({ query, callback, fromMessage }: { query: string; callback: any; fromMessage: boolean }) => {
   const userToken = useSelector((state: any) => state.user.token)
 
   const [searchQuery, setSearchQuery] = useState("")
@@ -41,17 +41,18 @@ const SearchComponent = ({ query, callback }: { query: string; callback: any }) 
   })
 
   const handleSearchTrends = (word: string) => {
-    API.get(`tags/search?tag=${word}&page=1&count=3`)
-      .then((res) => {
-        // console.log(res.data.data.tags)
-        setSearchTrends(res.data.data.tags)
-      })
-      .catch((error) => {
-        setSearchTrends([])
-        if (error.response && error.response.status !== 404) {
-          console.error(error)
-        }
-      })
+    if (!fromMessage)
+      API.get(`tags/search?tag=${word}&page=1&count=3`)
+        .then((res) => {
+          // console.log(res.data.data.tags)
+          setSearchTrends(res.data.data.tags)
+        })
+        .catch((error) => {
+          setSearchTrends([])
+          if (error.response && error.response.status !== 404) {
+            console.error(error)
+          }
+        })
   }
 
   const handleSearchUsers = (word: string) => {
@@ -129,13 +130,13 @@ const SearchComponent = ({ query, callback }: { query: string; callback: any }) 
             options={searchAll}
             noOptionsText={"No options found"}
             renderOption={(props, option) => {
-              return <li key={props.id}>{option.username ? <UserSearchComponent {...props} id={props.id} option={option} /> : <TrendSearchOption {...props} option={option} />}</li>
+              return <li key={props.id}>{option.username ? <UserSearchComponent {...props} id={props.id} option={option} fromMessage={fromMessage} /> : <TrendSearchOption {...props} option={option} />}</li>
             }}
             renderInput={(params) => {
               return (
                 <div key={params.id} className="w-full" ref={params.InputProps.ref}>
                   <TextField
-                    label={t("search_placeholder")}
+                    label={!fromMessage ? t("search_placeholder") : "Search for a user"}
                     variant="outlined"
                     value={searchQuery}
                     onChange={(e) => {

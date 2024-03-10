@@ -6,7 +6,7 @@ const Widgets = () => {
   return (
     <div className="hidden max-w-[400px] flex-1 text-center lg:block">
       <div className="mt-3">
-        <SearchComponent query={""} callback={() => {}} />
+        <SearchComponent query={""} callback={() => { }} fromMessage={false} />
       </div>
       <div>
         <WidgetsTrends />
