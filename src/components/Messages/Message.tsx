@@ -87,13 +87,13 @@ const Message = ({ scroll }: { scroll: number }) => {
 
   useEffect(() => {
     if (socket && otherContact) {
-    //   console.log(id, otherContact.userId)
+      //   console.log(id, otherContact.userId)
       socket.emit("chat-opened", {
         conversationId: id,
         contactId: otherContact.userId,
       })
     }
-  }, [otherContact])
+  }, [otherContact, socket])
 
   useEffect(() => {
     if (socket) {
