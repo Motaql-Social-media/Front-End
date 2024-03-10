@@ -8,6 +8,7 @@ import Conversations from "./Conversations"
 import Modal from "@mui/material/Modal"
 import Close from "@mui/icons-material/Close"
 import SearchComponent from "../Trending/SearchComponent"
+import io from "socket.io-client"
 
 const Messages = ({ scroll }: { scroll: number }) => {
   const messagesRef = useRef<any>(null)
@@ -28,7 +29,7 @@ const Messages = ({ scroll }: { scroll: number }) => {
     },
   })
 
-  useEffect(() => {
+  const fetchMessages = () => {
     API.post(`chats`)
       .then((res) => {
         console.log(res.data.data.conversations)
@@ -37,6 +38,10 @@ const Messages = ({ scroll }: { scroll: number }) => {
       .catch((error) => {
         console.log(error)
       })
+  }
+
+  useEffect(() => {
+    fetchMessages()
   }, [])
 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth)
@@ -82,7 +87,32 @@ const Messages = ({ scroll }: { scroll: number }) => {
     setOpen(false)
   }
 
-  const handleStartChat = () => {}
+  const [socket, setSocket] = useState<any>(null)
+  useEffect(() => {
+    setSocket(
+      io("https://theline.social", {
+        path: "/socket.io",
+        withCredentials: true,
+        extraHeaders: {
+          token: userToken,
+        },
+      })
+    )
+  }, [])
+
+  useEffect(() => {
+    if (socket) {
+      socket.on("connect", () => {
+        console.log("Socket connected! from messages")
+      })
+      socket.on("disconnect", () => {
+        console.log("Socket disconnected!")
+      })
+      socket.on("msg-receive", (payload: Message) => {
+        fetchMessages()
+      })
+    }
+  }, [socket])
 
   return (
     <div className="flex flex-1 flex-grow-[8] max-[540px]:mt-16">
@@ -98,7 +128,7 @@ const Messages = ({ scroll }: { scroll: number }) => {
       {user && <Widgets />}
       <Modal open={open} onClose={handleClose} disableEscapeKeyDown disablePortal>
         <div style={modalStyle} className={`  h-[90%] w-[40%]  rounded-2xl border p-4  dark:border-darkBorder dark:bg-black`}>
-          <div className="flex items-center gap-5 mb-5">
+          <div className="mb-5 flex items-center gap-5">
             <div className="cursor-pointer rounded-full p-1  text-white hover:bg-darkHover" onClick={handleClose}>
               <Close />
             </div>
