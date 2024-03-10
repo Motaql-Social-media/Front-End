@@ -95,10 +95,16 @@ const Message = ({ scroll }: { scroll: number }) => {
         setMessages((prev) => [...prev, payload])
       })
 
-      socket.emit("chat-opened", {
-        conversationId: id,
-        contactId: otherContact.userId,
-      })
+      socket.emit(
+        "chat-opened",
+        {
+          conversationId: id,
+          contactId: otherContact.userId,
+        },
+        (response: any) => {
+          console.log("Chat opened:", response)
+        }
+      )
     }
 
     return () => {
