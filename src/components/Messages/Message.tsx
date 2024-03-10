@@ -78,16 +78,10 @@ const Message = ({ scroll }: { scroll: number }) => {
     if (socket) {
       socket.on("connect", () => {
         console.log("Socket connected! from message")
-        socket.emit(
-          "chat-opened",
-          {
-            conversationId: id,
-            receiverId: otherContact.userId,
-          },
-          (response: any) => {
-            console.log("Chat opened:", response)
-          }
-        )
+        socket.emit("chat-opened", {
+          conversationId: id,
+          contactId: otherContact.userId,
+        })
       })
       socket.on("disconnect", () => {
         console.log("Socket disconnected!")
@@ -98,7 +92,7 @@ const Message = ({ scroll }: { scroll: number }) => {
   useEffect(() => {
     if (socket) {
       socket.on("msg-redirect", (payload: Message) => {
-        console.log(payload)
+        // console.log(payload)
         setMessages((prev) => [...prev, payload])
       })
       socket.on("msg-receive", (payload: Message) => {
@@ -109,16 +103,10 @@ const Message = ({ scroll }: { scroll: number }) => {
     return () => {
       if (socket) {
         console.log("Chat closed!")
-        socket.emit(
-          "chat-closed",
-          {
-            conversationId: id,
-            contactId: otherContact.userId,
-          },
-          (response: any) => {
-            console.log("Chat closed:", response)
-          }
-        )
+        socket.emit("chat-closed", {
+          conversationId: id,
+          contactId: otherContact.userId,
+        })
       }
     }
   }, [socket])
@@ -129,11 +117,15 @@ const Message = ({ scroll }: { scroll: number }) => {
 
   const handleSendMessage = () => {
     if (socket) {
-      socket.emit("msg-send", {
-        receiverId: otherContact.userId,
-        conversationId: id,
-        text: text,
-      })
+      socket.emit(
+        "msg-send",
+        {
+          receiverId: otherContact.userId,
+          conversationId: id,
+          text: text,
+        },
+        (res: any) => console.log(res)
+      )
 
       setText("")
     }
@@ -170,14 +162,16 @@ const Message = ({ scroll }: { scroll: number }) => {
                 <div className={`flex items-center gap-3 ${m.isFromMe ? "" : "flex-row-reverse"}`}>
                   <div className="text-gray-500">{formatDate(m.createdAt)}</div>
                   {m.isSeen ? (
-                    <img src={seen} alt="seen" className="h-[15px] w-[18px]" />
+                    <img src={seen} alt="seen" className={`h-[15px] w-[18px] ${!m.isFromMe ? "hidden" : ""}`} />
                   ) : (
-                    <CheckIcon
-                      sx={{
-                        width: 20,
-                        height: 20,
-                      }}
-                    />
+                    <div className={`${!m.isFromMe ? "hidden" : ""}`}>
+                      <CheckIcon
+                        sx={{
+                          width: 20,
+                          height: 20,
+                        }}
+                      />
+                    </div>
                   )}
                 </div>
               </div>
