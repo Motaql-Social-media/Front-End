@@ -78,16 +78,22 @@ const Message = ({ scroll }: { scroll: number }) => {
     if (socket) {
       socket.on("connect", () => {
         console.log("Socket connected! from message")
-        socket.emit("chat-opened", {
-          conversationId: id,
-          contactId: otherContact.userId,
-        })
       })
       socket.on("disconnect", () => {
         console.log("Socket disconnected!")
       })
     }
   }, [socket])
+
+  useEffect(() => {
+    if (socket && otherContact) {
+    //   console.log(id, otherContact.userId)
+      socket.emit("chat-opened", {
+        conversationId: id,
+        contactId: otherContact.userId,
+      })
+    }
+  }, [otherContact])
 
   useEffect(() => {
     if (socket) {
@@ -102,7 +108,7 @@ const Message = ({ scroll }: { scroll: number }) => {
 
     return () => {
       if (socket) {
-        console.log("Chat closed!")
+        // console.log("Chat closed!")
         socket.emit("chat-closed", {
           conversationId: id,
           contactId: otherContact.userId,
