@@ -106,9 +106,10 @@ const Message = ({ scroll }: { scroll: number }) => {
       })
       socket.on("status-of-contact", (payload: any) => {
         if (payload.inConversation) {
+          console.log("user entered")
           const newMessages = messages.map((m) => {
-            if (m.isFromMe && !m.isSeen) m.isSeen = true
-            return m
+            const t = { ...m, isSeen: true }
+            return t
           })
           setMessages(newMessages)
         }
