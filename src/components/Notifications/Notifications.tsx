@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react"
+import React, { useContext, useEffect, useRef, useState } from "react"
 import { useNavigate, useParams } from "react-router"
 import { useSelector } from "react-redux"
 import axios from "axios"
@@ -11,6 +11,7 @@ import SubpageNavbar from "../General/SubpageNavbar"
 
 const Notifications = ({ scroll }: { scroll: number }) => {
   const navigate = useNavigate()
+
 
   const user = useSelector((state: any) => state.user)
 
@@ -33,8 +34,6 @@ const Notifications = ({ scroll }: { scroll: number }) => {
   useEffect(() => {
     notificationsRef.current.scrollTop += scroll
   }, [scroll])
-
-  
 
   return (
     <div className="flex flex-1 flex-grow-[8] max-[540px]:mt-16">

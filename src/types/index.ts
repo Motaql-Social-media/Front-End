@@ -96,4 +96,14 @@ declare global {
       isFollowed: boolean
     }
   }
+
+  interface Message {
+    senderId: number
+    messageId: number
+    conversationId: number
+    isSeen: boolean
+    createdAt: string
+    text: string
+    isFromMe: boolean
+  }
 }

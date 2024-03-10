@@ -1,0 +1,188 @@
+import React, { useEffect, useRef, useState } from "react"
+import SubpageNavbar from "../General/SubpageNavbar"
+import axios from "axios"
+import { useSelector } from "react-redux"
+import { useNavigate, useParams } from "react-router-dom"
+import { Avatar } from "@mui/material"
+import Widgets from "../Widgets/Widgets"
+import CheckIcon from "@mui/icons-material/Check"
+import seen from "../../assets/images/seen.png"
+import SendIcon from "@mui/icons-material/Send"
+import { useContext } from "react"
+import { SocketContext } from "../../App"
+import io from "socket.io-client"
+
+const Message = ({ scroll }: { scroll: number }) => {
+  const messageRef = useRef<any>(null)
+
+  useEffect(() => {
+    messageRef.current.scrollTop += scroll
+  }, [scroll])
+
+  const { id } = useParams()
+
+  const userToken = useSelector((state: any) => state.user.token)
+
+  const API = axios.create({
+    baseURL: process.env.REACT_APP_API_URL,
+    headers: {
+      Authorization: `Bearer ${userToken}`,
+    },
+  })
+
+  const [messages, setMessages] = useState<any[]>([])
+
+  const [otherContact, setOtherContact] = useState<any>({})
+
+  useEffect(() => {
+    API.post(`chats/${id}/history`)
+      .then((res) => {
+        console.log(res.data.data)
+        setOtherContact(res.data.data.otherContact)
+        setMessages(res.data.data.messages.reverse())
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }, [])
+
+  const user = useSelector((state: any) => state.user.user)
+
+  function formatDate(dateString: string) {
+    const date = new Date(dateString)
+
+    return new Intl.DateTimeFormat("en-US", {
+      weekday: "short",
+      hour: "numeric",
+      minute: "numeric",
+      hour12: true,
+      timeZone: "UTC",
+    }).format(date)
+  }
+
+  const [socket, setSocket] = useState<any>(null)
+
+  useEffect(() => {
+    setSocket(
+      io("https://theline.social", {
+        path: "/socket.io",
+        withCredentials: true,
+        extraHeaders: {
+          token: userToken,
+        },
+      })
+    )
+  }, [])
+
+  useEffect(() => {
+    if (socket) {
+      socket.on("connect", () => {
+        console.log("Socket connected! from message")
+      })
+      socket.on("disconnect", () => {
+        console.log("Socket disconnected!")
+      })
+    }
+  }, [socket])
+
+  useEffect(() => {
+    if (socket) {
+      socket.on("msg-redirect", (payload: Message) => {
+        setMessages((prev) => [...prev, payload])
+      })
+      socket.on("msg-receive", (payload: Message) => {
+        console.log(payload)
+      })
+
+      socket.emit("chat-opened", {
+        conversationId: id,
+        contactId: otherContact.userId,
+      })
+    }
+
+    return () => {
+      if (socket) {
+        socket.emit("chat-closed", {
+          conversationId: id,
+          contactId: otherContact.userId,
+        })
+      }
+    }
+  }, [socket])
+
+  const [text, setText] = useState("")
+
+  const messagesRef = useRef<any>(null)
+
+  const handleSendMessage = () => {
+    if (socket) {
+      socket.emit("msg-send", {
+        receiverId: otherContact.userId,
+        conversationId: id,
+        text: text,
+      })
+
+      setText("")
+    }
+  }
+
+  useEffect(() => {
+    if (messagesRef.current) {
+      messagesRef.current.scrollTo({ top: messagesRef.current.scrollHeight, behavior: "smooth" })
+    }
+  }, [messages])
+
+  const navigate = useNavigate()
+
+  return (
+    <div className="flex flex-1 flex-grow-[8] max-[540px]:mt-16">
+      <div ref={messageRef} className=" ml-0 mr-1 flex w-full max-w-[620px] shrink-0 flex-grow flex-col  border border-b-0 border-t-0 border-lightBorder  dark:border-darkBorder max-[540px]:border-l-0 max-[540px]:border-r-0 sm:w-[600px]">
+        <SubpageNavbar title={otherContact.name} />
+        <div className="flex flex-col items-center gap-2 ">
+          <div className="flex w-full flex-col items-center border-b border-darkBorder py-3 hover:bg-darkHover" onClick={() => navigate(`/${otherContact.userId}`)}>
+            <Avatar src={process.env.REACT_APP_USERS_MEDIA_URL + otherContact.imageUrl} alt={otherContact.name} sx={{ width: 100, height: 100 }} />
+            <div className="text-white">{otherContact.name}</div>
+            <div className="text-gray-500">@{otherContact.username}</div>
+            <div className="flex gap-2 text-gray-500">
+              <div> {otherContact.jobtitle}</div>
+              <div>- {otherContact.followersCount} Followers</div>
+            </div>
+          </div>
+        </div>
+        <div ref={messagesRef} className=" no-scrollbar flex h-full w-full flex-col overflow-y-scroll">
+          {messages.map((m, index) => {
+            return (
+              <div key={index} className={`flex flex-col ${m.isFromMe ? "items-end" : "items-start "} h-full gap-2 p-4`}>
+                <div className="rounded-xl bg-primary p-2 text-black">{m.text}</div>
+                <div className={`flex items-center gap-3 ${m.isFromMe ? "" : "flex-row-reverse"}`}>
+                  <div className="text-gray-500">{formatDate(m.createdAt)}</div>
+                  {m.isSeen ? (
+                    <img src={seen} alt="seen" className="h-[15px] w-[18px]" />
+                  ) : (
+                    <CheckIcon
+                      sx={{
+                        width: 20,
+                        height: 20,
+                      }}
+                    />
+                  )}
+                </div>
+              </div>
+            )
+          })}
+        </div>
+        <div className="flex w-full items-center justify-center">
+          <div className=" flex w-[95%] items-center justify-center overflow-hidden rounded-2xl border-t border-t-darkBorder bg-darkHover">
+            <input value={text} onChange={(e: any) => setText(e.target.value)} type="text" placeholder="Type a message" className="flex-grow bg-darkHover p-4 text-white" />
+            <div className="cursor-pointer border-l border-l-darkBorder p-2 text-primary" onClick={handleSendMessage}>
+              <SendIcon />
+            </div>
+          </div>
+        </div>
+      </div>
+      {user && <Widgets />}
+    </div>
+  )
+}
+
+export default Message

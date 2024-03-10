@@ -27,6 +27,10 @@ const Home = ({ scroll }: { scroll: number }) => {
 
   const API = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
+    headers: {
+      Authorization: `Bearer ${userToken}`,
+     
+    },
   })
 
   const [diariesPage, setDiariesPage] = useState<number>(1)
@@ -53,7 +57,7 @@ const Home = ({ scroll }: { scroll: number }) => {
   }, [window.location.pathname])
 
   const fetchDiaries = () => {
-    API.get(`tweets/timeline?page=${diariesPage}&limit=${20}`, { headers: { authorization: "Bearer " + userToken } })
+    API.get(`tweets/timeline?page=${diariesPage}&limit=${20}`)
       .then((res) => {
         console.log(res.data.data.timelineTweets)
         setDiaries((prev) => prev.concat(res.data.data.timelineTweets).filter((item, index, self) => self.indexOf(item) === index))
@@ -64,7 +68,7 @@ const Home = ({ scroll }: { scroll: number }) => {
   }
 
   const fetchReels = () => {
-    API.get(`reels/timeline?page=${reelsPage}&limit=${20}`, { headers: { authorization: "Bearer " + userToken } })
+    API.get(`reels/timeline?page=${reelsPage}&limit=${20}`)
       .then((res) => {
         console.log(res.data.data.timelineReels)
         setReels((prev) => prev.concat(res.data.data.timelineReels).filter((item, index, self) => self.indexOf(item) === index))

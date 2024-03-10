@@ -153,7 +153,7 @@ const Login = ({ openModal, handleCloseModal, setLocation }: { openModal: boolea
       .catch((err) => {
         console.log(err)
         setEmailExistError(!(err.message === "Request failed with status code 404"))
-        handleNext(!(err.message === "Request failed with status code 404"))
+        // handleNext(!(err.message === "Request failed with status code 404"))
       })
   }
 

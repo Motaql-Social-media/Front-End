@@ -17,8 +17,8 @@ const Settings = () => {
   }, [window.location.pathname])
 
   return (
-    <div className="mr-[8%] grid grow grid-cols-12">
-      <div className="col-span-5 h-full  border-r  border-r-darkBorder">
+    <div className="min-md:mr-[8%] grid grow grid-cols-12">
+      <div className="col-span-5 h-full  border-r  border-r-darkBorder max-md:col-span-12">
         <div className="border-b border-b-darkBorder px-5 py-3 text-2xl font-semibold"> Settings</div>
         {options.map((option, index) => (
           <div key={index} className={`flex cursor-pointer items-center justify-between border-b border-b-darkBorder pl-5 ${window.location.pathname.split("/").pop() === option ? "bg-darkHover" : "bg-transparent"}  hover:bg-darkHover`} onClick={() => navigate(`/settings/${option}`)}>
@@ -31,7 +31,7 @@ const Settings = () => {
           </div>
         ))}
       </div>
-      <div className="col-span-7 h-full border-r border-r-darkBorder">
+      <div className="col-span-7 h-full border-r border-r-darkBorder max-md:col-span-12">
         <Outlet />
       </div>
     </div>

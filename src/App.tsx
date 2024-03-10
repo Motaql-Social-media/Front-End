@@ -57,10 +57,13 @@ import Trending from "./components/Trending/Trending"
 import TrendDiaries from "./components/Trending/TrendDiaries"
 import TrendReels from "./components/Trending/TrendReels"
 import { useDispatch } from "react-redux"
-import { receiveNotification, setUnseenCount } from "./store/NotificationSlice"
+import { receiveNotification } from "./store/NotificationSlice"
 import PushNotification from "./components/Notifications/PushNotification"
+import Messages from "./components/Messages/Messages"
+import Message from "./components/Messages/Message"
 
 const SocketContext = createContext<any>(null)
+export { SocketContext }
 
 function App() {
   const [socket, setSocket] = useState<any>(null)
@@ -95,6 +98,7 @@ function App() {
         setNotification(payload)
         console.log(payload)
       })
+      
     }
   }, [socket])
 
@@ -168,14 +172,12 @@ function App() {
     }
   }, [isMobile])
 
-  
   return (
     <GoogleOAuthProvider clientId="747286868244-5769tksecnl0s5jds76cdtj13phph6l7.apps.googleusercontent.com">
-      <SocketContext.Provider value={socket}>
-        <ThemeProvider theme={theme}>
+      <ThemeProvider theme={theme}>
+        <SocketContext.Provider value={socket}>
           <div ref={appRef} className="app relative flex  min-h-[100vh]  flex-row overflow-hidden bg-white text-black dark:bg-black  dark:text-white max-[540px]:flex-col xs:h-[100vh] xs:w-full">
             <BrowserRouter>
-              
               <Languages />
               {/* {!user && location !== "/password_reset" && (
             <Landing
@@ -245,6 +247,8 @@ function App() {
                   <Route path=":query/reels" element={<TrendReels />} />
                   <Route path="" element={<TrendDiaries />} />
                 </Route>
+                <Route path="/messages" element={<Messages scroll={deltaY} />}></Route>
+                <Route path="/messages/:id" element={<Message scroll={deltaY} />} />
 
                 <Route path="/:tag/diary/:id" element={<DiaryPage scroll={deltaY} />} />
                 <Route path="/:tag/reel/:id" element={<ReelPage scroll={deltaY} />} />
@@ -256,8 +260,8 @@ function App() {
               {showNotification && location.split("/").pop() !== "notifications" && <PushNotification content={notification.content} createdAt={notification.createdAt} isSeen={notification.isSeen} metadata={notification.metadata} notificationFrom={notification.notificationFrom} notificationId={notification.notificationId} type={notification.type} />}
             </BrowserRouter>
           </div>
-        </ThemeProvider>
-      </SocketContext.Provider>
+        </SocketContext.Provider>
+      </ThemeProvider>
     </GoogleOAuthProvider>
   )
 }

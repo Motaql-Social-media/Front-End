@@ -33,34 +33,6 @@ const Trending = ({ scroll }: { scroll: number }) => {
     engagementRef.current.scrollTop += scroll
   }, [scroll])
 
-  const [prevScrollPos, setPrevScrollPos] = useState(window.scrollY)
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollPos = window.scrollY
-      const isScrollingDown = currentScrollPos > prevScrollPos
-      setPrevScrollPos(currentScrollPos)
-
-      // Check if scrolling down
-      if (isScrollingDown) {
-        setIsVisible(false)
-      } else {
-        setIsVisible(true)
-      }
-    }
-
-    window.addEventListener("scroll", handleScroll)
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll)
-    }
-  }, [prevScrollPos])
-
-  const [isVisible, setIsVisible] = useState(true)
-
-  const handleBack = () => {
-    navigate(-1)
-  }
 
   const [query, setQuery] = useState("")
   return (

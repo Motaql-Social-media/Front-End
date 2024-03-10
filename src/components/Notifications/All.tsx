@@ -5,8 +5,12 @@ import Notification from "./Notification"
 import { useDispatch } from "react-redux"
 import { resetCount } from "../../store/NotificationSlice"
 import io from "socket.io-client"
+import { useContext } from "react"
+import { SocketContext } from "../../App"
 
 const All = () => {
+  const { socket } = useContext(SocketContext)
+
   const userToken = useSelector((state: any) => state.user.token)
   const API = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
@@ -40,28 +44,8 @@ const All = () => {
       })
   }, [])
 
-  const [socket, setSocket] = useState<any>(null)
-
-  useEffect(() => {
-    setSocket(
-      io("https://theline.social", {
-        path: "/socket.io",
-        withCredentials: true,
-        extraHeaders: {
-          token: userToken,
-        },
-      })
-    )
-  }, [])
-
   useEffect(() => {
     if (socket) {
-      socket.on("connect", () => {
-        console.log("Socket connected!")
-      })
-      socket.on("disconnect", () => {
-        console.log("Socket disconnected!")
-      })
       socket.on("notification-receive", (payload: Notification) => {
         setNotifications((prev: any) => [payload, ...prev])
         console.log(payload)
