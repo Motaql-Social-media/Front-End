@@ -78,6 +78,16 @@ const Message = ({ scroll }: { scroll: number }) => {
     if (socket) {
       socket.on("connect", () => {
         console.log("Socket connected! from message")
+        socket.emit(
+          "chat-opened",
+          {
+            conversationId: id,
+            receiverId: otherContact.userId,
+          },
+          (response: any) => {
+            console.log("Chat opened:", response)
+          }
+        )
       })
       socket.on("disconnect", () => {
         console.log("Socket disconnected!")
@@ -94,21 +104,11 @@ const Message = ({ scroll }: { scroll: number }) => {
       socket.on("msg-receive", (payload: Message) => {
         setMessages((prev) => [...prev, payload])
       })
-
-      socket.emit(
-        "chat-opened",
-        {
-          conversationId: id,
-          contactId: otherContact.userId,
-        },
-        (response: any) => {
-          console.log("Chat opened:", response)
-        }
-      )
     }
 
     return () => {
       if (socket) {
+        console.log("Chat closed!")
         socket.emit(
           "chat-closed",
           {

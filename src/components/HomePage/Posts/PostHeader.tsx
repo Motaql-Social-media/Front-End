@@ -150,8 +150,15 @@ const PostHeader = ({ date, tweeter, id, type, posts, setPosts, base, parent }: 
     })
       .then((res) => {
         // console.log(res)
-        if (parent === "diary") setPosts(posts.filter((post: any) => post.tweetId !== id))
-        else setPosts(posts.filter((post: any) => post.reelId !== id))
+        if (parent === "diary") {
+          console.log(posts.filter((post: any) => post.replyId !== id))
+          setPosts(
+            posts.filter((post: any) => {
+              if (post.replyId) return post.replyId !== id
+              else return post.tweetId !== id
+            })
+          )
+        } else setPosts(posts.filter((post: any) => post.reelId !== id))
       })
       .catch((err) => {
         console.log(err)
