@@ -104,6 +104,15 @@ const Message = ({ scroll }: { scroll: number }) => {
       socket.on("msg-receive", (payload: Message) => {
         setMessages((prev) => [...prev, payload])
       })
+      socket.on("status-of-contact", (payload: any) => {
+        if (payload.inConversation) {
+          const newMessages = messages.map((m) => {
+            if (m.isFromMe && !m.isSeen) m.isSeen = true
+            return m
+          })
+          setMessages(newMessages)
+        }
+      })
     }
 
     return () => {
