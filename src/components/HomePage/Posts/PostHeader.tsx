@@ -165,7 +165,6 @@ const PostHeader = ({ date, tweeter, id, type, posts, setPosts, base, parent }: 
             })
           )
         }
-        // setPosts(posts.filter((post: any) => post.reelId !== id))
       })
       .catch((err) => {
         console.log(err)
@@ -182,18 +181,20 @@ const PostHeader = ({ date, tweeter, id, type, posts, setPosts, base, parent }: 
       <div className="flex gap-1">
         <div className="relative flex flex-col justify-center" onMouseEnter={() => handleMouseEnter(2)} onMouseLeave={() => handleMouseLeave(2)}>
           <div className="font-semibold text-gray-200 hover:underline max-xs:text-sm" onClick={handleProfileClick}>
-            {tweeter.name}
+            <div className="max-[405px]:hidden">{tweeter.name}</div>
+            <div className="min-[405px]:hidden">{tweeter.name.split(" ")[0]}</div>
           </div>
-          <div className="text-gray-400 max-xs:hidden">{tweeter.jobtitle}</div>
+          <div className="text-gray-400 max-xs:text-sm max-[405px]:text-xs" onClick={handleProfileClick}>
+            <span dir="ltr">@{tweeter.username}</span>
+          </div>
           {isVisible2 && <HoveredProfile hoveredUser={tweeter} state={followState} setState={setFollowState} />}
         </div>
         <div className="flex items-start  gap-1">
           <div className="relative flex items-center" onMouseEnter={() => handleMouseEnter(3)} onMouseLeave={() => handleMouseLeave(3)}>
-            <div className="text-gray-400 max-xs:text-sm max-[400px]:hidden" onClick={handleProfileClick}>
-              <span dir="ltr">@{tweeter.username}</span>
-            </div>
+            <div className="text-gray-400 max-[405px]:text-xs">{tweeter.jobtitle}</div>
+
             <div className={` bg-ternairy m-1 h-[2px] w-[2px] rounded-full dark:bg-gray-200`}></div>
-            <div className={`text-gray-400  `}>{timeDifference}</div>
+            <div className={`text-gray-400 max-[405px]:text-xs`}>{timeDifference}</div>
             {isVisible3 && <HoveredProfile hoveredUser={tweeter} state={followState} setState={setFollowState} />}
           </div>
         </div>

@@ -8,6 +8,7 @@ import i18next from "i18next"
 import HoveredProfile from "./HoveredProfile"
 import { useNavigate } from "react-router-dom"
 import PollBody from "./PollBody"
+import { t } from "i18next"
 const Post = ({
   cascade,
   inPostPage,
@@ -84,10 +85,12 @@ const Post = ({
             fontSize: 25,
           }}
         />
-        <span>{tweeter.username} reposted</span>
+        <span>
+          {tweeter.username} {t("reposted")}
+        </span>
         {isVisible && <HoveredProfile hoveredUser={tweeter} state={followState} setState={setFollowState} />}
       </div>
-      {postType === "Reply" && <div className="text-primary mb-2">Replying to @{originalTweeter.username}</div>}
+      {postType === "Reply" && <div className="mb-2 text-primary">Replying to @{originalTweeter.username}</div>}
       <div>
         <PostHeader base={"diary"} tweeter={postType === "Repost" ? originalTweeter : tweeter} date={date} id={id} type={postType === "Repost" ? originalTweet.type : postType} posts={posts} setPosts={setPosts} parent="diary" />
       </div>

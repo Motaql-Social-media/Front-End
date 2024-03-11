@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
-import ArrowBackIcon from "@mui/icons-material/ArrowBack"
 import { useTranslation } from "react-i18next"
 import axios from "axios"
 import { useSelector, useDispatch } from "react-redux"
@@ -11,6 +10,8 @@ import { MuiPhone } from "../../../Signup/CustomPhoneInput"
 import { PhoneNumberUtil } from "google-libphonenumber"
 import { styles } from "../../../../styles/styles"
 import { changePhone } from "../../../../store/UserSlice"
+import Widgets from "../../../Widgets/Widgets"
+import SubpageNavbar from "../../../General/SubpageNavbar"
 
 const phoneUtil = PhoneNumberUtil.getInstance()
 
@@ -31,35 +32,6 @@ const ChangePhoneNumber = () => {
 
   const [phoneChanged, setPhoneChanged] = useState(false)
   const [otpChecked, setOtpChecked] = useState(false)
-
-  const [prevScrollPos, setPrevScrollPos] = useState(window.scrollY)
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollPos = window.scrollY
-      const isScrollingDown = currentScrollPos > prevScrollPos
-      setPrevScrollPos(currentScrollPos)
-
-      // Check if scrolling down
-      if (isScrollingDown) {
-        setIsVisible(false)
-      } else {
-        setIsVisible(true)
-      }
-    }
-
-    window.addEventListener("scroll", handleScroll)
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll)
-    }
-  }, [prevScrollPos])
-
-  const [isVisible, setIsVisible] = useState(true)
-
-  const handleBack = () => {
-    navigate(-1)
-  }
 
   const { t } = useTranslation()
 
@@ -196,20 +168,10 @@ const ChangePhoneNumber = () => {
   }, [otpChecked])
 
   return (
-    <div className="flex justify-center ">
-      <div className="w-[95%]">
-        <div className="mb-5 flex items-center justify-start gap-7 pl-2">
-          <div onClick={handleBack} className="cursor-pointer">
-            <ArrowBackIcon fontSize="small" />
-          </div>
-          <div
-            className={` sticky left-0 top-0  ${isVisible ? "opacity-100" : "opacity-0"} z-[99] cursor-pointer bg-black bg-opacity-80 p-3 text-xl font-bold backdrop-blur-md transition-opacity duration-300  max-[540px]:hidden`}
-            onClick={() => {
-              window.location.reload()
-            }}
-          >
-            Change your phone number
-          </div>
+    <div className="flex flex-1 flex-grow-[8] max-[540px]:mt-16">
+      <div className=" no-scrollbar ml-0 mr-1 w-full max-w-[620px] shrink-0 flex-grow overflow-y-scroll border border-b-0 border-t-0 border-lightBorder px-4 dark:border-darkBorder  max-[540px]:border-l-0 max-[540px]:border-r-0 sm:w-[600px]">
+        <div className="mb-4">
+          <SubpageNavbar title="change_phone" />
         </div>
         {!otpSent && (
           <div style={{ zIndex: 3 }}>
@@ -274,11 +236,12 @@ const ChangePhoneNumber = () => {
         )}
         <div>
           <button className={`${styles.coloredButton}`} onClick={handleButtonClick} disabled={phoneNumber === user.phoneNumber || (code.length === 0 && otpSent)}>
-            {otpSent ? "Confirm Phone Number" : "Sent the OTP"}
+            {otpSent ? t('confirm_phone') : t("send_otp")}
           </button>
         </div>
-        {phoneChanged && <div className="text-green-600">Phone number changed successfully</div>}
+        {phoneChanged && <div className="text-green-600">{ t('phone_changed')}</div>}
       </div>
+      {user && <Widgets />}
     </div>
   )
 }

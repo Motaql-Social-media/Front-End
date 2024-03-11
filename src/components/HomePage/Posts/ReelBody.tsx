@@ -107,11 +107,11 @@ const ReelBody = ({ muted, setMuted, media, content, mentions, displayReel }: { 
         </p>
       </div>
       {displayReel && (
-        <div className={`flex  ${isLoading ? "justify-center " : " justify-end"} pl-5 pt-5`}>
+        <div className={` pl-5 pt-5`}>
           <Skeleton
             variant="rectangular"
             animation="wave"
-            width={"80%"}
+            width={"100%"}
             height={600}
             sx={{
               display: isLoading ? "block" : "none",

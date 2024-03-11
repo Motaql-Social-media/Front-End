@@ -118,7 +118,7 @@ const Sidebar = () => {
     // `/${userTag}`,
     `/${user.username}`,
 
-    "/settings/account",
+    "/settings",
   ]
 
   const pathname = useLocation().pathname
@@ -177,16 +177,8 @@ const Sidebar = () => {
     navigate("/")
   }
 
-  const htmlElement = document.getElementById("htmlid")
-
-  const [anchorMenu, setAnchorMenu] = useState(null)
-  const openMenu = Boolean(anchorMenu)
-  const handleClickMenu = (event: any) => {
-    setAnchorMenu(event.currentTarget)
-  }
-  const handleCloseMenu = () => {
-    setAnchorMenu(null)
-  }
+  
+ 
 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth)
 

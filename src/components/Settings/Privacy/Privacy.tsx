@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { ArrowRight, VolumeMute } from "@mui/icons-material"
+import SubpageNavbar from "../../General/SubpageNavbar"
+import Widgets from "../../Widgets/Widgets"
+import { useSelector } from "react-redux"
 
 const Privacy = () => {
   const options = [
@@ -14,20 +16,25 @@ const Privacy = () => {
 
   const navigate = useNavigate()
 
+  const user = useSelector((state: any) => state.user.user)
+
   return (
-    <div>
-      <div className="border-b border-b-darkBorder px-5 py-3 text-2xl font-semibold">Privacy and safety</div>
-      <div className="px-5 text-sm text-gray-500">Manage what information you see and share.</div>
-      {options.map((option, index) => (
-        <div key={option.title} className="flex cursor-pointer items-center p-3 hover:bg-darkHover" onClick={() => navigate(`${option.location}`)}>
-          <div>{option.logo}</div>
-          <div className="pl-3 text-xl">{option.title}</div>
-          <div className="flex-grow"></div>
-          <div>
-            <ArrowRight />
+    <div className="flex flex-1 flex-grow-[8] max-[540px]:mt-16">
+      <div className=" no-scrollbar ml-0 mr-1 w-full max-w-[620px] shrink-0 flex-grow overflow-y-scroll border border-b-0 border-t-0 border-lightBorder dark:border-darkBorder  max-[540px]:border-l-0 max-[540px]:border-r-0 sm:w-[600px]">
+        <SubpageNavbar title="privacy" />
+        <div className="px-5 text-sm text-gray-500">Manage what information you see and share.</div>
+        {options.map((option, index) => (
+          <div key={option.title} className="flex cursor-pointer items-center p-3 hover:bg-darkHover" onClick={() => navigate(`${option.location}`)}>
+            <div>{option.logo}</div>
+            <div className="pl-3 text-xl">{option.title}</div>
+            <div className="flex-grow"></div>
+            <div>
+              <ArrowRight />
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
+      {user && <Widgets />}
     </div>
   )
 }

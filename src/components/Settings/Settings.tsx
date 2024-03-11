@@ -1,25 +1,22 @@
 import { ArrowRight } from "@mui/icons-material"
-import { useEffect } from "react"
 import { useTranslation } from "react-i18next"
-import { Outlet, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
+import SubpageNavbar from "../General/SubpageNavbar"
+import Widgets from "../Widgets/Widgets"
+import { useSelector } from "react-redux"
 
 const Settings = () => {
   const options = ["account", "privacy"]
 
   const { t } = useTranslation()
+  const user = useSelector((state: any) => state.user.user)
 
   const navigate = useNavigate()
 
-  useEffect(() => {
-    if (window.location.pathname === "/settings") {
-      navigate("/settings/account")
-    }
-  }, [window.location.pathname])
-
   return (
-    <div className="min-md:mr-[8%] grid grow grid-cols-12">
-      <div className="col-span-5 h-full  border-r  border-r-darkBorder max-md:col-span-12">
-        <div className="border-b border-b-darkBorder px-5 py-3 text-2xl font-semibold"> Settings</div>
+    <div className="flex flex-1 flex-grow-[8] max-[540px]:mt-16">
+      <div className=" no-scrollbar ml-0 mr-1 w-full max-w-[620px] shrink-0 flex-grow overflow-y-scroll border border-b-0 border-t-0 border-lightBorder dark:border-darkBorder  max-[540px]:border-l-0 max-[540px]:border-r-0 sm:w-[600px]">
+        <SubpageNavbar title="settings" />
         {options.map((option, index) => (
           <div key={index} className={`flex cursor-pointer items-center justify-between border-b border-b-darkBorder pl-5 ${window.location.pathname.split("/").pop() === option ? "bg-darkHover" : "bg-transparent"}  hover:bg-darkHover`} onClick={() => navigate(`/settings/${option}`)}>
             <div className="py-2">{t(`${option}`)}</div>
@@ -27,13 +24,10 @@ const Settings = () => {
             <div>
               <ArrowRight />
             </div>
-            <div className={`h-[45px] w-1 ${window.location.pathname.split("/").pop() === option ? "bg-primary" : "bg-transparent"} `}></div>
           </div>
         ))}
       </div>
-      <div className="col-span-7 h-full border-r border-r-darkBorder max-md:col-span-12">
-        <Outlet />
-      </div>
+      {user && <Widgets />}
     </div>
   )
 }

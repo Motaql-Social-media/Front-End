@@ -113,7 +113,6 @@ const Profile = ({ scroll }: { scroll: number }) => {
       setUsername(profile.username)
       setBio(profile.bio)
       setName(profile.name)
-      // setBannerUrl("https://images.pexels.com/photos/956981/milky-way-starry-sky-night-sky-star-956981.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1")
       setBannerUrl(profile.bannerUrl)
       setCreatedAt(profile.createdAt)
       setDateOfBirth(profile.dateOfBirth)
@@ -153,7 +152,7 @@ const Profile = ({ scroll }: { scroll: number }) => {
     const day = date.getDate()
     const year = date.getFullYear()
 
-    return `Born ${month} ${day}, ${year}`
+    return `${t("born")} ${t(month.toLowerCase())} ${day}, ${year}`
   }
 
   function formatJoinDate(dateString: string) {
@@ -162,7 +161,7 @@ const Profile = ({ scroll }: { scroll: number }) => {
     const month = date.toLocaleString("default", { month: "long" })
     const year = date.getFullYear()
 
-    return `Joined ${month} ${year}`
+    return `${t('joined')} ${t(month.toLowerCase())} ${year}`
   }
 
   useEffect(() => {
@@ -201,7 +200,7 @@ const Profile = ({ scroll }: { scroll: number }) => {
             </div>
           </div>
           <div dir="ltr">
-            <div className="h-[75px] w-full">
+            <div className="min-h-[75px] w-full max-xs:mt-16">
               <div className="flex items-center justify-end gap-4 p-5">
                 <MuteButton state={isMuted} setState={setIsMuted} username={tag as string} />
                 <BlockButton state={isBlocked} setState={setIsBlocked} username={tag as string} />
@@ -219,15 +218,17 @@ const Profile = ({ scroll }: { scroll: number }) => {
               </div>
               <div className="py-3">{bio}</div>
               <div className="flex items-center justify-between py-3 text-gray-500">
-                <div className="flex items-center gap-1">
-                  <LocationOn
-                    sx={{
-                      width: "20px",
-                      height: "20px",
-                    }}
-                  />
-                  {location}
-                </div>
+                {location && (
+                  <div className="flex items-center gap-1">
+                    <LocationOn
+                      sx={{
+                        width: "20px",
+                        height: "20px",
+                      }}
+                    />
+                    {location}
+                  </div>
+                )}
                 <div className="flex items-center gap-1">
                   <Cake
                     sx={{

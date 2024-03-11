@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
-import ArrowBackIcon from "@mui/icons-material/ArrowBack"
 import { useTranslation } from "react-i18next"
 import axios from "axios"
 import { useSelector, useDispatch } from "react-redux"
@@ -9,6 +8,8 @@ import { TextField } from "@mui/material"
 import { EMAIL_REGEX } from "../../../../constants"
 import { styles } from "../../../../styles/styles"
 import { changeEmail } from "../../../../store/UserSlice"
+import SubpageNavbar from "../../../General/SubpageNavbar"
+import Widgets from "../../../Widgets/Widgets"
 
 const ChangeEmail = () => {
   const user = useSelector((state: any) => state.user.user)
@@ -152,50 +153,11 @@ const ChangeEmail = () => {
 
   const { t } = useTranslation()
 
-  const [prevScrollPos, setPrevScrollPos] = useState(window.scrollY)
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollPos = window.scrollY
-      const isScrollingDown = currentScrollPos > prevScrollPos
-      setPrevScrollPos(currentScrollPos)
-
-      // Check if scrolling down
-      if (isScrollingDown) {
-        setIsVisible(false)
-      } else {
-        setIsVisible(true)
-      }
-    }
-
-    window.addEventListener("scroll", handleScroll)
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll)
-    }
-  }, [prevScrollPos])
-
-  const [isVisible, setIsVisible] = useState(true)
-
-  const handleBack = () => {
-    navigate(-1)
-  }
-
   return (
-    <div className="flex justify-center ">
-      <div className="w-[95%]">
-        <div className="mb-5 flex items-center justify-start gap-7 pl-2">
-          <div onClick={handleBack} className="cursor-pointer">
-            <ArrowBackIcon fontSize="small" />
-          </div>
-          <div
-            className={` sticky left-0 top-0  ${isVisible ? "opacity-100" : "opacity-0"} z-[99] cursor-pointer bg-black bg-opacity-80 p-3 text-xl font-bold backdrop-blur-md transition-opacity duration-300  max-[540px]:hidden`}
-            onClick={() => {
-              window.location.reload()
-            }}
-          >
-            Change your email
-          </div>
+    <div className="flex flex-1 flex-grow-[8] max-[540px]:mt-16">
+      <div className=" no-scrollbar ml-0 mr-1 w-full max-w-[620px] shrink-0 flex-grow overflow-y-scroll border border-b-0 border-t-0 border-lightBorder px-4 dark:border-darkBorder  max-[540px]:border-l-0 max-[540px]:border-r-0 sm:w-[600px]">
+        <div className="mb-4">
+          <SubpageNavbar title="change_email" />
         </div>
         {!otpSent && (
           <div>
@@ -300,11 +262,12 @@ const ChangeEmail = () => {
         )}
         <div>
           <button className={`${styles.coloredButton}`} onClick={handleButtonClick} disabled={email === user.email || (code.length === 0 && otpSent)}>
-            {otpSent ? "Confirm Email" : "Sent the OTP"}
+            {otpSent ? t('confirm_email') : t('send_otp')}
           </button>
         </div>
-        {emailChanged && <div className="text-green-600">Email changed successfully</div>}
+        {emailChanged && <div className="text-green-600">{ t('email_changed')}</div>}
       </div>
+      {user && <Widgets />}
     </div>
   )
 }

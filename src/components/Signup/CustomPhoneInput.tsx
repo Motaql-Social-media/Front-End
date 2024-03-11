@@ -14,6 +14,8 @@ import {
   usePhoneInput,
 } from "react-international-phone";
 
+import { t } from "i18next"
+
 export interface MUIPhoneProps extends BaseTextFieldProps {
   value: string;
   onChange: (phone: string) => void;
@@ -37,7 +39,7 @@ export const MuiPhone: React.FC<MUIPhoneProps> = ({
 
   return (
     <TextField
-      label={"Phone Number"}
+      label={t('phone_number')}
       variant="outlined"
       value={phone}
       onChange={handlePhoneValueChange}

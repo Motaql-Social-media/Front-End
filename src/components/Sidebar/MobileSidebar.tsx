@@ -40,35 +40,14 @@ const MobileSidebar = ({ optionsNames, optionsIcons, optionLinks, selected, hand
 
   const [isVisible, setIsVisible] = useState(true)
 
-  //   useEffect(() => {
-  //     const handleWheel = (event: any) => {
-  //       if (typeof event.deltaY !== "undefined") {
-  //         // Check for wheel event
-  //         setIsVisible(event.deltaY < 0)
-  //       }
-  //     }
-
-  //     const handleTouch = (event: any) => {
-  //       setIsVisible(Math.abs(event.deltaY) > 0)
-  //     }
-
-  //     window.addEventListener("wheel", handleWheel)
-  //     window.addEventListener("touchmove", handleTouch)
-
-  //     return () => {
-  //       window.removeEventListener("wheel", handleWheel)
-  //       window.removeEventListener("touchmove", handleTouch)
-  //     }
-  //   }, [])
-
   return (
-    <div className={` fixed left-0 top-0 bg-black ${isVisible ? "opacity-100" : "opacity-0"} z-[99] flex w-full items-center p-5 transition-opacity duration-300 `}>
+    <div className={` fixed left-0 top-0 bg-black ${isVisible ? "opacity-100" : "opacity-0"} z-[99] flex w-full items-center p-2 transition-opacity duration-300 `}>
       <div
         onClick={() => {
           if (!open && isVisible) setOpen(true)
         }}
       >
-        <Avatar alt={user.name} src={`${process.env.REACT_APP_USERS_MEDIA_URL}${user.imageUrl.split("/").pop()}`} />
+        <Avatar alt={user.name} src={`${process.env.REACT_APP_USERS_MEDIA_URL}${user.imageUrl}`} />
       </div>
       <div
         className=" absolute  left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform cursor-pointer"

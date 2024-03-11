@@ -119,12 +119,6 @@ function ComposePostFooter({
               <BallotOutlinedIcon />
             </button>
           )}
-          <button title="Emoji" className="h-10 w-10 rounded-full p-1 text-primary dark:hover:bg-gray-800">
-            <SentimentSatisfiedOutlinedIcon />
-          </button>
-          {/* <button title="Calender" className="h-10 w-10 rounded-full p-1 text-primary dark:hover:bg-gray-800">
-          <EditCalendarIcon />
-        </button> */}
         </div>
       )}
       <CircularProgress variant="determinate" value={charsCount} size={progressCircleSize} sx={{ color: charsProgressColor }} />

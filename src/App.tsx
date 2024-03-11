@@ -98,7 +98,6 @@ function App() {
         setNotification(payload)
         console.log(payload)
       })
-      
     }
   }, [socket])
 
@@ -176,7 +175,7 @@ function App() {
     <GoogleOAuthProvider clientId="747286868244-5769tksecnl0s5jds76cdtj13phph6l7.apps.googleusercontent.com">
       <ThemeProvider theme={theme}>
         <SocketContext.Provider value={socket}>
-          <div ref={appRef} className="app relative flex  min-h-[100vh]  flex-row overflow-hidden bg-white text-black dark:bg-black  dark:text-white max-[540px]:flex-col xs:h-[100vh] xs:w-full">
+          <div ref={appRef} className="app relative flex  min-h-[100vh]  flex-row  bg-white text-black dark:bg-black  dark:text-white max-[540px]:flex-col xs:h-[100vh] xs:w-full">
             <BrowserRouter>
               <Languages />
               {/* {!user && location !== "/password_reset" && (
@@ -224,18 +223,17 @@ function App() {
                   <Route path="followers" element={<Followers />}></Route>
                   <Route path="followings" element={<Followings />}></Route>
                 </Route>
-                <Route path="/settings" element={<Settings />}>
-                  <Route path="account" element={<Account />} />
-                  <Route path="privacy" element={<Privacy />} />
-                  <Route path="account_information" element={<AccountInformations />} />
-                  <Route path="username" element={<ChangeUsername />} />
-                  <Route path="password" element={<PasswordChange />} />
-                  <Route path="phone_number" element={<ChangePhoneNumber />} />
-                  <Route path="email" element={<ChangeEmail />} />
-                  <Route path="mute_block" element={<MuteBlock />} />
-                  <Route path="blocked_accounts" element={<BlockedAccounts />} />
-                  <Route path="muted_accounts" element={<MutedAccounts />} />
-                </Route>
+                <Route path="/settings" element={<Settings />}></Route>
+                <Route path="/settings/privacy" element={<Privacy />} />
+                <Route path="/settings/account_information" element={<AccountInformations />} />
+                <Route path="/settings/username" element={<ChangeUsername />} />
+                <Route path="/settings/password" element={<PasswordChange />} />
+                <Route path="/settings/phone_number" element={<ChangePhoneNumber />} />
+                <Route path="/settings/email" element={<ChangeEmail />} />
+                <Route path="/settings/mute_block" element={<MuteBlock />} />
+                <Route path="/settings/blocked_accounts" element={<BlockedAccounts />} />
+                <Route path="/settings/muted_accounts" element={<MutedAccounts />} />
+                <Route path="/settings/account" element={<Account />} />
 
                 <Route path="/:tag" element={<Profile scroll={deltaY} />}>
                   <Route path="diaries" element={<ProfileDiaries />} />

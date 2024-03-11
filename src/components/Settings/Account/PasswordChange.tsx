@@ -1,53 +1,20 @@
 import React, { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
-import ArrowBackIcon from "@mui/icons-material/ArrowBack"
 import { useTranslation } from "react-i18next"
 import axios from "axios"
-import { useSelector, useDispatch } from "react-redux"
+import { useSelector } from "react-redux"
 import { TextField } from "@mui/material"
 import VisibilityIcon from "@mui/icons-material/Visibility"
 import i18next from "i18next"
 import { styles } from "../../../styles/styles"
+import SubpageNavbar from "../../General/SubpageNavbar"
+import Widgets from "../../Widgets/Widgets"
 
 const PasswordChange = () => {
   const navigate = useNavigate()
-  const dispatch = useDispatch()
 
   const userToken = useSelector((state: any) => state.user.token)
   const user = useSelector((state: any) => state.user.user)
-
-  const [userTag, setUserTag] = useState(user.username)
-
-  const [prevScrollPos, setPrevScrollPos] = useState(window.scrollY)
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollPos = window.scrollY
-      const isScrollingDown = currentScrollPos > prevScrollPos
-      setPrevScrollPos(currentScrollPos)
-
-      // Check if scrolling down
-      if (isScrollingDown) {
-        setIsVisible(false)
-      } else {
-        setIsVisible(true)
-      }
-    }
-
-    window.addEventListener("scroll", handleScroll)
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll)
-    }
-  }, [prevScrollPos])
-
-  const [isVisible, setIsVisible] = useState(true)
-
-  const handleBack = () => {
-    navigate(-1)
-  }
-
-  const [usernameError, setUsernameError] = useState(false)
 
   const API = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
@@ -100,25 +67,13 @@ const PasswordChange = () => {
   }
 
   return (
-    <div className="flex justify-center ">
-      <div className="w-[95%]">
-        <div className="mb-5 flex items-center justify-start gap-7 pl-2">
-          <div onClick={handleBack} className="cursor-pointer">
-            <ArrowBackIcon fontSize="small" />
-          </div>
-          <div
-            className={` sticky left-0 top-0  ${isVisible ? "opacity-100" : "opacity-0"} z-[99] cursor-pointer bg-black bg-opacity-80 p-3 text-xl font-bold backdrop-blur-md transition-opacity duration-300  max-[540px]:hidden`}
-            onClick={() => {
-              window.location.reload()
-            }}
-          >
-            Change your password
-          </div>
-        </div>
-        <div className=" relative flex flex-col gap-2">
+    <div className="flex flex-1 flex-grow-[8] max-[540px]:mt-16">
+      <div className=" no-scrollbar px-4 ml-0 mr-1 w-full max-w-[620px] shrink-0 flex-grow overflow-y-scroll border border-b-0 border-t-0 border-lightBorder dark:border-darkBorder  max-[540px]:border-l-0 max-[540px]:border-r-0 sm:w-[600px]">
+        <SubpageNavbar title="change_password" />
+        <div className=" relative flex flex-col gap-2 mt-4">
           <div className={`relative mb-5`}>
             <TextField
-              label={"Current Password"}
+              label={t('current_password')}
               variant="outlined"
               type={!showPassword ? "password" : "text"}
               value={currentPassword}
@@ -160,12 +115,12 @@ const PasswordChange = () => {
               <VisibilityIcon />
             </span>
             <a className="text-primary hover:underline" href="/password_reset">
-              Forget Password?
+              { t('forget_password')}
             </a>
           </div>
 
           <TextField
-            label={"New Password"}
+            label={t('new_password')}
             variant="outlined"
             type={"password"}
             value={newPassword}
@@ -203,7 +158,7 @@ const PasswordChange = () => {
             }}
           />
           <TextField
-            label={"Confirm Password"}
+            label={t('confirm_password')}
             variant="outlined"
             type={"password"}
             value={confirmPassword}
@@ -248,6 +203,7 @@ const PasswordChange = () => {
         </div>
         {passwordChanged && <div className="text-green-600">Password changed successfully</div>}
       </div>
+      {user && <Widgets />}
     </div>
   )
 }
