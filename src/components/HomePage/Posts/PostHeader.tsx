@@ -151,14 +151,21 @@ const PostHeader = ({ date, tweeter, id, type, posts, setPosts, base, parent }: 
       .then((res) => {
         // console.log(res)
         if (parent === "diary") {
-          console.log(posts.filter((post: any) => post.replyId !== id))
           setPosts(
             posts.filter((post: any) => {
               if (post.replyId) return post.replyId !== id
               else return post.tweetId !== id
             })
           )
-        } else setPosts(posts.filter((post: any) => post.reelId !== id))
+        } else {
+          setPosts(
+            posts.filter((post: any) => {
+              if (post.replyId) return post.replyId !== id
+              else return post.reelId !== id
+            })
+          )
+        }
+        // setPosts(posts.filter((post: any) => post.reelId !== id))
       })
       .catch((err) => {
         console.log(err)
@@ -169,7 +176,7 @@ const PostHeader = ({ date, tweeter, id, type, posts, setPosts, base, parent }: 
   return (
     <div className="flex items-center gap-2">
       <div onClick={handleProfileClick} className="relative" onMouseEnter={() => handleMouseEnter(1)} onMouseLeave={() => handleMouseLeave(1)}>
-        <Avatar alt={tweeter.name} src={process.env.REACT_APP_USERS_MEDIA_URL + tweeter.imageUrl.split("/").pop()} sx={{ width: 40, height: 40 }} />
+        <Avatar alt={tweeter.name} src={process.env.REACT_APP_USERS_MEDIA_URL + tweeter.imageUrl} sx={{ width: 40, height: 40 }} />
         {isVisible && <HoveredProfile hoveredUser={tweeter} state={followState} setState={setFollowState} />}
       </div>
       <div className="flex gap-1">

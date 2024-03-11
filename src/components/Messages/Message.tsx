@@ -124,6 +124,7 @@ const Message = ({ scroll }: { scroll: number }) => {
           conversationId: id,
           contactId: otherContact.userId,
         })
+        socket.disconnect()
         console.log(socket)
       }
     }

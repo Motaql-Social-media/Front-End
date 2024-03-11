@@ -47,6 +47,7 @@ const Sidebar = () => {
   const { t } = useTranslation()
 
   const unseenCount = useSelector((state: any) => state.notification.unseenCount)
+  const messageUnseenCount = useSelector((state: any) => state.message.unseenCount)
 
   const optionsNames = [t("home"), t("trending"), t("explore"), t("notifications"), t("messages"), t("bookmarks"), t("profile"), t("settings")]
   const optionsIcons = [
@@ -77,9 +78,30 @@ const Sidebar = () => {
         <NotificationsIcon />
       </Badge>,
     ],
-    [<MailOutlineRoundedIcon />, <EmailIcon />],
-    // [<ListAltRoundedIco sx={{color:darkMode?"#d9d9d9":"#1f1f1f"}}/>,<ListAltIcon sx={{color:darkMode?"#ffffff":"#000000"}}/>],
-    // [<PeopleOutlinedIcon />,<PeopleIcon/>],
+    [
+      <Badge
+        badgeContent={messageUnseenCount}
+        sx={{
+          ".MuiBadge-badge": {
+            backgroundColor: "#40e5da",
+            color: "white",
+          },
+        }}
+      >
+        <MailOutlineRoundedIcon />
+      </Badge>,
+      <Badge
+        badgeContent={messageUnseenCount}
+        sx={{
+          ".MuiBadge-badge": {
+            backgroundColor: "#40e5da",
+            color: "white",
+          },
+        }}
+      >
+        <EmailIcon />
+      </Badge>,
+    ],
     [<BookmarkBorderOutlinedIcon />, <BookmarkIcon />],
     [<PersonOutlinedIcon />, <PersonIcon />],
     [<SettingsOutlinedIcon />, <SettingsIcon />],

@@ -13,7 +13,7 @@ import SubpageNavbar from "../General/SubpageNavbar"
 const ReelPage = ({ scroll }: { scroll: number }) => {
   const navigate = useNavigate()
 
-  const user = useSelector((state: any) => state.user)
+  const user = useSelector((state: any) => state.user.user)
 
   const userToken = useSelector((state: any) => state.user.token)
 
@@ -37,12 +37,6 @@ const ReelPage = ({ scroll }: { scroll: number }) => {
     reelPageRef.current.scrollTop += scroll
   }, [scroll])
 
-  const [isVisible, setIsVisible] = useState(true)
-
-  const handleBack = () => {
-    navigate(-1)
-  }
-
   const [reel, setReel] = useState<Reel | null>(null)
 
   useEffect(() => {
@@ -61,7 +55,8 @@ const ReelPage = ({ scroll }: { scroll: number }) => {
   }, [id])
 
   const addReplyCallback = (reply: any) => {
-    setReplies((prev) => [reply, ...prev])
+    const r = { ...reply, isBookmarked: false, isReacted: false, isRereeled: false, originalReeler: { username: tag }, reReelCount: 0, reactCount: 0, repliesCount: 0, replier: { bio: user.bio, followersCount: user.followersCount, followingsCount: user.followingsCount, imageUrl: user.imageUrl, isBlocked: false, isFollowed: false, isMuted: false, jobtitle: user.jobtitle, name: user.name, username: user.username, userId: user.userId }, type: "Reply" }
+    setReplies((prev) => [r, ...prev])
   }
 
   const [replies, setReplies] = useState<any[]>([])
@@ -107,7 +102,7 @@ const ReelPage = ({ scroll }: { scroll: number }) => {
           <ComposePost buttonName="Post" postId={id} postType="reply_reel" addTweetCallback={addReplyCallback} addReelCallback={() => {}} />
         </div>
         <div>
-          {/* <Replies replies={replies} setReplies={setReplies} id={id} type="reel" /> */}
+          <Replies replies={replies} setReplies={setReplies} id={id} type="reel" />
         </div>
       </div>
     </div>

@@ -82,17 +82,23 @@ function ComposePost({ buttonName, postId, postType, addTweetCallback, addReelCa
           publishButton.current?.removeAttribute("disabled")
         })
     } else if (postType === "reply_reel") {
-      console.log("this is a reply reel")
-      API.post(`reels/${postId}/add-reply`, mediaFormData, {
-        headers: {
-          authorization: "Bearer " + userToken,
+      API.post(
+        `reels/${postId}/add-reply`,
+        {
+          content: description,
         },
-      })
+        {
+          headers: {
+            authorization: "Bearer " + userToken,
+          },
+        }
+      )
         .then((res) => {
-          const t = { ...res.data.data.reelReply, repliesCount: 0, reReelCount: 0, reactCount: 0, isReacted: false, isReReeled: false, isBookmarked: false, replier: { bio: user.bio, followersCount: user.followersCount, followingsCount: user.followingsCount, imageUrl: user.imageUrl, isBlocked: false, isFollowed: false, isMuted: false, jobtitle: user.jobtitle, name: user.name, username: user.username, userId: user.userId }, replies: {} }
+          // const t = { ...res.data.data.reelReply, repliesCount: 0, reReelCount: 0, reactCount: 0, isReacted: false, isReReeled: false, isBookmarked: false, replier: { bio: user.bio, followersCount: user.followersCount, followingsCount: user.followingsCount, imageUrl: user.imageUrl, isBlocked: false, isFollowed: false, isMuted: false, jobtitle: user.jobtitle, name: user.name, username: user.username, userId: user.userId }, replies: {} }
+          // const r = { ...res.data.data.reelReply, isBookmarked: false, isReacted: false, isRereeled: false, originalReeler: { username: tag }, reReelCount: 0, reactCount: 0, repliesCount: 0, replier: user, type: "Reply" }
 
           console.log(res)
-          addTweetCallback(t)
+          addTweetCallback(res.data.data.reelReply)
           setMedia([])
           setDescription("")
           setMediaUrls([])
