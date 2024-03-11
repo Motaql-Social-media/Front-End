@@ -99,6 +99,8 @@ const Message = ({ scroll }: { scroll: number }) => {
     }
   }, [otherContact, socket])
 
+  const [userEntered, setUserEntered] = useState(false)
+
   useEffect(() => {
     if (socket) {
       socket.on("msg-redirect", (payload: Message) => {
@@ -110,27 +112,36 @@ const Message = ({ scroll }: { scroll: number }) => {
       })
       socket.on("status-of-contact", (payload: any) => {
         if (payload.inConversation) {
-          console.log("user entered")
-          const newMessages = messages.map((m) => {
-            const t = { ...m, isSeen: true }
-            return t
-          })
-          console.log(newMessages)
-          setMessages(newMessages)
+          setUserEntered(true)
         }
       })
     }
 
     return () => {
       if (socket) {
-        // console.log("Chat closed!")
+        console.log("Chat closed!")
         socket.emit("chat-closed", {
           conversationId: id,
           contactId: otherContact.userId,
         })
+        console.log(socket)
       }
     }
   }, [socket])
+
+  useEffect(() => {
+    if (userEntered) {
+      //   console.log("user entered")
+      const newMessages = messages.map((m) => {
+        const t = { ...m, isSeen: true }
+        return t
+      })
+      //   console.log("messages", messages)
+      //   console.log(newMessages)
+      setMessages(newMessages)
+      setUserEntered(false)
+    }
+  }, [userEntered])
 
   const [text, setText] = useState("")
 
