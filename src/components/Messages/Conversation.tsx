@@ -11,7 +11,7 @@ const Conversation = ({ id, isActive, otherContact }: { id: string; isActive: bo
       }}
     >
       <div>
-        <Avatar src={process.env.REACT_APP_USERS_MEDIA_URL + otherContact.imageUrl} alt={otherContact.username} />
+        <Avatar src={otherContact.imageUrl.split(":")[0] === "https" ? otherContact.imageUrl : process.env.REACT_APP_USERS_MEDIA_URL + otherContact.imageUrl} alt={otherContact.username} />
       </div>
       <div>
         <div className="flex gap-2">

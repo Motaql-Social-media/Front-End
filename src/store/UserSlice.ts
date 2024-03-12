@@ -22,6 +22,8 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     logoutUser: (state) => {
+      localStorage.removeItem("user")
+      localStorage.removeItem("token")
       state.user = null
       state.loading = false
       state.error = null
@@ -38,7 +40,6 @@ export const userSlice = createSlice({
       state.loading = false
       state.error = null
       state.token = action.payload.token
-      action.payload.navigate("/home")
     },
     changeProfilePicture: (state, action) => {
       state.user = action.payload.user

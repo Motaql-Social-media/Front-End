@@ -157,11 +157,7 @@ const Login = ({ openModal, handleCloseModal, setLocation }: { openModal: boolea
       })
   }
 
-  const themeColor = useSelector((state: RootState) => state.theme.color)
 
-  //   const FCMToken = useSelector(
-  //     (state: RootState) => state.notification.FCMToken
-  //   );
 
   const { t } = useTranslation()
 

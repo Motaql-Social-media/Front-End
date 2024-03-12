@@ -48,7 +48,7 @@ const UserSearchComponent = ({
 
   return (
     <div {...props} key={id} className="flex cursor-pointer p-3 hover:bg-lightHover" onClick={handleClick}>
-      <Avatar alt={option.username} src={process.env.REACT_APP_USERS_MEDIA_URL + option.imageUrl} sx={{ width: 40, height: 40 }} />
+      <Avatar alt={option.username} src={option.imageUrl.split(":")[0] === "https" ? option.imageUrl : process.env.REACT_APP_USERS_MEDIA_URL + option.imageUrl} sx={{ width: 40, height: 40 }} />
       <div className="ml-3">
         <div className="text-secondary text-sm">{option.name}</div>
         <div className="text-secondary text-sm">@{option.username}</div>

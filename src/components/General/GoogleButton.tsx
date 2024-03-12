@@ -4,22 +4,49 @@ import axios from "axios"
 import { useTranslation } from "react-i18next"
 import { useState } from "react"
 import GoogleSignup from "../Signup/GoogleSignup"
+import { useDispatch } from "react-redux"
+import { signupUser } from "../../store/UserSlice"
 
 const GoogleButton = () => {
+  const dispatch = useDispatch()
+
+  const [access_token, setAccess_token] = useState("")
+  const [name, setName] = useState("")
+
+  const API = axios.create({
+    baseURL: process.env.REACT_APP_API_URL,
+  })
+
   const login = useGoogleLogin({
     onSuccess: (tokenResponse) => {
-      console.log(tokenResponse)
-      axios
-        .get(`https://people.googleapis.com/v1/people/me?personFields=birthdays,names,nicknames,genders,phoneNumbers&access_token=${tokenResponse.access_token}`)
+      // console.log(tokenResponse.access_token)
+      setAccess_token(tokenResponse.access_token)
+      API.post(`auth/google-signin`, {
+        googleAccessToken: tokenResponse.access_token,
+      })
         .then((res) => {
-          console.log(res.data)
+          if (res.data.data.isUserExists === false) {
+            axios
+              .get(`https://people.googleapis.com/v1/people/me?personFields=birthdays,names,nicknames,genders,phoneNumbers&access_token=${tokenResponse.access_token}`)
+              .then((res) => {
+                // console.log(res.data.names[0].displayName)
+                setName(res.data.names[0].displayName)
+                setOpenModal(true)
+              })
+              .catch((err) => {
+                console.log(err)
+              })
+          } else {
+            dispatch(signupUser(res.data.data))
+            window.location.href = "/home"
+          }
         })
         .catch((err) => {
           console.log(err)
         })
     },
     onError: (error) => console.log(error),
-    scope: ["openid", "https://www.googleapis.com/auth/userinfo.profile", "https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/user.phonenumbers.read"].join(" "),
+    scope: ["openid", "https://www.googleapis.com/auth/userinfo.profile", "https://www.googleapis.com/auth/userinfo.email"].join(" "),
   })
 
   const { t } = useTranslation()
@@ -35,7 +62,6 @@ const GoogleButton = () => {
         className={`${styles.normalButton} !border-primary !bg-white`}
         onClick={() => {
           login()
-          // setOpenModal(true)
         }}
       >
         <div className="relative flex items-center justify-center">
@@ -48,7 +74,7 @@ const GoogleButton = () => {
           <div className="text-black">{t("signin_google")}</div>
         </div>
       </button>
-      <GoogleSignup openModal={openModal} handleCloseModal={handleCloseModal} />
+      <GoogleSignup openModal={openModal} handleCloseModal={handleCloseModal} access_token={access_token} name={name} />
     </div>
   )
 }

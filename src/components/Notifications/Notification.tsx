@@ -102,7 +102,7 @@ const Notification = ({ content, createdAt, isSeen, metadata, notificationFrom, 
       <div className="flex items-center justify-start gap-2">
         {icons[type.split("_")[0]]}
         <div onClick={handleProfileClick} className="relative cursor-pointer" onMouseEnter={() => handleMouseEnter(1)} onMouseLeave={() => handleMouseLeave(1)}>
-          <Avatar alt={notificationFrom.name} src={process.env.REACT_APP_USERS_MEDIA_URL + notificationFrom.imageUrl} sx={{ width: 30, height: 30 }} />
+          <Avatar alt={notificationFrom.name} src={notificationFrom.imageUrl.split(":")[0] === "https" ? notificationFrom.imageUrl : process.env.REACT_APP_USERS_MEDIA_URL + notificationFrom.imageUrl} sx={{ width: 30, height: 30 }} />
           {isVisible && <HoveredProfile hoveredUser={notificationFrom} state={followState} setState={setFollowState} />}
         </div>
       </div>

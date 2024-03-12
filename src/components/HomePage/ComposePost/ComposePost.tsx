@@ -278,10 +278,10 @@ function ComposePost({ buttonName, postId, postType, addTweetCallback, addReelCa
   const { t } = useTranslation()
 
   return (
-    <div className={`ComposePost flex max-[360px]:flex-col h-fit border-b pb-5 ${buttonName === "Post" ? "border-t" : ""} !w-full border-lightBorder p-3 text-black dark:border-darkBorder dark:text-white `}>
+    <div className={`ComposePost flex h-fit border-b pb-5 max-[360px]:flex-col ${buttonName === "Post" ? "border-t" : ""} !w-full border-lightBorder p-3 text-black dark:border-darkBorder dark:text-white `}>
       <div className={`h-10 w-10 ${i18next.language === "en" ? "sm:mr-3" : "sm:ml-3"} `}>
         <Link className="hover:underline" to={`/${user.username}`}>
-          <Avatar alt={user.name} src={`${process.env.REACT_APP_USERS_MEDIA_URL}${user.imageUrl.split("/").pop()}`} sx={{ width: 40, height: 40 }} />
+          <Avatar alt={user.name} src={`${user.imageUrl.split(":")[0] === "https" ? user.imageUrl : process.env.REACT_APP_USERS_MEDIA_URL + user.imageUrl}`} sx={{ width: 40, height: 40 }} />
         </Link>
       </div>
       <div className="mt-1.5 h-fit w-full">

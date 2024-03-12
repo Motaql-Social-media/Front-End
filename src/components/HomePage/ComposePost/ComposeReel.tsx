@@ -168,13 +168,13 @@ const ComposeReel = ({ handleClose, addReelCallback }: { handleClose: any; addRe
   }
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex h-full flex-col">
       <div className="flex w-full gap-2 ">
         <div className={`my-2  w-[80%] rounded-2xl border border-primary p-3 `}>
           <div className={`flex items-center justify-between gap-2 ${i18next.language === "en" ? "sm:mr-3" : "sm:ml-3"} `}>
             <div className="flex flex-col items-center justify-center gap-2">
               <Link className="hover:underline" to={`/${user.username}`}>
-                <Avatar alt={user.name} src={`${process.env.REACT_APP_USERS_MEDIA_URL}${user.imageUrl.split("/").pop()}`} sx={{ width: 40, height: 40 }} />
+                <Avatar alt={user.name} src={`${user.imageUrl.split(":")[0] === "https" ? user.imageUrl : process.env.REACT_APP_USERS_MEDIA_URL+user.imageUrl}`} sx={{ width: 40, height: 40 }} />
               </Link>
               <CircularProgress variant="determinate" value={charsCount} size={progressCircleSize} sx={{ color: charsProgressColor }} />
             </div>
@@ -217,7 +217,7 @@ const ComposeReel = ({ handleClose, addReelCallback }: { handleClose: any; addRe
           </button>
         </div>
       </div>
-      <div className={`composeReelFifth:flex-row  mt-2 flex flex-grow flex-col justify-around gap-2  composeReelFifth:h-[66%] composeReelThird:h-[72%] composeReelSecond:h-[75%] composeReelFirst:h-[78%]`}>
+      <div className={`mt-2  flex flex-grow flex-col justify-around gap-2 composeReelFifth:h-[66%]  composeReelFifth:flex-row composeReelThird:h-[72%] composeReelSecond:h-[75%] composeReelFirst:h-[78%]`}>
         <div className="relative composeReelFifth:w-[47%]">
           {!fileUploaded && (
             <div className={`flex h-full cursor-pointer items-center justify-center rounded-2xl  border border-primary bg-gray-500 p-5`} onClick={handleUploadClick} onDragEnter={handleDragEnter} onDragLeave={handleDragLeave} onDragOver={handleDragOver} onDrop={handleDrop}>
@@ -237,7 +237,7 @@ const ComposeReel = ({ handleClose, addReelCallback }: { handleClose: any; addRe
           )}
         </div>
 
-        <div className={` flex composeReelFifth:w-[47%] flex-col gap-2 rounded-2xl border border-primary p-3 mb-3`}>
+        <div className={` mb-3 flex flex-col gap-2 rounded-2xl border border-primary p-3 composeReelFifth:w-[47%]`}>
           <div className="mb-3 border-b border-b-primary pb-1 text-center text-xl font-bold dark:text-white">Select Topic</div>
 
           <div className=" flex flex-wrap gap-1 ">

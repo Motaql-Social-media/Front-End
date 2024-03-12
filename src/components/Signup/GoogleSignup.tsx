@@ -17,12 +17,10 @@ import Logo from "../../assets/images/mainLogo.svg"
 
 import i18next from "i18next"
 
-const GoogleSignup = ({ openModal, handleCloseModal }: { openModal: boolean; handleCloseModal: () => void }) => {
+const GoogleSignup = ({ openModal, handleCloseModal, access_token, name }: { openModal: boolean; handleCloseModal: () => void; access_token: string; name: string }) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
-  const [nickName, setNickName] = useState("test")
-  const [email, setEmail] = useState("")
   const [speciality, setSpeciality] = useState("")
   const [year, setYear] = useState("")
   const [month, setMonth] = useState("may")
@@ -66,22 +64,7 @@ const GoogleSignup = ({ openModal, handleCloseModal }: { openModal: boolean; han
   const handleCompleteSignup = (user: any) => {
     handleCloseModal()
 
-    // let userCredentials = {
-    //   email: email,
-    //   password: password,
-    // }
     dispatch(signupUser({ user: user, token: userToken, navigate }))
-    // navigate("/home");
-
-    // dispatch(loginUser({ userCredentials, isgoogle: null })).then((result) => {
-    //   // console.log(result)
-    //   if (result.payload) {
-    //     setEmail("")
-    //     setPassword("")
-    //     handleCloseModal()
-    //     navigate("/home")
-    //   }
-    // })
   }
 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth)
@@ -164,10 +147,9 @@ const GoogleSignup = ({ openModal, handleCloseModal }: { openModal: boolean; han
             {/* <div dir="ltr">
               <CustomizedStepper step={gPosition} />
             </div> */}
-            <GFirstStep nickName={nickName} setNickName={setNickName} speciality={speciality} setSpeciality={setSpeciality} month={month} setMonth={setMonth} day={day} setDay={setDay} year={year} setYear={setYear} setPosition={setGPosition} position={gPosition} />
-            <GSecondStep nickName={nickName} phoneNumber={phoneNumber} setPhoneNumber={setPhoneNumber} setPosition={setGPosition} position={gPosition} />
-            <ThirdStep nickName={nickName} phoneNumber={phoneNumber} setPosition={setGPosition} position={gPosition} />
-            <ErrorPage setDay={setDay} setMonth={setMonth} setYear={setYear} setNickName={setNickName} setEmail={setEmail} handleCloseModal={handleCloseModal} />
+            <GFirstStep name={name} phoneNumber={phoneNumber} setPhoneNumber={setPhoneNumber} speciality={speciality} setSpeciality={setSpeciality} month={month} setMonth={setMonth} day={day} setDay={setDay} year={year} setYear={setYear} setPosition={setGPosition} position={gPosition} />
+            <GSecondStep name={name} phoneNumber={phoneNumber} speciality={speciality} month={month} day={day} year={year} access_token={access_token} setPosition={setGPosition} position={gPosition} />
+            <ErrorPage setDay={setDay} setMonth={setMonth} setYear={setYear} setNickName={() => {}} setEmail={() => {}} handleCloseModal={handleCloseModal} />
           </div>
           <div
             className={`top-8 text-white ${document.body.dir === "rtl" ? "left-5" : "right-5"} absolute cursor-pointer ${(gPosition === 0 || gPosition === 7 || gPosition === 8) && `hidden`}`}
