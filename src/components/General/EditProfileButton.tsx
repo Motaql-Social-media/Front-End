@@ -39,7 +39,7 @@ const EditProfileButton = ({ setBio, setName, setBannerUrl, setDateOfBirth, setI
     setNewJobtitle(jobtitle)
     setDay(birthday.split("-")[2])
     setYear(birthday.split("-")[0])
-    setMonth(formatDate(birthday).split(" ")[0].toLowerCase())
+    setMonth(new Date(birthday).toLocaleString("en-US", { month: "long" }).toLowerCase())
     setnewbannerImage(banner_image)
     setnewbannerImageUrl(banner_image)
     setnewprofileImage(image_profile)
@@ -53,7 +53,7 @@ const EditProfileButton = ({ setBio, setName, setBannerUrl, setDateOfBirth, setI
   function formatDate(dateString: string) {
     const date = new Date(dateString)
 
-    const month = date.toLocaleString("default", { month: "long" }) // Get full month name
+    const month = date.toLocaleString("en-US", { month: "long" }).toLowerCase()
     const day = date.getDate()
     const year = date.getFullYear()
 
@@ -120,6 +120,7 @@ const EditProfileButton = ({ setBio, setName, setBannerUrl, setDateOfBirth, setI
   })
 
   const handleSave = () => {
+    console.log(`${year}-${month}-${day}`)
     const formData = new FormData()
     if (newName !== user.name && newName !== "") formData.append("name", newName)
     if (newBio !== user.bio) formData.append("bio", newBio)

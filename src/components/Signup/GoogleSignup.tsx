@@ -3,14 +3,10 @@ import { useNavigate } from "react-router-dom"
 
 import { Modal, Box } from "@mui/material"
 
-import { useSelector } from "react-redux"
-import { useDispatch } from "react-redux"
-import { signupUser } from "../../store/UserSlice"
 import ArrowBackIcon from "@mui/icons-material/ArrowBack"
 
 import GFirstStep from "./GFirstStep"
 import GSecondStep from "./GSecondStep"
-import ThirdStep from "./ThirdStep"
 import ErrorPage from "./ErrorPage"
 
 import Logo from "../../assets/images/mainLogo.svg"
@@ -120,7 +116,7 @@ const GoogleSignup = ({ openModal, handleCloseModal, access_token, name }: { ope
   return (
     <>
       <Modal open={openModal} onClose={handleCloseModal} disableEscapeKeyDown disablePortal>
-        <Box style={modalStyle}>
+        <Box style={modalStyle} sx={{ overflow: "hidden" }}>
           <div ref={ref} className="relative h-full min-w-[350px] bg-white dark:bg-black md:rounded-2xl">
             <button
               className="relative  top-4 h-10 w-10 rounded-3xl bg-transparent bg-white text-2xl text-black no-underline hover:bg-lightHover dark:bg-black dark:text-white dark:hover:bg-darkHover"
