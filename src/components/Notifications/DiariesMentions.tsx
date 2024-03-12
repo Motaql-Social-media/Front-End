@@ -3,6 +3,7 @@ import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import Post from "../HomePage/Posts/Post"
 import QuotePost from "../HomePage/Posts/QuotePost"
+import { t } from "i18next"
 
 const DiariesMentions = () => {
   const API = axios.create({
@@ -62,6 +63,7 @@ const DiariesMentions = () => {
           </div>
         )
       })}
+      {diaries.length === 0 && <div className="flex h-96 items-center justify-center text-2xl font-bold text-primary">{t("no_diaries_mentions")}</div>}
     </div>
   )
 }

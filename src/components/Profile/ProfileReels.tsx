@@ -4,6 +4,7 @@ import { useSelector } from "react-redux"
 import { useParams } from "react-router-dom"
 import Reel from "../HomePage/Posts/Reel"
 import QuoteReel from "../HomePage/Posts/QuoteReel"
+import { t } from "i18next"
 
 const ProfileReels = () => {
   const [reels, setReels] = useState<Diary[]>([])
@@ -71,6 +72,7 @@ const ProfileReels = () => {
             </div>
           )
         })}
+      {reels.length === 0 && <div className="mt-5 text-center text-2xl font-bold text-primary">{t("no_reels_profile", { name: tag })}</div>}
     </div>
   )
 }

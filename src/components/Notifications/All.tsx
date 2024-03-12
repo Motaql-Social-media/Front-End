@@ -5,12 +5,8 @@ import Notification from "./Notification"
 import { useDispatch } from "react-redux"
 import { resetCount } from "../../store/NotificationSlice"
 import io from "socket.io-client"
-import { useContext } from "react"
-import { SocketContext } from "../../App"
-
+import { t } from "i18next"
 const All = () => {
-  const { socket } = useContext(SocketContext)
-
   const userToken = useSelector((state: any) => state.user.token)
   const API = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
@@ -18,6 +14,20 @@ const All = () => {
       Authorization: `Bearer ${userToken}`,
     },
   })
+
+  const [socket, setSocket] = useState<any>(null)
+
+  useEffect(() => {
+    setSocket(
+      io("https://theline.social", {
+        path: "/socket.io",
+        withCredentials: true,
+        extraHeaders: {
+          token: userToken,
+        },
+      })
+    )
+  }, [])
 
   const [notifications, setNotifications] = useState<Notification[]>([])
   useEffect(() => {
@@ -62,6 +72,7 @@ const All = () => {
             <Notification content={n.content} createdAt={n.createdAt} isSeen={n.isSeen} metadata={n.metadata} notificationFrom={n.notificationFrom} notificationId={n.notificationId} type={n.type} />
           </div>
         ))}
+      {notifications.length === 0 && <div className="flex h-96 items-center justify-center text-2xl font-bold text-primary">{t("no_notifications")}</div>}
     </div>
   )
 }

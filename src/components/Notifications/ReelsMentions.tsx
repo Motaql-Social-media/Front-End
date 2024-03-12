@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react"
 import { useSelector } from "react-redux"
 import Reel from "../HomePage/Posts/Reel"
 import QuoteReel from "../HomePage/Posts/QuoteReel"
+import { t } from "i18next"
 
 const ReelsMentions = () => {
   const API = axios.create({
@@ -64,6 +65,7 @@ const ReelsMentions = () => {
           </div>
         )
       })}
+      {reels.length === 0 && <div className="flex h-96 items-center justify-center text-2xl font-bold text-primary">{t("no_reels_mentions")}</div>}
     </div>
   )
 }

@@ -4,6 +4,7 @@ import { useSelector } from "react-redux"
 import { useParams } from "react-router-dom"
 import Post from "../HomePage/Posts/Post"
 import QuotePost from "../HomePage/Posts/QuotePost"
+import { t } from "i18next"
 
 const ProfileDiaries = () => {
   const [diaries, setDiaries] = useState<Diary[]>([])
@@ -69,6 +70,7 @@ const ProfileDiaries = () => {
             </div>
           )
         })}
+      {diaries.length === 0 && <div className="mt-5 text-center text-2xl font-bold text-primary">{t("no_diaries_profile", { name: tag })}</div>}
     </div>
   )
 }

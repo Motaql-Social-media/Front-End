@@ -1,72 +1,47 @@
-import { Box } from "@mui/material";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
+import { Box } from "@mui/material"
+import InputLabel from "@mui/material/InputLabel"
+import MenuItem from "@mui/material/MenuItem"
+import FormControl from "@mui/material/FormControl"
+import Select from "@mui/material/Select"
 
-import { last120Years, days, months } from "../../constants/index";
+import { last120Years, days, months } from "../../constants/index"
 
-import { useSelector } from "react-redux";
+import { useSelector } from "react-redux"
 
-import { ThemeState } from "../../store/ThemeSlice.js";
+import { ThemeState } from "../../store/ThemeSlice.js"
 
-import { SelectChangeEvent } from "@mui/material";
-import { ReactNode } from "react";
-import { useTranslation } from "react-i18next";
+import { SelectChangeEvent } from "@mui/material"
+import { ReactNode } from "react"
+import { useTranslation } from "react-i18next"
 
-const Birthdate = ({
-  month,
-  setMonth,
-  day,
-  setDay,
-  year,
-  setYear,
-  yearwidth,
-  monthwidth,
-}: {
-  month: string;
-  setMonth: (value: string) => void;
-  day: string;
-  setDay: (value: string) => void;
-  year: string;
-  setYear: (value: string) => void;
-  yearwidth: string;
-  monthwidth: string;
-}) => {
+const Birthdate = ({ month, setMonth, day, setDay, year, setYear, yearwidth, monthwidth }: { month: string; setMonth: (value: string) => void; day: string; setDay: (value: string) => void; year: string; setYear: (value: string) => void; yearwidth: string; monthwidth: string }) => {
   type RootState = {
-    theme: ThemeState;
-  };
-  const darkMode = useSelector((state: RootState) => state.theme.darkMode);
+    theme: ThemeState
+  }
+  const darkMode = useSelector((state: RootState) => state.theme.darkMode)
 
-  const handleChangeYear = (
-    event: SelectChangeEvent<string>,
-    child: ReactNode
-  ) => {
-    setYear(event.target.value);
-  };
+  const handleChangeYear = (event: SelectChangeEvent<string>, child: ReactNode) => {
+    setYear(event.target.value)
+  }
 
-  const handleChangeMonth = (
-    event: SelectChangeEvent<string>,
-    child: ReactNode
-  ) => {
-    setMonth(event.target.value);
-  };
+  const handleChangeMonth = (event: SelectChangeEvent<string>, child: ReactNode) => {
+    setMonth(event.target.value)
+  }
 
-  const handleChangeDay = (
-    event: SelectChangeEvent<string>,
-    child: ReactNode
-  ) => {
-    setDay(event.target.value);
-  };
+  const handleChangeDay = (event: SelectChangeEvent<string>, child: ReactNode) => {
+    setDay(event.target.value)
+  }
 
-  const { t } = useTranslation();
+  const { t } = useTranslation()
+
+  const user = useSelector((state: any) => state.user.user)
 
   return (
     <div className="date flex">
       <Box sx={{ minWidth: 125 }} className="month">
         <FormControl
           sx={{
-            "&& .MuiFormLabel-root": {
+            "&& .MuiFormL</MenuItem>abel-root": {
               color: "#40e5da",
             },
             minWidth: 125,
@@ -241,16 +216,23 @@ const Birthdate = ({
               },
             }}
           >
-            {last120Years.map((year) => (
-              <MenuItem value={year} key={year} data-testid={year}>
-                {year}
-              </MenuItem>
-            ))}
+            {window.location.pathname === `/${user.username}` &&
+              last120Years.slice(14).map((year) => (
+                <MenuItem value={year} key={year} data-testid={year}>
+                  {year}
+                </MenuItem>
+              ))}
+            {window.location.pathname !== `/${user.username}` &&
+              last120Years.map((year) => (
+                <MenuItem value={year} key={year} data-testid={year}>
+                  {year}
+                </MenuItem>
+              ))}
           </Select>
         </FormControl>
       </Box>
     </div>
-  );
-};
+  )
+}
 
-export default Birthdate;
+export default Birthdate
