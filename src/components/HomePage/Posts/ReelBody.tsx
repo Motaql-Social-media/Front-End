@@ -93,17 +93,23 @@ const ReelBody = ({ muted, setMuted, media, content, mentions, displayReel }: { 
     <div className="w-full">
       <div className="ml-5 mt-1 ">
         <p>
-          {content.split(" ").map((word, index) => (
-            <span key={index}>
-              {processedMentions.includes(word) ? (
-                <a href={`/${word.slice(1)}`} onClick={(e: any) => e.stopPropagation()} className="text-white hover:text-primary">
-                  {` ${word} `}
-                </a>
-              ) : (
-                ` ${word} `
-              )}
-            </span>
-          ))}
+          {content.split(" ").map((word, index) => {
+            return (
+              <span key={index}>
+                {processedMentions.includes(word) ? (
+                  <a href={`/${word.slice(1)}`} onClick={(e: any) => e.stopPropagation()} className="text-white hover:text-primary">
+                    {` ${word} `}
+                  </a>
+                ) : word[0] === "#" ? (
+                  <a dir="ltr" href={`/trending/${word.slice(1)}/reels`} onClick={(e: any) => e.stopPropagation()} className="text-primary hover:underline">
+                    {word}
+                  </a>
+                ) : (
+                  ` ${word} `
+                )}
+              </span>
+            )
+          })}
         </p>
       </div>
       {displayReel && (

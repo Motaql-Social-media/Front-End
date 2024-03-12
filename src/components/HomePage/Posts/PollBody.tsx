@@ -24,7 +24,7 @@ const PollBody = ({ poll, mentions, id }: { poll: any; mentions: string[]; id: s
 
     // If date has passed, return boolean true
     if (hasPassed) {
-      setTimeRemaining(t('poll_ended'))
+      setTimeRemaining(t("poll_ended"))
       return
     }
 
@@ -58,8 +58,6 @@ const PollBody = ({ poll, mentions, id }: { poll: any; mentions: string[]; id: s
   const [polledId, setPolledId] = useState(poll.votedOptionId !== undefined ? poll.votedOptionId : -1)
   const [totalVotes, setTotalVotes] = useState(poll.totalVotesCount)
   const [optionsVotesCount, setOptionsVotesCount] = useState(poll.options.map((option: any) => option.votesCount))
-
-
 
   const handleVote = (e: any, optionId: number, index: number) => {
     e.stopPropagation()
@@ -98,6 +96,10 @@ const PollBody = ({ poll, mentions, id }: { poll: any; mentions: string[]; id: s
                 <a href={`/${word.slice(1)}`} onClick={(e: any) => e.stopPropagation()} className="text-white hover:text-primary">
                   {` ${word} `}
                 </a>
+              ) : word[0] === "#" ? (
+                <a dir="ltr" href={`/trending/${word.slice(1)}/diaries`} onClick={(e: any) => e.stopPropagation()} className="text-primary hover:underline">
+                  {word}
+                </a>
               ) : (
                 ` ${word} `
               )}
@@ -105,7 +107,7 @@ const PollBody = ({ poll, mentions, id }: { poll: any; mentions: string[]; id: s
           ))}
         </p>
       </div>
-      {!polled && timeRemaining !== t('poll_ended') && (
+      {!polled && timeRemaining !== t("poll_ended") && (
         <div>
           {poll.options.map((p: any, index: number) => (
             <button key={index} className={`${styles.normalButton} !border-primary hover:dark:bg-darkHover`} onClick={(e: any) => handleVote(e, p.optionId, index)}>
@@ -114,7 +116,7 @@ const PollBody = ({ poll, mentions, id }: { poll: any; mentions: string[]; id: s
           ))}
         </div>
       )}
-      {(polled || timeRemaining === t('poll_ended')) && (
+      {(polled || timeRemaining === t("poll_ended")) && (
         <div>
           {poll.options.map((p: any, index: number) => (
             <PollOptionResult option={p.text} percentage={(optionsVotesCount[index] * 100) / totalVotes} key={index} />
@@ -122,7 +124,9 @@ const PollBody = ({ poll, mentions, id }: { poll: any; mentions: string[]; id: s
         </div>
       )}
       <div className="flex gap-3">
-        <div className="pl-8 text-primary">{totalVotes} {t('votes') }</div>
+        <div className="pl-8 text-primary">
+          {totalVotes} {t("votes")}
+        </div>
         <div className="text-primary">{timeRemaining}</div>
       </div>
     </div>
