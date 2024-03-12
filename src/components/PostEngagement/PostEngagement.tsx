@@ -7,13 +7,14 @@ import axios from "axios"
 import HorizontalNavbar from "../General/HorizontalNavbar"
 import ArrowBackIcon from "@mui/icons-material/ArrowBack"
 import SubpageNavbar from "../General/SubpageNavbar"
+import useCheckAuthentication from "../hooks/useCheckAuthentication"
 
 const PostEngagement = ({ scroll }: { scroll: number }) => {
   const navigate = useNavigate()
 
   const user = useSelector((state: any) => state.user)
 
-  const userToken = useSelector((state: any) => state.user.token)
+  useCheckAuthentication()
 
   useEffect(() => {
     if (!user) {

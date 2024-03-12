@@ -5,13 +5,14 @@ import axios from "axios"
 import { useTranslation } from "react-i18next"
 import HorizontalNavbar from "../General/HorizontalNavbar"
 import Widgets from "../Widgets/Widgets"
+import useCheckAuthentication from "../hooks/useCheckAuthentication"
 
 export const BookmarksContext = createContext<any>(null)
 
-
-
 const Bookmarks = ({ scroll }: { scroll: number }) => {
   const navigate = useNavigate()
+
+  useCheckAuthentication()
 
   const user = useSelector((state: any) => state.user)
 
@@ -98,7 +99,7 @@ const Bookmarks = ({ scroll }: { scroll: number }) => {
   // }, [])
 
   useEffect(() => {
-    if ((window.location.pathname === "/bookmarks/diaries" || window.location.pathname === "/bookmarks")) {
+    if (window.location.pathname === "/bookmarks/diaries" || window.location.pathname === "/bookmarks") {
       setDiaries([])
       fetchBookmarksDiaries()
     } else if (window.location.pathname === "/bookmarks/reels") {

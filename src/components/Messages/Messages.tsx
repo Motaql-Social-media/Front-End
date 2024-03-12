@@ -9,9 +9,12 @@ import Modal from "@mui/material/Modal"
 import Close from "@mui/icons-material/Close"
 import SearchComponent from "../Trending/SearchComponent"
 import io from "socket.io-client"
+import useCheckAuthentication from "../hooks/useCheckAuthentication"
 
 const Messages = ({ scroll }: { scroll: number }) => {
   const messagesRef = useRef<any>(null)
+
+  useCheckAuthentication()
 
   useEffect(() => {
     messagesRef.current.scrollTop += scroll

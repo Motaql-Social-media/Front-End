@@ -15,9 +15,12 @@ import { Outlet } from "react-router-dom"
 import HorizontalNavbar from "../General/HorizontalNavbar"
 import EditProfileButton from "../General/EditProfileButton"
 import Widgets from "../Widgets/Widgets"
+import useCheckAuthentication from "../hooks/useCheckAuthentication"
 
 const Profile = ({ scroll }: { scroll: number }) => {
   const navigate = useNavigate()
+
+  useCheckAuthentication()
 
   const user = useSelector((state: any) => state.user)
 
@@ -79,21 +82,19 @@ const Profile = ({ scroll }: { scroll: number }) => {
   const [bannerUrl, setBannerUrl] = useState<string>("")
   const [createdAt, setCreatedAt] = useState<string>("")
   const [dateOfBirth, setDateOfBirth] = useState<string>("")
-  const [email, setEmail] = useState<string>("")
   const [followersCount, setFollowersCount] = useState<number>(0)
   const [followingsCount, setFollowingsCount] = useState<number>(0)
-  const [id, setId] = useState<string>("")
   const [isFollowed, setIsFollowed] = useState<boolean>(false)
   const [isBlocked, setIsBlocked] = useState<boolean>(false)
   const [isMuted, setIsMuted] = useState<boolean>(false)
   const [imageUrl, setImageUrl] = useState<string>("")
   const [jobTitle, setJobTitle] = useState<string>("")
   const [location, setLocation] = useState<string>("")
-  const [phoneNumber, setPhoneNumber] = useState<string>("")
   const [postsCount, setPostsCount] = useState<number>(0)
-  const [updatedAt, setUpdatedAt] = useState<string>("")
 
   useEffect(() => {
+
+
     API.get(`users/${tag}/profile`, {
       headers: {
         Authorization: `Bearer ${userToken}`,
@@ -116,19 +117,15 @@ const Profile = ({ scroll }: { scroll: number }) => {
       setBannerUrl(profile.bannerUrl)
       setCreatedAt(profile.createdAt)
       setDateOfBirth(profile.dateOfBirth)
-      setEmail(profile.email)
       setFollowersCount(profile.followersCount)
       setFollowingsCount(profile.followingsCount)
-      setId(profile.userId)
       setIsFollowed(profile.isFollowed)
       setIsBlocked(profile.isBlocked)
       setIsMuted(profile.isMuted)
       setImageUrl(profile.imageUrl)
       setJobTitle(profile.jobtitle)
       setLocation(profile.location)
-      setPhoneNumber(profile.phoneNumber)
       setPostsCount(profile.postsCount)
-      setUpdatedAt(profile.updatedAt)
     }
   }, [profile])
 
@@ -171,6 +168,8 @@ const Profile = ({ scroll }: { scroll: number }) => {
     }
   }, [user])
 
+  
+
   return (
     <div className="flex flex-1 flex-grow-[8] max-[540px]:mt-16">
       <div ref={profileRef} className="no-scrollbar ml-0 mr-1 w-full max-w-[620px] shrink-0 flex-grow overflow-y-scroll border border-b-0 border-t-0 border-lightBorder dark:border-darkBorder  max-[540px]:border-l-0 max-[540px]:border-r-0 sm:w-[600px]">
@@ -205,7 +204,7 @@ const Profile = ({ scroll }: { scroll: number }) => {
                 <MuteButton state={isMuted} setState={setIsMuted} username={tag as string} />
                 <BlockButton state={isBlocked} setState={setIsBlocked} username={tag as string} />
                 <FollowButton state={isFollowed} setState={setIsFollowed} username={tag as string} />
-                <EditProfileButton image_profile={imageUrl} banner_image={bannerUrl} name={name} bio={bio} location={location} jobtitle={jobTitle} birthday={dateOfBirth} username={tag as string} />
+                <EditProfileButton setName={setName} setBio={setBio} setJobTitle={setJobTitle} setLocation={setLocation} setBannerUrl={setBannerUrl} setDateOfBirth={setDateOfBirth} setImageUrl={setImageUrl} image_profile={imageUrl} banner_image={bannerUrl} name={name} bio={bio} location={location} jobtitle={jobTitle} birthday={dateOfBirth} username={tag as string} />
               </div>
             </div>
             <div className="p-5">
@@ -272,8 +271,8 @@ const Profile = ({ scroll }: { scroll: number }) => {
         <Outlet />
       </div>
       {isViewerOpen && (
-        <div className="z-[99]">
-          <ImageViewer disableScroll={true} src={[imageUrl, bannerUrl].map((m) => process.env.REACT_APP_USERS_MEDIA_URL + m)} currentIndex={currentImage} closeOnClickOutside={true} onClose={closeImageViewer} />
+        <div className="z-[99]" dir="ltr">
+          <ImageViewer disableScroll={true} src={[imageUrl, bannerUrl].map((m) => (m.split(":")[0] === "https" ? m : process.env.REACT_APP_USERS_MEDIA_URL + m))} currentIndex={currentImage} closeOnClickOutside={true} onClose={closeImageViewer} />
         </div>
       )}
       {user && <Widgets />}

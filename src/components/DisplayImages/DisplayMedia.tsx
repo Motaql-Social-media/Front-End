@@ -1,6 +1,5 @@
 import { useState, useCallback, useEffect } from "react"
 
-import ImageViewer from "react-simple-image-viewer"
 import { useRef } from "react"
 import OneImage from "./OneImage"
 import TwoImages from "./TwoImages"

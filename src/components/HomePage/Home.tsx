@@ -9,11 +9,14 @@ import { useRef } from "react"
 import axios from "axios"
 import ElementVisibleObserver from "../General/ElementVisibleObserver"
 import Widgets from "../Widgets/Widgets"
+import useCheckAuthentication from "../hooks/useCheckAuthentication"
 
 export const HomeContext = createContext<any>(null)
 
 const Home = ({ scroll }: { scroll: number }) => {
   const navigate = useNavigate()
+
+  useCheckAuthentication()
 
   const user = useSelector((state: any) => state.user)
 

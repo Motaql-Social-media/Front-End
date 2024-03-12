@@ -31,11 +31,6 @@ const Login = ({ openModal, handleCloseModal, setLocation }: { openModal: boolea
   const [password, setPassword] = useState("")
   const [showPassword, setShowPassword] = useState(false)
 
-  type RootState = {
-    user: userState
-    theme: ThemeState
-    notification: NotificationState
-  }
   const user = useSelector((state: any) => state.user)
 
   const [emailExistError, setEmailExistError] = useState(false)
@@ -93,8 +88,11 @@ const Login = ({ openModal, handleCloseModal, setLocation }: { openModal: boolea
     modalStyle.maxWidth = "none" // optional, to remove any max-width constraints
   }
 
+  const [position, setPosition] = useState(0)
+
   function handleNext(emailExist: boolean) {
     if (emailExist) {
+      setPosition(1)
       const firstPage = document.getElementById("firstPage")
       const secondPage = document.getElementById("secondPage")
       if (firstPage) firstPage.style.display = "none"
@@ -162,7 +160,7 @@ const Login = ({ openModal, handleCloseModal, setLocation }: { openModal: boolea
   return (
     <>
       <Modal open={openModal} onClose={handleCloseModal} disableEscapeKeyDown disablePortal>
-        <Box style={modalStyle}>
+        <Box style={modalStyle} sx={{ overflow: "hidden" }}>
           <div className="relative h-full min-w-[350px] bg-white dark:bg-black md:rounded-2xl">
             <button
               className="relative top-4 h-10 w-10 rounded-3xl bg-transparent bg-white text-2xl text-black no-underline hover:bg-lightHover dark:bg-black dark:text-white dark:hover:bg-darkHover"
@@ -364,9 +362,11 @@ const Login = ({ openModal, handleCloseModal, setLocation }: { openModal: boolea
                 </button>
               </form>
             </div>
-            <div className={`top-8 text-white ${document.body.dir === "rtl" ? "left-5" : "right-5"} absolute cursor-pointer`} onClick={handleReturn}>
-              <ArrowBackIcon />
-            </div>
+            {position !== 0 && (
+              <div className={`top-8 text-white ${document.body.dir === "rtl" ? "left-5" : "right-5"} absolute cursor-pointer`} onClick={handleReturn}>
+                <ArrowBackIcon />
+              </div>
+            )}
           </div>
         </Box>
       </Modal>

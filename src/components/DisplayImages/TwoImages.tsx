@@ -126,7 +126,7 @@ const TwoImages = ({ image1, image2, showCancelButton, handleDeleteMedia }: { im
         )}
       </div>
       {isViewerOpen && (
-        <div className="z-[99]">
+        <div className="z-[99]" dir="ltr">
           <ImageViewer disableScroll={true} src={[image1, image2]} currentIndex={currentImage} closeOnClickOutside={true} onClose={closeImageViewer} />
         </div>
       )}

@@ -8,14 +8,14 @@ import HorizontalNavbar from "../General/HorizontalNavbar"
 import { Outlet } from "react-router-dom"
 import Widgets from "../Widgets/Widgets"
 import SubpageNavbar from "../General/SubpageNavbar"
+import useCheckAuthentication from "../hooks/useCheckAuthentication"
 
 const Notifications = ({ scroll }: { scroll: number }) => {
   const navigate = useNavigate()
 
+  useCheckAuthentication()
 
   const user = useSelector((state: any) => state.user)
-
-  const userToken = useSelector((state: any) => state.user.token)
 
   useEffect(() => {
     if (!user) {

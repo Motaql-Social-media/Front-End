@@ -26,7 +26,7 @@ const OneImage = ({ image, showCancelButton, handleDeleteMedia }: { image: strin
         )}
       </div>
       {isViewerOpen && (
-        <div className="z-[99]">
+        <div className="z-[99]" dir="ltr">
           <ImageViewer disableScroll={true} src={[image]} currentIndex={currentImage} closeOnClickOutside={true} onClose={closeImageViewer} />
         </div>
       )}

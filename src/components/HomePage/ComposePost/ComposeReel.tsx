@@ -33,7 +33,7 @@ const ComposeReel = ({ handleClose, addReelCallback }: { handleClose: any; addRe
   }
 
   const [selectedTopic, setSelectedTopic] = useState("")
-  const [selectedDescription, setSelectedDescription] = useState("Select a topic to see its description")
+  const [selectedDescription, setSelectedDescription] = useState(t("compose_reel_message"))
 
   const handleChooseTopic = (topic: string) => {
     setSelectedTopic(topic)
@@ -109,6 +109,8 @@ const ComposeReel = ({ handleClose, addReelCallback }: { handleClose: any; addRe
     setReelUrl("")
   }
 
+  const [loading, setLoading] = useState(false)
+
   const [isDragging, setIsDragging] = useState(false)
 
   const handleDragEnter = (e: any) => {
@@ -159,16 +161,24 @@ const ComposeReel = ({ handleClose, addReelCallback }: { handleClose: any; addRe
       .then((res) => {
         console.log(res)
         const t = { ...res.data.data.reel, isBookmarked: false, isReacted: false, isRereeled: false, reactCount: 0, reReelCount: 0, repliesCount: 0, reeler: user }
+        if (publishRef.current) publishRef.current.disabled = false
+        setLoading(false)
+
         addReelCallback(t)
         handleClose()
       })
       .catch((err) => {
+        if (publishRef.current) publishRef.current.disabled = false
+        setLoading(false)
+
         console.log(err)
       })
   }
 
+  const publishRef = useRef<HTMLButtonElement>(null)
+
   return (
-    <div className="flex h-full flex-col">
+    <div className="relative flex h-full flex-col">
       <div className="flex w-full gap-2 ">
         <div className={`my-2  w-[80%] rounded-2xl border border-primary p-3 `}>
           <div className={`flex items-center justify-between gap-2 ${i18next.language === "en" ? "sm:mr-3" : "sm:ml-3"} `}>
@@ -188,7 +198,7 @@ const ComposeReel = ({ handleClose, addReelCallback }: { handleClose: any; addRe
                   fontSize: window.innerWidth > 500 ? "13px" : window.innerWidth > 430 ? "11px" : "9px",
                 },
               }}
-              placeholder={`Write your reel description here`}
+              placeholder={t("compose_reel_placeholder")}
               onChange={(e) => handleDescriptionChange(e)}
               multiline
               value={description}
@@ -211,8 +221,11 @@ const ComposeReel = ({ handleClose, addReelCallback }: { handleClose: any; addRe
             className={`${styles.coloredButton}`}
             disabled={description === "" || selectedTopic === "" || !fileUploaded}
             onClick={() => {
+              if (publishRef.current) publishRef.current.disabled = true
+              setLoading(true)
               handleAddReel()
             }}
+            ref={publishRef}
           >
             {t("publish")}
           </button>
@@ -224,8 +237,10 @@ const ComposeReel = ({ handleClose, addReelCallback }: { handleClose: any; addRe
             <div className={`flex h-full cursor-pointer items-center justify-center rounded-2xl  border border-primary bg-gray-500 p-5`} onClick={handleUploadClick} onDragEnter={handleDragEnter} onDragLeave={handleDragLeave} onDragOver={handleDragOver} onDrop={handleDrop}>
               <div className="flex flex-col items-center justify-center">
                 <img src={upload} alt="" className={` `} />
-                <div className="text-3xl font-semibold text-black">Drag the reel here</div>
-                <div className="text-lg font-semibold text-black">Limit 50. Supported files: .mp4, .mov, .avi, .mkv, .webm, .flv</div>
+                <div className="text-3xl font-semibold text-black">{t("drag_reel")}</div>
+                <div className="text-lg font-semibold text-black">
+                  {t("limit")}. {t("supported_files")}
+                </div>
               </div>
               <input ref={reelInput} style={{ display: "none" }} accept="video/*" type="file" onChange={handleUploadReel} />
             </div>
@@ -239,7 +254,7 @@ const ComposeReel = ({ handleClose, addReelCallback }: { handleClose: any; addRe
         </div>
 
         <div className={` mb-3 flex flex-col gap-2 rounded-2xl border border-primary p-3 composeReelFifth:w-[47%]`}>
-          <div className="mb-3 border-b border-b-primary pb-1 text-center text-xl font-bold dark:text-white">Select Topic</div>
+          <div className="mb-3 border-b border-b-primary pb-1 text-center text-xl font-bold dark:text-white">{t("select_topic")}</div>
 
           <div className=" flex flex-wrap gap-1 ">
             {topics.map((topic: any) => (
@@ -253,7 +268,8 @@ const ComposeReel = ({ handleClose, addReelCallback }: { handleClose: any; addRe
           <div className="flex flex-grow"></div>
         </div>
       </div>
-      <div className={`${fileSizeError ? "" : "hidden"} absolute bottom-10 left-1/2 -translate-x-1/2 rounded-2xl bg-primary p-2 text-xl font-semibold text-black`}>Sorry, maximum file size is 50MB</div>
+      <div className={`${fileSizeError ? "" : "hidden"} absolute bottom-10 left-1/2 -translate-x-1/2 rounded-2xl bg-primary p-2 text-xl font-semibold text-black`}>{t("limit_error")}</div>
+      {loading && <CircularProgress size={100} className={` absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2`} />}{" "}
     </div>
   )
 }

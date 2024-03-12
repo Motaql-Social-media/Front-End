@@ -10,9 +10,12 @@ import QuotePost from "../HomePage/Posts/QuotePost"
 import ComposePost from "../HomePage/ComposePost/ComposePost"
 import Replies from "./Replies"
 import SubpageNavbar from "../General/SubpageNavbar"
+import useCheckAuthentication from "../hooks/useCheckAuthentication"
 
 const PostPage = ({ scroll }: { scroll: number }) => {
   const navigate = useNavigate()
+
+  useCheckAuthentication()
 
   const user = useSelector((state: any) => state.user)
 

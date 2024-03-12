@@ -4,9 +4,12 @@ import { useNavigate } from "react-router-dom"
 import SubpageNavbar from "../General/SubpageNavbar"
 import Widgets from "../Widgets/Widgets"
 import { useSelector } from "react-redux"
+import useCheckAuthentication from "../hooks/useCheckAuthentication"
 
 const Settings = () => {
   const options = ["account", "privacy"]
+
+  useCheckAuthentication()
 
   const { t } = useTranslation()
   const user = useSelector((state: any) => state.user.user)

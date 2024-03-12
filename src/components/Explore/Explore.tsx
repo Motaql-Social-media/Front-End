@@ -11,8 +11,11 @@ import Reel from "../HomePage/Posts/Reel"
 import NoReels from "./NoReels"
 import Widgets from "../Widgets/Widgets"
 import SubpageNavbar from "../General/SubpageNavbar"
+import useCheckAuthentication from "../hooks/useCheckAuthentication"
 const Explore = ({ scroll }: { scroll: number }) => {
   const navigate = useNavigate()
+
+  useCheckAuthentication()
 
   const user = useSelector((state: any) => state.user)
 
@@ -37,11 +40,9 @@ const Explore = ({ scroll }: { scroll: number }) => {
   }, [scroll])
 
   const [selectedTopic, setSelectedTopic] = useState("Art")
-  const [selectedDescription, setSelectedDescription] = useState("Select a topic to see its description")
 
   const handleChooseTopic = (topic: string) => {
     setSelectedTopic(topic)
-    setSelectedDescription((topics.find((t: any) => t.topic === topic) as any)?.description)
   }
 
   const [topics, setTopics] = useState<any[]>([])

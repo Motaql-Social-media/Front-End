@@ -173,7 +173,7 @@ const ThreeImages = ({ image1, image2, image3, showCancelButton, handleDeleteMed
           </div>
         )}
       </div>
-      <div className={`flex ${flexDirection2 === "row" ? "w-[66.6%] h-full flex-row" : flexDirection1 === 'row'? "w-full flex-col h-full":'w-full flex-col h-[66.6%]'} gap-1`}>
+      <div className={`flex ${flexDirection2 === "row" ? "h-full w-[66.6%] flex-row" : flexDirection1 === "row" ? "h-full w-full flex-col" : "h-[66.6%] w-full flex-col"} gap-1`}>
         <div className={`relative ${flexDirection2 === "row" ? "h-full w-[50%]" : "h-[50%] w-full"}`}>
           <img src={image2} className={`h-full w-full object-cover`} alt="media" loading="lazy" onClick={() => openImageViewer(1)} />
           {showCancelButton && (
@@ -192,7 +192,7 @@ const ThreeImages = ({ image1, image2, image3, showCancelButton, handleDeleteMed
         </div>
       </div>
       {isViewerOpen && (
-        <div className="z-[99]">
+        <div className="z-[99]" dir="ltr">
           <ImageViewer disableScroll={true} src={[image1, image2, image3]} currentIndex={currentImage} closeOnClickOutside={true} onClose={closeImageViewer} />
         </div>
       )}

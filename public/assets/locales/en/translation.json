@@ -207,5 +207,12 @@
   "no_reels_explore": "When someone publish reel in this topic, it’ll show up here.",
   "no_notifications": "You don't have any unseen notifications",
   "no_diaries_mentions": "No diaries or replies mentioning you",
-  "no_reels_mentions": "No reels mentioning you"
+  "no_reels_mentions": "No reels mentioning you",
+  "compose_reel_message": "Select a topic to see its description",
+  "select_topic": "Select a topic",
+  "drag_reel": "Drag a reel here",
+  "limit": "Limit 50MB",
+  "supported_files": "Supported files: .mp4, .mov, .avi, .mkv, .webm, .flv",
+  "limit_error": "Sorry, maximum file size is 50MB",
+  "compose_reel_placeholder": "Write your reel description here"
 }

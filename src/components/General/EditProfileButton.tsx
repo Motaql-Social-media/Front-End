@@ -11,7 +11,7 @@ import { useDispatch } from "react-redux"
 import { changeUser } from "../../store/UserSlice"
 import { t } from "i18next"
 
-const EditProfileButton = ({ image_profile, banner_image, name, bio, location, jobtitle, birthday, username }: { image_profile: string; banner_image: string; name: string; bio: string; location: string; jobtitle: string; birthday: string; username: string }) => {
+const EditProfileButton = ({ setBio, setName, setBannerUrl, setDateOfBirth, setImageUrl, setJobTitle, setLocation, image_profile, banner_image, name, bio, location, jobtitle, birthday, username }: { image_profile: string; banner_image: string; name: string; bio: string; location: string; jobtitle: string; birthday: string; username: string; setBio: any; setName: any; setBannerUrl: any; setDateOfBirth: any; setImageUrl: any; setJobTitle: any; setLocation: any }) => {
   const user = useSelector((state: any) => state.user.user)
   const userToken = useSelector((state: any) => state.user.token)
 
@@ -121,17 +121,15 @@ const EditProfileButton = ({ image_profile, banner_image, name, bio, location, j
 
   const handleSave = () => {
     const formData = new FormData()
-    formData.append("name", newName)
-    formData.append("bio", newBio)
-    formData.append("location", newLocation)
-    formData.append("jobtitle", newJobtitle)
-    formData.append("dateOfBirth", `${year}-${month}-${day}`)
+    if (newName !== user.name && newName !== "") formData.append("name", newName)
+    if (newBio !== user.bio) formData.append("bio", newBio)
+    if (newLocation !== user.location) formData.append("location", newLocation)
+    if (newJobtitle !== user.jobtitle && newJobtitle !== "") formData.append("jobtitle", newJobtitle)
+    if (`${year}-${month}-${day}` !== user.dateOfBirth) formData.append("dateOfBirth", `${year}-${month}-${day}`)
     if (newprofileImage !== image_profile) {
-      //   console.log("new profile image")
       formData.append("image_profile", newprofileImage)
     }
     if (newbannerImage !== banner_image) {
-      //   console.log("new banner image")
       formData.append("banner_profile", newbannerImage)
     }
 
@@ -142,6 +140,13 @@ const EditProfileButton = ({ image_profile, banner_image, name, bio, location, j
     })
       .then((res) => {
         //   console.log(res.data.data.user)
+        setName(res.data.data.user.name)
+        setBio(res.data.data.user.bio)
+        setLocation(res.data.data.user.location)
+        setJobTitle(res.data.data.user.jobtitle)
+        setDateOfBirth(res.data.data.user.dateOfBirth)
+        setImageUrl(res.data.data.user.imageUrl)
+        setBannerUrl(res.data.data.user.bannerUrl)
         dispatch(changeUser(res.data.data.user))
         setOpen(false)
         setEditBirthday(false)
