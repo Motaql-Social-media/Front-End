@@ -1,8 +1,6 @@
 import { useRef, useEffect, useState } from "react"
-import ArrowBackIcon from "@mui/icons-material/ArrowBack"
 import { useNavigate } from "react-router-dom"
 import { useSelector } from "react-redux"
-import { useTranslation } from "react-i18next"
 import axios from "axios"
 import i18next from "i18next"
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft"
@@ -29,9 +27,11 @@ const Explore = ({ scroll }: { scroll: number }) => {
 
   const API = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
+    headers: {
+      authorization: "Bearer " + userToken,
+      "accept-language": i18next.language,
+    },
   })
-
-  const { t } = useTranslation()
 
   const exploreRef = useRef<any>(null)
 
@@ -39,7 +39,7 @@ const Explore = ({ scroll }: { scroll: number }) => {
     exploreRef.current.scrollTop += scroll
   }, [scroll])
 
-  const [selectedTopic, setSelectedTopic] = useState("Art")
+  const [selectedTopic, setSelectedTopic] = useState(i18next.language === "en" ? "Art" : "الفن")
 
   const handleChooseTopic = (topic: string) => {
     setSelectedTopic(topic)
@@ -47,12 +47,7 @@ const Explore = ({ scroll }: { scroll: number }) => {
 
   const [topics, setTopics] = useState<any[]>([])
   useEffect(() => {
-    API.get("topics", {
-      headers: {
-        authorization: "Bearer " + userToken,
-        "accept-language": i18next.language,
-      },
-    })
+    API.get("topics")
       .then((res) => {
         // console.log(res.data.data.topics)
         setTopics(res.data.data.topics)
@@ -99,11 +94,7 @@ const Explore = ({ scroll }: { scroll: number }) => {
   const [reels, setReels] = useState<Reel[]>([])
 
   const fetchReels = () => {
-    API.get(`topics/${selectedTopic}/reels`, {
-      headers: {
-        authorization: "Bearer " + userToken,
-      },
-    })
+    API.get(`topics/${selectedTopic}/reels`)
       .then((res) => {
         // console.log(res.data.data.supportingreels)
         setReels(res.data.data.supportingreels)
