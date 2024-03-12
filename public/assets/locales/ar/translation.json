@@ -193,5 +193,7 @@
   "remove_poll": "امسح التصويت",
   "ask_question": "اسأل سؤالا ...",
   "no_followers": "لا يوجد متابعون",
-  "no_followings": "لا يوجد متابَعون"
+  "no_followings": "لا يوجد متابَعون",
+  "no_bookmark_diaries": "لا يوجد مدونات مفضلة بعد",
+  "no_bookmark_reels": "لا يوجد قصص مفضلة بعد"
 }

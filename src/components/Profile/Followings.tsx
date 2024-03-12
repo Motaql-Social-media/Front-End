@@ -54,7 +54,7 @@ const Followings = () => {
   return (
     <div>
       {followings.length > 0 && <PersonsContainer people={followings} />}
-      {followings.length === 0 && <div className="mt-5 text-center text-2xl font-bold text-primary">{t("no_followings")}</div>}{" "}
+      {followings.length === 0 && <div className="mt-5 flex h-96 items-center justify-center text-center text-2xl font-bold text-primary">{t("no_followings")}</div>}{" "}
     </div>
   )
 }

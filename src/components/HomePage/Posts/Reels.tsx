@@ -4,6 +4,7 @@ import { HomeContext } from "../Home"
 import { BookmarksContext } from "../../Bookmarks/Bookmarks"
 import { useContext, useState } from "react"
 import QuoteReel from "./QuoteReel"
+import { t } from "i18next"
 
 const Reels = () => {
   // const handleFetchMore = () => {
@@ -91,7 +92,7 @@ const Reels = () => {
             </div>
           )
         })}
-      {/* <ElementVisibleObserver handler={handleFetchMore} /> */}
+      {bookmarksreels && bookmarksreels.length === 0 && <div className="flex h-96 items-center justify-center text-2xl font-bold text-primary">{t("no_bookmark_reels")}</div>}
     </div>
   )
 }

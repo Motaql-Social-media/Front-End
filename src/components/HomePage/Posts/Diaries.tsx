@@ -4,6 +4,7 @@ import { useContext } from "react"
 import { HomeContext } from "../Home"
 import { BookmarksContext } from "../../Bookmarks/Bookmarks"
 import QuotePost from "./QuotePost"
+import { t } from "i18next"
 
 const Diaries = () => {
   const { diaries: homediaries, setDiaries: homesetDiaries } = useContext(HomeContext) || {}
@@ -81,6 +82,7 @@ const Diaries = () => {
             </div>
           )
         })}
+      {bookmarksdiaries && bookmarksdiaries.length === 0 && <div className="flex h-96 items-center justify-center text-2xl font-bold text-primary">{t("no_bookmark_diaries")}</div>}
     </div>
   )
 }

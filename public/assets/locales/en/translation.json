@@ -193,5 +193,7 @@
   "remove_poll": "Remove Poll",
   "ask_question": "Ask a question...",
   "no_followers": "No followers yet",
-  "no_followings": "No followings yet"
+  "no_followings": "No followings yet",
+  "no_bookmark_diaries": "No bookmarked diaries yet",
+  "no_bookmark_reels": "No bookmarked reels yet"
 }

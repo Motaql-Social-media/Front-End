@@ -70,7 +70,7 @@ const TrendReels = () => {
             </div>
           )
         })}
-      {reels.length === 0 && <div className="mt-10 text-center text-2xl font-bold text-primary">{t("no_reels")}</div>}
+      {reels.length === 0 && <div className=" flex h-96 items-center justify-center text-center text-2xl font-bold text-primary">{t("no_reels")}</div>}
     </div>
   )
 }
