@@ -16,7 +16,6 @@ import React from "react"
 
 import { useNavigate } from "react-router"
 
-import { loginUser } from "../../store/UserSlice"
 import { ThemeState } from "../../store/ThemeSlice"
 
 import { PASSWORD_REGEX, UPPER_CASE_LETTER_REGEX, LOWER_CASE_LETTER_REGEX, SPECIAL_CHARACTER_REGEX, NUMBER_REGEX, LENGTH_REGEX } from "../../constants/index"
@@ -56,11 +55,15 @@ const PasswordReset = ({ setLocation }: { setLocation: any }) => {
     const page3 = document.getElementById("page3")
     const page4 = document.getElementById("page4")
 
+    if (page1) page1.style.display = "none"
+    if (page2) page2.style.display = "none"
+    if (page3) page3.style.display = "none"
+    if (page4) page4.style.display = "none"
+
     switch (select) {
       case 1:
         if (emailExist) {
-          if (page1 && page2) {
-            page1.style.display = "none"
+          if (page2) {
             page2.style.display = "block"
           }
         } else {
@@ -71,15 +74,13 @@ const PasswordReset = ({ setLocation }: { setLocation: any }) => {
         }
         break
       case 2:
-        if (page2 && page3) {
-          page2.style.display = "none"
+        if (page3) {
           page3.style.display = "block"
         }
 
         break
       case 3:
-        if (page3 && page4) {
-          page3.style.display = "none"
+        if (page4) {
           page4.style.display = "block"
         }
         break
@@ -132,21 +133,21 @@ const PasswordReset = ({ setLocation }: { setLocation: any }) => {
     return LENGTH_REGEX.test(password)
   }
 
- function maskEmail(email: string) {
-   // Split the email address into local and domain parts
-   const [localPart, domainPart] = email.split("@")
+  function maskEmail(email: string) {
+    // Split the email address into local and domain parts
+    const [localPart, domainPart] = email.split("@")
 
-   // Mask the local part
-   const maskedLocalPart = localPart.length > 4 ? localPart.substring(0, 2) + "*".repeat(localPart.length - 4) + localPart.slice(-2) : localPart
+    // Mask the local part
+    const maskedLocalPart = localPart.length > 4 ? localPart.substring(0, 2) + "*".repeat(localPart.length - 4) + localPart.slice(-2) : localPart
 
-   // Mask the domain part
-   const maskedDomainPart = domainPart.length > 3 ? domainPart.substring(0, 1) + "*".repeat(domainPart.length - 2) + domainPart.slice(-1) : domainPart
+    // Mask the domain part
+    const maskedDomainPart = domainPart.length > 3 ? domainPart.substring(0, 1) + "*".repeat(domainPart.length - 2) + domainPart.slice(-1) : domainPart
 
-   // Combine the masked local and domain parts with '@' in between
-   const maskedEmail = `${maskedLocalPart}@${maskedDomainPart}`
+    // Combine the masked local and domain parts with '@' in between
+    const maskedEmail = `${maskedLocalPart}@${maskedDomainPart}`
 
-   return maskedEmail
- }
+    return maskedEmail
+  }
 
   const handleSendPhoneOTP = () => {
     // console.log({
@@ -396,7 +397,33 @@ const PasswordReset = ({ setLocation }: { setLocation: any }) => {
 
         <div id="page3" className="m-auto hidden w-[320px]">
           <div>
-            <h1 className="mb-2 mt-3 text-3xl font-bold">{t("reset_password_message3")}</h1>
+            <h1 className="mb-5 mt-3 text-3xl font-bold">{t("reset_password_message3")}</h1>
+            {choosed !== "email" && (
+              <div className="mb-4 text-gray-500">
+                {t("phone_otp_message")} <span className="text-primary">{phoneNumber}</span>
+                <p
+                  className="mt-2 w-fit cursor-pointer text-primary"
+                  onClick={() => {
+                    nextShow(2)
+                  }}
+                >
+                  {t("change_phone")}
+                </p>
+              </div>
+            )}
+            {choosed === "email" && (
+              <div className="mb-4 text-gray-500">
+                {t("email_otp_message")} <span className="text-primary">{email}</span>
+                <p
+                  className="mt-2 w-fit cursor-pointer text-primary"
+                  onClick={() => {
+                    nextShow(1)
+                  }}
+                >
+                  {t("change_email")}
+                </p>
+              </div>
+            )}
             {/* <p className="text-sm text-zinc-600 ">Verify your identity by entering the username associated with your X account.</p> */}
             <TextField
               label={t("code")}
@@ -442,7 +469,7 @@ const PasswordReset = ({ setLocation }: { setLocation: any }) => {
         </div>
         <div id="page4" className="m-auto hidden w-[320px]">
           <div>
-            <h1 className="mb-2 mt-3 text-3xl font-bold">{t("new_password")}</h1>
+            <h1 className="mb-5 mt-3 text-3xl font-bold">{t("new_password")}</h1>
             <div className="relative">
               <TextField
                 label={t("new_password")}

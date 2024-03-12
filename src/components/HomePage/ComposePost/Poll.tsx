@@ -62,7 +62,7 @@ const Poll = ({ handlePollClick, poll, setPoll }: { handlePollClick: any; poll: 
       <div className="mb-2 flex w-full flex-col border-b border-b-darkBorder py-3 pl-3">
         <div className="relative w-[80%]">
           <TextField
-            label={"Choice 1"}
+            label={t("choice", { number: 1 })}
             variant="outlined"
             value={option1}
             onChange={(e) => {
@@ -106,7 +106,7 @@ const Poll = ({ handlePollClick, poll, setPoll }: { handlePollClick: any; poll: 
         </div>
         <div className="relative w-[80%]">
           <TextField
-            label={"Choice 2"}
+            label={t("choice", { number: 2 })}
             variant="outlined"
             value={option2}
             onChange={(e) => {
@@ -155,7 +155,7 @@ const Poll = ({ handlePollClick, poll, setPoll }: { handlePollClick: any; poll: 
         </div>
         <div className={`relative w-[80%] ${numOfOptions < 3 ? "hidden" : ""}`}>
           <TextField
-            label={"Choice 3 (Optional)"}
+            label={`${t("choice", { number: 3 })} (${t("optional")})`}
             variant="outlined"
             value={option3}
             onChange={(e) => {
@@ -204,7 +204,7 @@ const Poll = ({ handlePollClick, poll, setPoll }: { handlePollClick: any; poll: 
         </div>
         <div className={`relative w-[80%] ${numOfOptions < 4 ? "hidden" : ""}`}>
           <TextField
-            label={"Choice 4 (Optional)"}
+            label={`${t("choice", { number: 4 })} (${t("optional")})`}
             variant="outlined"
             value={option4}
             onChange={(e) => {
@@ -248,7 +248,7 @@ const Poll = ({ handlePollClick, poll, setPoll }: { handlePollClick: any; poll: 
         </div>
       </div>
       <div className="w-full border-b border-b-darkBorder pl-3">
-        <p className="text-md mb-4 pl-2">Poll length</p>
+        <p className="text-md mb-4 pl-2">{t("poll_length")}</p>
         <div className="mb-4 flex gap-2">
           <Box sx={{ width: "33.3%" }} className="days">
             <FormControl
@@ -259,7 +259,7 @@ const Poll = ({ handlePollClick, poll, setPoll }: { handlePollClick: any; poll: 
                 minWidth: 125,
               }}
             >
-              <InputLabel id="demo-simple-select-label">Days</InputLabel>
+              <InputLabel id="demo-simple-select-label">{t("days")}</InputLabel>
               <Select
                 value={days}
                 label="Days"
@@ -303,7 +303,7 @@ const Poll = ({ handlePollClick, poll, setPoll }: { handlePollClick: any; poll: 
                   },
                 }}
               >
-                {Array.from({ length: 8 }, (_, i) => i ).map((d) => (
+                {Array.from({ length: 8 }, (_, i) => i).map((d) => (
                   <MenuItem value={d} key={d}>
                     {d}
                   </MenuItem>
@@ -320,7 +320,7 @@ const Poll = ({ handlePollClick, poll, setPoll }: { handlePollClick: any; poll: 
                 minWidth: 125,
               }}
             >
-              <InputLabel id="demo-simple-select-label">Hours</InputLabel>
+              <InputLabel id="demo-simple-select-label">{t("hours")}</InputLabel>
               <Select
                 value={hours}
                 label="Hours"
@@ -381,7 +381,7 @@ const Poll = ({ handlePollClick, poll, setPoll }: { handlePollClick: any; poll: 
                 minWidth: 125,
               }}
             >
-              <InputLabel id="demo-simple-select-label">Minutes</InputLabel>
+              <InputLabel id="demo-simple-select-label">{t("minutes")}</InputLabel>
               <Select
                 value={minutes}
                 label="Minutes"
@@ -436,7 +436,7 @@ const Poll = ({ handlePollClick, poll, setPoll }: { handlePollClick: any; poll: 
         </div>
       </div>
       <div className=" flex h-12 cursor-pointer items-center justify-center rounded-bl-3xl rounded-br-3xl  hover:bg-[#1f0404]" onClick={handleRemovePoll}>
-        <span className="text-lg text-red-600">Remove poll</span>
+        <span className="text-lg text-red-600">{t("remove_poll")}</span>
       </div>
     </div>
   )

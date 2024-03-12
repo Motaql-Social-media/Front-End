@@ -3,17 +3,18 @@ import { useSelector } from "react-redux"
 import {  ArrowRight } from "@mui/icons-material"
 import SubpageNavbar from "../../General/SubpageNavbar"
 import Widgets from "../../Widgets/Widgets"
+import { t } from "i18next"
 
 const MuteBlock = () => {
 
 
   const options = [
     {
-      title: "Block accounts",
+      title: t('blocked_accounts'),
       location: "/settings/blocked_accounts",
     },
     {
-      title: "Muted accounts",
+      title: t('muted_accounts'),
       location: "/settings/muted_accounts",
     },
   ]

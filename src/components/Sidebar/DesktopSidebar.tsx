@@ -87,7 +87,7 @@ const DesktopSidebar = ({ optionsNames, optionsIcons, optionLinks, selected, shr
         {shrink || mobile ? (
           <div className="group mr-2 mt-auto box-border w-fit cursor-pointer border-0">
             <div title="switchAccountContainer" className=" flex w-fit  items-center justify-around rounded-full p-3 group-hover:bg-lightHover dark:group-hover:bg-darkHover" id="mahmoud_switch_account">
-              <Avatar alt={user.name} src={`${user.imageUrl.split(":")[0] === "https" ? user.imageUrl : process.env.REACT_APP_USERS_MEDIA_URL+user.imageUrl}`} id="demo-positioned-button" aria-controls={openMenu ? "demo-positioned-menu" : undefined} aria-haspopup="true" aria-expanded={openMenu ? "true" : undefined} onClick={handleClickMenu} />
+              <Avatar alt={user.name} src={`${user.imageUrl.split(":")[0] === "https" ? user.imageUrl : process.env.REACT_APP_USERS_MEDIA_URL + user.imageUrl}`} id="demo-positioned-button" aria-controls={openMenu ? "demo-positioned-menu" : undefined} aria-haspopup="true" aria-expanded={openMenu ? "true" : undefined} onClick={handleClickMenu} />
               <Menu
                 id="demo-positioned-menu"
                 aria-labelledby="demo-positioned-button"
@@ -130,7 +130,7 @@ const DesktopSidebar = ({ optionsNames, optionsIcons, optionLinks, selected, shr
                   }}
                   className="text-base dark:text-white"
                 >
-                  Logout {user?.username}
+                  {t("logout")} {user?.username}
                 </MenuItem>
               </Menu>
             </div>

@@ -3,9 +3,10 @@ import MenuItem from "@mui/material/MenuItem"
 import MoreHorizOutlinedIcon from "@mui/icons-material/MoreHorizOutlined"
 import { Avatar } from "@mui/material"
 
-import { useEffect, useState } from "react"
 
 import { useSelector } from "react-redux"
+
+import { t } from "i18next"
 
 function SwitchAccount({ handleLogout, openMenu, anchorMenu, handleCloseMenu, handleClickMenu }: { handleLogout: () => void; openMenu: boolean; anchorMenu: HTMLElement | null; handleCloseMenu: any; handleClickMenu: any }) {
   const htmlElement = document.getElementById("htmlid")
@@ -14,17 +15,13 @@ function SwitchAccount({ handleLogout, openMenu, anchorMenu, handleCloseMenu, ha
 
   const darkMode = useSelector((state: any) => state.theme.darkMode)
 
-  // useEffect(() => {
-  //   console.log(
-  //     `${process.env.REACT_APP_MEDIA_URL}${user.imageUrl.split("user").pop().slice(1)}`
-  //   );
-  // }, []);
+  
 
   return (
     <>
       <div className="group !mb-0 mt-auto box-border w-full cursor-pointer border-0">
         <div title="Accounts" className=" flex w-full items-center justify-around rounded-full group-hover:bg-lightHover dark:group-hover:bg-darkHover xs:!p-3">
-          <Avatar alt={user.name} src={`${user.imageUrl.split(":")[0] === "https" ? user.imageUrl : process.env.REACT_APP_USERS_MEDIA_URL+user.imageUrl}`} />
+          <Avatar alt={user.name} src={`${user.imageUrl.split(":")[0] === "https" ? user.imageUrl : process.env.REACT_APP_USERS_MEDIA_URL + user.imageUrl}`} />
           <div>
             <div className="truncate font-semibold">{user.name}</div>
             <div className="text-secondary truncate">{user.username}</div>
@@ -75,7 +72,7 @@ function SwitchAccount({ handleLogout, openMenu, anchorMenu, handleCloseMenu, ha
                 }}
                 className="text-base dark:text-white"
               >
-                Logout {user?.username}
+                {t("logout")} {user?.username}
               </MenuItem>
             </Menu>
           </div>

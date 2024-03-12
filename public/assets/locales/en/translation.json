@@ -175,5 +175,21 @@
   "current_password": "Current Password",
   "confirm_password_message1": "Confirm your password",
   "confirm_password_message2": "Please enter your password",
-  "wrong_password": "The password you entered was incorrect."
+  "wrong_password": "The password you entered was incorrect.",
+  "privacy_message": "Manage what information you see and share.",
+  "edit_profile": "Edit Profile",
+  "save": "Save",
+  "bio": "Bio",
+  "location": "Location",
+  "edit": "Edit",
+  "edit_birth_data_message": "This should be the date of birth of the person using the account. Even if you’re making an account for your business, event, or cat.",
+  "logout": "Logout",
+  "choice": "choice {{number}}",
+  "optional": "Optional",
+  "days": "Days",
+  "hours": "Hours",
+  "minutes": "Minutes",
+  "poll_length": "Poll Length",
+  "remove_poll": "Remove Poll",
+  "ask_question": "Ask a question..."
 }

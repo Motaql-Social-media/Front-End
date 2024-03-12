@@ -3,12 +3,12 @@ import { ArrowRight, VolumeMute } from "@mui/icons-material"
 import SubpageNavbar from "../../General/SubpageNavbar"
 import Widgets from "../../Widgets/Widgets"
 import { useSelector } from "react-redux"
+import { t } from "i18next"
 
 const Privacy = () => {
   const options = [
     {
-      title: "Mute and block",
-      description: "Mange the accounts that you've muted or blocked",
+      title: t('mute_block'),
       logo: <VolumeMute />,
       location: "/settings/mute_block",
     },
@@ -22,7 +22,7 @@ const Privacy = () => {
     <div className="flex flex-1 flex-grow-[8] max-[540px]:mt-16">
       <div className=" no-scrollbar ml-0 mr-1 w-full max-w-[620px] shrink-0 flex-grow overflow-y-scroll border border-b-0 border-t-0 border-lightBorder dark:border-darkBorder  max-[540px]:border-l-0 max-[540px]:border-r-0 sm:w-[600px]">
         <SubpageNavbar title="privacy" />
-        <div className="px-5 text-sm text-gray-500">Manage what information you see and share.</div>
+        <div className="px-5 text-sm text-gray-500">{ t('privacy_message')}</div>
         {options.map((option, index) => (
           <div key={option.title} className="flex cursor-pointer items-center p-3 hover:bg-darkHover" onClick={() => navigate(`${option.location}`)}>
             <div>{option.logo}</div>

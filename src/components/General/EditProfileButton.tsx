@@ -9,6 +9,7 @@ import Crop from "./Crop/Crop"
 import axios from "axios"
 import { useDispatch } from "react-redux"
 import { changeUser } from "../../store/UserSlice"
+import { t } from "i18next"
 
 const EditProfileButton = ({ image_profile, banner_image, name, bio, location, jobtitle, birthday, username }: { image_profile: string; banner_image: string; name: string; bio: string; location: string; jobtitle: string; birthday: string; username: string }) => {
   const user = useSelector((state: any) => state.user.user)
@@ -56,7 +57,7 @@ const EditProfileButton = ({ image_profile, banner_image, name, bio, location, j
     const day = date.getDate()
     const year = date.getFullYear()
 
-    return `${month} ${day}, ${year}`
+    return `${t(month.toLowerCase())} ${day}, ${year}`
   }
 
   const [editBirthday, setEditBirthday] = useState(false)
@@ -189,7 +190,7 @@ const EditProfileButton = ({ image_profile, banner_image, name, bio, location, j
     <div>
       {user.username === username && (
         <button className={` h-10 w-fit rounded-full border border-darkBorder px-3 font-semibold hover:bg-darkHover`} onClick={handleOpen}>
-          Edit Profile
+          {t("edit_profile")}
         </button>
       )}
       <Modal open={open} onClose={handleClose} disableEscapeKeyDown disablePortal>
@@ -199,11 +200,11 @@ const EditProfileButton = ({ image_profile, banner_image, name, bio, location, j
               <div className="cursor-pointer rounded-full p-1  text-white hover:bg-darkHover" onClick={handleClose}>
                 <Close />
               </div>
-              <div className="text-2xl font-semibold text-white">Edit Profile</div>
+              <div className="text-2xl font-semibold text-white">{t("edit_profile")}</div>
               <div className="flex-grow"></div>
               <div>
                 <button className="rounded-full bg-primary px-3 py-1 text-lg font-semibold" onClick={handleSave}>
-                  Save
+                  {t("save")}
                 </button>
               </div>
             </div>
@@ -217,9 +218,11 @@ const EditProfileButton = ({ image_profile, banner_image, name, bio, location, j
               </div>
               <div>
                 <div className="absolute -bottom-[75px] left-[5%] h-[150px] w-[150px] cursor-pointer rounded-full">
-                  <img src={newprofileImageUrl === image_profile ? process.env.REACT_APP_USERS_MEDIA_URL + newprofileImageUrl : newprofileImageUrl} alt="profile" className=" rounded-full  border-4 border-black" />
-                  <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer rounded-full bg-gray-900 p-2 hover:bg-darkHover" onClick={handlePictureClick}>
-                    <AddAPhotoOutlinedIcon sx={{ color: "white" }} />
+                  <div className="relative h-full w-full">
+                    <img src={newprofileImageUrl === image_profile ? (newprofileImage.split(":")[0] === "https" ? newprofileImage : process.env.REACT_APP_USERS_MEDIA_URL + newprofileImageUrl) : newprofileImageUrl} alt="profile" className=" h-full w-full rounded-full  border-4 border-black" />
+                    <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer rounded-full bg-gray-900 p-2 hover:bg-darkHover" onClick={handlePictureClick}>
+                      <AddAPhotoOutlinedIcon sx={{ color: "white" }} />
+                    </div>
                   </div>
                   <input type="file" accept="image/*" hidden ref={hiddenImageInput} onChange={handlePictureChange} />
                 </div>
@@ -228,7 +231,7 @@ const EditProfileButton = ({ image_profile, banner_image, name, bio, location, j
             <div className="flex flex-col gap-4">
               <div className="relative">
                 <TextField
-                  label={"Name"}
+                  label={t("name")}
                   variant="outlined"
                   value={newName}
                   onChange={(e) => {
@@ -273,7 +276,7 @@ const EditProfileButton = ({ image_profile, banner_image, name, bio, location, j
               <div className="relative h-[120px]">
                 <TextField
                   multiline
-                  label={"Bio"}
+                  label={t("bio")}
                   variant="outlined"
                   value={newBio}
                   onChange={(e) => {
@@ -320,7 +323,7 @@ const EditProfileButton = ({ image_profile, banner_image, name, bio, location, j
               </div>
               <div className="relative">
                 <TextField
-                  label={"Location"}
+                  label={t("location")}
                   variant="outlined"
                   value={newLocation}
                   onChange={(e) => {
@@ -364,7 +367,7 @@ const EditProfileButton = ({ image_profile, banner_image, name, bio, location, j
               </div>
               <div className="relative">
                 <TextField
-                  label={"Job Title"}
+                  label={t("speciality")}
                   variant="outlined"
                   value={newJobtitle}
                   onChange={(e) => {
@@ -408,7 +411,7 @@ const EditProfileButton = ({ image_profile, banner_image, name, bio, location, j
               </div>
               <div>
                 <div className="flex items-center gap-4">
-                  <div className="  text-gray-500">Birth date</div>
+                  <div className="  text-gray-500">{t("birthdate")}</div>
                   <div
                     className="cursor-pointer text-primary"
                     onClick={() => {
@@ -416,13 +419,13 @@ const EditProfileButton = ({ image_profile, banner_image, name, bio, location, j
                       else setEditBirthday(false)
                     }}
                   >
-                    {editBirthday ? "Cancel" : "Edit"}
+                    {editBirthday ? t("cancel") : t("edit")}
                   </div>
                 </div>
                 {!editBirthday && <div className="mb-2 text-xl text-white">{formatDate(birthday)}</div>}
                 {editBirthday && (
                   <div>
-                    <div className="mb-2 text-sm text-gray-500">This should be the date of birth of the person using the account. Even if you’re making an account for your business, event, or cat.</div>
+                    <div className="mb-2 text-sm text-gray-500">{t("edit_birth_data_message")}</div>
                     <div className="flex w-full justify-center">
                       <Birthdate month={month} setMonth={setMonth} day={day} setDay={setDay} year={year} setYear={setYear} monthwidth={"120px"} yearwidth={"100px"} />
                     </div>

@@ -161,7 +161,7 @@ const Profile = ({ scroll }: { scroll: number }) => {
     const month = date.toLocaleString("default", { month: "long" })
     const year = date.getFullYear()
 
-    return `${t('joined')} ${t(month.toLowerCase())} ${year}`
+    return `${t("joined")} ${t(month.toLowerCase())} ${year}`
   }
 
   useEffect(() => {
@@ -196,7 +196,7 @@ const Profile = ({ scroll }: { scroll: number }) => {
           <div className="relative">
             <img alt="banner" className="h-[200px] w-full cursor-pointer" src={process.env.REACT_APP_USERS_MEDIA_URL + bannerUrl} loading="lazy" onClick={() => openImageViewer(1)} />
             <div>
-              <img loading="lazy" onClick={() => openImageViewer(0)} alt="profile" className="absolute -bottom-[75px] left-[5%] h-[150px] w-[150px] transform  cursor-pointer rounded-full border-4 border-black" src={process.env.REACT_APP_USERS_MEDIA_URL + imageUrl} />
+              <img loading="lazy" onClick={() => openImageViewer(0)} alt="profile" className="absolute -bottom-[75px] left-[5%] h-[150px] w-[150px] transform  cursor-pointer rounded-full border-4 border-black" src={imageUrl.split(":")[0] === "https" ? imageUrl : process.env.REACT_APP_USERS_MEDIA_URL + imageUrl} />
             </div>
           </div>
           <div dir="ltr">
