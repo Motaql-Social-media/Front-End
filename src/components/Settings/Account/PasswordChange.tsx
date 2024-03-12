@@ -73,6 +73,7 @@ const PasswordChange = () => {
         <div className=" relative mt-4 flex flex-col gap-2">
           <div className={`relative mb-5`}>
             <TextField
+              inputProps={{ onPaste: (e) => e.preventDefault() }}
               label={t("current_password")}
               variant="outlined"
               type={!showPassword ? "password" : "text"}
@@ -120,6 +121,7 @@ const PasswordChange = () => {
           </div>
 
           <TextField
+            inputProps={{ onPaste: (e) => e.preventDefault() }}
             label={t("new_password")}
             variant="outlined"
             type={"password"}
@@ -158,6 +160,7 @@ const PasswordChange = () => {
             }}
           />
           <TextField
+            inputProps={{ onPaste: (e) => e.preventDefault() }}
             label={t("confirm_password")}
             variant="outlined"
             type={"password"}

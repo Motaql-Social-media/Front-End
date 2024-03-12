@@ -60,6 +60,7 @@ const ConfirmPassword = ({ setPasswordConfirmed }: { setPasswordConfirmed: any }
       <hr className="mb-4 border border-darkBorder" />
       <div className={`relative w-[95%]`}>
         <TextField
+          inputProps={{ onPaste: (e) => e.preventDefault() }}
           label={t("login_password_placeholder")}
           variant="outlined"
           type={!showPassword ? "password" : "text"}

@@ -239,6 +239,7 @@ const EditProfileButton = ({ image_profile, banner_image, name, bio, location, j
 
                     setNewName(newValue)
                   }}
+                  inputProps={{ onPaste: (e) => e.preventDefault() }}
                   InputLabelProps={{
                     style: { color: "#40e5da", textAlign: "right" },
                   }}
@@ -287,6 +288,7 @@ const EditProfileButton = ({ image_profile, banner_image, name, bio, location, j
                   InputLabelProps={{
                     style: { color: "#40e5da", textAlign: "right" },
                   }}
+                  inputProps={{ onPaste: (e) => e.preventDefault() }}
                   sx={{
                     height: "100%",
                     borderColor: "#40e5da",
@@ -323,6 +325,7 @@ const EditProfileButton = ({ image_profile, banner_image, name, bio, location, j
               </div>
               <div className="relative">
                 <TextField
+                  inputProps={{ onPaste: (e) => e.preventDefault() }}
                   label={t("location")}
                   variant="outlined"
                   value={newLocation}
@@ -367,6 +370,7 @@ const EditProfileButton = ({ image_profile, banner_image, name, bio, location, j
               </div>
               <div className="relative">
                 <TextField
+                  inputProps={{ onPaste: (e) => e.preventDefault() }}
                   label={t("speciality")}
                   variant="outlined"
                   value={newJobtitle}

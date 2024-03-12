@@ -73,6 +73,7 @@ const FirstStep = ({ nickName, setNickName, speciality, setSpeciality, month, se
         <h1 className="mb-4 mt-3 text-3xl font-bold">{t("signup_welcome2")}</h1>
         <div className="relative">
           <TextField
+            inputProps={{ onPaste: (e) => e.preventDefault() }}
             label={t("name")}
             variant="outlined"
             value={nickName}
@@ -117,6 +118,7 @@ const FirstStep = ({ nickName, setNickName, speciality, setSpeciality, month, se
         </div>
         <div className="relative">
           <TextField
+            inputProps={{ onPaste: (e) => e.preventDefault() }}
             label={t("speciality")}
             variant="outlined"
             value={speciality}

@@ -157,8 +157,6 @@ const Login = ({ openModal, handleCloseModal, setLocation }: { openModal: boolea
       })
   }
 
-
-
   const { t } = useTranslation()
 
   return (
@@ -192,6 +190,7 @@ const Login = ({ openModal, handleCloseModal, setLocation }: { openModal: boolea
               </div>
 
               <TextField
+                inputProps={{ onPaste: (e) => e.preventDefault() }}
                 label={t("login_email_placeholder")}
                 variant="outlined"
                 value={userName}
@@ -257,9 +256,9 @@ const Login = ({ openModal, handleCloseModal, setLocation }: { openModal: boolea
               <h1 className="mb-8 text-4xl">{t("login_welcome2")}</h1>
               <form action="/" method="post" className="flex flex-col gap-5" autoComplete="off" onSubmit={handleLoginEvent}>
                 <TextField
+                  inputProps={{ onPaste: (e) => e.preventDefault(), readOnly: true }}
                   label={t("login_email_placeholder")}
                   variant="outlined"
-                  inputProps={{ readOnly: true }}
                   value={userName}
                   onChange={(e) => setUserName(e.target.value)}
                   InputLabelProps={{
@@ -296,6 +295,7 @@ const Login = ({ openModal, handleCloseModal, setLocation }: { openModal: boolea
                 />
                 <div className={`relative ${user?.error ? "-mb-4" : ""}`}>
                   <TextField
+                    inputProps={{ onPaste: (e) => e.preventDefault() }}
                     label={t("login_password_placeholder")}
                     variant="outlined"
                     type={!showPassword ? "password" : "text"}

@@ -145,6 +145,7 @@ const SearchComponent = ({ query, callback, fromMessage }: { query: string; call
                       handleSearchChange(value)
                     }}
                     inputProps={{
+                      
                       onKeyDown: handleEnterKeyPress,
                       ...params.inputProps,
                     }}

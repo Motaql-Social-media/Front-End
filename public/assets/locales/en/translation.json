@@ -191,5 +191,7 @@
   "minutes": "Minutes",
   "poll_length": "Poll Length",
   "remove_poll": "Remove Poll",
-  "ask_question": "Ask a question..."
+  "ask_question": "Ask a question...",
+  "no_followers": "No followers yet",
+  "no_followings": "No followings yet"
 }

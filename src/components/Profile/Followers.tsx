@@ -52,7 +52,8 @@ const Followers = () => {
   }, [id])
   return (
     <div>
-      <PersonsContainer people={followers} />
+      {followers.length > 0 && <PersonsContainer people={followers} />}
+      {followers.length === 0 && <div className="text-center text-primary text-2xl mt-5 font-bold">{t("no_followers")}</div>}
     </div>
   )
 }

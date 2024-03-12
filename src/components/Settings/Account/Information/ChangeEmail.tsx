@@ -174,6 +174,7 @@ const ChangeEmail = () => {
                 style: {
                   border: emailExistError ? "1px solid red" : "",
                 },
+                onPaste: (e) => e.preventDefault(),
               }}
               sx={{
                 borderColor: "#40e5da",
@@ -220,6 +221,7 @@ const ChangeEmail = () => {
               </p>
             </div>
             <TextField
+              inputProps={{ onPaste: (e) => e.preventDefault() }}
               label={t("code")}
               variant="outlined"
               value={code}
@@ -262,10 +264,10 @@ const ChangeEmail = () => {
         )}
         <div>
           <button className={`${styles.coloredButton}`} onClick={handleButtonClick} disabled={email === user.email || (code.length === 0 && otpSent)}>
-            {otpSent ? t('confirm_email') : t('send_otp')}
+            {otpSent ? t("confirm_email") : t("send_otp")}
           </button>
         </div>
-        {emailChanged && <div className="text-green-600">{ t('email_changed')}</div>}
+        {emailChanged && <div className="text-green-600">{t("email_changed")}</div>}
       </div>
       {user && <Widgets />}
     </div>

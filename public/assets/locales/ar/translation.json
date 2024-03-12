@@ -191,5 +191,7 @@
   "minutes": "دقائق",
   "poll_length": "مدة التصويت",
   "remove_poll": "امسح التصويت",
-  "ask_question": "اسأل سؤالا ..."
+  "ask_question": "اسأل سؤالا ...",
+  "no_followers": "لا يوجد متابعون",
+  "no_followings": "لا يوجد متابَعون"
 }

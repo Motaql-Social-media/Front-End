@@ -177,6 +177,7 @@ const ComposeQuote = ({ id, handleClose, setRepost, repost, repostCount, setRepo
       </div>
       <div className="mt-1.5 h-fit w-full">
         <TextField
+          inputProps={{ onPaste: (e) => e.preventDefault() }}
           id="description"
           variant="standard"
           InputProps={{

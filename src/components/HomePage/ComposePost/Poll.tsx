@@ -62,6 +62,7 @@ const Poll = ({ handlePollClick, poll, setPoll }: { handlePollClick: any; poll: 
       <div className="mb-2 flex w-full flex-col border-b border-b-darkBorder py-3 pl-3">
         <div className="relative w-[80%]">
           <TextField
+            inputProps={{ onPaste: (e) => e.preventDefault() }}
             label={t("choice", { number: 1 })}
             variant="outlined"
             value={option1}
@@ -106,6 +107,7 @@ const Poll = ({ handlePollClick, poll, setPoll }: { handlePollClick: any; poll: 
         </div>
         <div className="relative w-[80%]">
           <TextField
+            inputProps={{ onPaste: (e) => e.preventDefault() }}
             label={t("choice", { number: 2 })}
             variant="outlined"
             value={option2}
@@ -155,6 +157,7 @@ const Poll = ({ handlePollClick, poll, setPoll }: { handlePollClick: any; poll: 
         </div>
         <div className={`relative w-[80%] ${numOfOptions < 3 ? "hidden" : ""}`}>
           <TextField
+            inputProps={{ onPaste: (e) => e.preventDefault() }}
             label={`${t("choice", { number: 3 })} (${t("optional")})`}
             variant="outlined"
             value={option3}
@@ -204,6 +207,7 @@ const Poll = ({ handlePollClick, poll, setPoll }: { handlePollClick: any; poll: 
         </div>
         <div className={`relative w-[80%] ${numOfOptions < 4 ? "hidden" : ""}`}>
           <TextField
+            inputProps={{ onPaste: (e) => e.preventDefault() }}
             label={`${t("choice", { number: 4 })} (${t("optional")})`}
             variant="outlined"
             value={option4}

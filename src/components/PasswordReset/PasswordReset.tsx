@@ -291,6 +291,7 @@ const PasswordReset = ({ setLocation }: { setLocation: any }) => {
           <h1 className="mb-2 mt-3 text-3xl font-bold">{t("reset_password_heading")}</h1>
           <p className="mb-3 text-sm text-zinc-600">{t("reset_password_message")}</p>
           <TextField
+            inputProps={{ onPaste: (e) => e.preventDefault() }}
             label={t("login_email_placeholder")}
             variant="outlined"
             value={email}
@@ -426,6 +427,7 @@ const PasswordReset = ({ setLocation }: { setLocation: any }) => {
             )}
             {/* <p className="text-sm text-zinc-600 ">Verify your identity by entering the username associated with your X account.</p> */}
             <TextField
+              inputProps={{ onPaste: (e) => e.preventDefault() }}
               label={t("code")}
               variant="outlined"
               value={code}
@@ -472,6 +474,7 @@ const PasswordReset = ({ setLocation }: { setLocation: any }) => {
             <h1 className="mb-5 mt-3 text-3xl font-bold">{t("new_password")}</h1>
             <div className="relative">
               <TextField
+                inputProps={{ onPaste: (e) => e.preventDefault() }}
                 label={t("new_password")}
                 variant="outlined"
                 type={!showPassword ? "password" : "text"}

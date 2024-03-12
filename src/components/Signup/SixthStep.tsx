@@ -91,6 +91,7 @@ const SixthStep = ({ nickName, email, phoneNumber, speciality, month, day, year,
         <h1 className="mb-4 mt-3 text-3xl font-bold">{t("signup_welcome7")}</h1>
         <div className="relative">
           <TextField
+            inputProps={{ onPaste: (e) => e.preventDefault() }}
             label={t("new_password")}
             variant="outlined"
             type={!showPassword ? "password" : "text"}

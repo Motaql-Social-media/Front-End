@@ -92,6 +92,7 @@ const FifthStep = ({ nickName, email, setPosition, position }: { nickName: strin
           </p>
         </div>
         <TextField
+          inputProps={{ onPaste: (e) => e.preventDefault() }}
           label={t("code")}
           variant="outlined"
           value={code}

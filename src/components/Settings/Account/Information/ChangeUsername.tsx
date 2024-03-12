@@ -1,4 +1,4 @@
-import {  useState } from "react"
+import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 
 import { useTranslation } from "react-i18next"
@@ -24,8 +24,6 @@ const ChangeUsername = () => {
   const user = useSelector((state: any) => state.user.user)
 
   const [userTag, setUserTag] = useState(user.username)
-
-  
 
   const handleBack = () => {
     navigate(-1)
@@ -74,7 +72,7 @@ const ChangeUsername = () => {
 
   return (
     <div className="flex flex-1 flex-grow-[8] max-[540px]:mt-16">
-      <div className=" px-4 no-scrollbar ml-0 mr-1 w-full max-w-[620px] shrink-0 flex-grow overflow-y-scroll border border-b-0 border-t-0 border-lightBorder dark:border-darkBorder  max-[540px]:border-l-0 max-[540px]:border-r-0 sm:w-[600px]">
+      <div className=" no-scrollbar ml-0 mr-1 w-full max-w-[620px] shrink-0 flex-grow overflow-y-scroll border border-b-0 border-t-0 border-lightBorder px-4 dark:border-darkBorder  max-[540px]:border-l-0 max-[540px]:border-r-0 sm:w-[600px]">
         <SubpageNavbar title="change_username" />
         <div className="relative mt-5">
           <TextField
@@ -82,15 +80,16 @@ const ChangeUsername = () => {
             variant="outlined"
             value={userTag}
             onChange={(e) => {
-              setUserTag(e.target.value)
+              setUserTag(e.target.value.slice(0, 25))
             }}
             InputLabelProps={{
               style: { color: "#40e5da", textAlign: "right" },
             }}
             inputProps={{
+              onPaste: (e) => e.preventDefault(),
               onBlur: handleCheckUsernameExist,
               style: {
-                border: usernameError ? "1px solid red" : "0px",
+                border: usernameError && userTag !== user.username ? "1px solid red" : "0px",
               },
             }}
             sx={{
@@ -120,9 +119,9 @@ const ChangeUsername = () => {
               marginBottom: "10px",
             }}
           />
-          {!usernameError && <CheckCircleIcon className={`absolute top-0 ${i18next.language === "en" || !userTag ? "right-4" : "left-4"} -translate-x-2 translate-y-4 text-[18px] text-green-600`} />}
-          {usernameError && <ErrorIcon className={`absolute bottom-0 ${i18next.language === "en" || !userTag ? "right-4" : "left-4"} -translate-x-2 -translate-y-8 text-[18px] text-red-600`} />}
-          {usernameError && <span className="ml-3 text-sm text-red-600">{t("username_taken")}</span>}
+          {!usernameError&&userTag && <CheckCircleIcon className={`absolute top-0 ${i18next.language === "en" || !userTag ? "right-4" : "left-4"}  -translate-x-2 translate-y-4 text-[18px] text-green-600`} />}
+          {/* {usernameError && <ErrorIcon className={`absolute bottom-0 ${i18next.language === "en" || !userTag ? "right-4" : "left-4"} -translate-x-2 -translate-y-8 text-[18px] text-red-600`} />} */}
+          {usernameError && userTag !== user.username && <span className="mb-5 ml-3 text-sm text-red-600">{t("username_taken")}</span>}
           <button
             type="button"
             className={`${styles.coloredButton}`}
@@ -133,6 +132,7 @@ const ChangeUsername = () => {
           >
             {t("confirm")}
           </button>
+          <div className="absolute right-4 top-1 w-fit text-sm text-gray-500">{userTag ? userTag.length : 0}/25</div>
         </div>
       </div>
       {user && <Widgets />}

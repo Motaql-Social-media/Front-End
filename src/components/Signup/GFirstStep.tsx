@@ -133,6 +133,7 @@ const GFirstStep = ({ name, phoneNumber, setPhoneNumber, speciality, setSpeciali
 
         <div>
           <TextField
+            inputProps={{ onPaste: (e) => e.preventDefault() }}
             label={t("speciality")}
             variant="outlined"
             value={speciality}

@@ -194,6 +194,7 @@ const ChangePhoneNumber = () => {
               </p>
             </div>
             <TextField
+              inputProps={{ onPaste: (e) => e.preventDefault() }}
               label={t("code")}
               variant="outlined"
               value={code}
@@ -236,10 +237,10 @@ const ChangePhoneNumber = () => {
         )}
         <div>
           <button className={`${styles.coloredButton}`} onClick={handleButtonClick} disabled={phoneNumber === user.phoneNumber || (code.length === 0 && otpSent)}>
-            {otpSent ? t('confirm_phone') : t("send_otp")}
+            {otpSent ? t("confirm_phone") : t("send_otp")}
           </button>
         </div>
-        {phoneChanged && <div className="text-green-600">{ t('phone_changed')}</div>}
+        {phoneChanged && <div className="text-green-600">{t("phone_changed")}</div>}
       </div>
       {user && <Widgets />}
     </div>

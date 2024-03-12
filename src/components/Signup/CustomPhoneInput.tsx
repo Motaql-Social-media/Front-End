@@ -39,7 +39,8 @@ export const MuiPhone: React.FC<MUIPhoneProps> = ({
 
   return (
     <TextField
-      label={t('phone_number')}
+      inputProps={{ onPaste: (e) => e.preventDefault() }}
+      label={t("phone_number")}
       variant="outlined"
       value={phone}
       onChange={handlePhoneValueChange}
@@ -78,10 +79,7 @@ export const MuiPhone: React.FC<MUIPhoneProps> = ({
       }}
       InputProps={{
         startAdornment: (
-          <InputAdornment
-            position="start"
-            style={{ marginRight: "2px", marginLeft: "-8px" }}
-          >
+          <InputAdornment position="start" style={{ marginRight: "2px", marginLeft: "-8px" }}>
             <Select
               defaultValue={parseCountry(defaultCountries[0]).iso2}
               MenuProps={{
@@ -120,30 +118,18 @@ export const MuiPhone: React.FC<MUIPhoneProps> = ({
               value={country.iso2 || ""}
               onChange={(e) => setCountry(e.target.value as CountryIso2)}
               renderValue={(value) => {
-                return (
-                  <img
-                    src={`https://flagcdn.com/${value}.svg`}
-                    width="30"
-                    style={{ aspectRatio: "4/3" }}
-                    alt={value}
-                  ></img>
-                );
+                return <img src={`https://flagcdn.com/${value}.svg`} width="30" style={{ aspectRatio: "4/3" }} alt={value}></img>
               }}
             >
               {defaultCountries.map((c) => {
-                const country = parseCountry(c);
+                const country = parseCountry(c)
                 return (
                   <MenuItem key={country.iso2} value={country.iso2}>
-                    <img
-                      src={`https://flagcdn.com/${country.iso2}.svg`}
-                      width="20"
-                      style={{ aspectRatio: "4/3", marginRight: "8px" }}
-                      alt={country.iso2}
-                    ></img>
+                    <img src={`https://flagcdn.com/${country.iso2}.svg`} width="20" style={{ aspectRatio: "4/3", marginRight: "8px" }} alt={country.iso2}></img>
                     <Typography marginRight="8px">{country.name}</Typography>
                     <Typography color="gray">+{country.dialCode}</Typography>
                   </MenuItem>
-                );
+                )
               })}
             </Select>
           </InputAdornment>
@@ -151,5 +137,5 @@ export const MuiPhone: React.FC<MUIPhoneProps> = ({
       }}
       {...restProps}
     />
-  );
+  )
 };
