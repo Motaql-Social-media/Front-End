@@ -41,10 +41,11 @@ const Birthdate = ({ month, setMonth, day, setDay, year, setYear, yearwidth, mon
       <Box sx={{ minWidth: 125 }} className="month">
         <FormControl
           sx={{
-            "&& .MuiFormL</MenuItem>abel-root": {
+            "&& .MuiFormLabel-root": {
               color: "#40e5da",
             },
-            minWidth: 125,
+            width: 125,
+            
           }}
         >
           <InputLabel id="demo-simple-select-label">{t("month")}</InputLabel>
@@ -167,8 +168,7 @@ const Birthdate = ({ month, setMonth, day, setDay, year, setYear, yearwidth, mon
             "&& .MuiFormLabel-root": {
               color: "#40e5da",
             },
-            minWidth: 115,
-            paddingLeft: 0,
+            width: 115,
           }}
         >
           <InputLabel id="demo-simple-select-label">{t("year")}</InputLabel>
@@ -177,9 +177,7 @@ const Birthdate = ({ month, setMonth, day, setDay, year, setYear, yearwidth, mon
             label="Year"
             onChange={handleChangeYear}
             sx={{
-              width: 115,
               color: "black",
-
               ".MuiOutlinedInput-notchedOutline": {
                 borderColor: "#40e5da",
               },
@@ -216,13 +214,14 @@ const Birthdate = ({ month, setMonth, day, setDay, year, setYear, yearwidth, mon
               },
             }}
           >
-            {window.location.pathname === `/${user.username}` &&
+            {user &&
+              window.location.pathname === `/${user.username}` &&
               last120Years.slice(14).map((year) => (
                 <MenuItem value={year} key={year} data-testid={year}>
                   {year}
                 </MenuItem>
               ))}
-            {window.location.pathname !== `/${user.username}` &&
+            {!user &&
               last120Years.map((year) => (
                 <MenuItem value={year} key={year} data-testid={year}>
                   {year}

@@ -124,7 +124,7 @@ const GFirstStep = ({ name, phoneNumber, setPhoneNumber, speciality, setSpeciali
   return (
     <div id="Google First Step" className=" m-auto hidden w-[350px] dark:text-white">
       <div className="max-w[600px] !h-fit">
-        <h1 className="mb-4 mt-3 text-3xl font-bold">Complete some data</h1>
+        <h1 className="mb-4 mt-3 text-3xl font-bold">{t("google_sign_message1")}</h1>
         <div className="z-[3] mb-3">
           <MuiPhone value={phoneNumber} onChange={setPhoneNumber} />
           {!isPhoneValid(phoneNumber) && phoneNumber.length > 0 && <div className="text-red-600">{t("valid_phone")}</div>}

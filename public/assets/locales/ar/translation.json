@@ -214,5 +214,6 @@
   "limit": "الحد الأقصى 50 ميجا بايت",
   "supported_files": "الصيغ المسموحة: .mp4, .mov, .avi, .mkv, .webm, .flv",
   "limit_error": "عذرا الحد الأقصى لحجم الملف هو 50 ميجا بايت",
-  "compose_reel_placeholder": "شاركنا قصة في مجال تخصصك أو نشاطك أو اهتمامك"
+  "compose_reel_placeholder": "شاركنا قصة في مجال تخصصك أو نشاطك أو اهتمامك",
+  "google_sign_message1": "أكمل بعض المعلومات"
 }

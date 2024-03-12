@@ -74,7 +74,6 @@ const ForthStep = ({ nickName, email, setEmail, emailExistError, setEmailExistEr
             style: { color: "#40e5da", textAlign: "right" },
           }}
           inputProps={{
-            onPaste: (e) => e.preventDefault(),
             onBlur: handleCheckEmailExist,
             style: {
               border: emailExistError ? "1px solid red" : "",

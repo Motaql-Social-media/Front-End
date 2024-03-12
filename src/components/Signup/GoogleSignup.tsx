@@ -18,18 +18,13 @@ import Logo from "../../assets/images/mainLogo.svg"
 import i18next from "i18next"
 
 const GoogleSignup = ({ openModal, handleCloseModal, access_token, name }: { openModal: boolean; handleCloseModal: () => void; access_token: string; name: string }) => {
-  const dispatch = useDispatch()
   const navigate = useNavigate()
 
   const [speciality, setSpeciality] = useState("")
   const [year, setYear] = useState("")
-  const [month, setMonth] = useState("may")
-  const [day, setDay] = useState("12")
+  const [month, setMonth] = useState("")
+  const [day, setDay] = useState("")
   const [phoneNumber, setPhoneNumber] = useState("")
-
-  const [userToken, setUserToken] = useState("")
-  const [user, setUser] = useState<any>()
-  const [userTag, setUserTag] = useState<any>("")
 
   const [gPosition, setGPosition] = useState(-1)
 
@@ -42,7 +37,7 @@ const GoogleSignup = ({ openModal, handleCloseModal, access_token, name }: { ope
     if (SecondStep) SecondStep.style.display = "none"
     if (ThirdStep) ThirdStep.style.display = "none"
 
-    console.log("GoogleSignup", gPosition)
+    // console.log("GoogleSignup", gPosition)
 
     switch (gPosition) {
       case 0:
@@ -60,12 +55,6 @@ const GoogleSignup = ({ openModal, handleCloseModal, access_token, name }: { ope
   }
 
   useEffect(GnextShow, [gPosition])
-
-  const handleCompleteSignup = (user: any) => {
-    handleCloseModal()
-
-    dispatch(signupUser({ user: user, token: userToken, navigate }))
-  }
 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth)
 
@@ -144,9 +133,7 @@ const GoogleSignup = ({ openModal, handleCloseModal, access_token, name }: { ope
               x
             </button>
             <img src={Logo} alt="Logo" className={`-mt-4 ${i18next.language === "ar" ? "mr-[45%]" : "ml-[45%]"} w-[40px]`} />
-            {/* <div dir="ltr">
-              <CustomizedStepper step={gPosition} />
-            </div> */}
+
             <GFirstStep name={name} phoneNumber={phoneNumber} setPhoneNumber={setPhoneNumber} speciality={speciality} setSpeciality={setSpeciality} month={month} setMonth={setMonth} day={day} setDay={setDay} year={year} setYear={setYear} setPosition={setGPosition} position={gPosition} />
             <GSecondStep name={name} phoneNumber={phoneNumber} speciality={speciality} month={month} day={day} year={year} access_token={access_token} setPosition={setGPosition} position={gPosition} />
             <ErrorPage setDay={setDay} setMonth={setMonth} setYear={setYear} setNickName={() => {}} setEmail={() => {}} handleCloseModal={handleCloseModal} />

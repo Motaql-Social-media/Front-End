@@ -22,7 +22,6 @@ import ErrorPage from "./ErrorPage"
 import PreStep from "./PreStep"
 import SixthStep from "./SixthStep"
 
-
 import CustomizedStepper from "./CustomizedStepper"
 
 import i18next from "i18next"
@@ -113,39 +112,10 @@ const SignUp = ({ openModal, handleCloseModal, setLocation }: { openModal: boole
     return EMAIL_REGEX.test(emeil)
   }
 
-  // const handleCloseBirthdateErrorModal = () => setOpenBirthdateErrorModal(false)
-
-  // const handleOpenBirthdateErrorModal = () => setOpenBirthdateErrorModal(true)
-
-  // const handleOpenBirthdateError = () => {
-  //   const ErrorPage = document.getElementById("Error Page")
-  //   const ThirdStep = document.getElementById("Third Step")
-
-  //   if (ThirdStep) ThirdStep.style.display = "none"
-  //   if (ErrorPage) ErrorPage.style.display = "block"
-
-  //   handleOpenBirthdateErrorModal()
-  // }
-
   const handleCompleteSignup = (user: any) => {
     handleCloseModal()
 
-    // let userCredentials = {
-    //   email: email,
-    //   password: password,
-    // }
     dispatch(signupUser({ user: user, token: userToken, navigate }))
-    // navigate("/home");
-
-    // dispatch(loginUser({ userCredentials, isgoogle: null })).then((result) => {
-    //   // console.log(result)
-    //   if (result.payload) {
-    //     setEmail("")
-    //     setPassword("")
-    //     handleCloseModal()
-    //     navigate("/home")
-    //   }
-    // })
   }
 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth)
@@ -221,7 +191,7 @@ const SignUp = ({ openModal, handleCloseModal, setLocation }: { openModal: boole
   return (
     <>
       <Modal open={openModal} onClose={handleCloseModal} disableEscapeKeyDown disablePortal>
-        <Box style={modalStyle}>
+        <Box style={modalStyle} sx={{ overflow: "hidden" }}>
           <div className="relative h-full min-w-[350px] bg-white dark:bg-black md:rounded-2xl">
             <button
               className="relative  top-4 h-10 w-10 rounded-3xl bg-transparent bg-white text-2xl text-black no-underline hover:bg-lightHover dark:bg-black dark:text-white dark:hover:bg-darkHover"
