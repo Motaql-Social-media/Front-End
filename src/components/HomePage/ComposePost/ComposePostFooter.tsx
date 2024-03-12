@@ -51,8 +51,6 @@ function ComposePostFooter({
   media: any
   addReelCallback: any
 }) {
-  const themeColor = useSelector((state: any) => state.theme.color)
-
   const inputMedia = useRef<HTMLInputElement>(null)
   const inputGif = useRef<HTMLInputElement>(null)
 
@@ -88,10 +86,10 @@ function ComposePostFooter({
       {!fromQuote && postType !== "reply" && postType !== "reply_reel" && (
         <div className="flex bg-transparent">
           <div className="flex cursor-pointer items-center justify-center gap-2 " onClick={handleOpen}>
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary p-1">
-              <AddIcon fontSize="large" />
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary p-1 max-[400px]:h-6 max-[400px]:w-6 ">
+              <AddIcon />
             </div>
-            <span className="text-xl">
+            <span className="text-xl max-[400px]:text-sm max-[320px]:text-xs">
               {t("publish")} {i18next.language === "ar" ? t("reel").slice(2) : t("reel")}
             </span>
           </div>
@@ -99,18 +97,18 @@ function ComposePostFooter({
       )}
       {postType !== "reply_reel" && (
         <div className="flex bg-transparent">
-          <button onClick={handleUploadButton} title="Media" className="h-10 w-10 cursor-pointer rounded-full p-1 text-primary disabled:cursor-default disabled:brightness-50 dark:hover:bg-gray-800" disabled={mediaDisabled}>
+          <button onClick={handleUploadButton} title="Media" className="h-10 w-10 cursor-pointer rounded-full p-1 text-primary disabled:cursor-default disabled:brightness-50 dark:hover:bg-gray-800 max-[320px]:h-7 max-[320px]:w-7" disabled={mediaDisabled}>
             <InsertPhotoOutlinedIcon />
           </button>
           <input type="file" accept="image/, .jpg, .jpeg, .png, .webp, .bmp, .svg, .ico, .tiff" onChange={handleUploadMedia} ref={inputMedia} style={{ display: "none" }} />
-          <button title="Gif" className="h-10 w-10 cursor-pointer rounded-full p-1 text-primary disabled:cursor-default disabled:brightness-50 dark:hover:bg-gray-800" onClick={handleUploadGif} disabled={GIFDisabled}>
+          <button title="Gif" className="h-10 w-10 cursor-pointer rounded-full p-1 text-primary disabled:cursor-default disabled:brightness-50 dark:hover:bg-gray-800 max-[320px]:h-7 max-[320px]:w-7" onClick={handleUploadGif} disabled={GIFDisabled}>
             <GifBoxOutlinedIcon />
           </button>
           <input type="file" accept="image/gif" onChange={handleUploadMedia} ref={inputGif} style={{ display: "none" }} />
           {postType !== "reply" && postType !== "reply_reel" && (
             <button
               title="Poll"
-              className="h-10 w-10 cursor-pointer rounded-full p-1 text-primary disabled:cursor-default disabled:brightness-50 dark:hover:bg-gray-800"
+              className="h-10 w-10 cursor-pointer rounded-full p-1 text-primary disabled:cursor-default disabled:brightness-50 dark:hover:bg-gray-800 max-[320px]:h-7 max-[320px]:w-7"
               disabled={pollDisabled}
               onClick={() => {
                 handlePollClick(true)
@@ -125,7 +123,7 @@ function ComposePostFooter({
 
       <button
         ref={publishButton}
-        className={`${styles.coloredButton} !h-9 !w-fit px-2`}
+        className={`${styles.coloredButton} !h-9 !w-fit px-2 max-[400px]:text-sm`}
         disabled={(postDisabled && pollError) || (description.length === 0 && media.length === 0)}
         onClick={(e) => {
           publishButton.current?.setAttribute("disabled", "true")
@@ -135,7 +133,7 @@ function ComposePostFooter({
         <span className="font-bold">{t("publish")}</span>
       </button>
       <Modal open={open} onClose={handleClose}>
-        <div className="absolute left-1/2 top-1/2 h-full w-[90%] -translate-x-1/2 -translate-y-1/2 rounded-3xl border p-4 shadow-card dark:border-darkBorder dark:bg-black ">
+        <div className="absolute left-1/2 top-1/2 h-full w-[90%] -translate-x-1/2 -translate-y-1/2 overflow-y-scroll rounded-3xl border p-4 shadow-card dark:border-darkBorder dark:bg-black ">
           <ComposeReel handleClose={handleClose} addReelCallback={addReelCallback} />
         </div>
       </Modal>

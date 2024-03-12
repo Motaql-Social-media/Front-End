@@ -173,5 +173,7 @@
   "email_changed": "تم تغيير البريد الألكترونى بنجاح",
   "phone_changed": "تم تغيير رقم الهاتف بنجاح",
   "current_password": "كلمة المرور الحالية",
-  "forget_password": "نسيت كلمة المرور؟"
+  "confirm_password_message1": "قم بتأكيد كلمة المرور",
+  "confirm_password_message2": "من فضلك، أدخل كلمة المرور الحالية",
+  "wrong_password": "كلمة المرور التى أدخلتها غير صحيحة"
 }

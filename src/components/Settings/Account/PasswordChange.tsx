@@ -68,12 +68,12 @@ const PasswordChange = () => {
 
   return (
     <div className="flex flex-1 flex-grow-[8] max-[540px]:mt-16">
-      <div className=" no-scrollbar px-4 ml-0 mr-1 w-full max-w-[620px] shrink-0 flex-grow overflow-y-scroll border border-b-0 border-t-0 border-lightBorder dark:border-darkBorder  max-[540px]:border-l-0 max-[540px]:border-r-0 sm:w-[600px]">
+      <div className=" no-scrollbar ml-0 mr-1 w-full max-w-[620px] shrink-0 flex-grow overflow-y-scroll border border-b-0 border-t-0 border-lightBorder px-4 dark:border-darkBorder  max-[540px]:border-l-0 max-[540px]:border-r-0 sm:w-[600px]">
         <SubpageNavbar title="change_password" />
-        <div className=" relative flex flex-col gap-2 mt-4">
+        <div className=" relative mt-4 flex flex-col gap-2">
           <div className={`relative mb-5`}>
             <TextField
-              label={t('current_password')}
+              label={t("current_password")}
               variant="outlined"
               type={!showPassword ? "password" : "text"}
               value={currentPassword}
@@ -115,12 +115,12 @@ const PasswordChange = () => {
               <VisibilityIcon />
             </span>
             <a className="text-primary hover:underline" href="/password_reset">
-              { t('forget_password')}
+              {t("forgot_password")}
             </a>
           </div>
 
           <TextField
-            label={t('new_password')}
+            label={t("new_password")}
             variant="outlined"
             type={"password"}
             value={newPassword}
@@ -158,7 +158,7 @@ const PasswordChange = () => {
             }}
           />
           <TextField
-            label={t('confirm_password')}
+            label={t("confirm_password")}
             variant="outlined"
             type={"password"}
             value={confirmPassword}

@@ -168,8 +168,8 @@ const ComposeReel = ({ handleClose, addReelCallback }: { handleClose: any; addRe
   }
 
   return (
-    <>
-      <div className="flex w-full gap-2">
+    <div className="flex flex-col h-full">
+      <div className="flex w-full gap-2 ">
         <div className={`my-2  w-[80%] rounded-2xl border border-primary p-3 `}>
           <div className={`flex items-center justify-between gap-2 ${i18next.language === "en" ? "sm:mr-3" : "sm:ml-3"} `}>
             <div className="flex flex-col items-center justify-center gap-2">
@@ -217,8 +217,8 @@ const ComposeReel = ({ handleClose, addReelCallback }: { handleClose: any; addRe
           </button>
         </div>
       </div>
-      <div className={`composeReelForth:h-[69%] mt-2 flex justify-around  composeReelFifth:h-[66%] composeReelThird:h-[72%] composeReelSecond:h-[75%] composeReelFirst:h-[78%]`}>
-        <div className="relative w-[47%]">
+      <div className={`composeReelFifth:flex-row  mt-2 flex flex-grow flex-col justify-around gap-2  composeReelFifth:h-[66%] composeReelThird:h-[72%] composeReelSecond:h-[75%] composeReelFirst:h-[78%]`}>
+        <div className="relative composeReelFifth:w-[47%]">
           {!fileUploaded && (
             <div className={`flex h-full cursor-pointer items-center justify-center rounded-2xl  border border-primary bg-gray-500 p-5`} onClick={handleUploadClick} onDragEnter={handleDragEnter} onDragLeave={handleDragLeave} onDragOver={handleDragOver} onDrop={handleDrop}>
               <div className="flex flex-col items-center justify-center">
@@ -237,23 +237,23 @@ const ComposeReel = ({ handleClose, addReelCallback }: { handleClose: any; addRe
           )}
         </div>
 
-        <div className={` flex w-[47%] flex-col gap-2 rounded-2xl border border-primary p-3`}>
+        <div className={` flex composeReelFifth:w-[47%] flex-col gap-2 rounded-2xl border border-primary p-3 mb-3`}>
           <div className="mb-3 border-b border-b-primary pb-1 text-center text-xl font-bold dark:text-white">Select Topic</div>
 
           <div className=" flex flex-wrap gap-1 ">
             {topics.map((topic: any) => (
-              <div key={topic.topic} className={` w-fit cursor-pointer rounded-full bg-primary px-2 py-1 font-semibold text-black  max-[600px]:text-sm max-[560px]:text-[0.5rem]  min-[700px]:px-4 min-[700px]:py-2 ${topic.topic === selectedTopic ? "brightness-100" : "brightness-50"}`} onClick={() => handleChooseTopic(topic.topic)}>
+              <div key={topic.topic} className={` w-fit cursor-pointer rounded-full bg-primary px-2 py-1 font-semibold text-black  ${topic.topic === selectedTopic ? "brightness-100" : "brightness-50"}`} onClick={() => handleChooseTopic(topic.topic)}>
                 {topic.topic}
               </div>
             ))}
           </div>
           <div className="flex flex-grow"></div>
-          <div className="flex flex-grow items-center justify-center rounded-2xl border border-primary p-3 text-white max-lg:text-sm max-[853px]:text-xs max-[560px]:text-[0.5rem] ">{selectedDescription}</div>
+          <div className="flex flex-grow items-center justify-center rounded-2xl border border-primary p-3 text-white  ">{selectedDescription}</div>
           <div className="flex flex-grow"></div>
         </div>
       </div>
       <div className={`${fileSizeError ? "" : "hidden"} absolute bottom-10 left-1/2 -translate-x-1/2 rounded-2xl bg-primary p-2 text-xl font-semibold text-black`}>Sorry, maximum file size is 50MB</div>
-    </>
+    </div>
   )
 }
 

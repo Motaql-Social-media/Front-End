@@ -32,7 +32,7 @@ module.exports = {
         composeReelFourth: "727px",
         composeReelFifth: "662px",
         composeReelSixth: "597px",
-        composeReelSeventh: "567px",
+        s570: "570px",
         composeReelEighth: "503px",
         s530: "530px",
         composeReelNinth: "469px",

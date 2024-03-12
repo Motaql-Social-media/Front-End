@@ -9,11 +9,52 @@ import Logo from "../../assets/images/mainLogo.svg"
 import { useTranslation } from "react-i18next"
 import { useSelector } from "react-redux"
 import SwitchAccount from "./SwitchAccount"
+import { styles } from "../../styles/styles"
+import { useEffect } from "react"
+import { Modal } from "@mui/material"
+import ComposePost from "../HomePage/ComposePost/ComposePost"
 
 const DesktopSidebar = ({ optionsNames, optionsIcons, optionLinks, selected, shrink, handleLogout, mobile }: { optionsNames: string[]; optionsIcons: any[]; optionLinks: string[]; selected: number; shrink: boolean; handleLogout: any; mobile: boolean }) => {
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth)
+
+  const [open, setOpen] = useState(false)
+  const handleOpen = () => setOpen(true)
+  const handleClose = () => setOpen(false)
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth)
+    }
+
+    window.addEventListener("resize", handleResize)
+
+    // Remove the event listener when the component is unmounted
+    return () => {
+      window.removeEventListener("resize", handleResize)
+    }
+  }, [])
+
+  const modalStyle: modalStyleT = {
+    position: "absolute",
+    borderRadius: "16px",
+    backgroundColor: "black",
+  }
+
+  if (windowWidth < 700) {
+    modalStyle.width = "100vw"
+    modalStyle.height = "100vh"
+    modalStyle.maxWidth = "none" // optional, to remove any max-width constraints
+  } else {
+    modalStyle.width = "601.6px"
+    modalStyle.height = "651.6px"
+    modalStyle.top = "50%"
+    modalStyle.left = "50%"
+    modalStyle.transform = "translate(-50%, -50%)"
+    modalStyle.maxWidth = "none" // optional, to remove any max-width constraints
+  }
+
   const navigate = useNavigate()
 
-  const darkMode = useSelector((state: any) => state.theme.darkMode)
   const user = useSelector((state: any) => state.user.user)
 
   const { t } = useTranslation()
@@ -42,19 +83,7 @@ const DesktopSidebar = ({ optionsNames, optionsIcons, optionLinks, selected, shr
         {optionsNames.map((optionName, index) => (
           <SidebarOption mobile={mobile} key={optionName} icon={optionsIcons[index]} name={optionName} link={optionLinks[index]} select={selected === index ? true : false} />
         ))}
-        {/* <div className="hidden xs:block" onClick={handlePostClick}>
-          <Button
-            name={shrink ? <HistoryEduOutlinedIcon /> : "Post"}
-            color="text-white"
-            backgroundColor={"bg-" + getColor(themeColor)}
-            height={shrink ? "h-14" : "h-12"}
-            width={shrink ? "w-14" : "w-56"}
-            alt="post"
-            title="post"
-            other={shrink ? "mr-2" : ""}
-          />
-        </div>
-        <PostPopup open={composePostPopup} setOpen={setComposePostPopup} /> */}
+
         {shrink || mobile ? (
           <div className="group mr-2 mt-auto box-border w-fit cursor-pointer border-0">
             <div title="switchAccountContainer" className=" flex w-fit  items-center justify-around rounded-full p-3 group-hover:bg-lightHover dark:group-hover:bg-darkHover" id="mahmoud_switch_account">
@@ -108,6 +137,18 @@ const DesktopSidebar = ({ optionsNames, optionsIcons, optionLinks, selected, shr
           </div>
         ) : (
           <SwitchAccount handleLogout={handleLogout} openMenu={openMenu} anchorMenu={anchorMenu} handleCloseMenu={handleCloseMenu} handleClickMenu={handleClickMenu} />
+        )}
+        {mobile && (
+          <button onClick={handleOpen} className={`${styles.coloredButton} !w-[100px] self-center`}>
+            {t("publish")}
+          </button>
+        )}
+        {mobile && (
+          <Modal open={open} onClose={handleClose} disableEscapeKeyDown disablePortal>
+            <div style={modalStyle} className={`  h-[90%] w-[40%]  overflow-y-scroll rounded-2xl border p-4  dark:border-darkBorder dark:bg-black`}>
+              {/* <ComposePost buttonName="Post" postId={""} postType="diary" addTweetCallback={addTweetCallback} addReelCallback={addReelCallback} /> */}
+            </div>
+          </Modal>
         )}
       </div>
     </div>

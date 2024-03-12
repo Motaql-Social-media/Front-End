@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react"
 import i18next from "i18next"
-import { useNavigate } from "react-router-dom"
 import { TextField } from "@mui/material"
 import VisibilityIcon from "@mui/icons-material/Visibility"
 import { useTranslation } from "react-i18next"
@@ -33,15 +32,13 @@ const ConfirmPassword = ({ setPasswordConfirmed }: { setPasswordConfirmed: any }
     })
       .then((res) => {
         sessionStorage.setItem("passwordConfirmed", "true")
-    setPasswordConfirmed(true)
-
+        setPasswordConfirmed(true)
       })
       .catch((err) => {
         setPasswordError(true)
 
         console.log(err)
       })
-
   }
 
   useEffect(() => {
@@ -55,10 +52,10 @@ const ConfirmPassword = ({ setPasswordConfirmed }: { setPasswordConfirmed: any }
   return (
     <div className=" flex flex-col items-center">
       <div className="w-full">
-        <div className="p-3 text-xl font-semibold text-white">Confirm your password</div>
+        <div className="p-3 text-xl font-semibold text-white">{t("confirm_password_message1")}</div>
       </div>
       <div className="w-full">
-        <p className="p-3 text-sm text-gray-500">Please enter your password</p>
+        <p className="p-3 text-sm text-gray-500">{t("confirm_password_message2")}</p>
       </div>
       <hr className="mb-4 border border-darkBorder" />
       <div className={`relative w-[95%]`}>
@@ -104,9 +101,9 @@ const ConfirmPassword = ({ setPasswordConfirmed }: { setPasswordConfirmed: any }
         <span className={`toggle-password absolute text-primary ${i18next.language === "en" || !password ? "right-4" : "left-4"} top-4 cursor-pointer ${showPassword ? "active" : ""}`} onClick={togglePasswordVisibility}>
           <VisibilityIcon />
         </span>
-        <div className={`${passwordError ? "" : "hidden"} text-red-600`}>The password you entered was incorrect.</div>
+        <div className={`${passwordError ? "" : "hidden"} text-red-600`}>{t("wrong_password")}</div>
         <a className="text-primary hover:underline" href="/password_reset">
-          Forget Password?
+          {t("forgot_password")}
         </a>
       </div>
       <div className="flex w-full items-center justify-end p-3">
