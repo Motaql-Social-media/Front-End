@@ -10,7 +10,7 @@ const initialState: NotificationState = {
 }
 
 const messageSlice = createSlice({
-  name: "notification",
+  name: "messages",
   initialState,
   reducers: {
     setMessageUnseenCount: (state, action: any) => {
@@ -22,11 +22,15 @@ const messageSlice = createSlice({
     receiveMessage: (state) => {
       state.unseenCount += 1
     },
+    openMessage: (state) => {
+      state.unseenCount -= 1
+    },
   },
 })
 
 export const { setMessageUnseenCount } = messageSlice.actions
 export const { receiveMessage } = messageSlice.actions
 export const { resetCount } = messageSlice.actions
+export const { openMessage } = messageSlice.actions
 
 export default messageSlice.reducer

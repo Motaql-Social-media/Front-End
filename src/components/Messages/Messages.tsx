@@ -10,6 +10,8 @@ import Close from "@mui/icons-material/Close"
 import SearchComponent from "../Trending/SearchComponent"
 import io from "socket.io-client"
 import useCheckAuthentication from "../hooks/useCheckAuthentication"
+import { useDispatch } from "react-redux"
+import { setMessageUnseenCount } from "../../store/MessageSlice"
 
 const Messages = ({ scroll }: { scroll: number }) => {
   const messagesRef = useRef<any>(null)
@@ -32,11 +34,14 @@ const Messages = ({ scroll }: { scroll: number }) => {
     },
   })
 
+  const dispatch = useDispatch()
+
   const fetchMessages = () => {
     API.post(`chats`)
       .then((res) => {
         console.log(res.data.data)
         setMessages(res.data.data.conversations)
+        dispatch(setMessageUnseenCount(res.data.data.conversations.filter((obj: any) => obj.unseenCount > 0).length))
       })
       .catch((error) => {
         console.log(error)
