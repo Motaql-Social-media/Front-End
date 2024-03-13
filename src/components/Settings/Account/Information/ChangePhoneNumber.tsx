@@ -12,6 +12,7 @@ import { styles } from "../../../../styles/styles"
 import { changePhone } from "../../../../store/UserSlice"
 import Widgets from "../../../Widgets/Widgets"
 import SubpageNavbar from "../../../General/SubpageNavbar"
+import i18next from "i18next"
 
 const phoneUtil = PhoneNumberUtil.getInstance()
 
@@ -64,11 +65,19 @@ const ChangePhoneNumber = () => {
   }, [phoneNumber])
 
   const handleSendOTP = () => {
-    API.post("auth/send-otpverification", {
-      provider: "phone",
-      input: phoneNumber,
-      name: user.name,
-    })
+    API.post(
+      "auth/send-otpverification",
+      {
+        provider: "phone",
+        input: phoneNumber,
+        name: user.name,
+      },
+      {
+        headers: {
+          "accept-language": i18next.language,
+        },
+      }
+    )
       .then((res) => {
         // console.log(res);
         setOtpSent(true)
@@ -89,11 +98,19 @@ const ChangePhoneNumber = () => {
   const [otpError, setOtpError] = useState(false)
 
   const handleResendOTP = () => {
-    API.post("auth/send-otpverification", {
-      provider: "phone",
-      input: phoneNumber,
-      name: user.name,
-    })
+    API.post(
+      "auth/send-otpverification",
+      {
+        provider: "phone",
+        input: phoneNumber,
+        name: user.name,
+      },
+      {
+        headers: {
+          "accept-language": i18next.language,
+        },
+      }
+    )
       .then((res) => {
         // console.log(res);
         setIsResending(true)
@@ -236,7 +253,7 @@ const ChangePhoneNumber = () => {
           </div>
         )}
         <div>
-          <button className={`${styles.coloredButton}`} onClick={handleButtonClick} disabled={phoneNumber === user.phoneNumber || (code.length === 0 && otpSent)}>
+          <button className={`${styles.coloredButton}`} onClick={handleButtonClick} disabled={phoneNumber === user.phoneNumber || (!otpSent && phoneExistError) || (code.length === 0 && otpSent)}>
             {otpSent ? t("confirm_phone") : t("send_otp")}
           </button>
         </div>

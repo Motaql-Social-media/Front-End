@@ -25,18 +25,10 @@ const GoogleButton = () => {
         googleAccessToken: tokenResponse.access_token,
       })
         .then((res) => {
-          console.log(res.data.data)
+          // console.log(res)
           if (res.data.data.isUserExists === false) {
-            axios
-              .get(`https://people.googleapis.com/v1/people/me?personFields=birthdays,names,nicknames,genders,phoneNumbers&access_token=${tokenResponse.access_token}`)
-              .then((res) => {
-                // console.log(res.data.names[0].displayName)
-                setName(res.data.names[0].displayName)
-                setOpenModal(true)
-              })
-              .catch((err) => {
-                console.log(err)
-              })
+            setName(res.data.date.name)
+            setOpenModal(true)
           } else {
             dispatch(signupUser(res.data.data))
             window.location.href = "/home"

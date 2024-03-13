@@ -10,6 +10,7 @@ import { styles } from "../../../../styles/styles"
 import { changeEmail } from "../../../../store/UserSlice"
 import SubpageNavbar from "../../../General/SubpageNavbar"
 import Widgets from "../../../Widgets/Widgets"
+import i18next from "i18next"
 
 const ChangeEmail = () => {
   const user = useSelector((state: any) => state.user.user)
@@ -71,11 +72,19 @@ const ChangeEmail = () => {
   }, [email])
 
   const handleResendOTP = () => {
-    API.post("auth/send-otpverification", {
-      provider: "email",
-      input: email,
-      name: user.name,
-    })
+    API.post(
+      "auth/send-otpverification",
+      {
+        provider: "email",
+        input: email,
+        name: user.name,
+      },
+      {
+        headers: {
+          "accept-language": i18next.language,
+        },
+      }
+    )
       .then((res) => {
         // console.log(res);
         setIsResending(true)
@@ -107,11 +116,19 @@ const ChangeEmail = () => {
   }
 
   const handleSendOTP = () => {
-    API.post("auth/send-otpverification", {
-      provider: "email",
-      input: email,
-      name: user.name,
-    })
+    API.post(
+      "auth/send-otpverification",
+      {
+        provider: "email",
+        input: email,
+        name: user.name,
+      },
+      {
+        headers: {
+          "accept-language": i18next.language,
+        },
+      }
+    )
       .then((res) => {
         // console.log(res);
         setOtpSent(true)
@@ -263,7 +280,7 @@ const ChangeEmail = () => {
           </div>
         )}
         <div>
-          <button className={`${styles.coloredButton}`} onClick={handleButtonClick} disabled={email === user.email || (code.length === 0 && otpSent)}>
+          <button className={`${styles.coloredButton}`} onClick={handleButtonClick} disabled={email === user.email || (!otpSent && emailExistError) || (code.length === 0 && otpSent)}>
             {otpSent ? t("confirm_email") : t("send_otp")}
           </button>
         </div>

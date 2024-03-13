@@ -49,20 +49,30 @@ const ChangeUsername = () => {
   }
 
   const handleAssignUsername = () => {
-    API.patch(
-      "users/current/change-username",
-      {
-        newUsername: userTag,
-      },
-      {
-        headers: {
-          authorization: "Bearer " + userToken,
-        },
-      }
-    )
+    API.post("users/is-user-found", {
+      input: userTag,
+    })
       .then((res) => {
-        dispatch(changeUsername(userTag))
-        handleBack()
+        setUsernameError(res.data.isFound)
+        if (!res.data.isFound)
+          API.patch(
+            "users/current/change-username",
+            {
+              newUsername: userTag,
+            },
+            {
+              headers: {
+                authorization: "Bearer " + userToken,
+              },
+            }
+          )
+            .then((res) => {
+              dispatch(changeUsername(userTag))
+              handleBack()
+            })
+            .catch((err) => {
+              console.log(err)
+            })
       })
       .catch((err) => {
         console.log(err)
@@ -119,7 +129,7 @@ const ChangeUsername = () => {
               marginBottom: "10px",
             }}
           />
-          {!usernameError&&userTag && <CheckCircleIcon className={`absolute top-0 ${i18next.language === "en" || !userTag ? "right-4" : "left-4"}  -translate-x-2 translate-y-4 text-[18px] text-green-600`} />}
+          {!usernameError && userTag && <CheckCircleIcon className={`absolute top-0 ${i18next.language === "en" || !userTag ? "right-4" : "left-4"}  -translate-x-2 translate-y-4 text-[18px] text-green-600`} />}
           {/* {usernameError && <ErrorIcon className={`absolute bottom-0 ${i18next.language === "en" || !userTag ? "right-4" : "left-4"} -translate-x-2 -translate-y-8 text-[18px] text-red-600`} />} */}
           {usernameError && userTag !== user.username && <span className="mb-5 ml-3 text-sm text-red-600">{t("username_taken")}</span>}
           <button

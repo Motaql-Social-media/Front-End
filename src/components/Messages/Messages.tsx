@@ -35,7 +35,7 @@ const Messages = ({ scroll }: { scroll: number }) => {
   const fetchMessages = () => {
     API.post(`chats`)
       .then((res) => {
-        // console.log(res.data.data)
+        console.log(res.data.data)
         setMessages(res.data.data.conversations)
       })
       .catch((error) => {

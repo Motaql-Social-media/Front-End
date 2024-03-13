@@ -9,6 +9,7 @@ import { useTranslation } from "react-i18next"
 import { useEffect, useState } from "react"
 
 import axios from "axios"
+import i18next from "i18next"
 
 const phoneUtil = PhoneNumberUtil.getInstance()
 
@@ -54,11 +55,19 @@ const SecondStep = ({ nickName, setPosition, phoneNumber, setPhoneNumber, positi
     //   input: phoneNumber,
     //   name: nickName,
     // });
-    API.post("auth/send-otpverification", {
-      provider: "phone",
-      input: phoneNumber,
-      name: nickName,
-    })
+    API.post(
+      "auth/send-otpverification",
+      {
+        provider: "phone",
+        input: phoneNumber,
+        name: nickName,
+      },
+      {
+        headers: {
+          "accept-language": i18next.language,
+        },
+      }
+    )
       .then((res) => {
         // console.log(res);
         setPosition((prev: number) => prev + 1)

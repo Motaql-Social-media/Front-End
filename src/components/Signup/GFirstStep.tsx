@@ -16,6 +16,8 @@ import useRecaptchaV3 from "../hooks/reCaptchaV3"
 
 import { PhoneNumberUtil } from "google-libphonenumber"
 
+import i18next from "i18next"
+
 const phoneUtil = PhoneNumberUtil.getInstance()
 
 const isPhoneValid = (phone: string) => {
@@ -62,11 +64,19 @@ const GFirstStep = ({ name, phoneNumber, setPhoneNumber, speciality, setSpeciali
     //   input: phoneNumber,
     //   name: nickName,
     // });
-    API.post("auth/send-otpverification", {
-      provider: "phone",
-      input: phoneNumber,
-      name: name,
-    })
+    API.post(
+      "auth/send-otpverification",
+      {
+        provider: "phone",
+        input: phoneNumber,
+        name: name,
+      },
+      {
+        headers: {
+          "accept-language": i18next.language,
+        },
+      }
+    )
       .then((res) => {
         // console.log(res);
         setPosition((prev: number) => prev + 1)

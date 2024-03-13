@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next"
 import axios from "axios"
 import { useEffect } from "react"
 import { useRef } from "react"
+import i18next from "i18next"
 
 const ForthStep = ({ nickName, email, setEmail, emailExistError, setEmailExistError, validEmail, setPosition, position }: { nickName: string; email: string; setEmail: (value: string) => void; emailExistError: boolean; setEmailExistError: React.Dispatch<React.SetStateAction<boolean>>; validEmail: (email: string) => boolean; setPosition: any; position: number }) => {
   const API = axios.create({
@@ -36,11 +37,19 @@ const ForthStep = ({ nickName, email, setEmail, emailExistError, setEmailExistEr
     //   input: phoneNumber,
     //   name: nickName,
     // });
-    API.post("auth/send-otpverification", {
-      provider: "email",
-      input: email,
-      name: nickName,
-    })
+    API.post(
+      "auth/send-otpverification",
+      {
+        provider: "email",
+        input: email,
+        name: nickName,
+      },
+      {
+        headers: {
+          "accept-language": i18next.language,
+        },
+      }
+    )
       .then((res) => {
         // console.log(res);
         setPosition((prev: number) => prev + 1)

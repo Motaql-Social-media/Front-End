@@ -220,7 +220,7 @@ const Message = ({ scroll }: { scroll: number }) => {
         </div>{" "}
         <div className="flex flex-col items-center gap-2 ">
           <div className="flex w-full flex-col items-center border-b border-darkBorder py-3 hover:bg-darkHover" onClick={() => navigate(`/${otherContact.username}`)}>
-            <Avatar src={otherContact.imageUrl.split(":")[0] === "https" ? otherContact.imageUrl : process.env.REACT_APP_USERS_MEDIA_URL + otherContact.imageUrl} alt={otherContact.name} sx={{ width: 100, height: 100 }} />
+            <Avatar src={otherContact.imageUrl?.split(":")[0] === "https" ? otherContact.imageUrl : process.env.REACT_APP_USERS_MEDIA_URL + otherContact.imageUrl} alt={otherContact.name} sx={{ width: 100, height: 100 }} />
             <div className="text-white">{otherContact.name}</div>
             <div className="text-gray-500">@{otherContact.username}</div>
             <div className="flex gap-2 text-gray-500">

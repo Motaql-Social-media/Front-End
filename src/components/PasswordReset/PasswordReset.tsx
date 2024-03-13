@@ -155,11 +155,19 @@ const PasswordReset = ({ setLocation }: { setLocation: any }) => {
     //   input: phoneNumber,
     //   name: nickName,
     // });
-    API.post("auth/send-otpverification", {
-      provider: "phone",
-      input: phoneNumber,
-      name: nickName,
-    })
+    API.post(
+      "auth/send-otpverification",
+      {
+        provider: "phone",
+        input: phoneNumber,
+        name: nickName,
+      },
+      {
+        headers: {
+          "accept-language": i18next.language,
+        },
+      }
+    )
       .then((res) => {
         nextShow(2)
         // console.log(res);
@@ -170,11 +178,19 @@ const PasswordReset = ({ setLocation }: { setLocation: any }) => {
   }
 
   const handleSendEmailOTP = () => {
-    API.post("auth/send-otpverification", {
-      provider: "email",
-      input: email,
-      name: nickName,
-    })
+    API.post(
+      "auth/send-otpverification",
+      {
+        provider: "email",
+        input: email,
+        name: nickName,
+      },
+      {
+        headers: {
+          "accept-language": i18next.language,
+        },
+      }
+    )
       .then((res) => {
         nextShow(2)
         // console.log(res);

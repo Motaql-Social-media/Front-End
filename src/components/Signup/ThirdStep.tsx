@@ -5,6 +5,7 @@ import { styles } from "../../styles/styles"
 
 import { useTranslation } from "react-i18next"
 import { useRef } from "react"
+import i18next from "i18next"
 
 const ThirdStep = ({ nickName, phoneNumber, setPosition, position }: { nickName: string; phoneNumber: string; setPosition: any; position: number }) => {
   const [code, setCode] = useState("")
@@ -36,11 +37,19 @@ const ThirdStep = ({ nickName, phoneNumber, setPosition, position }: { nickName:
   })
 
   const handleResendOTP = () => {
-    API.post("auth/send-otpverification", {
-      provider: "phone",
-      input: phoneNumber,
-      name: nickName,
-    })
+    API.post(
+      "auth/send-otpverification",
+      {
+        provider: "phone",
+        input: phoneNumber,
+        name: nickName,
+      },
+      {
+        headers: {
+          "accept-language": i18next.language,
+        },
+      }
+    )
       .then((res) => {
         // console.log(res);
         setIsResending(true)

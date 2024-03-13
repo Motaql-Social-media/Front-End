@@ -5,6 +5,7 @@ import { styles } from "../../styles/styles"
 
 import { useTranslation } from "react-i18next"
 import { useRef } from "react"
+import i18next from "i18next"
 
 const FifthStep = ({ nickName, email, setPosition, position }: { nickName: string; email: string; setPosition: any; position: number }) => {
   const [code, setCode] = useState("")
@@ -39,11 +40,19 @@ const FifthStep = ({ nickName, email, setPosition, position }: { nickName: strin
 
   const [otpError, setOtpError] = useState(false)
   const handleResendOTP = () => {
-    API.post("auth/send-otpverification", {
-      provider: "email",
-      input: email,
-      name: nickName,
-    })
+    API.post(
+      "auth/send-otpverification",
+      {
+        provider: "email",
+        input: email,
+        name: nickName,
+      },
+      {
+        headers: {
+          "accept-language": i18next.language,
+        },
+      }
+    )
       .then((res) => {
         // console.log(res);
         setIsResending(true)

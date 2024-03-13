@@ -7,6 +7,7 @@ import { useEffect, useState } from "react"
 import { TextField } from "@mui/material"
 import { useDispatch } from "react-redux"
 import { signupUser } from "../../store/UserSlice"
+import i18next from "i18next"
 
 import axios from "axios"
 
@@ -40,11 +41,19 @@ const GSecondStep = ({ name, phoneNumber, speciality, month, day, year, access_t
   })
 
   const handleResendOTP = () => {
-    API.post("auth/send-otpverification", {
-      provider: "phone",
-      input: phoneNumber,
-      name: name,
-    })
+    API.post(
+      "auth/send-otpverification",
+      {
+        provider: "phone",
+        input: phoneNumber,
+        name: name,
+      },
+      {
+        headers: {
+          "accept-language": i18next.language,
+        },
+      }
+    )
       .then((res) => {
         // console.log(res);
         setIsResending(true)
