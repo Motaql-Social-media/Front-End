@@ -225,7 +225,9 @@ const Message = ({ scroll }: { scroll: number }) => {
             <div className="text-gray-500">@{otherContact.username}</div>
             <div className="flex gap-2 text-gray-500">
               <div> {otherContact.jobtitle}</div>
-              <div>- {otherContact.followersCount} Followers</div>
+              <div>
+                - {otherContact.followersCount} {t("followers")}
+              </div>
             </div>
           </div>
         </div>

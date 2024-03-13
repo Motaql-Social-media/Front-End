@@ -12,6 +12,7 @@ import io from "socket.io-client"
 import useCheckAuthentication from "../hooks/useCheckAuthentication"
 import { useDispatch } from "react-redux"
 import { setMessageUnseenCount } from "../../store/MessageSlice"
+import { t } from "i18next"
 
 const Messages = ({ scroll }: { scroll: number }) => {
   const messagesRef = useRef<any>(null)
@@ -128,7 +129,7 @@ const Messages = ({ scroll }: { scroll: number }) => {
         <SubpageNavbar title="messages" />
         <div className="flex justify-end p-4">
           <button className={`${styles.coloredButton} flex !w-fit items-center justify-center p-4`} onClick={handleOpen}>
-            New message
+            {t("new_message")}
           </button>
         </div>
         <Conversations conversations={messages} setConversations={setMessages} />
@@ -140,7 +141,7 @@ const Messages = ({ scroll }: { scroll: number }) => {
             <div className="cursor-pointer rounded-full p-1  text-white hover:bg-darkHover" onClick={handleClose}>
               <Close />
             </div>
-            <div className="text-2xl font-semibold text-white">Start New Message</div>
+            <div className="text-2xl font-semibold text-white">{t("start_message")}</div>
 
             <div className="flex-grow"></div>
           </div>

@@ -215,5 +215,8 @@
   "supported_files": "Supported files: .mp4, .mov, .avi, .mkv, .webm, .flv",
   "limit_error": "Sorry, maximum file size is 50MB",
   "compose_reel_placeholder": "Write your reel description here",
-  "google_sign_message1":"Complete some data"
+  "google_sign_message1":"Complete some data",
+  "start_message":"Start a new message",
+  "new_message":"New Message",
+  "search_user":"Search for a user"
 }

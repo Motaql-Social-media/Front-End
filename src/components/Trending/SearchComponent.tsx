@@ -136,7 +136,7 @@ const SearchComponent = ({ query, callback, fromMessage }: { query: string; call
               return (
                 <div key={params.id} className="w-full" ref={params.InputProps.ref}>
                   <TextField
-                    label={!fromMessage ? t("search_placeholder") : "Search for a user"}
+                    label={!fromMessage ? t("search_placeholder") : t("search_user")}
                     variant="outlined"
                     value={searchQuery}
                     onChange={(e) => {
@@ -145,7 +145,6 @@ const SearchComponent = ({ query, callback, fromMessage }: { query: string; call
                       handleSearchChange(value)
                     }}
                     inputProps={{
-                      
                       onKeyDown: handleEnterKeyPress,
                       ...params.inputProps,
                     }}
