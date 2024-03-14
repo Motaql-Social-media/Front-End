@@ -36,7 +36,7 @@ module.exports = {
         s570: "570px",
         composeReelEighth: "503px",
         s530: "530px",
-        s420: "420px",
+        s350: "350px",
         composeReelNinth: "469px",
       },
     },

@@ -18,7 +18,7 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline"
 const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {
     top: 15,
-    left: -45
+    left: window.innerWidth > 400 ? -45 : -25,
   },
   [`&.${stepConnectorClasses.active}`]: {
     [`& .${stepConnectorClasses.line}`]: {
@@ -36,7 +36,7 @@ const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? theme.palette.grey[800] : "#eaeaf0",
 
     borderRadius: 1,
-    width: "120%",
+    width: "110%",
   },
 }))
 
