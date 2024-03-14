@@ -17,11 +17,7 @@ const Notifications = ({ scroll }: { scroll: number }) => {
 
   const user = useSelector((state: any) => state.user)
 
-  useEffect(() => {
-    if (!user) {
-      navigate("/")
-    }
-  }, [user])
+
 
   const API = axios.create({
     baseURL: process.env.REACT_APP_API_URL,

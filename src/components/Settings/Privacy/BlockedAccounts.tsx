@@ -5,6 +5,7 @@ import SettingsPersonContainer from "../SettingsPersonContainer"
 import SubpageNavbar from "../../General/SubpageNavbar"
 import Widgets from "../../Widgets/Widgets"
 import { t } from "i18next"
+import ElementVisibleObserver from "../../General/ElementVisibleObserver"
 
 
 const BlockedAccounts = () => {
@@ -16,24 +17,38 @@ const BlockedAccounts = () => {
 
   const userToken = useSelector((state: any) => state.user.token)
 
-  const [blocked, setBlocked] = useState([])
+  const [blocked, setBlocked] = useState<any[]>([])
 
-  useEffect(() => {
-    API.get(`users/current/blocked`, {
+  const [page, setPage] = useState(1)
+  const [finished, setFinished] = useState(false)
+
+  const fetchBlocked = () => {
+    API.get(`users/current/blocked?page=${page}&limit=20`, {
       headers: {
         Authorization: `Bearer ${userToken}`,
       },
     })
       .then((res) => {
+        if (res.data.data.blocked.length < 20) setFinished(true)
+        setBlocked((prev) => [...prev, ...res.data.data.blocked])
         // console.log(res.data.data.blocked)
-        setBlocked(res.data.data.blocked)
       })
       .catch((err) => {
         console.log(err)
       })
-  }, [])
+  }
+
+  useEffect(() => {
+   fetchBlocked()
+  }, [page])
 
   const user = useSelector((state: any) => state.user.user)
+
+  const handleFetchMore = () => {
+    if (!finished) {
+      setPage((prev) => prev + 1)
+    }
+  }
 
   return (
     <div className="flex flex-1 flex-grow-[8] max-[540px]:mt-16">
@@ -41,7 +56,9 @@ const BlockedAccounts = () => {
         <SubpageNavbar title="blocked_accounts" />
         <div className="border-t border-t-darkBorder py-3">
           {blocked.length === 0 && <div className="text-center text-xl font-semibold text-gray-500">{ t('no_blocked')}</div>}
-          {blocked.length > 0 && <SettingsPersonContainer people={blocked} type="block" />}{" "}
+          {blocked.length > 0 && <SettingsPersonContainer people={blocked} type="block" />}
+          {blocked.length===0&&<div className="h-[150vh]"></div>}
+          <ElementVisibleObserver handler={handleFetchMore} />
         </div>
       </div>
       {user && <Widgets />}

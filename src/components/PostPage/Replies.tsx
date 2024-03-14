@@ -4,6 +4,7 @@ import { useSelector } from "react-redux"
 import Post from "../HomePage/Posts/Post"
 import Reel from "../HomePage/Posts/Reel"
 import { useState } from "react"
+import ElementVisibleObserver from "../General/ElementVisibleObserver"
 
 const Replies = ({ replies, setReplies, id, type }: { replies: any; setReplies: any; id: string | undefined; type: string }) => {
   const API = axios.create({
@@ -12,29 +13,35 @@ const Replies = ({ replies, setReplies, id, type }: { replies: any; setReplies: 
 
   const userToken = useSelector((state: any) => state.user.token)
 
+  const [repliesPage, setRepliesPage] = useState<number>(1)
+  const [finishedReplies, setFinishedReplies] = useState<boolean>(false)
+
   const fetchReplies = () => {
     if (type === "diary") {
-      API.get(`tweets/${id}/replies`, {
+      API.get(`tweets/${id}/replies?page=${repliesPage}&limit=20`, {
         headers: {
           authorization: `Bearer ${userToken}`,
         },
       })
         .then((res) => {
           console.log(res.data.data.replies)
-          setReplies(res.data.data.replies)
+          if(res.data.data.replies.length < 20) setFinishedReplies(true)
+          setReplies((prev:any)=>[...prev,...res.data.data.replies])
         })
         .catch((err) => {
           console.log(err)
         })
     } else {
-      API.get(`reels/${id}/replies`, {
+      API.get(`reels/${id}/replies?page=${repliesPage}&limit=20`, {
         headers: {
           authorization: `Bearer ${userToken}`,
         },
       })
         .then((res) => {
           console.log(res.data.data.replies)
-          setReplies(res.data.data.replies)
+          if(res.data.data.replies.length < 20) setFinishedReplies(true)
+
+          setReplies((prev:any)=>[...prev,...res.data.data.replies])
         })
         .catch((err) => {
           console.log(err)
@@ -44,14 +51,21 @@ const Replies = ({ replies, setReplies, id, type }: { replies: any; setReplies: 
 
   useEffect(() => {
     if (id) fetchReplies()
-  }, [id])
+  }, [id,repliesPage])
 
   const [muted, setMuted] = useState(false)
 
+  const handleFetchMore = () => {
+    if (!finishedReplies) {
+      setRepliesPage((prev) => prev + 1)
+    }
+  }
+
   return (
     <div>
-      {type === "diary" &&
-        replies.map((reply: any) => (
+      {type === "diary" &&<div>
+        
+        {replies.map((reply: any) => (
           <div key={reply.replyId} className="border-b border-darkBorder hover:dark:bg-darkHover">
             <Post cascade={false} inPostPage={true} postType={reply.type} id={reply.replyId} date={reply.createdAt} description={reply.content} media={reply.media.map((m: any) => m.url)} replyCount={reply.repliesCount} repostCount={reply.reTweetCount} likeCount={reply.reactCount} isLiked={reply.isReacted} isReposted={reply.isRetweeted} isBookmarked={reply.isBookmarked} tweeter={reply.replier} posts={replies} setPosts={setReplies} displayFooter={true} mentions={reply.mentions} originalTweet={{}} originalTweeter={{}} poll={null} />
             {reply.replies.replyId && (
@@ -88,14 +102,26 @@ const Replies = ({ replies, setReplies, id, type }: { replies: any; setReplies: 
             )}
           </div>
         ))}
+        {replies.length === 0 && <div className="h-[150vh]"></div>}
+        <ElementVisibleObserver handler={handleFetchMore} />
+      </div>
+
+        
+        }
       {type === "reel" &&
-        replies &&
+      <div>
+
+        {replies &&
         replies.length > 0 &&
         replies.map((reel: any) => (
           <div key={reel.replyId}>
             <Reel inPostPage={true} content={reel.content} createdAt={reel.createdAt} isBookmarked={reel.isBookmarked} isReacted={reel.isReacted} isRereeled={reel.isRereeled} mentions={reel.mentions} originalReel={reel.originalReel} originalReeler={reel.originalReeler} reReelCount={reel.reReelCount} reactCount={reel.reactCount} reelUrl={""} reeler={reel.replier} repliesCount={reel.repliesCount} postType={reel.type} id={reel.replyId} topic={""} reels={replies} setReels={setReplies} muted={muted} setMuted={setMuted} />
           </div>
         ))}
+        {replies.length === 0 && <div className="h-[150vh]"></div>}
+        <ElementVisibleObserver handler={handleFetchMore} />
+      </div>
+        }
     </div>
   )
 }

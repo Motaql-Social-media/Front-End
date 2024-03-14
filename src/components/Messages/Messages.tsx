@@ -13,6 +13,7 @@ import useCheckAuthentication from "../hooks/useCheckAuthentication"
 import { useDispatch } from "react-redux"
 import { setMessageUnseenCount } from "../../store/MessageSlice"
 import { t } from "i18next"
+import ElementVisibleObserver from "../General/ElementVisibleObserver"
 
 const Messages = ({ scroll }: { scroll: number }) => {
   const messagesRef = useRef<any>(null)
@@ -37,11 +38,17 @@ const Messages = ({ scroll }: { scroll: number }) => {
 
   const dispatch = useDispatch()
 
+  const [messagesPage, setMessagesPage] = useState<number>(1)
+  const [finishedMessages, setFinishedMessages] = useState<boolean>(false)
+
   const fetchMessages = () => {
-    API.post(`chats`)
+    API.get(`chats?page=${messagesPage}&limit=20`)
       .then((res) => {
         console.log(res.data.data)
-        setMessages(res.data.data.conversations)
+        setMessages(prev=>[...prev,...res.data.data.conversations])
+        if (res.data.data.conversations.length < 20) {
+          setFinishedMessages(true)
+        }
         dispatch(setMessageUnseenCount(res.data.data.conversations.filter((obj: any) => obj.unseenCount > 0).length))
       })
       .catch((error) => {
@@ -51,7 +58,7 @@ const Messages = ({ scroll }: { scroll: number }) => {
 
   useEffect(() => {
     fetchMessages()
-  }, [])
+  }, [messagesPage])
 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth)
 
@@ -123,6 +130,12 @@ const Messages = ({ scroll }: { scroll: number }) => {
     }
   }, [socket])
 
+  const handleObserver = () => {
+    if(!finishedMessages) {
+      setMessagesPage((prev) => prev + 1)
+    }
+  }
+
   return (
     <div className="flex flex-1 flex-grow-[8] max-[540px]:mt-16">
       <div ref={messagesRef} className=" no-scrollbar ml-0 mr-1 w-full max-w-[620px] shrink-0 flex-grow overflow-y-scroll border border-b-0 border-t-0 border-lightBorder dark:border-darkBorder  max-[540px]:border-l-0 max-[540px]:border-r-0 sm:w-[600px]">
@@ -133,6 +146,10 @@ const Messages = ({ scroll }: { scroll: number }) => {
           </button>
         </div>
         <Conversations conversations={messages} setConversations={setMessages} />
+        {messages.length === 0 && (
+          <div className="h-[150vh]"></div>
+        )}
+        <ElementVisibleObserver handler={handleObserver} />
       </div>
       {user && <Widgets />}
       <Modal open={open} onClose={handleClose} disableEscapeKeyDown disablePortal>

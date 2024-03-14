@@ -5,7 +5,10 @@ import Notification from "./Notification"
 import { useDispatch } from "react-redux"
 import { resetCount } from "../../store/NotificationSlice"
 import io from "socket.io-client"
+import ElementVisibleObserver from "../General/ElementVisibleObserver"
 import { t } from "i18next"
+
+
 const All = () => {
   const userToken = useSelector((state: any) => state.user.token)
   const API = axios.create({
@@ -16,6 +19,9 @@ const All = () => {
   })
 
   const [socket, setSocket] = useState<any>(null)
+
+  const [notificationsPage, setNotificationsPage] = useState<number>(1)
+  const [finishedNotifications, setFinishedNotifications] = useState<boolean>(false)
 
   useEffect(() => {
     setSocket(
@@ -29,17 +35,24 @@ const All = () => {
     )
   }, [])
 
-  const [notifications, setNotifications] = useState<Notification[]>([])
-  useEffect(() => {
-    API.get(`users/current/notifications`)
+  const fetchNotifications = () => {
+    API.get(`users/current/notifications?page=${notificationsPage}&limit=20`)
       .then((res) => {
         console.log(res.data.data.notifications.notifications)
-        setNotifications(res.data.data.notifications.notifications)
+        if (res.data.data.notifications.notifications.length < 20) {
+          setFinishedNotifications(true)
+        }
+        setNotifications(prev=>[...prev,...res.data.data.notifications.notifications])
       })
       .catch((error) => {
         console.log(error)
       })
-  }, [])
+  }
+
+  const [notifications, setNotifications] = useState<Notification[]>([])
+  useEffect(() => {
+    fetchNotifications()
+  }, [notificationsPage])
 
   const dispatch = useDispatch()
 
@@ -60,8 +73,17 @@ const All = () => {
         setNotifications((prev: any) => [payload, ...prev])
         console.log(payload)
       })
+      socket.on('notification-deleted', (payload: any) => {
+        setNotifications((prev: any) => prev.filter((n: any) => n.notificationId !== payload.notificationId))
+      })
     }
   }, [socket])
+
+  const handleFetchMore = () => {
+    if (!finishedNotifications) {
+      setNotificationsPage((prev) => prev + 1)
+    }
+  }
 
   return (
     <div>
@@ -73,6 +95,11 @@ const All = () => {
           </div>
         ))}
       {notifications.length === 0 && <div className="flex h-96 items-center justify-center text-2xl font-bold text-primary">{t("no_notifications")}</div>}
+      {
+        notifications.length === 0 && <div className="h-[150vh]"></div>
+      }
+      <ElementVisibleObserver handler={handleFetchMore} />
+
     </div>
   )
 }

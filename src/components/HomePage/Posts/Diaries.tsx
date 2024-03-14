@@ -47,6 +47,7 @@ const Diaries = () => {
             </div>
           )
         })}
+      {homediaries && homediaries.length === 0 && <div className="h-[150vw]"></div>}
       {bookmarksdiaries &&
         bookmarksdiaries.length > 0 &&
         bookmarksdiaries.map((post: any) => {

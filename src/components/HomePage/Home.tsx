@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux"
 import HorizontalNavbar from "../General/HorizontalNavbar"
 import { useEffect, useState, createContext } from "react"
-import { Outlet, useNavigate } from "react-router-dom"
+import { Outlet } from "react-router-dom"
 import ComposePost from "./ComposePost/ComposePost"
 import { useTranslation } from "react-i18next"
 
@@ -14,7 +14,6 @@ import useCheckAuthentication from "../hooks/useCheckAuthentication"
 export const HomeContext = createContext<any>(null)
 
 const Home = ({ scroll }: { scroll: number }) => {
-  const navigate = useNavigate()
 
   useCheckAuthentication()
 
@@ -22,48 +21,45 @@ const Home = ({ scroll }: { scroll: number }) => {
 
   const userToken = useSelector((state: any) => state.user.token)
 
-  useEffect(() => {
-    if (!user) {
-      navigate("/")
-    }
-  }, [user])
-
   const API = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
     headers: {
       Authorization: `Bearer ${userToken}`,
-     
     },
   })
 
   const [diariesPage, setDiariesPage] = useState<number>(1)
+  const [finishedDiaries, setFinishedDiaries] = useState<boolean>(false)
   const [reelsPage, setReelsPage] = useState<number>(1)
-
-  // useEffect(() => {
-  //   if (diariesPage > 1) if (window.location.pathname === "/home/diaries" || window.location.pathname === "/home") fetchDiaries()
-  // }, [diariesPage])
-
-  // useEffect(() => {
-  //   if (reelsPage > 1 && window.location.pathname === "/home/reels") fetchReels()
-  // }, [reelsPage])
+  const [finishedReels, setFinishedReels] = useState<boolean>(false)
 
   useEffect(() => {
-    if ((window.location.pathname === "/home/diaries" || window.location.pathname === "/home") && diariesPage === 1) {
-      setDiaries([])
-      setDiariesPage(1)
-      fetchDiaries()
-    } else if (window.location.pathname === "/home/reels" && reelsPage === 1) {
-      setReels([])
-      setReelsPage(1)
-      fetchReels()
-    }
-  }, [window.location.pathname])
+    if (window.location.pathname === "/home/diaries" || window.location.pathname === "/home") fetchDiaries()
+  }, [diariesPage,window.location.pathname])
+
+  useEffect(() => {
+    if (window.location.pathname === "/home/reels") fetchReels()
+  }, [reelsPage,window.location.pathname])
+
+  // useEffect(() => {
+  //   if ((window.location.pathname === "/home/diaries" || window.location.pathname === "/home") && diariesPage === 1) {
+  //     setDiaries([])
+  //     setDiariesPage(1)
+  //     fetchDiaries()
+  //   } else if (window.location.pathname === "/home/reels" && reelsPage === 1) {
+  //     setReels([])
+  //     setReelsPage(1)
+  //     fetchReels()
+  //   }
+  // }, [window.location.pathname])
 
   const fetchDiaries = () => {
+    // console.log(`tweets/timeline?page=${diariesPage}&limit=${20}`)
     API.get(`tweets/timeline?page=${diariesPage}&limit=${20}`)
       .then((res) => {
         console.log(res.data.data.timelineTweets)
-        setDiaries((prev) => prev.concat(res.data.data.timelineTweets).filter((item, index, self) => self.indexOf(item) === index))
+        if (res.data.data.timelineTweets.length < 20) setFinishedDiaries(true)
+        setDiaries((prev) => [...prev,...res.data.data.timelineTweets])
       })
       .catch((err) => {
         console.log(err)
@@ -71,10 +67,12 @@ const Home = ({ scroll }: { scroll: number }) => {
   }
 
   const fetchReels = () => {
+    console.log(reelsPage)
     API.get(`reels/timeline?page=${reelsPage}&limit=${20}`)
       .then((res) => {
         console.log(res.data.data.timelineReels)
-        setReels((prev) => prev.concat(res.data.data.timelineReels).filter((item, index, self) => self.indexOf(item) === index))
+        if (res.data.data.timelineReels.length < 20) setFinishedReels(true)
+        setReels((prev) => [...prev,...res.data.data.timelineReels])
       })
       .catch((err) => {
         console.log(err)
@@ -118,8 +116,11 @@ const Home = ({ scroll }: { scroll: number }) => {
   const [isVisible, setIsVisible] = useState(true)
 
   const handleFetchMore = () => {
-    if (window.location.pathname === "/home/reels") setReelsPage((prev) => prev + 1)
-    else setDiariesPage((prev) => prev + 1)
+    if (window.location.pathname === "/home/reels") {
+      if (!finishedReels) setReelsPage((prev) => prev + 1)
+    } else {
+      if (!finishedDiaries) setDiariesPage((prev) => prev + 1)
+    }
   }
 
   const addTweetCallback = (t: any) => {
@@ -157,6 +158,7 @@ const Home = ({ scroll }: { scroll: number }) => {
         <HomeContext.Provider value={{ diaries, setDiaries, reels, setReels }}>
           <Outlet />
         </HomeContext.Provider>
+
         <ElementVisibleObserver handler={handleFetchMore} />
       </div>
       {user && <Widgets />}

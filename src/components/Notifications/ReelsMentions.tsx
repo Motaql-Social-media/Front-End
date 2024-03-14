@@ -4,6 +4,7 @@ import { useSelector } from "react-redux"
 import Reel from "../HomePage/Posts/Reel"
 import QuoteReel from "../HomePage/Posts/QuoteReel"
 import { t } from "i18next"
+import ElementVisibleObserver from "../General/ElementVisibleObserver"
 
 const ReelsMentions = () => {
   const API = axios.create({
@@ -13,20 +14,35 @@ const ReelsMentions = () => {
   const userToken = useSelector((state: any) => state.user.token)
   const [reels, setReels] = useState<Reel[]>([])
 
-  useEffect(() => {
-    API.get(`users/current/reel-mentions`, {
+  const [page, setPage] = useState(1)
+  const [finished, setFinished] = useState(false)
+
+  const fetchReels = () => {
+    API.get(`users/current/reel-mentions?page=${page}&limit=20`, {
       headers: {
         Authorization: `Bearer ${userToken}`,
       },
     })
       .then((res) => {
-        setReels(res.data.data.mentions)
+        if (res.data.data.mentions.length < 20) setFinished(true)
+        setReels((prev) => [...prev, ...res.data.data.mentions])
+
         // console.log(res.data.data.mentions)
       })
       .catch((error) => {
         console.log(error)
       })
-  }, [])
+  }
+
+  useEffect(() => {
+   fetchReels()
+  }, [page])
+
+  const handleFetchMore = () => {
+    if (!finished) {
+      setPage((prev) => prev + 1)
+    }
+  }
 
   const [muted, setMuted] = useState(false)
 
@@ -66,6 +82,8 @@ const ReelsMentions = () => {
         )
       })}
       {reels.length === 0 && <div className="flex h-96 items-center justify-center text-2xl font-bold text-primary">{t("no_reels_mentions")}</div>}
+      {reels.length===0 && <div className="h-[150vh]"></div>}
+      <ElementVisibleObserver handler={handleFetchMore} />
     </div>
   )
 }

@@ -12,6 +12,7 @@ const Conversation = ({ id, isActive, otherContact, unseenCount }: { id: string;
     <div
       className="relative flex cursor-pointer gap-2  border-y border-darkBorder p-2 hover:bg-darkHover"
       onClick={() => {
+        if(unseenCount>0)
         dispatch(openMessage())
         navigate(`/messages/${id}`)
       }}

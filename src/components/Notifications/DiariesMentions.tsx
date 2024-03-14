@@ -4,6 +4,7 @@ import { useSelector } from "react-redux"
 import Post from "../HomePage/Posts/Post"
 import QuotePost from "../HomePage/Posts/QuotePost"
 import { t } from "i18next"
+import ElementVisibleObserver from "../General/ElementVisibleObserver"
 
 const DiariesMentions = () => {
   const API = axios.create({
@@ -13,20 +14,35 @@ const DiariesMentions = () => {
   const userToken = useSelector((state: any) => state.user.token)
   const [diaries, setDiaries] = useState<Diary[]>([])
 
-  useEffect(() => {
-    API.get(`users/current/tweet-mentions`, {
+  const [page, setPage] = useState(1)
+  const [finished, setFinished] = useState(false)
+
+  const fetchDiaries = () => {
+    API.get(`users/current/tweet-mentions?page=${page}&limit=20`, {
       headers: {
         Authorization: `Bearer ${userToken}`,
       },
     })
       .then((res) => {
-        setDiaries(res.data.data.mentions)
+        if (res.data.data.mentions.length < 20) setFinished(true)
+        setDiaries((prev) => [...prev, ...res.data.data.mentions])
+
         // console.log(res.data.data.mentions)
       })
       .catch((error) => {
         console.log(error)
       })
-  }, [])
+  }
+
+  useEffect(() => {
+    fetchDiaries()
+  }, [page])
+
+  const handleFetchMore = () => {
+    if (!finished) {
+      setPage((prev) => prev + 1)
+    }
+  }
 
   return (
     <div>
@@ -64,6 +80,8 @@ const DiariesMentions = () => {
         )
       })}
       {diaries.length === 0 && <div className="flex h-96 items-center justify-center text-2xl font-bold text-primary">{t("no_diaries_mentions")}</div>}
+      {diaries.length===0 && <div className="h-[150vh]"></div>}
+      <ElementVisibleObserver handler={handleFetchMore} />
     </div>
   )
 }

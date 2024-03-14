@@ -1,16 +1,16 @@
 import { useEffect, useState, useRef, createContext } from "react"
-import { useNavigate, Outlet } from "react-router-dom"
+import {  Outlet } from "react-router-dom"
 import { useSelector } from "react-redux"
 import axios from "axios"
 import { useTranslation } from "react-i18next"
 import HorizontalNavbar from "../General/HorizontalNavbar"
 import Widgets from "../Widgets/Widgets"
 import useCheckAuthentication from "../hooks/useCheckAuthentication"
+import ElementVisibleObserver from "../General/ElementVisibleObserver"
 
 export const BookmarksContext = createContext<any>(null)
 
 const Bookmarks = ({ scroll }: { scroll: number }) => {
-  const navigate = useNavigate()
 
   useCheckAuthentication()
 
@@ -18,11 +18,7 @@ const Bookmarks = ({ scroll }: { scroll: number }) => {
 
   const userToken = useSelector((state: any) => state.user.token)
 
-  useEffect(() => {
-    if (!user) {
-      navigate("/")
-    }
-  }, [user])
+ 
 
   const API = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
@@ -30,6 +26,11 @@ const Bookmarks = ({ scroll }: { scroll: number }) => {
 
   const [diaries, setDiaries] = useState<Diary[]>([])
   const [reels, setReels] = useState<Reel[]>([])
+
+  const [page, setPage] = useState(1)
+  const [finished, setFinished] = useState(false)
+
+
 
   const { t } = useTranslation()
 
@@ -65,14 +66,19 @@ const Bookmarks = ({ scroll }: { scroll: number }) => {
   const [isVisible, setIsVisible] = useState(true)
 
   const fetchBookmarksDiaries = () => {
-    API.get("users/current/tweet-bookmarks", {
+    API.get(`users/current/tweet-bookmarks?page=${page}&limit=20`, {
       headers: {
         authorization: "Bearer " + userToken,
       },
     })
       .then((res) => {
         console.log(res)
-        setDiaries(res.data.data.bookmarks)
+
+        if(res.data.data.bookmarks.length<20){
+          setFinished(true)
+        }
+        setDiaries(prev=>[...prev,...res.data.data.bookmarks])
+
       })
       .catch((err) => {
         console.log(err)
@@ -80,14 +86,17 @@ const Bookmarks = ({ scroll }: { scroll: number }) => {
   }
 
   const fetchBookmarksReels = () => {
-    API.get("users/current/reel-bookmarks", {
+    API.get(`users/current/reel-bookmarks?page=${page}&limit=20`, {
       headers: {
         authorization: "Bearer " + userToken,
       },
     })
       .then((res) => {
         console.log(res)
-        setReels(res.data.data.bookmarks)
+        if(res.data.data.bookmarks.length<20){
+          setFinished(true)
+        }
+        setReels(prev=>[...prev,...res.data.data.bookmarks])
       })
       .catch((err) => {
         console.log(err)
@@ -98,15 +107,26 @@ const Bookmarks = ({ scroll }: { scroll: number }) => {
   //   fetchBookmarksDiaries()
   // }, [])
 
-  useEffect(() => {
+  const fetchData=()=>{
     if (window.location.pathname === "/bookmarks/diaries" || window.location.pathname === "/bookmarks") {
-      setDiaries([])
+      if(!finished){
       fetchBookmarksDiaries()
+      }
     } else if (window.location.pathname === "/bookmarks/reels") {
-      setReels([])
+      if(!finished){
       fetchBookmarksReels()
+    }}
+  }
+
+  useEffect(() => {
+   fetchData()
+  }, [window.location.pathname,page])
+
+  const handleFetchMore = () => {
+    if (!finished) {
+      setPage((prev) => prev + 1)
     }
-  }, [window.location.pathname])
+  }
 
   return (
     <div className="flex flex-1 flex-grow-[8] max-[540px]:mt-16">
@@ -132,6 +152,7 @@ const Bookmarks = ({ scroll }: { scroll: number }) => {
         <BookmarksContext.Provider value={{ diaries, setDiaries, reels, setReels }}>
           <Outlet />
         </BookmarksContext.Provider>
+        <ElementVisibleObserver handler={handleFetchMore} />
       </div>
       {user && <Widgets />}
     </div>

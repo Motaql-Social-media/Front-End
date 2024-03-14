@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom"
 import Reel from "../HomePage/Posts/Reel"
 import QuoteReel from "../HomePage/Posts/QuoteReel"
 import { t } from "i18next"
+import ElementVisibleObserver from "../General/ElementVisibleObserver"
 
 const ProfileReels = () => {
   const [reels, setReels] = useState<Diary[]>([])
@@ -17,21 +18,37 @@ const ProfileReels = () => {
     baseURL: process.env.REACT_APP_API_URL,
   })
 
-  useEffect(() => {
+  const [page, setPage] = useState(1)
+  const [finished, setFinished] = useState(false)
+
+  const fetchReels = () => {
     if (tag)
-      API.get(`users/${tag}/reels`, {
-        headers: {
-          Authorization: `Bearer ${userToken}`,
-        },
+    API.get(`users/${tag}/reels?page=${page}&limit=20`, {
+      headers: {
+        Authorization: `Bearer ${userToken}`,
+      },
+    })
+      .then((res) => {
+        console.log(res.data.data.reels)
+        if (res.data.data.reels.length < 20) setFinished(true)
+        setReels(prev=>[...prev,...res.data.data.reels])
+        
       })
-        .then((res) => {
-          console.log(res.data.data.reels)
-          setReels(res.data.data.reels)
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-  }, [tag])
+      .catch((err) => {
+        console.log(err)
+      })
+
+  }
+
+  useEffect(() => {
+   fetchReels()
+  }, [tag,page])
+
+  const handleFetchMore = () => {
+    if (!finished) {
+      setPage((prev) => prev + 1)
+    }
+  }
 
   const [muted, setMuted] = useState(false)
 
@@ -73,6 +90,10 @@ const ProfileReels = () => {
           )
         })}
       {reels.length === 0 && <div className="mt-5 text-center text-2xl font-bold text-primary">{t("no_reels_profile", { name: tag })}</div>}
+      {
+        reels.length === 0 && <div className="h-[150vh]"></div>
+      }
+      <ElementVisibleObserver handler={handleFetchMore} />
     </div>
   )
 }

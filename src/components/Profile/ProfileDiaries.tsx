@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom"
 import Post from "../HomePage/Posts/Post"
 import QuotePost from "../HomePage/Posts/QuotePost"
 import { t } from "i18next"
+import ElementVisibleObserver from "../General/ElementVisibleObserver"
 
 const ProfileDiaries = () => {
   const [diaries, setDiaries] = useState<Diary[]>([])
@@ -17,21 +18,36 @@ const ProfileDiaries = () => {
     baseURL: process.env.REACT_APP_API_URL,
   })
 
-  useEffect(() => {
+  const [page, setPage] = useState(1)
+  const [finished, setFinished] = useState(false)
+
+  const fetchDiaries = () => {
     if (tag)
-      API.get(`users/${tag}/tweets`, {
-        headers: {
-          Authorization: `Bearer ${userToken}`,
-        },
+    API.get(`users/${tag}/tweets?page=${page}&limit=20`, {
+      headers: {
+        Authorization: `Bearer ${userToken}`,
+      },
+    })
+      .then((res) => {
+        console.log(res.data.data.tweets)
+        if (res.data.data.tweets.length < 20) setFinished(true)
+        setDiaries(prev=>[...prev,...res.data.data.tweets])
       })
-        .then((res) => {
-          console.log(res.data.data.tweets)
-          setDiaries(res.data.data.tweets)
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-  }, [tag])
+      .catch((err) => {
+        console.log(err)
+      })
+
+  }
+
+  useEffect(() => {
+   fetchDiaries()
+  }, [tag,page])
+
+  const handleFetchMore = () => {
+    if (!finished) {
+      setPage((prev) => prev + 1)
+    }
+  }
 
   return (
     <div>
@@ -71,6 +87,10 @@ const ProfileDiaries = () => {
           )
         })}
       {diaries.length === 0 && <div className="mt-5 text-center text-2xl font-bold text-primary">{t("no_diaries_profile", { name: tag })}</div>}
+      {
+        diaries.length === 0 && <div className="h-[150vh]"></div>
+      }
+      <ElementVisibleObserver handler={handleFetchMore} />
     </div>
   )
 }

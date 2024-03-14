@@ -121,7 +121,7 @@ export const loginUser = createAsyncThunk("user/loginUser", async ({ userCredent
     localStorage.setItem("token", JSON.stringify(userCredentials.token))
   } else {
     google = false
-    console.log(userCredentials)
+    // console.log(userCredentials)
 
     const request = await axios.post(`${process.env.REACT_APP_API_URL}auth/signin`, userCredentials)
     response = await request.data

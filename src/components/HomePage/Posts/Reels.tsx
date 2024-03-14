@@ -1,8 +1,7 @@
-// import ElementVisibleObserver from "../../General/ElementVisibleObserver"
 import Reel from "./Reel"
 import { HomeContext } from "../Home"
 import { BookmarksContext } from "../../Bookmarks/Bookmarks"
-import { useContext, useState } from "react"
+import { useContext, useState,useEffect } from "react"
 import QuoteReel from "./QuoteReel"
 import { t } from "i18next"
 
@@ -14,13 +13,7 @@ const Reels = () => {
   const { reels: homereels, setReels: homesetReels } = useContext(HomeContext) || {}
   const { reels: bookmarksreels, setReels: bookmarkssetReels } = useContext(BookmarksContext) || {}
 
-  // useEffect(() => {
-  //   console.log(bookmarksreels)
-  // }, [bookmarksreels])
-
   const [muted, setMuted] = useState(false)
-
-  
 
   return (
     <div>
@@ -57,6 +50,8 @@ const Reels = () => {
             )}
           </div>
         ))}
+      {homereels && homereels.length === 0 && <div className="h-[150vw]"></div>}
+
       {bookmarksreels &&
         bookmarksreels.length > 0 &&
         bookmarksreels.map((reel: any) => {
