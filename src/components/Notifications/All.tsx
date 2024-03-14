@@ -7,7 +7,7 @@ import { resetCount } from "../../store/NotificationSlice"
 import io from "socket.io-client"
 import ElementVisibleObserver from "../General/ElementVisibleObserver"
 import { t } from "i18next"
-
+import Loading from "../General/Loading"
 
 const All = () => {
   const userToken = useSelector((state: any) => state.user.token)
@@ -22,6 +22,8 @@ const All = () => {
 
   const [notificationsPage, setNotificationsPage] = useState<number>(1)
   const [finishedNotifications, setFinishedNotifications] = useState<boolean>(false)
+
+  const [loading, setLoading] = useState<boolean>(true)
 
   useEffect(() => {
     setSocket(
@@ -39,10 +41,11 @@ const All = () => {
     API.get(`users/current/notifications?page=${notificationsPage}&limit=20`)
       .then((res) => {
         console.log(res.data.data.notifications.notifications)
+        setLoading(false)
         if (res.data.data.notifications.notifications.length < 20) {
           setFinishedNotifications(true)
         }
-        setNotifications(prev=>[...prev,...res.data.data.notifications.notifications])
+        setNotifications((prev) => [...prev, ...res.data.data.notifications.notifications])
       })
       .catch((error) => {
         console.log(error)
@@ -73,7 +76,7 @@ const All = () => {
         setNotifications((prev: any) => [payload, ...prev])
         console.log(payload)
       })
-      socket.on('notification-deleted', (payload: any) => {
+      socket.on("notification-deleted", (payload: any) => {
         setNotifications((prev: any) => prev.filter((n: any) => n.notificationId !== payload.notificationId))
       })
     }
@@ -86,21 +89,23 @@ const All = () => {
   }
 
   return (
-    <div>
-      {notifications &&
-        notifications.length > 0 &&
-        notifications.map((n: any) => (
-          <div key={n.notificationId}>
-            <Notification content={n.content} createdAt={n.createdAt} isSeen={n.isSeen} metadata={n.metadata} notificationFrom={n.notificationFrom} notificationId={n.notificationId} type={n.type} />
-          </div>
-        ))}
-      {notifications.length === 0 && <div className="flex h-96 items-center justify-center text-2xl font-bold text-primary">{t("no_notifications")}</div>}
-      {
-        notifications.length === 0 && <div className="h-[150vh]"></div>
-      }
-      <ElementVisibleObserver handler={handleFetchMore} />
-
-    </div>
+    <>
+      {loading && <Loading />}
+      {!loading && (
+        <div>
+          {notifications &&
+            notifications.length > 0 &&
+            notifications.map((n: any) => (
+              <div key={n.notificationId}>
+                <Notification content={n.content} createdAt={n.createdAt} isSeen={n.isSeen} metadata={n.metadata} notificationFrom={n.notificationFrom} notificationId={n.notificationId} type={n.type} />
+              </div>
+            ))}
+          {notifications.length === 0 && <div className="flex h-96 items-center justify-center text-2xl font-bold text-primary">{t("no_notifications")}</div>}
+          {notifications.length === 0 && <div className="h-[150vh]"></div>}
+          <ElementVisibleObserver handler={handleFetchMore} />
+        </div>
+      )}
+    </>
   )
 }
 

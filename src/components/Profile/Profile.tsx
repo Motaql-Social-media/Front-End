@@ -16,6 +16,7 @@ import HorizontalNavbar from "../General/HorizontalNavbar"
 import EditProfileButton from "../General/EditProfileButton"
 import Widgets from "../Widgets/Widgets"
 import useCheckAuthentication from "../hooks/useCheckAuthentication"
+import { CircularProgress } from "@mui/material"
 
 const Profile = ({ scroll }: { scroll: number }) => {
   const navigate = useNavigate()
@@ -85,22 +86,24 @@ const Profile = ({ scroll }: { scroll: number }) => {
   const [jobTitle, setJobTitle] = useState<string>("")
   const [location, setLocation] = useState<string>("")
   const [postsCount, setPostsCount] = useState<number>(0)
+  const [viewPosts, setViewPosts] = useState<boolean>(false)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-
-
     API.get(`users/${tag}/profile`, {
       headers: {
         Authorization: `Bearer ${userToken}`,
       },
     })
       .then((res) => {
-        console.log(res.data.data.user)
+        console.log(res.data)
+        setLoading(false)
         setProfile(res.data.data.user)
+        setViewPosts(!res.data.data.user.isBlocked)
       })
       .catch((err) => {
         console.log(err)
-        if(err.response.status === 404) navigate("/404")
+        if (err.response.status === 404) navigate("/404")
       })
   }, [tag])
 
@@ -163,7 +166,9 @@ const Profile = ({ scroll }: { scroll: number }) => {
     }
   }, [user])
 
-  
+  useEffect(() => {
+    setViewPosts(!isBlocked)
+  }, [isBlocked])
 
   return (
     <div className="flex flex-1 flex-grow-[8] max-[540px]:mt-16">
@@ -253,17 +258,49 @@ const Profile = ({ scroll }: { scroll: number }) => {
             </div>
           </div>
         </div>
-        <div className="flex h-[53px] items-center border-b border-b-darkBorder pb-2">
-          <HorizontalNavbar
-            urls={[
-              { title: t("diaries_replies"), location: "diaries" },
-              { title: t("reels"), location: "reels" },
-            ]}
-            originalUrl={`/${tag}`}
-            handlers={[null, null]}
-          />
-        </div>
-        <Outlet />
+        {loading && (
+          <div className="flex w-full justify-center">
+            <CircularProgress
+              sx={{
+                color: "#40e5da",
+              }}
+            />
+          </div>
+        )}
+        {!loading && (
+          <div>
+            {viewPosts && (
+              <div>
+                <div className="flex h-[53px] items-center border-b border-b-darkBorder pb-2">
+                  <HorizontalNavbar
+                    urls={[
+                      { title: t("diaries_replies"), location: "diaries" },
+                      { title: t("reels"), location: "reels" },
+                    ]}
+                    originalUrl={`/${tag}`}
+                    handlers={[null, null]}
+                  />
+                </div>
+                <Outlet />
+              </div>
+            )}
+            {!viewPosts && (
+              <div className="flex h-96 flex-col items-center gap-5 pt-12">
+                <div className="flex gap-3 text-3xl font-bold">
+                  <div>@{username}</div>
+                  <div>{t("is_blocked")}</div>
+                </div>
+                <div className="max-w-[400px] text-gray-500">
+                  {t("view_posts_message")}
+                  {username}.
+                </div>
+                <button className="hover:bg-primaryHover w-fit rounded-full bg-primary px-5 py-3 text-2xl font-semibold text-black" onClick={() => setViewPosts(true)}>
+                  {t("view_posts")}
+                </button>
+              </div>
+            )}
+          </div>
+        )}
       </div>
       {isViewerOpen && (
         <div className="z-[99]" dir="ltr">

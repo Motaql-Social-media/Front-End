@@ -20,11 +20,7 @@ const WidgetsTrends = () => {
   })
 
   useEffect(() => {
-    API.get("tags/trending", {
-      params: {
-        page: 1,
-        count: 5,
-      },
+    API.get("tags/trending?page=1&limit=5", {
       headers: {
         authorization: "Bearer " + userToken,
       },

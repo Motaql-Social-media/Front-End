@@ -1,9 +1,6 @@
 import { useEffect, useRef, useState } from "react"
-import { useNavigate } from "react-router-dom"
 import { useSelector } from "react-redux"
-import { useTranslation } from "react-i18next"
 import axios from "axios"
-import ArrowBackIcon from "@mui/icons-material/ArrowBack"
 import { useParams } from "react-router-dom"
 import Post from "../HomePage/Posts/Post"
 import QuotePost from "../HomePage/Posts/QuotePost"
@@ -11,23 +8,15 @@ import ComposePost from "../HomePage/ComposePost/ComposePost"
 import Replies from "./Replies"
 import SubpageNavbar from "../General/SubpageNavbar"
 import useCheckAuthentication from "../hooks/useCheckAuthentication"
+import Loading from "../General/Loading"
+import { t } from "i18next"
 
 const PostPage = ({ scroll }: { scroll: number }) => {
-  const navigate = useNavigate()
-
   useCheckAuthentication()
-
-  const user = useSelector((state: any) => state.user)
 
   const userToken = useSelector((state: any) => state.user.token)
 
   const { id, tag } = useParams()
-
-  useEffect(() => {
-    if (!user) {
-      navigate("/")
-    }
-  }, [user])
 
   const API = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
@@ -41,6 +30,8 @@ const PostPage = ({ scroll }: { scroll: number }) => {
 
   const [diary, setDiary] = useState<Diary | null>(null)
 
+  const [loading, setLoading] = useState(true)
+
   useEffect(() => {
     API.get(`tweets/${id}`, {
       headers: {
@@ -50,6 +41,7 @@ const PostPage = ({ scroll }: { scroll: number }) => {
       .then((res) => {
         // console.log(res.data.data.tweet)
         setDiary(res.data.data.tweet)
+        setLoading(false)
       })
       .catch((err) => {
         console.log(err)
@@ -66,7 +58,9 @@ const PostPage = ({ scroll }: { scroll: number }) => {
     <div className="flex flex-1 flex-grow-[8] max-[540px]:mt-16">
       <div ref={diaryPageRef} className="no-scrollbar ml-0 mr-1 w-full max-w-[620px] shrink-0 flex-grow overflow-y-scroll border border-b-0 border-t-0 border-lightBorder dark:border-darkBorder  max-[540px]:border-l-0 max-[540px]:border-r-0 sm:w-[600px]">
         <SubpageNavbar title="diary" />
-        {diary &&
+        {loading && <Loading />}
+        {!loading &&
+          diary &&
           (diary.type !== "Quote" ? (
             <Post
               cascade={false}
@@ -96,7 +90,8 @@ const PostPage = ({ scroll }: { scroll: number }) => {
           ))}
         <div className="border-b border-darkBorder">
           <div className="p-2 text-gray-500">
-            Replying to <span className="text-primary hover:underline ">@{tag}</span>
+            {t("replying")}
+            <span className="text-primary hover:underline ">@{tag}</span>
           </div>
           <ComposePost buttonName="Post" postId={id} postType="reply" addTweetCallback={addReplyCallback} addReelCallback={() => {}} />
         </div>

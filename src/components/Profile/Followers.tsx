@@ -5,6 +5,7 @@ import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import PersonsContainer from "../Person/PersonsContainer"
 import ElementVisibleObserver from "../General/ElementVisibleObserver"
+import Loading from "../General/Loading"
 
 const Followers = () => {
   const API = axios.create({
@@ -18,6 +19,8 @@ const Followers = () => {
   const [page, setPage] = useState(1)
   const [finished, setFinished] = useState(false)
 
+  const [loading, setLoading] = useState(true)
+
   const fetchFollowers = () => {
     if (id) {
       API.get(`users/${id}/followers?page=${page}&limit=20`, {
@@ -27,19 +30,19 @@ const Followers = () => {
       })
         .then((res) => {
           if (res.data.data.followers.length < 20) setFinished(true)
+          setLoading(false)
           console.log(res.data.data.followers)
-          setFollowers(prev=>[...prev,...res.data.data.followers])
+          setFollowers((prev) => [...prev, ...res.data.data.followers])
         })
         .catch((err) => {
           console.log(err)
         })
     }
   }
-  
 
   useEffect(() => {
     if (tag) {
-      API.get(`/users/${tag}/profile`, {
+      API.get(`users/${tag}/profile`, {
         headers: {
           Authorization: `Bearer ${userToken}`,
         },
@@ -59,7 +62,6 @@ const Followers = () => {
 
   useEffect(() => {
     fetchFollowers()
-   
   }, [id, page])
 
   const handleFetchMore = () => {
@@ -68,12 +70,17 @@ const Followers = () => {
     }
   }
   return (
-    <div>
-      {followers.length > 0 && <PersonsContainer people={followers} />}
-      {followers.length === 0 && <div className="mt-5 flex h-96 items-center justify-center text-center text-2xl text-2xl font-bold text-primary">{t("no_followers")}</div>}
-      {followers.length === 0 && <div className="h-[150vh]"></div>}
-      <ElementVisibleObserver handler={handleFetchMore} />
-    </div>
+    <>
+      {loading && <Loading />}
+      {!loading && (
+        <div>
+          {followers.length > 0 && <PersonsContainer people={followers} />}
+          {followers.length === 0 && <div className="mt-5 flex h-96 items-center justify-center text-center text-2xl text-2xl font-bold text-primary">{t("no_followers")}</div>}
+          {followers.length === 0 && <div className="h-[150vh]"></div>}
+          <ElementVisibleObserver handler={handleFetchMore} />
+        </div>
+      )}
+    </>
   )
 }
 

@@ -14,6 +14,8 @@ import { useDispatch } from "react-redux"
 import { setMessageUnseenCount } from "../../store/MessageSlice"
 import { t } from "i18next"
 import ElementVisibleObserver from "../General/ElementVisibleObserver"
+import { CircularProgress } from "@mui/material"
+import Loading from "../General/Loading"
 
 const Messages = ({ scroll }: { scroll: number }) => {
   const messagesRef = useRef<any>(null)
@@ -41,11 +43,14 @@ const Messages = ({ scroll }: { scroll: number }) => {
   const [messagesPage, setMessagesPage] = useState<number>(1)
   const [finishedMessages, setFinishedMessages] = useState<boolean>(false)
 
+  const [loading, setLoading] = useState<boolean>(true)
+
   const fetchMessages = () => {
     API.get(`chats?page=${messagesPage}&limit=20`)
       .then((res) => {
         console.log(res.data.data)
-        setMessages(prev=>[...prev,...res.data.data.conversations])
+        setLoading(false)
+        setMessages((prev) => [...prev, ...res.data.data.conversations])
         if (res.data.data.conversations.length < 20) {
           setFinishedMessages(true)
         }
@@ -131,7 +136,7 @@ const Messages = ({ scroll }: { scroll: number }) => {
   }, [socket])
 
   const handleObserver = () => {
-    if(!finishedMessages) {
+    if (!finishedMessages) {
       setMessagesPage((prev) => prev + 1)
     }
   }
@@ -145,11 +150,14 @@ const Messages = ({ scroll }: { scroll: number }) => {
             {t("new_message")}
           </button>
         </div>
-        <Conversations conversations={messages} setConversations={setMessages} />
-        {messages.length === 0 && (
-          <div className="h-[150vh]"></div>
+        {loading && <Loading />}
+        {!loading && (
+          <div>
+            <Conversations conversations={messages} setConversations={setMessages} />
+            {messages.length === 0 && <div className="h-[150vh]"></div>}
+            <ElementVisibleObserver handler={handleObserver} />
+          </div>
         )}
-        <ElementVisibleObserver handler={handleObserver} />
       </div>
       {user && <Widgets />}
       <Modal open={open} onClose={handleClose} disableEscapeKeyDown disablePortal>

@@ -5,6 +5,7 @@ import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import PersonsContainer from "../Person/PersonsContainer"
 import ElementVisibleObserver from "../General/ElementVisibleObserver"
+import Loading from "../General/Loading"
 
 const Followings = () => {
   const API = axios.create({
@@ -18,6 +19,8 @@ const Followings = () => {
   const [page, setPage] = useState(1)
   const [finished, setFinished] = useState(false)
 
+  const [loading, setLoading] = useState(true)
+
   const fetchFollowings = () => {
     if (id) {
       API.get(`users/${id}/followings?page=${page}&limit=20`, {
@@ -27,9 +30,10 @@ const Followings = () => {
       })
         .then((res) => {
           if (res.data.data.followings.length < 20) setFinished(true)
+          setLoading(false)
 
           console.log(res.data.data.followings)
-          setFollowings(prev=>[...prev,...res.data.data.followings])
+          setFollowings((prev) => [...prev, ...res.data.data.followings])
         })
         .catch((err) => {
           console.log(err)
@@ -58,8 +62,8 @@ const Followings = () => {
   const [followings, setFollowings] = useState<any[]>([])
 
   useEffect(() => {
-   fetchFollowings()
-  }, [id,page])
+    fetchFollowings()
+  }, [id, page])
 
   const handleFetchMore = () => {
     if (!finished) {
@@ -68,12 +72,17 @@ const Followings = () => {
   }
 
   return (
-    <div>
-      {followings.length > 0 && <PersonsContainer people={followings} />}
-      {followings.length === 0 && <div className="mt-5 flex h-96 items-center justify-center text-center text-2xl font-bold text-primary">{t("no_followings")}</div>}
-      {followings.length === 0 && <div className="h-[150vh]"></div>}
-      <ElementVisibleObserver handler={handleFetchMore} />
-    </div>
+    <>
+      {loading && <Loading />}
+      {!loading && (
+        <div>
+          {followings.length > 0 && <PersonsContainer people={followings} />}
+          {followings.length === 0 && <div className="mt-5 flex h-96 items-center justify-center text-center text-2xl font-bold text-primary">{t("no_followings")}</div>}
+          {followings.length === 0 && <div className="h-[150vh]"></div>}
+          <ElementVisibleObserver handler={handleFetchMore} />
+        </div>
+      )}
+    </>
   )
 }
 

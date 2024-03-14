@@ -1,27 +1,11 @@
-import React, { useEffect, useRef, useState } from "react"
-import { useNavigate } from "react-router"
-import { useSelector } from "react-redux"
-import axios from "axios"
+import React, { useEffect, useRef } from "react"
 import { useTranslation } from "react-i18next"
 import HorizontalNavbar from "../General/HorizontalNavbar"
 import { Outlet } from "react-router-dom"
+import useCheckAuthentication from "../hooks/useCheckAuthentication"
 
 const Mentions = ({ scroll }: { scroll: number }) => {
-  const navigate = useNavigate()
-
-  const user = useSelector((state: any) => state.user)
-
-  const userToken = useSelector((state: any) => state.user.token)
-
-  useEffect(() => {
-    if (!user) {
-      navigate("/")
-    }
-  }, [user])
-
-  const API = axios.create({
-    baseURL: process.env.REACT_APP_API_URL,
-  })
+  useCheckAuthentication()
 
   const { t } = useTranslation()
 
@@ -30,35 +14,6 @@ const Mentions = ({ scroll }: { scroll: number }) => {
   useEffect(() => {
     mentionsRef.current.scrollTop += scroll
   }, [scroll])
-
-  const [prevScrollPos, setPrevScrollPos] = useState(window.scrollY)
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollPos = window.scrollY
-      const isScrollingDown = currentScrollPos > prevScrollPos
-      setPrevScrollPos(currentScrollPos)
-
-      // Check if scrolling down
-      if (isScrollingDown) {
-        setIsVisible(false)
-      } else {
-        setIsVisible(true)
-      }
-    }
-
-    window.addEventListener("scroll", handleScroll)
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll)
-    }
-  }, [prevScrollPos])
-
-  const [isVisible, setIsVisible] = useState(true)
-
-  const handleBack = () => {
-    navigate(-1)
-  }
 
   return (
     <div className="flex flex-1 flex-grow-[8] max-[540px]:mt-16">

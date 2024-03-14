@@ -1,5 +1,4 @@
 import { useRef, useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom"
 import { useSelector } from "react-redux"
 import axios from "axios"
 import i18next from "i18next"
@@ -10,20 +9,15 @@ import NoReels from "./NoReels"
 import Widgets from "../Widgets/Widgets"
 import SubpageNavbar from "../General/SubpageNavbar"
 import useCheckAuthentication from "../hooks/useCheckAuthentication"
+import { CircularProgress } from "@mui/material"
+import Loading from "../General/Loading"
+import ElementVisibleObserver from "../General/ElementVisibleObserver"
 const Explore = ({ scroll }: { scroll: number }) => {
-  const navigate = useNavigate()
-
   useCheckAuthentication()
 
   const user = useSelector((state: any) => state.user)
 
   const userToken = useSelector((state: any) => state.user.token)
-
-  useEffect(() => {
-    if (!user) {
-      navigate("/")
-    }
-  }, [user])
 
   const API = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
@@ -93,20 +87,33 @@ const Explore = ({ scroll }: { scroll: number }) => {
 
   const [reels, setReels] = useState<Reel[]>([])
 
+  const [page, setPage] = useState(1)
+  const [finished, setFinished] = useState(false)
+
+  const [loading, setLoading] = useState(true)
+
   const fetchReels = () => {
-    API.get(`topics/${selectedTopic}/reels`)
+    API.get(`topics/${selectedTopic}/reels?page=${page}&limit=20`)
       .then((res) => {
         // console.log(res.data.data.supportingreels)
+        setLoading(false)
         setReels(res.data.data.supportingreels)
+        if (res.data.data.supportingreels.length < 20) setFinished(true)
       })
       .catch((err) => console.log(err))
   }
 
   useEffect(() => {
     fetchReels()
-  }, [selectedTopic])
+  }, [selectedTopic, page])
 
   const [muted, setMuted] = useState(false)
+
+  const handleFetchMore = () => {
+    if (!finished) {
+      setPage((prev) => prev + 1)
+    }
+  }
 
   return (
     <div className="flex flex-1 flex-grow-[8] max-[540px]:mt-16">
@@ -123,7 +130,7 @@ const Explore = ({ scroll }: { scroll: number }) => {
               <KeyboardArrowLeftIcon fontSize="large" />
             </div>
           </div>
-          <div ref={topicsRef} className=" no-scrollbar my-1 flex gap-2 overflow-x-scroll px-1 py-3 ">
+          <div ref={topicsRef} className="no-scrollbar my-1 flex flex-grow gap-2 overflow-x-scroll px-1 py-3 ">
             {topics.map((topic: any) => (
               <div key={topic.topic} title={topic.description} className={` w-fit cursor-pointer rounded-full bg-primary px-2 py-1 font-semibold text-black  max-[600px]:text-sm max-[560px]:text-[0.5rem]  min-[700px]:px-4 min-[700px]:py-2 ${topic.topic === selectedTopic ? "brightness-100" : "brightness-50"}`} onClick={() => handleChooseTopic(topic.topic)}>
                 {topic.topic}
@@ -141,16 +148,21 @@ const Explore = ({ scroll }: { scroll: number }) => {
             </div>
           </div>
         </div>
-        <div>
-          {reels.map((reel: any) => {
-            return (
-              <div key={reel.reelId}>
-                <Reel muted={muted} setMuted={setMuted} inPostPage={false} content={reel.content} createdAt={reel.createdAt} isBookmarked={reel.isBookmarked} isReacted={reel.isReacted} isRereeled={reel.isRereeled} mentions={reel.mentions} originalReel={reel.originalReel} originalReeler={reel.originalReeler} reReelCount={reel.reReelCount} reactCount={reel.reactCount} reelUrl={reel.reelUrl} reeler={reel.reeler} repliesCount={reel.repliesCount} postType={reel.type} id={reel.reelId} topic={reel.topics[0]} reels={reels} setReels={setReels} />
-              </div>
-            )
-          })}
-          {reels.length === 0 && <NoReels />}
-        </div>
+        {loading && <Loading />}
+        {!loading && (
+          <div>
+            {reels.map((reel: any) => {
+              return (
+                <div key={reel.reelId}>
+                  <Reel muted={muted} setMuted={setMuted} inPostPage={false} content={reel.content} createdAt={reel.createdAt} isBookmarked={reel.isBookmarked} isReacted={reel.isReacted} isRereeled={reel.isRereeled} mentions={reel.mentions} originalReel={reel.originalReel} originalReeler={reel.originalReeler} reReelCount={reel.reReelCount} reactCount={reel.reactCount} reelUrl={reel.reelUrl} reeler={reel.reeler} repliesCount={reel.repliesCount} postType={reel.type} id={reel.reelId} topic={reel.topics[0]} reels={reels} setReels={setReels} />
+                </div>
+              )
+            })}
+            {reels.length === 0 && <NoReels />}
+            {reels.length === 0 && <div className="h-[150vh]"></div>}
+            <ElementVisibleObserver handler={handleFetchMore} />
+          </div>
+        )}
       </div>
       {user && <Widgets />}
     </div>

@@ -9,6 +9,7 @@ import ChatBubbleOutlineOutlinedIcon from "@mui/icons-material/ChatBubbleOutline
 import CachedOutlinedIcon from "@mui/icons-material/CachedOutlined"
 import PersonAddIcon from "@mui/icons-material/PersonAdd"
 import EmailIcon from "@mui/icons-material/Email"
+import FormatQuoteIcon from "@mui/icons-material/FormatQuote"
 
 const Notification = ({ content, createdAt, isSeen, metadata, notificationFrom, notificationId, type }: { content: string; createdAt: any; isSeen: boolean; metadata: any; notificationFrom: any; notificationId: string; type: string }) => {
   const icons: any = {
@@ -42,6 +43,11 @@ const Notification = ({ content, createdAt, isSeen, metadata, notificationFrom, 
         <PersonAddIcon sx={{ width: 30, height: 30 }} />
       </div>
     ),
+    QUOTE: (
+      <div className="text-blue-600">
+        <FormatQuoteIcon sx={{ width: 30, height: 30 }} />
+      </div>
+    ),
   }
 
   const [isVisible, setIsVisible] = useState(false)
@@ -67,7 +73,6 @@ const Notification = ({ content, createdAt, isSeen, metadata, notificationFrom, 
     console.log("profile")
   }
 
-  const user = useSelector((state: any) => state.user.user)
 
   const navigate = useNavigate()
 

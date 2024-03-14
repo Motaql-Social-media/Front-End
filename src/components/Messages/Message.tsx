@@ -15,6 +15,7 @@ import i18next from "i18next"
 import ArrowBack from "@mui/icons-material/ArrowBack"
 import ArrowForward from "@mui/icons-material/ArrowForward"
 import { t } from "i18next"
+import Loading from "../General/Loading"
 
 const Message = ({ scroll }: { scroll: number }) => {
   const messageRef = useRef<any>(null)
@@ -38,12 +39,18 @@ const Message = ({ scroll }: { scroll: number }) => {
 
   const [otherContact, setOtherContact] = useState<any>({})
 
+  const [loading, setLoading] = useState(true)
+
+  const [isBlockingMe, setIsBlockingMe] = useState(false)
+
   useEffect(() => {
-    API.post(`chats/${id}/history`)
+    API.get(`chats/${id}/history`)
       .then((res) => {
         console.log(res.data.data)
+        setLoading(false)
         setOtherContact(res.data.data.otherContact)
         setMessages(res.data.data.messages)
+        setIsBlockingMe(res.data.data.isBlockedByOtherContact)
       })
       .catch((error) => {
         console.log(error)
@@ -203,7 +210,7 @@ const Message = ({ scroll }: { scroll: number }) => {
 
   return (
     <div className="flex flex-1 flex-grow-[8] max-[540px]:mt-16">
-      <div ref={messageRef} className=" ml-0 mr-1 flex w-full max-w-[620px] shrink-0 flex-grow flex-col  border border-b-0 border-t-0 border-lightBorder  dark:border-darkBorder max-[540px]:border-l-0 max-[540px]:border-r-0 sm:w-[600px]">
+      <div ref={messageRef} className=" ml-0 mr-1 flex max-[540px]:h-[89vh] w-full max-w-[620px] shrink-0 flex-grow flex-col  border border-b-0 border-t-0 border-lightBorder  dark:border-darkBorder max-[540px]:border-l-0 max-[540px]:border-r-0 sm:w-[600px]">
         <div className={`flex items-center justify-start gap-7 ${i18next.language === "en" ? "pl-2" : "pr-2"}  max-[540px]:hidden`}>
           <div onClick={handleBack} className="cursor-pointer">
             {i18next.language === "en" && <ArrowBack fontSize="small" />}
@@ -231,37 +238,48 @@ const Message = ({ scroll }: { scroll: number }) => {
             </div>
           </div>
         </div>
-        <div ref={messagesRef} className=" no-scrollbar flex h-full w-full flex-col overflow-y-scroll">
-          {messages.map((m, index) => {
-            return (
-              <div key={index} className={`flex flex-col ${m.isFromMe ? "items-end" : "items-start "} h-full gap-2 p-4`}>
-                <div className={`rounded-xl ${m.isFromMe ? "bg-primary " : "bg-gray-400"} p-2 text-black`}>{m.text}</div>
-                <div className={`flex items-center gap-3 ${m.isFromMe ? "" : "flex-row-reverse"}`}>
-                  <div className="text-gray-500">{formatDate(m.createdAt)}</div>
-                  {m.isSeen ? (
-                    <img src={seen} alt="seen" className={`h-[15px] w-[18px] ${!m.isFromMe ? "hidden" : ""}`} />
-                  ) : (
-                    <div className={`${!m.isFromMe ? "hidden" : ""}`}>
-                      <CheckIcon
-                        sx={{
-                          width: 20,
-                          height: 20,
-                        }}
-                      />
-                    </div>
-                  )}
+        {loading && <Loading />}
+        {!loading && (
+          <div ref={messagesRef} className=" no-scrollbar flex h-full w-full flex-col overflow-y-scroll">
+            {messages.map((m, index) => {
+              return (
+                <div key={index} className={`flex flex-col ${m.isFromMe ? "items-end" : "items-start "} h-full gap-2 p-4`}>
+                  <div className={`rounded-xl ${m.isFromMe ? "bg-primary " : "bg-gray-400"} p-2 text-black`}>{m.text}</div>
+                  <div className={`flex items-center gap-3 ${m.isFromMe ? "" : "flex-row-reverse"}`}>
+                    <div className="text-gray-500">{formatDate(m.createdAt)}</div>
+                    {m.isSeen ? (
+                      <img src={seen} alt="seen" className={`h-[15px] w-[18px] ${!m.isFromMe ? "hidden" : ""}`} />
+                    ) : (
+                      <div className={`${!m.isFromMe ? "hidden" : ""}`}>
+                        <CheckIcon
+                          sx={{
+                            width: 20,
+                            height: 20,
+                          }}
+                        />
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
-            )
-          })}
-        </div>
-        <div className="flex w-full items-center justify-center">
-          <div className=" flex w-[95%] items-center justify-center overflow-hidden rounded-2xl border-t border-t-darkBorder bg-darkHover">
-            <input value={text} onChange={(e: any) => setText(e.target.value)} type="text" placeholder="Type a message" className="flex-grow bg-darkHover p-4 text-white" />
-            <div className="cursor-pointer border-l border-l-darkBorder p-2 text-primary" onClick={handleSendMessage}>
-              <SendIcon />
-            </div>
+              )
+            })}
           </div>
+        )}
+        <div className="flex w-full items-center justify-center">
+          {isBlockingMe && (
+            <div className="mb-5 py-2 text-red-600">
+              {t("you_are_blocked")}
+              {otherContact.username}
+            </div>
+          )}
+          {!isBlockingMe && (
+            <div className=" flex w-[95%] items-center justify-center overflow-hidden rounded-2xl border-t border-t-darkBorder bg-darkHover">
+              <input value={text} onChange={(e: any) => setText(e.target.value)} type="text" placeholder="Type a message" className="flex-grow bg-darkHover p-4 text-white" />
+              <div className="cursor-pointer border-l border-l-darkBorder p-2 text-primary" onClick={handleSendMessage}>
+                <SendIcon />
+              </div>
+            </div>
+          )}
         </div>
       </div>
       {user && <Widgets />}

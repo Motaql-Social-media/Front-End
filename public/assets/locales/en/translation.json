@@ -215,8 +215,17 @@
   "supported_files": "Supported files: .mp4, .mov, .avi, .mkv, .webm, .flv",
   "limit_error": "Sorry, maximum file size is 50MB",
   "compose_reel_placeholder": "Write your reel description here",
-  "google_sign_message1":"Complete some data",
-  "start_message":"Start a new message",
-  "new_message":"New Message",
-  "search_user":"Search for a user"
+  "google_sign_message1": "Complete some data",
+  "start_message": "Start a new message",
+  "new_message": "New Message",
+  "search_user": "Search for a user",
+  "sorry": "Sorry...",
+  "not_found": "The page you are looking for doesn't exist",
+  "not_found_button": "Back to Home",
+  "clipboard": "Copied to clipboard",
+  "is_blocked": "is blocked",
+  "view_posts_message": "Are you sure you want to view these posts? Viewing posts won’t unblock @",
+  "view_posts": "View Posts",
+  "replying": "Replying to",
+  "you_are_blocked": "You are blocked by "
 }

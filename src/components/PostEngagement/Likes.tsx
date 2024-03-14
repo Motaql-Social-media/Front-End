@@ -5,6 +5,7 @@ import { useSelector } from "react-redux"
 import PersonsContainer from "../Person/PersonsContainer"
 import NoLikes from "./NoLikes"
 import ElementVisibleObserver from "../General/ElementVisibleObserver"
+import Loading from "../General/Loading"
 
 const Likes = () => {
   const { id, type } = useParams()
@@ -19,18 +20,21 @@ const Likes = () => {
   const [page, setPage] = useState(1)
   const [finished, setFinished] = useState(false)
 
+  const [loading, setLoading] = useState(true)
+
   const fetchLikers = () => {
     if (id) {
-      API.get(`${type==='diary'?'tweets':'reels'}/${id}/reacters?page=${page}&limit=20`, {
+      API.get(`${type === "diary" ? "tweets" : "reels"}/${id}/reacters?page=${page}&limit=20`, {
         headers: {
           Authorization: `Bearer ${userToken}`,
         },
       })
         .then((res) => {
           //   console.log(res.data.data.reacters)
+          setLoading(false)
           if (res.data.data.reacters.length < 20) setFinished(true)
-          
-          setLikers(prev=>[...prev,...res.data.data.reacters])
+
+          setLikers((prev) => [...prev, ...res.data.data.reacters])
         })
         .catch((err) => {
           console.log(err)
@@ -40,8 +44,7 @@ const Likes = () => {
 
   useEffect(() => {
     fetchLikers()
-   
-  }, [id,page])
+  }, [id, page])
 
   const handleFetchMore = () => {
     if (!finished) {
@@ -49,14 +52,17 @@ const Likes = () => {
     }
   }
 
-  
-
   return (
     <>
-      {likers.length > 0 && <PersonsContainer people={likers} />}
-      {likers.length === 0 && <NoLikes />}
-      {likers.length===0 && <div className="h-[150vh]"></div>}
-      <ElementVisibleObserver handler={handleFetchMore} />
+      {loading && <Loading />}
+      {!loading && (
+        <div>
+          {likers.length > 0 && <PersonsContainer people={likers} />}
+          {likers.length === 0 && <NoLikes />}
+          {likers.length === 0 && <div className="h-[150vh]"></div>}
+          <ElementVisibleObserver handler={handleFetchMore} />
+        </div>
+      )}
     </>
   )
 }

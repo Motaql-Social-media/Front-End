@@ -4,7 +4,6 @@ import ChatBubbleOutlineOutlinedIcon from "@mui/icons-material/ChatBubbleOutline
 import BookmarkBorderOutlinedIcon from "@mui/icons-material/BookmarkBorderOutlined"
 import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined"
 import CachedOutlinedIcon from "@mui/icons-material/CachedOutlined"
-import SignalCellularAltIcon from "@mui/icons-material/SignalCellularAlt"
 import { useSelector } from "react-redux"
 import { useTranslation } from "react-i18next"
 import axios from "axios"
@@ -13,9 +12,6 @@ import FormatQuoteIcon from "@mui/icons-material/FormatQuote"
 import i18next from "i18next"
 import { Modal } from "@mui/material"
 import ComposeQuote from "../ComposePost/ComposeQuote"
-import Snackbar from "@mui/material/Snackbar"
-import IconButton from "@mui/material/IconButton"
-import CloseIcon from "@mui/icons-material/Close"
 
 const PostFooter = ({ id, replyCount, reposted, repostsNum, liked, likesNum, isBookmarked, username }: { id: string; replyCount: number; reposted: boolean; repostsNum: number; liked: boolean; likesNum: number; isBookmarked: boolean; username: string }) => {
   const API = axios.create({
@@ -120,7 +116,7 @@ const PostFooter = ({ id, replyCount, reposted, repostsNum, liked, likesNum, isB
   }, [openSnackbar])
 
   return (
-    <div className="post-footer text-ternairy min-xs:pl-12 mt-3 flex w-full justify-around dark:text-gray-500 ">
+    <div className="post-footer relative text-ternairy min-xs:pl-12 mt-3 flex w-full justify-around dark:text-gray-500 ">
       <div className={`group pointer-events-auto -ml-2 flex cursor-pointer items-center transition-colors  duration-300 hover:text-primary`} title={t("reply")}>
         <div className={`flex h-10 w-10  items-center justify-center rounded-full bg-inherit group-hover:bg-[#e7f5fd] dark:group-hover:bg-[#031018] `}>
           <ChatBubbleOutlineOutlinedIcon
@@ -225,8 +221,8 @@ const PostFooter = ({ id, replyCount, reposted, repostsNum, liked, likesNum, isB
           <ComposeQuote id={id} handleClose={handleClose} setRepost={setRepost} repost={repost} repostCount={repostCount} setRepostCount={setRepostCount} type="diary" />
         </div>
       </Modal>
-      <div className={`absolute bottom-8 left-1/2 ${openSnackbar ? "opacity-100" : "opacity-0"} z-[999] -translate-x-1/2 rounded-full bg-primary p-2 transition-opacity duration-[750]`}>
-        <span className="font-semibold text-black">Link Copied to Clipboard</span>
+      <div className={`bottom-24 absolute left-1/2 ${openSnackbar ? "opacity-100" : "opacity-0"} z-[999] -translate-x-1/2 rounded-full bg-primary p-2 transition-opacity duration-[750]`}>
+        <span className="font-semibold text-black">{t("clipboard")}</span>
       </div>
     </div>
   )
