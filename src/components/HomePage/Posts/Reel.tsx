@@ -2,7 +2,7 @@ import PostHeader from "./PostHeader"
 import ReelBar from "./ReelBar"
 import ReelBody from "./ReelBody"
 import { useTranslation } from "react-i18next"
-import i18next from "i18next"
+import i18next, { t } from "i18next"
 import CachedOutlinedIcon from "@mui/icons-material/CachedOutlined"
 import HoveredProfile from "./HoveredProfile"
 import { useNavigate } from "react-router-dom"
@@ -82,7 +82,7 @@ const Reel = ({
             fontSize: 25,
           }}
         />
-        <span>{reeler.username} reposted</span>
+        <span>{reeler.username} { t('reposted')}</span>
         {isVisible && <HoveredProfile hoveredUser={reeler} state={followState} setState={setFollowState} />}
       </div>
       <div>

@@ -14,7 +14,6 @@ import { useDispatch } from "react-redux"
 import { setMessageUnseenCount } from "../../store/MessageSlice"
 import { t } from "i18next"
 import ElementVisibleObserver from "../General/ElementVisibleObserver"
-import { CircularProgress } from "@mui/material"
 import Loading from "../General/Loading"
 
 const Messages = ({ scroll }: { scroll: number }) => {

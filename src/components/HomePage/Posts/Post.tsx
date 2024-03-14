@@ -90,7 +90,11 @@ const Post = ({
         </span>
         {isVisible && <HoveredProfile hoveredUser={tweeter} state={followState} setState={setFollowState} />}
       </div>
-      {postType === "Reply" && <div className="mb-2 text-primary">Replying to @{originalTweeter.username}</div>}
+      {postType === "Reply" && (
+        <div className="mb-2 text-primary">
+          {t("replying")} @{originalTweeter.username}
+        </div>
+      )}
       <div>
         <PostHeader base={"diary"} tweeter={postType === "Repost" ? originalTweeter : tweeter} date={date} id={id} type={postType === "Repost" ? originalTweet.type : postType} posts={posts} setPosts={setPosts} parent="diary" />
       </div>

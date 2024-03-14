@@ -88,6 +88,7 @@ const Profile = ({ scroll }: { scroll: number }) => {
   const [postsCount, setPostsCount] = useState<number>(0)
   const [viewPosts, setViewPosts] = useState<boolean>(false)
   const [loading, setLoading] = useState(true)
+  const [isBlockingMe, setIsBlockingMe] = useState(false)
 
   useEffect(() => {
     API.get(`users/${tag}/profile`, {
@@ -124,6 +125,7 @@ const Profile = ({ scroll }: { scroll: number }) => {
       setJobTitle(profile.jobtitle)
       setLocation(profile.location)
       setPostsCount(profile.postsCount)
+      setIsBlockingMe(profile.isBlocking)
     }
   }, [profile])
 
@@ -268,38 +270,50 @@ const Profile = ({ scroll }: { scroll: number }) => {
           </div>
         )}
         {!loading && (
-          <div>
-            {viewPosts && (
+          <>
+            {isBlockingMe && (
+              <div className="flex w-full flex-col items-center gap-4">
+                <div className="text-3xl font-bold text-red-500">
+                  @{username} {t("blocking_you")}
+                </div>
+                <div className="max-w-[400px] text-gray-500">{t("blocking_message", { tag: username })}</div>
+              </div>
+            )}
+            {!isBlockingMe && (
               <div>
-                <div className="flex h-[53px] items-center border-b border-b-darkBorder pb-2">
-                  <HorizontalNavbar
-                    urls={[
-                      { title: t("diaries_replies"), location: "diaries" },
-                      { title: t("reels"), location: "reels" },
-                    ]}
-                    originalUrl={`/${tag}`}
-                    handlers={[null, null]}
-                  />
-                </div>
-                <Outlet />
+                {viewPosts && (
+                  <div>
+                    <div className="flex h-[53px] items-center border-b border-b-darkBorder pb-2">
+                      <HorizontalNavbar
+                        urls={[
+                          { title: t("diaries_replies"), location: "diaries" },
+                          { title: t("reels"), location: "reels" },
+                        ]}
+                        originalUrl={`/${tag}`}
+                        handlers={[null, null]}
+                      />
+                    </div>
+                    <Outlet />
+                  </div>
+                )}
+                {!viewPosts && (
+                  <div className="flex h-96 flex-col items-center gap-5 pt-12">
+                    <div className="flex gap-3 text-3xl font-bold">
+                      <div>@{username}</div>
+                      <div>{t("is_blocked")}</div>
+                    </div>
+                    <div className="max-w-[400px] text-gray-500">
+                      {t("view_posts_message")}
+                      {username}.
+                    </div>
+                    <button className="hover:bg-primaryHover w-fit rounded-full bg-primary px-5 py-3 text-2xl font-semibold text-black" onClick={() => setViewPosts(true)}>
+                      {t("view_posts")}
+                    </button>
+                  </div>
+                )}
               </div>
             )}
-            {!viewPosts && (
-              <div className="flex h-96 flex-col items-center gap-5 pt-12">
-                <div className="flex gap-3 text-3xl font-bold">
-                  <div>@{username}</div>
-                  <div>{t("is_blocked")}</div>
-                </div>
-                <div className="max-w-[400px] text-gray-500">
-                  {t("view_posts_message")}
-                  {username}.
-                </div>
-                <button className="hover:bg-primaryHover w-fit rounded-full bg-primary px-5 py-3 text-2xl font-semibold text-black" onClick={() => setViewPosts(true)}>
-                  {t("view_posts")}
-                </button>
-              </div>
-            )}
-          </div>
+          </>
         )}
       </div>
       {isViewerOpen && (

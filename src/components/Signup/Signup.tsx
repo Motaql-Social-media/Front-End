@@ -204,7 +204,7 @@ const SignUp = ({ openModal, handleCloseModal, setLocation }: { openModal: boole
               x
             </button>
             <img src={Logo} alt="Logo" className={`-mt-4 ${i18next.language === "ar" ? "mr-[45%]" : "ml-[45%]"} w-[40px]`} />
-            <div dir="ltr">
+            <div dir="ltr" className={`max-s420:hidde`}>
               <CustomizedStepper step={position} />
             </div>
             <PreStep handleCloseModal={handleCloseModal} setPosition={setPosition} setLocation={setLocation} position={position} />
