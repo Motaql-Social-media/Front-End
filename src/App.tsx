@@ -61,6 +61,7 @@ import { receiveNotification } from "./store/NotificationSlice"
 import PushNotification from "./components/Notifications/PushNotification"
 import Messages from "./components/Messages/Messages"
 import Message from "./components/Messages/Message"
+import NotFound from "./components/General/NotFound"
 
 const SocketContext = createContext<any>(null)
 export { SocketContext }
@@ -254,6 +255,8 @@ function App() {
                 <Route path="/password_reset" element={<PasswordReset setLocation={setLocation} />} />
                 <Route path="/login" element={<Login openModal={true} handleCloseModal={handleCloseLoginModal} setLocation={setLocation} />} />
                 <Route path="/signup" element={<SignUp openModal={true} setLocation={setLocation} handleCloseModal={handleCloseSignupModal} />} />
+                <Route path="/404" element={<NotFound />}></Route>
+                <Route path="*" element={<NotFound />}></Route>
               </Routes>
               {showNotification && location.split("/").pop() !== "notifications" && <PushNotification content={notification.content} createdAt={notification.createdAt} isSeen={notification.isSeen} metadata={notification.metadata} notificationFrom={notification.notificationFrom} notificationId={notification.notificationId} type={notification.type} />}
             </BrowserRouter>

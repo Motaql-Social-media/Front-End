@@ -26,12 +26,6 @@ const Profile = ({ scroll }: { scroll: number }) => {
 
   const userToken = useSelector((state: any) => state.user.token)
 
-  useEffect(() => {
-    if (!user) {
-      navigate("/")
-    }
-  }, [user])
-
   const API = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
   })
@@ -106,6 +100,7 @@ const Profile = ({ scroll }: { scroll: number }) => {
       })
       .catch((err) => {
         console.log(err)
+        if(err.response.status === 404) navigate("/404")
       })
   }, [tag])
 

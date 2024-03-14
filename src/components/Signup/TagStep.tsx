@@ -83,7 +83,7 @@ const TagStep = ({ userTag, setUserTag, originalUsername, userToken, user, setUs
             variant="outlined"
             value={userTag}
             onChange={(e) => {
-              setUserTag(e.target.value.slice(25))
+              setUserTag(e.target.value.slice(0,25))
             }}
             InputLabelProps={{
               style: { color: "#40e5da", textAlign: "right" },
