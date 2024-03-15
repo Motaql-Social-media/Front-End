@@ -128,7 +128,6 @@ const GSecondStep = ({ name, phoneNumber, speciality, month, day, year, access_t
           </p>
         </div>
         <TextField
-          inputProps={{ onPaste: (e) => e.preventDefault() }}
           label={t("code")}
           variant="outlined"
           value={code}

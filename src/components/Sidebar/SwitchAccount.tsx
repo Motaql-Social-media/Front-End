@@ -13,7 +13,6 @@ function SwitchAccount({ handleLogout, openMenu, anchorMenu, handleCloseMenu, ha
 
   const user = useSelector((state: any) => state.user?.user)
 
-  const darkMode = useSelector((state: any) => state.theme.darkMode)
 
   
 
@@ -21,10 +20,10 @@ function SwitchAccount({ handleLogout, openMenu, anchorMenu, handleCloseMenu, ha
     <>
       <div className="group !mb-0 mt-auto box-border w-full cursor-pointer border-0">
         <div title="Accounts" className=" flex w-full items-center justify-around rounded-full group-hover:bg-lightHover dark:group-hover:bg-darkHover xs:!p-3">
-          <Avatar alt={user.name} src={`${user.imageUrl.split(":")[0] === "https" ? user.imageUrl : process.env.REACT_APP_USERS_MEDIA_URL + user.imageUrl}`} />
+          <Avatar alt={user?.name} src={`${user?.imageUrl?.split(":")[0] === "https" ? user?.imageUrl : process.env.REACT_APP_USERS_MEDIA_URL + user?.imageUrl}`} />
           <div>
-            <div className="truncate font-semibold">{user.name}</div>
-            <div className="text-secondary truncate">{user.username}</div>
+            <div className="truncate font-semibold">{user?.name}</div>
+            <div className="text-secondary truncate">{user?.username}</div>
           </div>
 
           <div title="moreIcon" className="w-[10%]" id="mahmoud_account_options">

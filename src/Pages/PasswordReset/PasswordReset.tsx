@@ -413,7 +413,6 @@ const PasswordReset = ({ setLocation }: { setLocation: any }) => {
             )}
             {/* <p className="text-sm text-zinc-600 ">Verify your identity by entering the username associated with your X account.</p> */}
             <TextField
-              inputProps={{ onPaste: (e) => e.preventDefault() }}
               label={t("code")}
               variant="outlined"
               value={code}

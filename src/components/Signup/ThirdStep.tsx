@@ -100,7 +100,6 @@ const ThirdStep = ({ nickName, phoneNumber, setPosition, position }: { nickName:
           </p>
         </div>
         <TextField
-          inputProps={{ onPaste: (e) => e.preventDefault() }}
           label={t("code")}
           variant="outlined"
           value={code}
