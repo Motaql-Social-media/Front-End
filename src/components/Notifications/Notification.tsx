@@ -84,7 +84,7 @@ const Notification = ({ content, createdAt, isSeen, metadata, notificationFrom, 
       en: "reacted to your tweet",
       ar: "تفاعل مع مدونة خاصة بك",
     },
-    REPPOST_REEL: {
+    REPOST_REEL: {
       en: "reposted your reel",
       ar: "أعاد نشر قصة خاصة بك",
     },
