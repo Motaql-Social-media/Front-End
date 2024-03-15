@@ -10,11 +10,11 @@ import axios from "axios"
 import ElementVisibleObserver from "../General/ElementVisibleObserver"
 import Widgets from "../Widgets/Widgets"
 import useCheckAuthentication from "../hooks/useCheckAuthentication"
+import Loading from "../General/Loading"
 
 export const HomeContext = createContext<any>(null)
 
 const Home = ({ scroll }: { scroll: number }) => {
-
   useCheckAuthentication()
 
   const user = useSelector((state: any) => state.user)
@@ -35,11 +35,11 @@ const Home = ({ scroll }: { scroll: number }) => {
 
   useEffect(() => {
     if (window.location.pathname === "/home/diaries" || window.location.pathname === "/home") fetchDiaries()
-  }, [diariesPage,window.location.pathname])
+  }, [diariesPage, window.location.pathname])
 
   useEffect(() => {
     if (window.location.pathname === "/home/reels") fetchReels()
-  }, [reelsPage,window.location.pathname])
+  }, [reelsPage, window.location.pathname])
 
   // useEffect(() => {
   //   if ((window.location.pathname === "/home/diaries" || window.location.pathname === "/home") && diariesPage === 1) {
@@ -53,13 +53,16 @@ const Home = ({ scroll }: { scroll: number }) => {
   //   }
   // }, [window.location.pathname])
 
+  const [loading, setLoading] = useState<boolean>(true)
+
   const fetchDiaries = () => {
     // console.log(`tweets/timeline?page=${diariesPage}&limit=${20}`)
     API.get(`tweets/timeline?page=${diariesPage}&limit=${20}`)
       .then((res) => {
         // console.log(res.data.data.timelineTweets)
         if (res.data.data.timelineTweets.length < 20) setFinishedDiaries(true)
-        setDiaries((prev) => [...prev,...res.data.data.timelineTweets])
+        setLoading(false)
+        setDiaries((prev) => [...prev, ...res.data.data.timelineTweets])
       })
       .catch((err) => {
         console.log(err)
@@ -72,7 +75,8 @@ const Home = ({ scroll }: { scroll: number }) => {
       .then((res) => {
         // console.log(res.data.data.timelineReels)
         if (res.data.data.timelineReels.length < 20) setFinishedReels(true)
-        setReels((prev) => [...prev,...res.data.data.timelineReels])
+        setLoading(false)
+        setReels((prev) => [...prev, ...res.data.data.timelineReels])
       })
       .catch((err) => {
         console.log(err)
@@ -155,11 +159,16 @@ const Home = ({ scroll }: { scroll: number }) => {
             handlers={[null, null]}
           />
         </div>
-        <HomeContext.Provider value={{ diaries, setDiaries, reels, setReels }}>
-          <Outlet />
-        </HomeContext.Provider>
+        {!loading && (
+          <>
+            <HomeContext.Provider value={{ diaries, setDiaries, reels, setReels }}>
+              <Outlet />
+            </HomeContext.Provider>
 
-        <ElementVisibleObserver handler={handleFetchMore} />
+            <ElementVisibleObserver handler={handleFetchMore} />
+          </>
+        )}
+        {loading && <Loading />}
       </div>
       {user && <Widgets />}
     </div>
