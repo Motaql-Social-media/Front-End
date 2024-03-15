@@ -157,11 +157,11 @@ const Notification = ({ content, createdAt, isSeen, metadata, notificationFrom, 
 
     return i18next.language === "ar"
       ? time
-          .replace("AM", "ص")
-          .replace("PM", "م")
-          .replace(time.split(" ")[0], t(time.split(" ")[0].toLowerCase()))
-          .replace("at", "عند")
-          .replace(",", "،")
+          ?.replace("AM", "ص")
+          ?.replace("PM", "م")
+          ?.replace(time.split(" ")[0], t(time.split(" ")[0].toLowerCase()))
+          ?.replace("at", "عند")
+          ?.replace(",", "،")
       : time
   }
 

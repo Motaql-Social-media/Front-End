@@ -14,12 +14,12 @@ const QuotePost = ({ content, mentions, media, createdAt, isBookmarked, isReacte
 
   const [processedDescription, setProcessedDescription] = useState<string>("")
   useEffect(() => {
-    setProcessedDescription(content.replace(/(?:\r\n|\r|\n)/g, " <br> "))
+    setProcessedDescription(content?.replace(/(?:\r\n|\r|\n)/g, " <br> "))
   }, [content])
 
   const [quoteProcessedDescription, setQtoteProcessedDescription] = useState<string>("")
   useEffect(() => {
-    setQtoteProcessedDescription(tweet.content.replace(/(?:\r\n|\r|\n)/g, " <br> "))
+    setQtoteProcessedDescription(tweet.content?.replace(/(?:\r\n|\r|\n)/g, " <br> "))
   }, [tweet.content])
 
   return (

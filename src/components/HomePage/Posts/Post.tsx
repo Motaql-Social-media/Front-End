@@ -77,7 +77,7 @@ const Post = ({
   }
 
   const getProcessedDescription = (description: string) => {
-    return description.replace(/(?:\r\n|\r|\n)/g, " <br> ")
+    return description?.replace(/(?:\r\n|\r|\n)/g, " <br> ")
   }
 
   return (

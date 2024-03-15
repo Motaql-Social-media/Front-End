@@ -72,7 +72,7 @@ const Replies = ({ replies, setReplies, id, type }: { replies: any; setReplies: 
   }
 
   const getProcessedDescription = (description: string) => {
-    return description.replace(/(?:\r\n|\r|\n)/g, " <br> ")
+    return description?.replace(/(?:\r\n|\r|\n)/g, " <br> ")
   }
 
   return (

@@ -13,7 +13,7 @@ const QuoteReel = ({ muted, setMuted, inPostPage, content, createdAt, isBookmark
   }
 
   const getProcessedDescription = (description: string) => {
-    return description.replace(/(?:\r\n|\r|\n)/g, " <br> ")
+    return description?.replace(/(?:\r\n|\r|\n)/g, " <br> ")
   }
 
   return (
