@@ -94,7 +94,7 @@ const ReelBody = ({ muted, setMuted, media, content, mentions, displayReel }: { 
                     {` ${word} `}
                   </a>
                 ) : word[0] === "#" ? (
-                  <a dir="ltr" href={`/trending/${word.slice(1)}/reels`} onClick={(e: any) => e.stopPropagation()} className="text-primary hover:underline">
+                  <a dir="ltr" href={`/trending/${word.slice(1)}/reels`} onClick={(e: any) => e.stopPropagation()} className="mx-1 text-primary hover:underline">
                     {" " + word + " "}
                   </a>
                 ) : word === "<br>" ? (
