@@ -109,7 +109,7 @@ const UploadProfilePicture = ({ userR, setUser, userToken, handleCompleteSignup,
             <AddAPhotoOutlinedIcon className={`-ml-[3px] -mt-[5px] ${darkMode ? "text-white" : "text-black"}`} />
             <input
               type="file"
-              accept=""
+              accept="image/*"
               onChange={handlePictureChange}
               ref={hiddenFileInput}
               style={{ display: "none" }} // Make the file input element invisible
