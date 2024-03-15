@@ -4,7 +4,7 @@ import axios from "axios"
 import { useEffect, useState } from "react"
 import Reel from "../HomePage/Posts/Reel"
 import QuoteReel from "../HomePage/Posts/QuoteReel"
-import { t } from "i18next"
+import i18next, { t } from "i18next"
 import Loading from "../General/Loading"
 import ElementVisibleObserver from "../General/ElementVisibleObserver"
 
@@ -19,6 +19,7 @@ const TrendReels = () => {
     baseURL: process.env.REACT_APP_API_URL,
     headers: {
       Authorization: `Bearer ${userToken}`,
+      "accept-language": i18next.language,
     },
   })
 
