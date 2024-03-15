@@ -98,11 +98,10 @@ const ComposeQuote = ({ id, handleClose, setRepost, repost, repostCount, setRepo
   }
 
   const handleDescriptionChange = (e: any) => {
-    if (e.target.value.length < 280) setDescription(e.target.value)
-    setCharsCount((e.target.value.length * 100) / 280)
-    setCharsProgressColor(e.target.value.length < 260 ? "#1D9BF0" : e.target.value.length < 280 ? "#fdd81f" : "#f4212e")
-    setProgressCircleSize(e.target.value.length < 260 ? 24 : 32)
-    setProgressCircleValue(e.target.value.length >= 260 ? 280 - e.target.value.length : null)
+    if (e.target.value.length < 280) setDescription(e.target.value.slice(0, 280))
+    setCharsCount((e.target.value.slice(0, 280).length * 100) / 280)
+    setCharsProgressColor(e.target.value.slice(0, 280).length < 260 ? "#1D9BF0" : e.target.value.slice(0, 280).length < 280 ? "#fdd81f" : "#f4212e")
+    setProgressCircleSize(e.target.value.slice(0, 280).length < 260 ? 24 : 32)
   }
 
   const handleUploadMedia = (uploadedMedia: any) => {
@@ -181,7 +180,7 @@ const ComposeQuote = ({ id, handleClose, setRepost, repost, repostCount, setRepo
       </div>
       <div className="mt-1.5 h-fit w-full">
         <TextField
-          inputProps={{ onPaste: (e) => e.preventDefault() }}
+          inputProps={{ onPaste: (e) => handleDescriptionChange(e) }}
           id="description"
           variant="standard"
           InputProps={{

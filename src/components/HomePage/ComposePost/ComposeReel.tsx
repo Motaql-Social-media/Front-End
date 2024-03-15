@@ -22,14 +22,12 @@ const ComposeReel = ({ handleClose, addReelCallback }: { handleClose: any; addRe
   const [charsCount, setCharsCount] = useState(0)
   const [charsProgressColor, setCharsProgressColor] = useState("#1D9BF0")
   const [progressCircleSize, setProgressCircleSize] = useState(24)
-  const [progressCircleValue, setProgressCircleValue] = useState<number | null>(null)
 
   const handleDescriptionChange = (e: any) => {
-    if (e.target.value.length < 280) setDescription(e.target.value)
-    setCharsCount((e.target.value.length * 100) / 280)
-    setCharsProgressColor(e.target.value.length < 260 ? "#1D9BF0" : e.target.value.length < 280 ? "#fdd81f" : "#f4212e")
-    setProgressCircleSize(e.target.value.length < 260 ? 24 : 32)
-    setProgressCircleValue(e.target.value.length >= 260 ? 280 - e.target.value.length : null)
+    if (e.target.value.length < 280) setDescription(e.target.value.slice(0, 280))
+    setCharsCount((e.target.value.slice(0, 280).length * 100) / 280)
+    setCharsProgressColor(e.target.value.slice(0, 280).length < 260 ? "#1D9BF0" : e.target.value.slice(0, 280).length < 280 ? "#fdd81f" : "#f4212e")
+    setProgressCircleSize(e.target.value.slice(0, 280).length < 260 ? 24 : 32)
   }
 
   const [selectedTopic, setSelectedTopic] = useState("")
@@ -153,15 +151,14 @@ const ComposeReel = ({ handleClose, addReelCallback }: { handleClose: any; addRe
 
   const handleAddReel = () => {
     const mediaFormData = new FormData()
+    console.log(description)
+    console.log(selectedTopic)
+    console.log(reel)
     mediaFormData.append("content", description)
     mediaFormData.append("topics", selectedTopic)
     mediaFormData.append("reel", reel)
 
-    API.post("reels/add-reel", mediaFormData, {
-      headers: {
-        authorization: "Bearer " + userToken,
-      },
-    })
+    API.post("reels/add-reel", mediaFormData)
       .then((res) => {
         // console.log(res)
         const t = { ...res.data.data.reel, isBookmarked: false, isReacted: false, isRereeled: false, reactCount: 0, reReelCount: 0, repliesCount: 0, reeler: user }
@@ -193,7 +190,7 @@ const ComposeReel = ({ handleClose, addReelCallback }: { handleClose: any; addRe
               <CircularProgress variant="determinate" value={charsCount} size={progressCircleSize} sx={{ color: charsProgressColor }} />
             </div>
             <TextField
-              inputProps={{ onPaste: (e) => e.preventDefault() }}
+              inputProps={{ onPaste: (e) => handleDescriptionChange(e) }}
               id="description"
               variant="standard"
               InputProps={{
