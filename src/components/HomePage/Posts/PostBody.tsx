@@ -14,16 +14,16 @@ const PostBody = ({ description, media, mentions }: { description: string; media
   return (
     <div className="min-xs:pl-12">
       <div className="post-text mt-1 ">
-        <p>
+        <p >
           {description?.split(" ").map((word, index) => (
-            <span key={index}>
+            <span key={index} className="">
               {processedMentions.includes(word) ? (
                 <a href={`/${word.slice(1)}`} onClick={(e: any) => e.stopPropagation()} className="text-white hover:text-primary">
-                  {` ${word} `}
+                  {`${word}`}
                 </a>
               ) : word[0] === "#" ? (
-                <a dir="ltr" href={`/trending/${word.slice(1)}/diaries`} onClick={(e: any) => e.stopPropagation()} className="text-primary hover:underline">
-                  {" " + word + " "}
+                <a dir="ltr" href={`/trending/${word.slice(1)}/diaries`} onClick={(e: any) => e.stopPropagation()} className="text-primary mx-1 hover:underline">
+                  {` ${word} `}
                 </a>
               ) : word === "<br>" ? (
                 <br />
