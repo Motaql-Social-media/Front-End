@@ -11,6 +11,7 @@ import upload from "../../../assets/images/upload.png"
 
 import axios from "axios"
 import { Cancel } from "@mui/icons-material"
+import MentionSearch from "./MentionSearch"
 
 const ComposeReel = ({ handleClose, addReelCallback }: { handleClose: any; addReelCallback: any }) => {
   const { t } = useTranslation()
@@ -24,11 +25,27 @@ const ComposeReel = ({ handleClose, addReelCallback }: { handleClose: any; addRe
   const [progressCircleSize, setProgressCircleSize] = useState(24)
 
   const handleDescriptionChange = (e: any) => {
-    if (e.target.value.length < 280) setDescription(e.target.value.slice(0, 280))
-    setCharsCount((e.target.value.slice(0, 280).length * 100) / 280)
-    setCharsProgressColor(e.target.value.slice(0, 280).length < 260 ? "#1D9BF0" : e.target.value.slice(0, 280).length < 280 ? "#fdd81f" : "#f4212e")
-    setProgressCircleSize(e.target.value.slice(0, 280).length < 260 ? 24 : 32)
+    setDescription(e.target.value.slice(0, 280))
   }
+
+  const mentionCallback = (username: string) => {
+    if (description.length + username.length > 280) {
+      setMentionError(true)
+    } else {
+      const newDescription = description.split("@").slice(0, -1).join("@") + `@${username} `
+      setDescription(newDescription)
+      setOpenMentionSearch(false)
+    }
+  }
+
+  useEffect(() => {
+    if (description.split(" ").pop()?.startsWith("@")) setOpenMentionSearch(true)
+    else setOpenMentionSearch(false)
+
+    setCharsCount((description.length * 100) / 280)
+    setCharsProgressColor(description.length < 260 ? "#1D9BF0" : description.length < 280 ? "#fdd81f" : "#f4212e")
+    setProgressCircleSize(description.length < 260 ? 24 : 32)
+  }, [description])
 
   const [selectedTopic, setSelectedTopic] = useState("")
   const [selectedDescription, setSelectedDescription] = useState(t("compose_reel_message"))
@@ -178,6 +195,16 @@ const ComposeReel = ({ handleClose, addReelCallback }: { handleClose: any; addRe
 
   const publishRef = useRef<HTMLButtonElement>(null)
 
+  const [openMentionSearch, setOpenMentionSearch] = useState(false)
+
+  const [mentionError, setMentionError] = useState(false)
+
+  useEffect(() => {
+    setTimeout(() => {
+      setMentionError(false)
+    }, 5000)
+  }, [mentionError])
+
   return (
     <div className="relative flex h-full flex-col">
       <div className="flex w-full gap-2 ">
@@ -189,29 +216,34 @@ const ComposeReel = ({ handleClose, addReelCallback }: { handleClose: any; addRe
               </Link>
               <CircularProgress variant="determinate" value={charsCount} size={progressCircleSize} sx={{ color: charsProgressColor }} />
             </div>
-            <TextField
-              inputProps={{ onPaste: (e) => handleDescriptionChange(e) }}
-              id="description"
-              variant="standard"
-              InputProps={{
-                disableUnderline: true,
-                sx: {
-                  fontSize: window.innerWidth > 500 ? "13px" : window.innerWidth > 430 ? "11px" : "9px",
-                },
-              }}
-              placeholder={t("compose_reel_placeholder")}
-              onChange={(e) => handleDescriptionChange(e)}
-              multiline
-              value={description}
-              fullWidth
-              maxRows={23}
-              sx={{
-                border: "0px",
-                "& .MuiInputBase-root": {
-                  color: darkMode ? "#ffffff" : "#000000",
-                },
-              }}
-            />
+            <div className="relative w-full">
+              <TextField
+                inputProps={{ onPaste: (e) => handleDescriptionChange(e) }}
+                id="description"
+                variant="standard"
+                InputProps={{
+                  disableUnderline: true,
+                }}
+                placeholder={t("compose_reel_placeholder")}
+                onChange={(e) => handleDescriptionChange(e)}
+                multiline
+                value={description}
+                fullWidth
+                maxRows={23}
+                sx={{
+                  border: "0px",
+                  "& .MuiInputBase-root": {
+                    color: darkMode ? "#ffffff" : "#000000",
+                  },
+                }}
+              />
+              {openMentionSearch && (
+                <div className="absolute -bottom-24 left-1/2 z-[99] -translate-x-1/2 overflow-hidden rounded-2xl">
+                  <MentionSearch username={description.split("@").pop()?.split(" ")[0]} callback={mentionCallback} />
+                </div>
+              )}
+              {mentionError && <div className="text-xs text-red-600 ">{t("mention_error")}</div>}
+            </div>
           </div>
         </div>
         <div className={`flex w-[20%] flex-col justify-center gap-2 max-xs:text-xs`}>

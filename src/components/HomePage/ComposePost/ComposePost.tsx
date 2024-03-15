@@ -11,6 +11,7 @@ import { useTranslation } from "react-i18next"
 import i18next from "i18next"
 
 import Poll from "./Poll"
+import MentionSearch from "./MentionSearch"
 
 function ComposePost({ buttonName, postId, postType, addTweetCallback, addReelCallback }: { buttonName: string; postId: string | undefined; postType: string; addTweetCallback: any; addReelCallback: any }) {
   const [description, setDescription] = useState("")
@@ -209,12 +210,32 @@ function ComposePost({ buttonName, postId, postType, addTweetCallback, addReelCa
       handleAddTweet(mediaFormData)
     }
   }
+  
+  
   const handleDescriptionChange = (e: any) => {
-    if (e.target.value.length < 280) setDescription(e.target.value.slice(0, 280))
-    setCharsCount((e.target.value.slice(0, 280).length * 100) / 280)
-    setCharsProgressColor(e.target.value.slice(0, 280).length < 260 ? "#1D9BF0" : e.target.value.slice(0, 280).length < 280 ? "#fdd81f" : "#f4212e")
-    setProgressCircleSize(e.target.value.slice(0, 280).length < 260 ? 24 : 32)
+
+    setDescription(e.target.value.slice(0, 280))
+ 
   }
+
+  const mentionCallback = (username: string) => {
+    if (description.length + username.length > 280) {
+      setMentionError(true)
+    } else {
+      const newDescription = description.split("@").slice(0, -1).join("@") + `@${username} `
+      setDescription(newDescription)
+      setOpenMentionSearch(false)
+    }
+  }
+
+  useEffect(() => {
+    if (description.split(" ").pop()?.startsWith("@")) setOpenMentionSearch(true)
+    else setOpenMentionSearch(false)
+
+    setCharsCount((description.length * 100) / 280)
+    setCharsProgressColor(description.length < 260 ? "#1D9BF0" : description.length < 280 ? "#fdd81f" : "#f4212e")
+    setProgressCircleSize(description.length < 260 ? 24 : 32)
+  }, [description])
 
   const handleUploadMedia = (uploadedMedia: any) => {
     const file = uploadedMedia.target.files[0]
@@ -271,6 +292,16 @@ function ComposePost({ buttonName, postId, postType, addTweetCallback, addReelCa
 
   const { t } = useTranslation()
 
+  const [openMentionSearch, setOpenMentionSearch] = useState(false)
+
+  const [mentionError, setMentionError] = useState(false)
+
+  useEffect(() => {
+    setTimeout(() => {
+      setMentionError(false)
+    }, 5000)
+  }, [mentionError])
+
   return (
     <div className={`ComposePost flex h-fit border-b pb-5 ${buttonName === "Post" ? "border-t" : ""} !w-full flex-col border-lightBorder p-3 text-black dark:border-darkBorder dark:text-white `}>
       <div className={`h-10 w-10 ${i18next.language === "en" ? "sm:mr-3" : "sm:ml-3"} `}>
@@ -278,7 +309,7 @@ function ComposePost({ buttonName, postId, postType, addTweetCallback, addReelCa
           <Avatar alt={user?.name} src={`${user?.imageUrl.split(":")[0] === "https" ? user?.imageUrl : process.env.REACT_APP_USERS_MEDIA_URL + user?.imageUrl}`} sx={{ width: 40, height: 40 }} />
         </Link>
       </div>
-      <div className="mt-1.5 h-fit w-full">
+      <div className="relative mt-1.5 h-fit w-full">
         <TextField
           inputProps={{ onPaste: (e) => handleDescriptionChange(e) }}
           id="description"
@@ -302,6 +333,12 @@ function ComposePost({ buttonName, postId, postType, addTweetCallback, addReelCa
         <DisplayMedia mediaUrls={mediaUrls} setMediaUrls={setMediaUrls} margin={1.5} showCancelButton={true} deleteCallback={handleDeleteMediaCallback} />
         {pollDisabled && mediaDisabled && media.length === 0 && <Poll handlePollClick={handlePollClick} poll={poll} setPoll={setPoll} />}
         <hr className={`h-px border-0 bg-lightBorder dark:bg-darkBorder ${buttonName === "Post" ? "" : "hidden"}`} />
+        {openMentionSearch && (
+          <div className="absolute z-[99] -bottom-2 left-1/2 -translate-x-1/2 overflow-hidden rounded-2xl">
+            <MentionSearch username={description.split("@").pop()?.split(" ")[0]} callback={mentionCallback} />
+          </div>
+        )}
+        {mentionError && <div className="text-xs text-red-600 ">{t("mention_error")}</div>}
         <ComposePostFooter postType={postType} handleUploadMedia={handleUploadMedia} mediaDisabled={mediaDisabled} GIFDisabled={GIFDisabled} pollDisabled={pollDisabled} postDisabled={postDisabled} progressCircleSize={progressCircleSize} charsCount={charsCount} charsProgressColor={charsProgressColor} handleSubmit={handleSubmit} handlePollClick={handlePollClick} poll={poll} publishButton={publishButton} fromQuote={false} description={description} media={media} addReelCallback={addReelCallback} />
       </div>
     </div>

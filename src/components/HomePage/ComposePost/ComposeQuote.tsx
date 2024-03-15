@@ -9,13 +9,13 @@ import ComposePostFooter from "./ComposePostFooter"
 import { Link } from "react-router-dom"
 import Post from "../Posts/Post"
 import { styles } from "../../../styles/styles"
+import MentionSearch from "./MentionSearch"
 
 const ComposeQuote = ({ id, handleClose, setRepost, repost, repostCount, setRepostCount, type }: { id: any; handleClose: any; setRepost: any; repost: boolean; repostCount: number; setRepostCount: any; type: string }) => {
   const [description, setDescription] = useState("")
   const [charsCount, setCharsCount] = useState(0)
   const [charsProgressColor, setCharsProgressColor] = useState("#1D9BF0")
   const [progressCircleSize, setProgressCircleSize] = useState(24)
-  const [progressCircleValue, setProgressCircleValue] = useState<number | null>(null)
   const [media, setMedia] = useState<any[]>([])
   const [mediaNames, setMediaNames] = useState<string[]>([])
 
@@ -98,11 +98,37 @@ const ComposeQuote = ({ id, handleClose, setRepost, repost, repostCount, setRepo
   }
 
   const handleDescriptionChange = (e: any) => {
-    if (e.target.value.length < 280) setDescription(e.target.value.slice(0, 280))
-    setCharsCount((e.target.value.slice(0, 280).length * 100) / 280)
-    setCharsProgressColor(e.target.value.slice(0, 280).length < 260 ? "#1D9BF0" : e.target.value.slice(0, 280).length < 280 ? "#fdd81f" : "#f4212e")
-    setProgressCircleSize(e.target.value.slice(0, 280).length < 260 ? 24 : 32)
+    setDescription(e.target.value.slice(0, 280))
   }
+
+  const mentionCallback = (username: string) => {
+    if (description.length + username.length > 280) {
+      setMentionError(true)
+    } else {
+      const newDescription = description.split("@").slice(0, -1).join("@") + `@${username} `
+      setDescription(newDescription)
+      setOpenMentionSearch(false)
+    }
+  }
+
+  useEffect(() => {
+    if (description.split(" ").pop()?.startsWith("@")) setOpenMentionSearch(true)
+    else setOpenMentionSearch(false)
+
+    setCharsCount((description.length * 100) / 280)
+    setCharsProgressColor(description.length < 260 ? "#1D9BF0" : description.length < 280 ? "#fdd81f" : "#f4212e")
+    setProgressCircleSize(description.length < 260 ? 24 : 32)
+  }, [description])
+
+  const [openMentionSearch, setOpenMentionSearch] = useState(false)
+
+  const [mentionError, setMentionError] = useState(false)
+
+  useEffect(() => {
+    setTimeout(() => {
+      setMentionError(false)
+    }, 5000)
+  }, [mentionError])
 
   const handleUploadMedia = (uploadedMedia: any) => {
     const file = uploadedMedia.target.files[0]
@@ -172,13 +198,13 @@ const ComposeQuote = ({ id, handleClose, setRepost, repost, repostCount, setRepo
   }, [])
 
   return (
-    <div className={`ComposePost flex h-fit border-b pb-5 ${buttonName === "Post" ? "border-t" : ""} !w-full border-lightBorder p-3 text-black dark:border-darkBorder dark:text-white max-xs:hidden`}>
+    <div onClick={(e: any) => e.stopPropagation()} className={`ComposePost flex h-fit border-b pb-5 ${buttonName === "Post" ? "border-t" : ""} !w-full border-lightBorder p-3 text-black dark:border-darkBorder dark:text-white max-xs:hidden`}>
       <div data-testid="profileImage" className={`h-10 w-10 ${i18next.language === "en" ? "sm:mr-3" : "sm:ml-3"} `}>
         <Link className="hover:underline" to={`/${user.username}`}>
           <Avatar alt={user.name} src={`${user.imageUrl.split(":")[0] === "https" ? user.imageUrl : process.env.REACT_APP_USERS_MEDIA_URL + user.imageUrl.split("/").pop()}`} sx={{ width: 40, height: 40 }} />
         </Link>
       </div>
-      <div className="mt-1.5 h-fit w-full">
+      <div className="relative mt-1.5 h-fit w-full">
         <TextField
           inputProps={{ onPaste: (e) => handleDescriptionChange(e) }}
           id="description"
@@ -229,6 +255,12 @@ const ComposeQuote = ({ id, handleClose, setRepost, repost, repostCount, setRepo
           />
         )} */}
         <hr className={`h-px border-0 bg-lightBorder dark:bg-darkBorder ${buttonName === "Post" ? "" : "hidden"}`} />
+        {openMentionSearch && (
+          <div className="absolute -bottom-2 left-1/2 z-[99] -translate-x-1/2 overflow-hidden rounded-2xl">
+            <MentionSearch username={description.split("@").pop()?.split(" ")[0]} callback={mentionCallback} />
+          </div>
+        )}
+        {mentionError && <div className="text-xs text-red-600 ">{t("mention_error")}</div>}
         {type === "diary" && <ComposePostFooter postType={buttonName} handleUploadMedia={handleUploadMedia} mediaDisabled={mediaDisabled} GIFDisabled={GIFDisabled} pollDisabled={true} postDisabled={postDisabled} progressCircleSize={progressCircleSize} charsCount={charsCount} charsProgressColor={charsProgressColor} handleSubmit={handleSubmit} handlePollClick={() => {}} poll={{}} publishButton={publishButton} fromQuote={true} description={description} media={media} addReelCallback={() => {}} />}
         {type === "reel" && (
           <button className={`${styles.coloredButton}`} disabled={description.length === 0} onClick={handleSubmit}>
