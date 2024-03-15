@@ -9,17 +9,10 @@ import Logo from "../../assets/images/mainLogo.svg"
 import { useTranslation } from "react-i18next"
 import { useSelector } from "react-redux"
 import SwitchAccount from "./SwitchAccount"
-import { styles } from "../../styles/styles"
 import { useEffect } from "react"
-import { Modal } from "@mui/material"
-import ComposePost from "../HomePage/ComposePost/ComposePost"
 
 const DesktopSidebar = ({ optionsNames, optionsIcons, optionLinks, selected, shrink, handleLogout, mobile }: { optionsNames: string[]; optionsIcons: any[]; optionLinks: string[]; selected: number; shrink: boolean; handleLogout: any; mobile: boolean }) => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth)
-
-  const [open, setOpen] = useState(false)
-  const handleOpen = () => setOpen(true)
-  const handleClose = () => setOpen(false)
 
   useEffect(() => {
     const handleResize = () => {
@@ -137,18 +130,6 @@ const DesktopSidebar = ({ optionsNames, optionsIcons, optionLinks, selected, shr
           </div>
         ) : (
           <SwitchAccount handleLogout={handleLogout} openMenu={openMenu} anchorMenu={anchorMenu} handleCloseMenu={handleCloseMenu} handleClickMenu={handleClickMenu} />
-        )}
-        {mobile && (
-          <button onClick={handleOpen} className={`${styles.coloredButton} !w-[100px] self-center`}>
-            {t("publish")}
-          </button>
-        )}
-        {mobile && (
-          <Modal open={open} onClose={handleClose} disableEscapeKeyDown disablePortal>
-            <div style={modalStyle} className={`  h-[90%] w-[40%]  overflow-y-scroll rounded-2xl border p-4  dark:border-darkBorder dark:bg-black`}>
-              {/* <ComposePost buttonName="Post" postId={""} postType="diary" addTweetCallback={addTweetCallback} addReelCallback={addReelCallback} /> */}
-            </div>
-          </Modal>
         )}
       </div>
     </div>
