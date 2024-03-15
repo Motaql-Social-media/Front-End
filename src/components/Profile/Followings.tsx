@@ -32,7 +32,7 @@ const Followings = () => {
           if (res.data.data.followings.length < 20) setFinished(true)
           setLoading(false)
 
-          console.log(res.data.data.followings)
+          // console.log(res.data.data.followings)
           setFollowings((prev) => [...prev, ...res.data.data.followings])
         })
         .catch((err) => {

@@ -159,7 +159,7 @@ const ComposeReel = ({ handleClose, addReelCallback }: { handleClose: any; addRe
       },
     })
       .then((res) => {
-        console.log(res)
+        // console.log(res)
         const t = { ...res.data.data.reel, isBookmarked: false, isReacted: false, isRereeled: false, reactCount: 0, reReelCount: 0, repliesCount: 0, reeler: user }
         if (publishRef.current) publishRef.current.disabled = false
         setLoading(false)

@@ -65,12 +65,12 @@ const GSecondStep = ({ name, phoneNumber, speciality, month, day, year, access_t
   const dispatch = useDispatch()
 
   const handleSignup = () => {
-    console.log({
-      googleAccessToken: access_token,
-      phoneNumber: phoneNumber,
-      jobtitle: speciality,
-      dateOfBirth: `${year}-${month}-${day}`,
-    })
+    // console.log({
+    //   googleAccessToken: access_token,
+    //   phoneNumber: phoneNumber,
+    //   jobtitle: speciality,
+    //   dateOfBirth: `${year}-${month}-${day}`,
+    // })
     API.post(`auth/google-signup`, {
       googleAccessToken: access_token,
       phoneNumber: phoneNumber,

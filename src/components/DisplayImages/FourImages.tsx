@@ -49,7 +49,7 @@ const FourImages = ({ image1, image2, image3, image4, showCancelButton, handleDe
         setImageHeight1(height)
       })
       .catch((err) => {
-        console.log(err)
+        // console.log(err)
       })
 
     getImageHeight(image2)
@@ -57,7 +57,7 @@ const FourImages = ({ image1, image2, image3, image4, showCancelButton, handleDe
         setImageHeight2(height)
       })
       .catch((err) => {
-        console.log(err)
+        // console.log(err)
       })
 
     getImageHeight(image3)
@@ -65,7 +65,7 @@ const FourImages = ({ image1, image2, image3, image4, showCancelButton, handleDe
         setImageHeight3(height)
       })
       .catch((err) => {
-        console.log(err)
+        // console.log(err)
       })
 
     getImageHeight(image4)
@@ -73,7 +73,7 @@ const FourImages = ({ image1, image2, image3, image4, showCancelButton, handleDe
         setImageHeight4(height)
       })
       .catch((err) => {
-        console.log(err)
+        // console.log(err)
       })
 
     getImageAspectRatio(image1)
@@ -81,7 +81,7 @@ const FourImages = ({ image1, image2, image3, image4, showCancelButton, handleDe
         setImageAspectRatio1(aspectRatio)
       })
       .catch((err) => {
-        console.log(err)
+        // console.log(err)
       })
 
     getImageAspectRatio(image2)
@@ -89,7 +89,7 @@ const FourImages = ({ image1, image2, image3, image4, showCancelButton, handleDe
         setImageAspectRatio2(aspectRatio)
       })
       .catch((err) => {
-        console.log(err)
+        // console.log(err)
       })
 
     getImageAspectRatio(image3)
@@ -97,7 +97,7 @@ const FourImages = ({ image1, image2, image3, image4, showCancelButton, handleDe
         setImageAspectRatio3(aspectRatio)
       })
       .catch((err) => {
-        console.log(err)
+        // console.log(err)
       })
 
     getImageAspectRatio(image4)
@@ -105,7 +105,7 @@ const FourImages = ({ image1, image2, image3, image4, showCancelButton, handleDe
         setImageAspectRatio4(aspectRatio)
       })
       .catch((err) => {
-        console.log(err)
+        // console.log(err)
       })
   }, [image1, image2, image3, image4])
 

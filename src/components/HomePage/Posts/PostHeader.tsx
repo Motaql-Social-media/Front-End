@@ -11,7 +11,7 @@ import i18next from "i18next"
 
 import { Box } from "@mui/material"
 
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
@@ -28,10 +28,12 @@ const PostHeader = ({ date, tweeter, id, type, posts, setPosts, base, parent }: 
     e.stopPropagation()
     setMenuToggle((prev) => !prev)
   }
+  const navigate = useNavigate()
 
   const handleProfileClick = (e: any) => {
     e.stopPropagation()
-    console.log("profile")
+    // console.log("profile")
+    navigate(`/${tweeter.username}`)
   }
 
   const [isVisible, setIsVisible] = useState(false)
@@ -216,7 +218,7 @@ const PostHeader = ({ date, tweeter, id, type, posts, setPosts, base, parent }: 
               >
                 <DeleteOutlineIcon className={`${i18next.language === "en" ? "mr-3" : "ml-3"} text-base `} />
                 <span className="text-[15px] ">
-                  {t("delete")} {t(type)}
+                  {t("delete")} {t(type.toLowerCase())}
                 </span>
               </li>
 

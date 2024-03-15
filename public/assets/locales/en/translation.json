@@ -229,5 +229,6 @@
   "replying": "Replying to",
   "you_are_blocked": "You are blocked by ",
   "blocking_you": " is blocking you",
-  "blocking_message": "You can't see @{{tag}}'s posts while you are blocked."
+  "blocking_message": "You can't see @{{tag}}'s posts while you are blocked.",
+  "tweet": "Tweet"
 }

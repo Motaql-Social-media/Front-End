@@ -42,15 +42,15 @@ const SixthStep = ({ nickName, email, phoneNumber, speciality, month, day, year,
   })
 
   const handleSignup = () => {
-    console.log({
-      name: nickName,
-      email: email,
-      phoneNumber: phoneNumber,
-      password: password,
-      passwordConfirm: password,
-      jobtitle: speciality,
-      dateOfBirth: `${year}-${months.indexOf(month)}-${day}`,
-    });
+    // console.log({
+    //   name: nickName,
+    //   email: email,
+    //   phoneNumber: phoneNumber,
+    //   password: password,
+    //   passwordConfirm: password,
+    //   jobtitle: speciality,
+    //   dateOfBirth: `${year}-${months.indexOf(month)}-${day}`,
+    // });
     API.post("auth/signup", {
       name: nickName,
       email: email,

@@ -13,9 +13,9 @@ const HoveredProfile = ({ hoveredUser, state, setState }: { hoveredUser: any; st
 
   const { t } = useTranslation()
 
-  useEffect(() => {
-    console.log(hoveredUser)
-  }, [hoveredUser])
+  // useEffect(() => {
+  //   // console.log(hoveredUser)
+  // }, [hoveredUser])
 
   return (
     <div onClick={(e: any) => e.stopPropagation()}>

@@ -90,7 +90,7 @@ const Post = ({
         </span>
         {isVisible && <HoveredProfile hoveredUser={tweeter} state={followState} setState={setFollowState} />}
       </div>
-      {postType === "Reply" && (
+      {postType === "Reply" && !inPostPage && (
         <div className="mb-2 text-primary">
           {t("replying")} @{originalTweeter.username}
         </div>

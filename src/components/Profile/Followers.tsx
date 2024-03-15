@@ -31,7 +31,7 @@ const Followers = () => {
         .then((res) => {
           if (res.data.data.followers.length < 20) setFinished(true)
           setLoading(false)
-          console.log(res.data.data.followers)
+          // console.log(res.data.data.followers)
           setFollowers((prev) => [...prev, ...res.data.data.followers])
         })
         .catch((err) => {

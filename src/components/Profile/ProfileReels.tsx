@@ -32,7 +32,7 @@ const ProfileReels = () => {
         },
       })
         .then((res) => {
-          console.log(res.data.data.reels)
+          // console.log(res.data.data.reels)
           if (res.data.data.reels.length < 20) setFinished(true)
           setLoading(false)
           setReels((prev) => [...prev, ...res.data.data.reels])

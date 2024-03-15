@@ -43,7 +43,7 @@ const TwoImages = ({ image1, image2, showCancelButton, handleDeleteMedia }: { im
         setImageHeight1(height)
       })
       .catch((err) => {
-        console.log(err)
+        // console.log(err)
       })
 
     getImageHeight(image2)
@@ -51,7 +51,7 @@ const TwoImages = ({ image1, image2, showCancelButton, handleDeleteMedia }: { im
         setImageHeight2(height)
       })
       .catch((err) => {
-        console.log(err)
+        // console.log(err)
       })
 
     getImageAspectRatio(image1)
@@ -59,7 +59,7 @@ const TwoImages = ({ image1, image2, showCancelButton, handleDeleteMedia }: { im
         setImageAspectRatio1(aspectRatio)
       })
       .catch((err) => {
-        console.log(err)
+        // console.log(err)
       })
 
     getImageAspectRatio(image2)
@@ -67,7 +67,7 @@ const TwoImages = ({ image1, image2, showCancelButton, handleDeleteMedia }: { im
         setImageAspectRatio2(aspectRatio)
       })
       .catch((err) => {
-        console.log(err)
+        // console.log(err)
       })
   }, [image1, image2])
 

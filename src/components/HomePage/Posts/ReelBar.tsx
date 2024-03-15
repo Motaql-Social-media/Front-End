@@ -91,7 +91,7 @@ const ReelBar = ({ id, replyCount, reposted, repostsNum, liked, likesNum, topic,
       }
     )
       .then((res) => {
-        console.log(res)
+        // console.log(res)
         setRepostCount(repost ? repostCount - 1 : repostCount + 1)
 
         setRepost(!repost)

@@ -97,7 +97,7 @@ const Profile = ({ scroll }: { scroll: number }) => {
       },
     })
       .then((res) => {
-        console.log(res.data)
+        // console.log(res.data)
         setLoading(false)
         setProfile(res.data.data.user)
         setViewPosts(!res.data.data.user.isBlocked)

@@ -20,6 +20,7 @@ const Replies = ({ replies, setReplies, id, type }: { replies: any; setReplies: 
   const [loading, setLoading] = useState(true)
 
   const fetchReplies = () => {
+    // console.log("fetching replies")
     if (type === "diary") {
       API.get(`tweets/${id}/replies?page=${repliesPage}&limit=20`, {
         headers: {
@@ -27,7 +28,7 @@ const Replies = ({ replies, setReplies, id, type }: { replies: any; setReplies: 
         },
       })
         .then((res) => {
-          console.log(res.data.data.replies)
+          // console.log(res.data.data.replies)
           if (res.data.data.replies.length < 20) setFinishedReplies(true)
           setLoading(false)
           setReplies((prev: any) => [...prev, ...res.data.data.replies])
@@ -42,8 +43,9 @@ const Replies = ({ replies, setReplies, id, type }: { replies: any; setReplies: 
         },
       })
         .then((res) => {
-          console.log(res.data.data.replies)
+          // console.log(res.data.data.replies)
           if (res.data.data.replies.length < 20) setFinishedReplies(true)
+          setLoading(false)
 
           setReplies((prev: any) => [...prev, ...res.data.data.replies])
         })
@@ -54,8 +56,16 @@ const Replies = ({ replies, setReplies, id, type }: { replies: any; setReplies: 
   }
 
   useEffect(() => {
-    if (id) fetchReplies()
-  }, [id, repliesPage])
+    fetchReplies()
+  }, [repliesPage, id])
+
+  useEffect(() => {
+    if (id) {
+      setReplies([])
+      setLoading(true)
+      setRepliesPage(1)
+    }
+  }, [id])
 
   const [muted, setMuted] = useState(false)
 
@@ -109,7 +119,7 @@ const Replies = ({ replies, setReplies, id, type }: { replies: any; setReplies: 
                   )}
                 </div>
               ))}
-              {replies.length === 0 && <div className="h-[150vh]"></div>}
+              {loading && replies.length === 0 && <div className="h-[150vh]"></div>}
               <ElementVisibleObserver handler={handleFetchMore} />
             </div>
           )}
@@ -122,7 +132,7 @@ const Replies = ({ replies, setReplies, id, type }: { replies: any; setReplies: 
                     <Reel inPostPage={true} content={reel.content} createdAt={reel.createdAt} isBookmarked={reel.isBookmarked} isReacted={reel.isReacted} isRereeled={reel.isRereeled} mentions={reel.mentions} originalReel={reel.originalReel} originalReeler={reel.originalReeler} reReelCount={reel.reReelCount} reactCount={reel.reactCount} reelUrl={""} reeler={reel.replier} repliesCount={reel.repliesCount} postType={reel.type} id={reel.replyId} topic={""} reels={replies} setReels={setReplies} muted={muted} setMuted={setMuted} />
                   </div>
                 ))}
-              {replies.length === 0 && <div className="h-[150vh]"></div>}
+              {loading && replies.length === 0 && <div className="h-[150vh]"></div>}
               <ElementVisibleObserver handler={handleFetchMore} />
             </div>
           )}

@@ -67,7 +67,7 @@ const ThreeImages = ({ image1, image2, image3, showCancelButton, handleDeleteMed
         setImageHeight1(height)
       })
       .catch((err) => {
-        console.log(err)
+        // console.log(err)
       })
 
     getImageHeight(image2)
@@ -75,7 +75,7 @@ const ThreeImages = ({ image1, image2, image3, showCancelButton, handleDeleteMed
         setImageHeight2(height)
       })
       .catch((err) => {
-        console.log(err)
+        // console.log(err)
       })
 
     getImageHeight(image3)
@@ -83,7 +83,7 @@ const ThreeImages = ({ image1, image2, image3, showCancelButton, handleDeleteMed
         setImageHeight3(height)
       })
       .catch((err) => {
-        console.log(err)
+        // console.log(err)
       })
 
     getImageAspectRatio(image1)
@@ -91,7 +91,7 @@ const ThreeImages = ({ image1, image2, image3, showCancelButton, handleDeleteMed
         setImageAspectRatio1(aspectRatio)
       })
       .catch((err) => {
-        console.log(err)
+        // console.log(err)
       })
 
     getImageAspectRatio(image2)
@@ -99,7 +99,7 @@ const ThreeImages = ({ image1, image2, image3, showCancelButton, handleDeleteMed
         setImageAspectRatio2(aspectRatio)
       })
       .catch((err) => {
-        console.log(err)
+        // console.log(err)
       })
 
     getImageAspectRatio(image3)
@@ -107,7 +107,7 @@ const ThreeImages = ({ image1, image2, image3, showCancelButton, handleDeleteMed
         setImageAspectRatio3(aspectRatio)
       })
       .catch((err) => {
-        console.log(err)
+        // console.log(err)
       })
   }, [image1, image2, image3])
 

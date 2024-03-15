@@ -46,7 +46,7 @@ const Message = ({ scroll }: { scroll: number }) => {
   useEffect(() => {
     API.get(`chats/${id}/history`)
       .then((res) => {
-        console.log(res.data.data)
+        // console.log(res.data.data)
         setLoading(false)
         setOtherContact(res.data.data.otherContact)
         setMessages(res.data.data.messages)
@@ -126,13 +126,13 @@ const Message = ({ scroll }: { scroll: number }) => {
 
     return () => {
       if (socket) {
-        console.log("Chat closed!")
+        // console.log("Chat closed!")
         socket.emit("chat-closed", {
           conversationId: id,
           contactId: otherContact.userId,
         })
         socket.disconnect()
-        console.log(socket)
+        // console.log(socket)
       }
     }
   }, [socket])

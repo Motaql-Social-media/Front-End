@@ -33,6 +33,8 @@ const PostPage = ({ scroll }: { scroll: number }) => {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
+    // console.log(id, tag)  
+
     API.get(`tweets/${id}`, {
       headers: {
         authorization: `Bearer ${userToken}`,
@@ -46,7 +48,7 @@ const PostPage = ({ scroll }: { scroll: number }) => {
       .catch((err) => {
         console.log(err)
       })
-  }, [id])
+  }, [id,tag])
 
   const addReplyCallback = (reply: any) => {
     setReplies((prev) => [reply, ...prev])

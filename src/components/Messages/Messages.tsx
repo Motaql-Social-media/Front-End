@@ -47,7 +47,7 @@ const Messages = ({ scroll }: { scroll: number }) => {
   const fetchMessages = () => {
     API.get(`chats?page=${messagesPage}&limit=20`)
       .then((res) => {
-        console.log(res.data.data)
+        // console.log(res.data.data)
         setLoading(false)
         setMessages((prev) => [...prev, ...res.data.data.conversations])
         if (res.data.data.conversations.length < 20) {

@@ -33,7 +33,7 @@ const Quotes = () => {
           },
         })
           .then((res) => {
-            console.log(res.data.data.retweets)
+            // console.log(res.data.data.retweets)
             if (res.data.data.retweets.length < 20) setFinished(true)
             setLoading(false)
 
@@ -49,7 +49,7 @@ const Quotes = () => {
           },
         })
           .then((res) => {
-            console.log(res.data.data.rereels)
+            // console.log(res.data.data.rereels)
             if (res.data.data.rereels.length < 20) setFinished(true)
             setReelQuotes((prev) => [...prev, ...res.data.data.rereels])
           })

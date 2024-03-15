@@ -70,7 +70,8 @@ const Notification = ({ content, createdAt, isSeen, metadata, notificationFrom, 
 
   const handleProfileClick = (e: any) => {
     e.stopPropagation()
-    console.log("profile")
+    // console.log("profile")
+    navigate(`/${notificationFrom.username}`)
   }
 
 

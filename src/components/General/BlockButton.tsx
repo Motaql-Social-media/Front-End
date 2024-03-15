@@ -23,7 +23,7 @@ const BlockButton = ({ username, state, setState }: { username: string; state: b
       }
     )
       .then((res) => {
-        console.log(res.data)
+        // console.log(res.data)
         setState((prev: boolean) => !prev)
       })
       .catch((err) => {

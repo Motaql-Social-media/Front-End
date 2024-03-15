@@ -71,7 +71,7 @@ const PollBody = ({ poll, mentions, id }: { poll: any; mentions: string[]; id: s
       }
     )
       .then((res) => {
-        console.log(res)
+        // console.log(res)
         setPolledId(optionId)
         setTotalVotes((prev: number) => prev + 1)
         setOptionsVotesCount((prev: any) => {

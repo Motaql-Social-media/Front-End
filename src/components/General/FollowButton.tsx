@@ -23,7 +23,7 @@ const FollowButton = ({ username, state, setState }: { username: string; state: 
       }
     )
       .then((res) => {
-        console.log(res.data)
+        // console.log(res.data)
         setState((prev: boolean) => !prev)
       })
       .catch((err) => {

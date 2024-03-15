@@ -23,7 +23,7 @@ const MuteButton = ({ username, state, setState }: { username: string; state: bo
       }
     )
       .then((res) => {
-        console.log(res.data)
+        // console.log(res.data)
         setState((prev: boolean) => !prev)
       })
       .catch((err) => {

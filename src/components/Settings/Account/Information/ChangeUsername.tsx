@@ -40,7 +40,7 @@ const ChangeUsername = () => {
       input: userTag,
     })
       .then((res) => {
-        console.log(res.data.isFound)
+        // console.log(res.data.isFound)
         setUsernameError(res.data.isFound)
       })
       .catch((err) => {

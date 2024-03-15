@@ -63,7 +63,7 @@ function ComposePost({ buttonName, postId, postType, addTweetCallback, addReelCa
         .then((res) => {
           const t = { ...res.data.data.tweetReply, repliesCount: 0, reTweetCount: 0, reactCount: 0, isReacted: false, isRetweeted: false, isBookmarked: false, replier: { bio: user.bio, followersCount: user.followersCount, followingsCount: user.followingsCount, imageUrl: user.imageUrl, isBlocked: false, isFollowed: false, isMuted: false, jobtitle: user.jobtitle, name: user.name, username: user.username, userId: user.userId }, replies: {} }
 
-          console.log(res)
+          // console.log(res)
           addTweetCallback(t)
           setMedia([])
           setDescription("")
@@ -97,7 +97,7 @@ function ComposePost({ buttonName, postId, postType, addTweetCallback, addReelCa
           // const t = { ...res.data.data.reelReply, repliesCount: 0, reReelCount: 0, reactCount: 0, isReacted: false, isReReeled: false, isBookmarked: false, replier: { bio: user.bio, followersCount: user.followersCount, followingsCount: user.followingsCount, imageUrl: user.imageUrl, isBlocked: false, isFollowed: false, isMuted: false, jobtitle: user.jobtitle, name: user.name, username: user.username, userId: user.userId }, replies: {} }
           // const r = { ...res.data.data.reelReply, isBookmarked: false, isReacted: false, isRereeled: false, originalReeler: { username: tag }, reReelCount: 0, reactCount: 0, repliesCount: 0, replier: user, type: "Reply" }
 
-          console.log(res)
+          // console.log(res)
           addTweetCallback(res.data.data.reelReply)
           setMedia([])
           setDescription("")
@@ -207,7 +207,7 @@ function ComposePost({ buttonName, postId, postType, addTweetCallback, addReelCa
     if (poll) {
       handleAddPool()
     } else {
-      console.log("no poll")
+      // console.log("no poll")
       handleAddTweet(mediaFormData)
     }
   }

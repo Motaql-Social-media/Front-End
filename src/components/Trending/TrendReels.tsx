@@ -30,7 +30,7 @@ const TrendReels = () => {
   const fetchReels = () => {
     API.get(`reels/supporting/${query}?page=${page}&limit=20`)
       .then((res) => {
-        console.log(res.data.data.reels)
+        // console.log(res.data.data.reels)
         setReels(res.data.data.reels)
         setLoading(false)
         if (res.data.data.reels.length < 20) setFinished(true)

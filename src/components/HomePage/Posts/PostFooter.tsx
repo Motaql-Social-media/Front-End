@@ -62,7 +62,7 @@ const PostFooter = ({ id, replyCount, reposted, repostsNum, liked, likesNum, isB
       .then((res) => {
         setRepostCount(repost ? repostCount - 1 : repostCount + 1)
         setRepost(!repost)
-        console.log(res)
+        // console.log(res)
       })
       .catch((err) => console.log(err))
   }

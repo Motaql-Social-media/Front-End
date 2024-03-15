@@ -57,7 +57,7 @@ const Home = ({ scroll }: { scroll: number }) => {
     // console.log(`tweets/timeline?page=${diariesPage}&limit=${20}`)
     API.get(`tweets/timeline?page=${diariesPage}&limit=${20}`)
       .then((res) => {
-        console.log(res.data.data.timelineTweets)
+        // console.log(res.data.data.timelineTweets)
         if (res.data.data.timelineTweets.length < 20) setFinishedDiaries(true)
         setDiaries((prev) => [...prev,...res.data.data.timelineTweets])
       })
@@ -67,10 +67,10 @@ const Home = ({ scroll }: { scroll: number }) => {
   }
 
   const fetchReels = () => {
-    console.log(reelsPage)
+    // console.log(reelsPage)
     API.get(`reels/timeline?page=${reelsPage}&limit=${20}`)
       .then((res) => {
-        console.log(res.data.data.timelineReels)
+        // console.log(res.data.data.timelineReels)
         if (res.data.data.timelineReels.length < 20) setFinishedReels(true)
         setReels((prev) => [...prev,...res.data.data.timelineReels])
       })

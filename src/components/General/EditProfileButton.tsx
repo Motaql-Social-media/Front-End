@@ -120,7 +120,7 @@ const EditProfileButton = ({ setBio, setName, setBannerUrl, setDateOfBirth, setI
   })
 
   const handleSave = () => {
-    console.log(`${year}-${month}-${day}`)
+    // console.log(`${year}-${month}-${day}`)
     const formData = new FormData()
     if (newName !== user.name && newName !== "") formData.append("name", newName)
     if (newBio !== user.bio) formData.append("bio", newBio)

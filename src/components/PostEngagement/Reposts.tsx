@@ -30,7 +30,7 @@ const Reposts = () => {
         },
       })
         .then((res) => {
-          console.log(res.data.data)
+          // console.log(res.data.data)
           if ((type !== "reel" && res.data.data.retweeters.length < 20) || (type === "reel" && res.data.data.rereelers.length < 20)) setFinished(true)
           setLoading(false)
           if (type === "reel") setRetweeters((prev) => [...prev, ...res.data.data.rereelers])

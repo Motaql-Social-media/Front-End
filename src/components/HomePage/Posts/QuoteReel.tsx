@@ -2,10 +2,14 @@ import PostHeader from "./PostHeader"
 import ReelBody from "./ReelBody"
 import Reel from "./Reel"
 import ReelBar from "./ReelBar"
+import { useNavigate } from "react-router-dom"
 
 const QuoteReel = ({ muted, setMuted, inPostPage, content, createdAt, isBookmarked, isReacted, isRereeled, mentions, originalReel, originalReeler, reReelCount, reactCount, reelUrl, reeler, repliesCount, id, topic, reels, setReels }: { muted: boolean; setMuted: any; inPostPage: boolean; content: string; createdAt: string; isBookmarked: boolean; isReacted: boolean; isRereeled: boolean; mentions: any; originalReel: any; originalReeler: any; reReelCount: number; reactCount: number; reelUrl: string; reeler: any; repliesCount: number; id: string; topic: string; reels: any; setReels: any }) => {
+  const navigate=useNavigate()
+  
   const handleReelClick = () => {
-    console.log("Reel")
+    // console.log("Reel")
+    navigate(`/${reeler.username}/reel/${id}`)
   }
 
   return (

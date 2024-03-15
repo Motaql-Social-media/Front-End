@@ -97,7 +97,7 @@ function App() {
       socket.on("notification-receive", (payload: any) => {
         dispatch(receiveNotification())
         setNotification(payload)
-        console.log(payload)
+        // console.log(payload)
       })
     }
   }, [socket])
