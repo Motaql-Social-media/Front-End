@@ -2,7 +2,7 @@ import { Skeleton } from "@mui/material"
 import PostBody from "./PostBody"
 import PostFooter from "./PostFooter"
 import PostHeader from "./PostHeader"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import CachedOutlinedIcon from "@mui/icons-material/CachedOutlined"
 import i18next from "i18next"
 import HoveredProfile from "./HoveredProfile"
@@ -76,6 +76,10 @@ const Post = ({
     navigate(`/${tweeter.username}/diary/${id}`)
   }
 
+  const getProcessedDescription = (description: string) => {
+    return description.replace(/(?:\r\n|\r|\n)/g, " <br> ")
+  }
+
   return (
     <div className={`cursor-pointer ${postType !== "retweet" ? "border-b" : ""} border-b-darkBorder p-4 hover:bg-lightHover dark:hover:bg-darkHover`} onClick={handlePostClick}>
       <div className={`relative text-sm ${postType === "Repost" ? "" : "hidden"} text-primary no-underline hover:underline`} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={() => navigate(`/${tweeter.username}`)}>
@@ -100,7 +104,7 @@ const Post = ({
       </div>
       {displayFooter && !poll?.pollId && (
         <div>
-          <PostBody description={description} media={media} mentions={mentions} />
+          <PostBody description={getProcessedDescription(description)} media={media} mentions={mentions} />
         </div>
       )}
       {poll?.pollId && (

@@ -43,18 +43,6 @@ const Home = ({ scroll }: { scroll: number }) => {
     if (window.location.pathname === "/home/reels") fetchReels()
   }, [reelsPage, window.location.pathname])
 
-  // useEffect(() => {
-  //   if ((window.location.pathname === "/home/diaries" || window.location.pathname === "/home") && diariesPage === 1) {
-  //     setDiaries([])
-  //     setDiariesPage(1)
-  //     fetchDiaries()
-  //   } else if (window.location.pathname === "/home/reels" && reelsPage === 1) {
-  //     setReels([])
-  //     setReelsPage(1)
-  //     fetchReels()
-  //   }
-  // }, [window.location.pathname])
-
   const [loading, setLoading] = useState<boolean>(true)
 
   const fetchDiaries = () => {

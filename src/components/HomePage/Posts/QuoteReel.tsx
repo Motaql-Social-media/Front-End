@@ -12,13 +12,17 @@ const QuoteReel = ({ muted, setMuted, inPostPage, content, createdAt, isBookmark
     navigate(`/${reeler.username}/reel/${id}`)
   }
 
+  const getProcessedDescription = (description: string) => {
+    return description.replace(/(?:\r\n|\r|\n)/g, " <br> ")
+  }
+
   return (
     <div className="cursor-pointer border-b border-b-darkBorder p-4 hover:bg-lightHover dark:hover:bg-darkHover" onClick={handleReelClick}>
       <div className="mb-3">
         <PostHeader base={"Quote"} tweeter={reeler} date={createdAt} id={id} type={"reel"} posts={reels} setPosts={setReels} parent="reel" />
       </div>
       <div className="mb-2">
-        <ReelBody muted={muted} setMuted={setMuted} media={reelUrl} mentions={mentions} content={content} displayReel={false} />
+        <ReelBody muted={muted} setMuted={setMuted} media={reelUrl} mentions={mentions} content={getProcessedDescription(content)} displayReel={false} />
       </div>
       <div className=" w-full">
         <div className="min-xs:w-[90%] min-xs:ml-[10%] ml-[5%] w-[95%] overflow-hidden rounded-3xl border-2 border-darkBorder">

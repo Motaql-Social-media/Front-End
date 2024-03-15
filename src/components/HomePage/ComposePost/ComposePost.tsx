@@ -17,7 +17,6 @@ function ComposePost({ buttonName, postId, postType, addTweetCallback, addReelCa
   const [charsCount, setCharsCount] = useState(0)
   const [charsProgressColor, setCharsProgressColor] = useState("#1D9BF0")
   const [progressCircleSize, setProgressCircleSize] = useState(24)
-  const [progressCircleValue, setProgressCircleValue] = useState<number | null>(null)
   const [media, setMedia] = useState<any[]>([])
   const [mediaNames, setMediaNames] = useState<string[]>([])
 
@@ -77,7 +76,6 @@ function ComposePost({ buttonName, postId, postType, addTweetCallback, addReelCa
           setCharsCount(0)
           setCharsProgressColor("#1D9BF0")
           setProgressCircleSize(24)
-          setProgressCircleValue(null)
           publishButton.current?.removeAttribute("disabled")
         })
         .catch((err) => {
@@ -111,7 +109,6 @@ function ComposePost({ buttonName, postId, postType, addTweetCallback, addReelCa
           setCharsCount(0)
           setCharsProgressColor("#1D9BF0")
           setProgressCircleSize(24)
-          setProgressCircleValue(null)
           publishButton.current?.removeAttribute("disabled")
         })
         .catch((err) => {
@@ -139,7 +136,6 @@ function ComposePost({ buttonName, postId, postType, addTweetCallback, addReelCa
           setCharsCount(0)
           setCharsProgressColor("#1D9BF0")
           setProgressCircleSize(24)
-          setProgressCircleValue(null)
           publishButton.current?.removeAttribute("disabled")
         })
         .catch((err) => {
@@ -192,7 +188,6 @@ function ComposePost({ buttonName, postId, postType, addTweetCallback, addReelCa
         setCharsCount(0)
         setCharsProgressColor("#1D9BF0")
         setProgressCircleSize(24)
-        setProgressCircleValue(null)
         publishButton.current?.removeAttribute("disabled")
       })
       .catch((err) => {
@@ -219,7 +214,6 @@ function ComposePost({ buttonName, postId, postType, addTweetCallback, addReelCa
     setCharsCount((e.target.value.length * 100) / 280)
     setCharsProgressColor(e.target.value.length < 260 ? "#1D9BF0" : e.target.value.length < 280 ? "#fdd81f" : "#f4212e")
     setProgressCircleSize(e.target.value.length < 260 ? 24 : 32)
-    setProgressCircleValue(e.target.value.length >= 260 ? 280 - e.target.value.length : null)
   }
 
   const handleUploadMedia = (uploadedMedia: any) => {
@@ -242,6 +236,7 @@ function ComposePost({ buttonName, postId, postType, addTweetCallback, addReelCa
   }
 
   useEffect(() => {
+    // console.log(media)
     setMediaUrls(media.map((m) => m.imageUrl))
     setMediaNames(media.map((m) => m.name))
   }, [media])
@@ -274,10 +269,6 @@ function ComposePost({ buttonName, postId, postType, addTweetCallback, addReelCa
     setMediaDisabled(newOption)
   }
 
-  const htmlElement = document.getElementById("htmlid")
-
-  const themeColor = useSelector((state: any) => state.theme.color)
-
   const { t } = useTranslation()
 
   return (
@@ -295,7 +286,7 @@ function ComposePost({ buttonName, postId, postType, addTweetCallback, addReelCa
           InputProps={{
             disableUnderline: true,
           }}
-          placeholder={`${pollDisabled ? t("ask_question") : postType !== "reply" && postType !== "reply_reel" ? t("compose_post") : t("compose_reply")}`}
+          placeholder={`${pollDisabled && mediaDisabled ? t("ask_question") : postType !== "reply" && postType !== "reply_reel" ? t("compose_post") : t("compose_reply")}`}
           onChange={(e) => handleDescriptionChange(e)}
           multiline
           value={description}
@@ -309,7 +300,7 @@ function ComposePost({ buttonName, postId, postType, addTweetCallback, addReelCa
           }}
         ></TextField>
         <DisplayMedia mediaUrls={mediaUrls} setMediaUrls={setMediaUrls} margin={1.5} showCancelButton={true} deleteCallback={handleDeleteMediaCallback} />
-        {pollDisabled && media.length === 0 && <Poll handlePollClick={handlePollClick} poll={poll} setPoll={setPoll} />}
+        {pollDisabled && mediaDisabled && media.length === 0 && <Poll handlePollClick={handlePollClick} poll={poll} setPoll={setPoll} />}
         <hr className={`h-px border-0 bg-lightBorder dark:bg-darkBorder ${buttonName === "Post" ? "" : "hidden"}`} />
         <ComposePostFooter postType={postType} handleUploadMedia={handleUploadMedia} mediaDisabled={mediaDisabled} GIFDisabled={GIFDisabled} pollDisabled={pollDisabled} postDisabled={postDisabled} progressCircleSize={progressCircleSize} charsCount={charsCount} charsProgressColor={charsProgressColor} handleSubmit={handleSubmit} handlePollClick={handlePollClick} poll={poll} publishButton={publishButton} fromQuote={false} description={description} media={media} addReelCallback={addReelCallback} />
       </div>

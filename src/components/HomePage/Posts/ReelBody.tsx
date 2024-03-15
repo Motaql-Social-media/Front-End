@@ -35,8 +35,6 @@ const ReelBody = ({ muted, setMuted, media, content, mentions, displayReel }: { 
     setProcessedMentions(mentions.map((mention) => `@${mention}`))
   }, [mentions])
 
-  const [isVisible, setIsVisible] = useState(false)
-
   useEffect(() => {
     let timeoutId: any
 
@@ -66,11 +64,6 @@ const ReelBody = ({ muted, setMuted, media, content, mentions, displayReel }: { 
       clearTimeout(timeoutId)
     }
   }, [videoRef])
-
-  // useEffect(() => {
-  //   if (isVisible) videoRef.current?.play()
-  //   else videoRef.current?.pause()
-  // }, [isVisible])
 
   const handleVolumeChange = (event: any) => {
     const video = event.target
@@ -104,6 +97,8 @@ const ReelBody = ({ muted, setMuted, media, content, mentions, displayReel }: { 
                   <a dir="ltr" href={`/trending/${word.slice(1)}/reels`} onClick={(e: any) => e.stopPropagation()} className="text-primary hover:underline">
                     {word}
                   </a>
+                ) : word === "<br>" ? (
+                  <br />
                 ) : (
                   ` ${word} `
                 )}

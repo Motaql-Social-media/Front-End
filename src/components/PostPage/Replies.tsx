@@ -71,6 +71,10 @@ const Replies = ({ replies, setReplies, id, type }: { replies: any; setReplies: 
     }
   }
 
+  const getProcessedDescription = (description: string) => {
+    return description.replace(/(?:\r\n|\r|\n)/g, " <br> ")
+  }
+
   return (
     <>
       {loading && <Loading />}
@@ -80,7 +84,7 @@ const Replies = ({ replies, setReplies, id, type }: { replies: any; setReplies: 
             <div>
               {replies.map((reply: any) => (
                 <div key={reply.replyId} className="border-b border-darkBorder hover:dark:bg-darkHover">
-                  <Post cascade={false} inPostPage={true} postType={reply.type} id={reply.replyId} date={reply.createdAt} description={reply.content} media={reply.media.map((m: any) => m.url)} replyCount={reply.repliesCount} repostCount={reply.reTweetCount} likeCount={reply.reactCount} isLiked={reply.isReacted} isReposted={reply.isRetweeted} isBookmarked={reply.isBookmarked} tweeter={reply.replier} posts={replies} setPosts={setReplies} displayFooter={true} mentions={reply.mentions} originalTweet={{}} originalTweeter={{}} poll={null} />
+                  <Post cascade={false} inPostPage={true} postType={reply.type} id={reply.replyId} date={reply.createdAt} description={getProcessedDescription(reply.content)} media={reply.media.map((m: any) => m.url)} replyCount={reply.repliesCount} repostCount={reply.reTweetCount} likeCount={reply.reactCount} isLiked={reply.isReacted} isReposted={reply.isRetweeted} isBookmarked={reply.isBookmarked} tweeter={reply.replier} posts={replies} setPosts={setReplies} displayFooter={true} mentions={reply.mentions} originalTweet={{}} originalTweeter={{}} poll={null} />
                   {reply.replies.replyId && (
                     <div className="relative ml-[5%] w-[95%]">
                       <Post
@@ -89,7 +93,7 @@ const Replies = ({ replies, setReplies, id, type }: { replies: any; setReplies: 
                         postType={reply.replies.type}
                         id={reply.replies.replyId}
                         date={reply.replies.createdAt}
-                        description={reply.replies.content}
+                        description={getProcessedDescription(reply.replies.content)}
                         media={reply.replies.media.map((m: any) => m.url)}
                         replyCount={reply.replies.repliesCount}
                         repostCount={reply.replies.reTweetCount}

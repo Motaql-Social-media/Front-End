@@ -81,6 +81,10 @@ function ComposePostFooter({
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
 
+  // useEffect(() => {
+  //   console.log(media)
+  // }, [media])
+
   return (
     <div className="mt-3 flex items-center justify-between">
       {!fromQuote && postType !== "reply" && postType !== "reply_reel" && (
@@ -124,7 +128,7 @@ function ComposePostFooter({
       <button
         ref={publishButton}
         className={`${styles.coloredButton} !h-9 !w-fit px-2 max-[400px]:text-sm`}
-        disabled={(postDisabled && pollError) || (description.length === 0 && media.length === 0)}
+        disabled={(pollDisabled && mediaDisabled && pollError) || (description.length === 0 && media.length === 0)}
         onClick={(e) => {
           publishButton.current?.setAttribute("disabled", "true")
           handleSubmit(e)
