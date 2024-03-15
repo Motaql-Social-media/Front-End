@@ -86,7 +86,7 @@ const ReelBody = ({ muted, setMuted, media, content, mentions, displayReel }: { 
     <div className="w-full">
       <div className="ml-5 mt-1 ">
         <p>
-          {content.split(" ").map((word, index) => {
+          {content?.split(" ").map((word, index) => {
             return (
               <span key={index}>
                 {processedMentions.includes(word) ? (
