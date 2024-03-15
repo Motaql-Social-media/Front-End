@@ -179,7 +179,7 @@ const Notification = ({ content, createdAt, isSeen, metadata, notificationFrom, 
           <span className="cursor-default font-semibold hover:underline">{notificationFrom.name}</span>
           {isVisible2 && <HoveredProfile hoveredUser={notificationFrom} state={followState} setState={setFollowState} />}
         </div>
-        <span>{notificationTypeContentMap[type][i18next.language]}</span>
+        <span>{notificationTypeContentMap[type] ? notificationTypeContentMap[type][i18next.language] : ""}</span>
       </div>
       <div className="text-end text-sm text-gray-500">{formatDate(createdAt)}</div>
     </div>
