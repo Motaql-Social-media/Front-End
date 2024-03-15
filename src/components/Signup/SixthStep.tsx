@@ -96,32 +96,7 @@ const SixthStep = ({ nickName, email, phoneNumber, speciality, month, day, year,
             InputLabelProps={{
               style: { color: "#40e5da" },
             }}
-            sx={{
-              "& .MuiInputBase-input": {
-                borderColor: "#40e5da",
-
-                color: "#40e5da",
-              },
-              width: "100%",
-              "& .MuiOutlinedInput-root:hover": {
-                "& .MuiOutlinedInput-notchedOutline": {
-                  borderColor: "#40e5da",
-                },
-              },
-              "& .MuiOutlinedInput-root": {
-                borderColor: "#40e5da",
-                "&$focused": {
-                  borderColor: "#40e5da",
-                },
-                "& .MuiOutlinedInput-notchedOutline": {
-                  "&$focused": {
-                    borderColor: "#40e5da",
-                  },
-                  borderColor: "#40e5da",
-                },
-              },
-              marginBottom: "10px",
-            }}
+            sx={styles.textField}
           />
 
           <span className={`toggle-password absolute text-primary ${i18next.language === "en" || !password ? "right-4" : "left-4"} top-4 cursor-pointer ${showPassword ? "active" : ""}`} onClick={togglePasswordVisibility}>

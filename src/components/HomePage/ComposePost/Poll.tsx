@@ -6,6 +6,7 @@ import { SelectChangeEvent } from "@mui/material"
 import { ReactNode } from "react"
 import { useSelector } from "react-redux"
 import i18next from "i18next"
+import { styles } from "../../../styles/styles"
 
 const Poll = ({ handlePollClick, poll, setPoll }: { handlePollClick: any; poll: any; setPoll: any }) => {
   const { t } = useTranslation()
@@ -75,34 +76,7 @@ const Poll = ({ handlePollClick, poll, setPoll }: { handlePollClick: any; poll: 
             InputLabelProps={{
               style: { color: "#40e5da", textAlign: "right" },
             }}
-            sx={{
-              borderColor: "#40e5da",
-
-              "& .MuiInputBase-input": {
-                borderColor: "#40e5da",
-                "&$focused": {
-                  borderColor: "#40e5da",
-                },
-                color: "#40e5da",
-              },
-              width: "100%",
-              "& .MuiOutlinedInput-root:hover": {
-                "& .MuiOutlinedInput-notchedOutline": {
-                  borderColor: "#40e5da",
-                },
-              },
-              "& .MuiOutlinedInput-root": {
-                borderColor: "#40e5da",
-
-                "& .MuiOutlinedInput-notchedOutline": {
-                  borderColor: "#40e5da",
-                  "&$focused": {
-                    borderColor: "#40e5da",
-                  },
-                },
-              },
-              marginBottom: "10px",
-            }}
+            sx={styles.textField}
           />
           <span className="absolute right-2 top-1 text-sm text-gray-600">{`${option1.length} / 25 `}</span>
         </div>
@@ -120,34 +94,7 @@ const Poll = ({ handlePollClick, poll, setPoll }: { handlePollClick: any; poll: 
             InputLabelProps={{
               style: { color: "#40e5da", textAlign: "right" },
             }}
-            sx={{
-              borderColor: "#40e5da",
-
-              "& .MuiInputBase-input": {
-                borderColor: "#40e5da",
-                "&$focused": {
-                  borderColor: "#40e5da",
-                },
-                color: "#40e5da",
-              },
-              width: "100%",
-              "& .MuiOutlinedInput-root:hover": {
-                "& .MuiOutlinedInput-notchedOutline": {
-                  borderColor: "#40e5da",
-                },
-              },
-              "& .MuiOutlinedInput-root": {
-                borderColor: "#40e5da",
-
-                "& .MuiOutlinedInput-notchedOutline": {
-                  borderColor: "#40e5da",
-                  "&$focused": {
-                    borderColor: "#40e5da",
-                  },
-                },
-              },
-              marginBottom: "10px",
-            }}
+            sx={styles.textField}
           />
           <span className="absolute right-2 top-1 text-sm text-gray-600">{`${option2.length} / 25 `}</span>
           {numOfOptions === 2 && (
@@ -170,34 +117,7 @@ const Poll = ({ handlePollClick, poll, setPoll }: { handlePollClick: any; poll: 
             InputLabelProps={{
               style: { color: "#40e5da", textAlign: "right" },
             }}
-            sx={{
-              borderColor: "#40e5da",
-
-              "& .MuiInputBase-input": {
-                borderColor: "#40e5da",
-                "&$focused": {
-                  borderColor: "#40e5da",
-                },
-                color: "#40e5da",
-              },
-              width: "100%",
-              "& .MuiOutlinedInput-root:hover": {
-                "& .MuiOutlinedInput-notchedOutline": {
-                  borderColor: "#40e5da",
-                },
-              },
-              "& .MuiOutlinedInput-root": {
-                borderColor: "#40e5da",
-
-                "& .MuiOutlinedInput-notchedOutline": {
-                  borderColor: "#40e5da",
-                  "&$focused": {
-                    borderColor: "#40e5da",
-                  },
-                },
-              },
-              marginBottom: "10px",
-            }}
+            sx={styles.textField}
           />
           <span className="absolute right-2 top-1 text-sm text-gray-600">{`${option3.length} / 25 `}</span>
           {numOfOptions === 3 && (
@@ -220,34 +140,7 @@ const Poll = ({ handlePollClick, poll, setPoll }: { handlePollClick: any; poll: 
             InputLabelProps={{
               style: { color: "#40e5da", textAlign: "right" },
             }}
-            sx={{
-              borderColor: "#40e5da",
-
-              "& .MuiInputBase-input": {
-                borderColor: "#40e5da",
-                "&$focused": {
-                  borderColor: "#40e5da",
-                },
-                color: "#40e5da",
-              },
-              width: "100%",
-              "& .MuiOutlinedInput-root:hover": {
-                "& .MuiOutlinedInput-notchedOutline": {
-                  borderColor: "#40e5da",
-                },
-              },
-              "& .MuiOutlinedInput-root": {
-                borderColor: "#40e5da",
-
-                "& .MuiOutlinedInput-notchedOutline": {
-                  borderColor: "#40e5da",
-                  "&$focused": {
-                    borderColor: "#40e5da",
-                  },
-                },
-              },
-              marginBottom: "10px",
-            }}
+            sx={styles.textField}
           />
           <span className="absolute right-2 top-1 text-sm text-gray-600">{`${option4.length} / 25 `}</span>
         </div>

@@ -13,6 +13,7 @@ import React from "react"
 import { TextField } from "@mui/material"
 import { useParams } from "react-router-dom"
 import { t } from "i18next"
+import { styles } from "../../styles/styles"
 
 const SearchComponent = ({ query, callback, fromMessage }: { query: string; callback: any; fromMessage: boolean }) => {
   const userToken = useSelector((state: any) => state.user.token)
@@ -151,34 +152,7 @@ const SearchComponent = ({ query, callback, fromMessage }: { query: string; call
                     InputLabelProps={{
                       style: { color: "#40e5da", textAlign: "right" },
                     }}
-                    sx={{
-                      borderColor: "#40e5da",
-
-                      "& .MuiInputBase-input": {
-                        borderColor: "#40e5da",
-                        "&$focused": {
-                          borderColor: "#40e5da",
-                        },
-                        color: "#40e5da",
-                      },
-                      width: "100%",
-                      "& .MuiOutlinedInput-root:hover": {
-                        "& .MuiOutlinedInput-notchedOutline": {
-                          borderColor: "#40e5da",
-                        },
-                      },
-                      "& .MuiOutlinedInput-root": {
-                        borderColor: "#40e5da",
-
-                        "& .MuiOutlinedInput-notchedOutline": {
-                          borderColor: "#40e5da",
-                          "&$focused": {
-                            borderColor: "#40e5da",
-                          },
-                        },
-                      },
-                      marginBottom: "10px",
-                    }}
+                    sx={styles.textField}
                   />
                 </div>
               )

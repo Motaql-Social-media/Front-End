@@ -3,7 +3,7 @@ import { styles } from "../../styles/styles"
 import axios from "axios"
 import { useTranslation } from "react-i18next"
 import { useState } from "react"
-import GoogleSignup from "../Signup/GoogleSignup"
+import GoogleSignup from "../../Pages/Signup/GoogleSignup"
 import { useDispatch } from "react-redux"
 import { signupUser } from "../../store/UserSlice"
 

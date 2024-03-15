@@ -85,34 +85,7 @@ const FirstStep = ({ nickName, setNickName, speciality, setSpeciality, month, se
             InputLabelProps={{
               style: { color: "#40e5da", textAlign: "right" },
             }}
-            sx={{
-              borderColor: "#40e5da",
-
-              "& .MuiInputBase-input": {
-                borderColor: "#40e5da",
-                "&$focused": {
-                  borderColor: "#40e5da",
-                },
-                color: "#40e5da",
-              },
-              width: "100%",
-              "& .MuiOutlinedInput-root:hover": {
-                "& .MuiOutlinedInput-notchedOutline": {
-                  borderColor: "#40e5da",
-                },
-              },
-              "& .MuiOutlinedInput-root": {
-                borderColor: "#40e5da",
-
-                "& .MuiOutlinedInput-notchedOutline": {
-                  borderColor: "#40e5da",
-                  "&$focused": {
-                    borderColor: "#40e5da",
-                  },
-                },
-              },
-              marginBottom: "10px",
-            }}
+            sx={styles.textField}
           />
           <div className="absolute right-4 top-1 w-fit text-sm text-gray-500">{nickName ? nickName.length : 0}/25</div>
         </div>
@@ -130,34 +103,7 @@ const FirstStep = ({ nickName, setNickName, speciality, setSpeciality, month, se
             InputLabelProps={{
               style: { color: "#40e5da", textAlign: "right" },
             }}
-            sx={{
-              borderColor: "#40e5da",
-
-              "& .MuiInputBase-input": {
-                borderColor: "#40e5da",
-                "&$focused": {
-                  borderColor: "#40e5da",
-                },
-                color: "#40e5da",
-              },
-              width: "100%",
-              "& .MuiOutlinedInput-root:hover": {
-                "& .MuiOutlinedInput-notchedOutline": {
-                  borderColor: "#40e5da",
-                },
-              },
-              "& .MuiOutlinedInput-root": {
-                borderColor: "#40e5da",
-
-                "& .MuiOutlinedInput-notchedOutline": {
-                  borderColor: "#40e5da",
-                  "&$focused": {
-                    borderColor: "#40e5da",
-                  },
-                },
-              },
-              marginBottom: "10px",
-            }}
+            sx={styles.textField}
           />
           <div className="absolute right-4 top-1 w-fit text-sm text-gray-500">{speciality ? speciality.length : 0}/30</div>
         </div>

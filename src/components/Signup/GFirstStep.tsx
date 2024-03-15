@@ -151,34 +151,7 @@ const GFirstStep = ({ name, phoneNumber, setPhoneNumber, speciality, setSpeciali
             InputLabelProps={{
               style: { color: "#40e5da", textAlign: "right" },
             }}
-            sx={{
-              borderColor: "#40e5da",
-
-              "& .MuiInputBase-input": {
-                borderColor: "#40e5da",
-                "&$focused": {
-                  borderColor: "#40e5da",
-                },
-                color: "#40e5da",
-              },
-              width: "100%",
-              "& .MuiOutlinedInput-root:hover": {
-                "& .MuiOutlinedInput-notchedOutline": {
-                  borderColor: "#40e5da",
-                },
-              },
-              "& .MuiOutlinedInput-root": {
-                borderColor: "#40e5da",
-
-                "& .MuiOutlinedInput-notchedOutline": {
-                  borderColor: "#40e5da",
-                  "&$focused": {
-                    borderColor: "#40e5da",
-                  },
-                },
-              },
-              marginBottom: "10px",
-            }}
+            sx={styles.textField}
           />
         </div>
 

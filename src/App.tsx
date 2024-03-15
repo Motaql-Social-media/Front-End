@@ -3,12 +3,12 @@ import { useEffect, useState } from "react"
 import ThemeProvider from "@mui/material/styles/ThemeProvider"
 import theme from "./styles/theme"
 import Languages from "./components/Languages"
-import Landing from "./components/LandingPage/Landing"
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom"
-import PasswordReset from "./components/PasswordReset/PasswordReset"
-import Login from "./components/Login/Login"
-import SignUp from "./components/Signup/Signup"
-import Home from "./components/HomePage/Home"
+import Landing from "./Pages/Landing/Landing"
+import { BrowserRouter, Routes, Route } from "react-router-dom"
+import PasswordReset from "./Pages/PasswordReset/PasswordReset"
+import Login from "./Pages/Login/Login"
+import SignUp from "./Pages/Signup/Signup"
+import Home from "./Pages/Home/Home"
 import { useRef } from "react"
 
 import { useSelector } from "react-redux"
@@ -17,16 +17,16 @@ import Sidebar from "./components/Sidebar/Sidebar"
 import Diaries from "./components/HomePage/Posts/Diaries"
 import Reels from "./components/HomePage/Posts/Reels"
 import useCheckMobileScreen from "./components/hooks/useCheckMobileScreen"
-import Bookmarks from "./components/Bookmarks/Bookmarks"
-import PostEngagement from "./components/PostEngagement/PostEngagement"
+import Bookmarks from "./Pages/Bookmarks/Bookmarks"
+import PostEngagement from "./Pages/PostEngagement/PostEngagement"
 import Reposts from "./components/PostEngagement/Reposts"
 import Quotes from "./components/PostEngagement/Quotes"
 import Likes from "./components/PostEngagement/Likes"
-import Explore from "./components/Explore/Explore"
+import Explore from "./Pages/Explore/Explore"
 
-import DiaryPage from "./components/PostPage/DiaryPage"
-import ReelPage from "./components/PostPage/ReelPage"
-import Notifications from "./components/Notifications/Notifications"
+import DiaryPage from "./Pages/PostPage/DiaryPage"
+import ReelPage from "./Pages/PostPage/ReelPage"
+import Notifications from "./Pages/Notifications/Notifications"
 import All from "./components/Notifications/All"
 
 import io from "socket.io-client"
@@ -36,31 +36,31 @@ import ReelsMentions from "./components/Notifications/ReelsMentions"
 import DiariesMentions from "./components/Notifications/DiariesMentions"
 import Followers from "./components/Profile/Followers"
 import Followings from "./components/Profile/Followings"
-import FollowersFollowings from "./components/Profile/FollowersFollowings"
+import FollowersFollowings from "./Pages/FollowersFollowings/FollowersFollowings"
 
 import { GoogleOAuthProvider } from "@react-oauth/google"
-import Settings from "./components/Settings/Settings"
-import Account from "./components/Settings/Account/Account"
-import Privacy from "./components/Settings/Privacy/Privacy"
-import AccountInformations from "./components/Settings/Account/Information/AccountInformations"
-import ChangeUsername from "./components/Settings/Account/Information/ChangeUsername"
-import PasswordChange from "./components/Settings/Account/PasswordChange"
-import ChangePhoneNumber from "./components/Settings/Account/Information/ChangePhoneNumber"
-import ChangeEmail from "./components/Settings/Account/Information/ChangeEmail"
-import MuteBlock from "./components/Settings/Privacy/MuteBlock"
-import BlockedAccounts from "./components/Settings/Privacy/BlockedAccounts"
-import MutedAccounts from "./components/Settings/Privacy/MutedAccounts"
-import Profile from "./components/Profile/Profile"
+import Settings from "./Pages/Settings/Settings"
+import Account from "./Pages/Account/Account"
+import Privacy from "./Pages/Privacy/Privacy"
+import AccountInformations from "./Pages/Account/Information/AccountInformations"
+import ChangeUsername from "./Pages/Account/Information/ChangeUsername"
+import PasswordChange from "./Pages/Account/PasswordChange"
+import ChangePhoneNumber from "./Pages/Account/Information/ChangePhoneNumber"
+import ChangeEmail from "./Pages/Account/Information/ChangeEmail"
+import MuteBlock from "./Pages/Privacy/MuteBlock"
+import BlockedAccounts from "./Pages/Privacy/BlockedAccounts"
+import MutedAccounts from "./Pages/Privacy/MutedAccounts"
+import Profile from "./Pages/Profile/Profile"
 import ProfileDiaries from "./components/Profile/ProfileDiaries"
 import ProfileReels from "./components/Profile/ProfileReels"
-import Trending from "./components/Trending/Trending"
+import Trending from "./Pages/Trending/Trending"
 import TrendDiaries from "./components/Trending/TrendDiaries"
 import TrendReels from "./components/Trending/TrendReels"
 import { useDispatch } from "react-redux"
 import { receiveNotification } from "./store/NotificationSlice"
 import PushNotification from "./components/Notifications/PushNotification"
-import Messages from "./components/Messages/Messages"
-import Message from "./components/Messages/Message"
+import Messages from "./Pages/Messages/Messages"
+import Message from "./Pages/Messages/Message"
 import NotFound from "./components/General/NotFound"
 
 const SocketContext = createContext<any>(null)
@@ -179,19 +179,7 @@ function App() {
           <div ref={appRef} className="app relative flex  min-h-[100vh]  flex-row  bg-white text-black dark:bg-black  dark:text-white max-[540px]:flex-col xs:h-[100vh] xs:w-full">
             <BrowserRouter>
               <Languages />
-              {/* {!user && location !== "/password_reset" && (
-            <Landing
-              openLoginModal={openLoginModal}
-              handleOpenLoginModal={handleOpenLoginModal}
-              handleCloseLoginModal={handleCloseLoginModal}
-              openSignupModal={openSignupModal}
-              handleOpenSignupModal={handleOpenSignupModal}
-              handleCloseSignupModal={handleCloseSignupModal}
-              location={location}
-              setLocation={setLocation}
-            />
-          )} */}
-              {/* {location !== "/password_reset" && <Sidebar />} */}
+
               {user && location !== "/password_reset" && <Sidebar />}
               <Routes>
                 <Route path="/" element={<Landing openLoginModal={openLoginModal} handleOpenLoginModal={handleOpenLoginModal} handleCloseLoginModal={handleCloseLoginModal} openSignupModal={openSignupModal} handleOpenSignupModal={handleOpenSignupModal} handleCloseSignupModal={handleCloseSignupModal} location={location} setLocation={setLocation} />}></Route>

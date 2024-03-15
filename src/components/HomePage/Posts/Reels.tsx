@@ -1,7 +1,7 @@
 import Reel from "./Reel"
-import { HomeContext } from "../Home"
-import { BookmarksContext } from "../../Bookmarks/Bookmarks"
-import { useContext, useState,useEffect } from "react"
+import { HomeContext } from "../../../Pages/Home/Home"
+import { BookmarksContext } from "../../../Pages/Bookmarks/Bookmarks"
+import { useContext, useState, useEffect } from "react"
 import QuoteReel from "./QuoteReel"
 import { t } from "i18next"
 

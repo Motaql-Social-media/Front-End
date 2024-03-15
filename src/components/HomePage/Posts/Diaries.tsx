@@ -1,8 +1,8 @@
 import Post from "./Post"
 
 import { useContext } from "react"
-import { HomeContext } from "../Home"
-import { BookmarksContext } from "../../Bookmarks/Bookmarks"
+import { HomeContext } from "../../../Pages/Home/Home"
+import { BookmarksContext } from "../../../Pages/Bookmarks/Bookmarks"
 import QuotePost from "./QuotePost"
 import { t } from "i18next"
 

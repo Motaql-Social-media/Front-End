@@ -99,32 +99,7 @@ const TagStep = ({ userTag, setUserTag, originalUsername, userToken, user, setUs
                 border: usernameError ? "1px solid red" : "0px",
               },
             }}
-            sx={{
-              "& .MuiInputBase-input": {
-                borderColor: "#40e5da",
-                "&$focused": {
-                  borderColor: "#40e5da",
-                },
-                color: "#40e5da",
-              },
-              width: "100%",
-              "& .MuiOutlinedInput-root:hover": {
-                "& .MuiOutlinedInput-notchedOutline": {
-                  borderColor: "#40e5da",
-                },
-              },
-              "& .MuiOutlinedInput-root": {
-                borderColor: "#40e5da",
-
-                "& .MuiOutlinedInput-notchedOutline": {
-                  borderColor: "#40e5da",
-                  "&$focused": {
-                    borderColor: "#40e5da",
-                  },
-                },
-              },
-              marginBottom: "10px",
-            }}
+            sx={styles.textField}
           />
           {!usernameError && <CheckCircleIcon className={`absolute top-0 ${i18next.language === "en" || !userTag ? "right-4" : "left-4"} -translate-x-2 translate-y-4 text-[18px] text-green-600`} />}
           {usernameError && <ErrorIcon className={`absolute bottom-0 ${i18next.language === "en" || !userTag ? "right-4" : "left-4"} -translate-x-2 -translate-y-8 text-[18px] text-red-600`} />}

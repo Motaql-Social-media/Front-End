@@ -110,32 +110,7 @@ const FifthStep = ({ nickName, email, setPosition, position }: { nickName: strin
           InputLabelProps={{
             style: { color: "#40e5da", textAlign: "right" },
           }}
-          sx={{
-            "& .MuiInputBase-input": {
-              borderColor: "#40e5da",
-              "&$focused": {
-                borderColor: "#40e5da",
-              },
-              color: "#40e5da",
-            },
-            width: "100%",
-            "& .MuiOutlinedInput-root:hover": {
-              "& .MuiOutlinedInput-notchedOutline": {
-                borderColor: "#40e5da",
-              },
-            },
-            "& .MuiOutlinedInput-root": {
-              borderColor: "#40e5da",
-
-              "& .MuiOutlinedInput-notchedOutline": {
-                borderColor: "#40e5da",
-                "&$focused": {
-                  borderColor: "#40e5da",
-                },
-              },
-            },
-            marginBottom: "10px",
-          }}
+          sx={styles.textField}
         />
         <button onClick={handleResendOTP} className="w-fit cursor-pointer !bg-transparent">
           <span className={`${isResending ? "cursor-default text-white" : "cursor-pointer text-primary"}  mt-2 w-fit`}>{isResending ? `${t("resending", { time: countdown.toString() })}` : t("redend_email")} </span>

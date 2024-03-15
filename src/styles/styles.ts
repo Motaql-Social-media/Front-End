@@ -62,6 +62,65 @@ const styles = {
   },
   coloredButton: "text-black font-semibold w-full bg-primary rounded-full h-12 my-2 disabled:bg-opacity-30 hover:bg-primaryHover",
   normalButton: "text-primary border font-semibold w-full dark:bg-black rounded-full h-12 my-2",
+  textField: {
+    borderColor: "#40e5da",
+
+    "& .MuiInputBase-input": {
+      borderColor: "#40e5da",
+      "&$focused": {
+        borderColor: "#40e5da",
+      },
+      color: "#40e5da",
+    },
+    width: "100%",
+    "& .MuiOutlinedInput-root:hover": {
+      "& .MuiOutlinedInput-notchedOutline": {
+        borderColor: "#40e5da",
+      },
+    },
+    "& .MuiOutlinedInput-root": {
+      borderColor: "#40e5da",
+
+      "& .MuiOutlinedInput-notchedOutline": {
+        borderColor: "#40e5da",
+        "&$focused": {
+          borderColor: "#40e5da",
+        },
+      },
+    },
+    marginBottom: "10px",
+  },
+  bioTextField: {
+    height: "100%",
+    borderColor: "#40e5da",
+
+    "& .MuiInputBase-input": {
+      borderColor: "#40e5da",
+      "&$focused": {
+        borderColor: "#40e5da",
+      },
+      color: "#40e5da",
+    },
+    width: "100%",
+    "& .MuiOutlinedInput-root:hover": {
+      "& .MuiOutlinedInput-notchedOutline": {
+        borderColor: "#40e5da",
+      },
+    },
+    "& .MuiOutlinedInput-root": {
+      height: "100%",
+
+      borderColor: "#40e5da",
+
+      "& .MuiOutlinedInput-notchedOutline": {
+        borderColor: "#40e5da",
+        "&$focused": {
+          borderColor: "#40e5da",
+        },
+      },
+    },
+    marginBottom: "10px",
+  },
 }
 
 export { styles }

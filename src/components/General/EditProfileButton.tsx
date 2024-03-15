@@ -11,6 +11,7 @@ import { useDispatch } from "react-redux"
 import { changeUser } from "../../store/UserSlice"
 import { t } from "i18next"
 import i18next from "i18next"
+import { styles } from "../../styles/styles"
 
 const EditProfileButton = ({ setBio, setName, setBannerUrl, setDateOfBirth, setImageUrl, setJobTitle, setLocation, image_profile, banner_image, name, bio, location, jobtitle, birthday, username }: { image_profile: string; banner_image: string; name: string; bio: string; location: string; jobtitle: string; birthday: string; username: string; setBio: any; setName: any; setBannerUrl: any; setDateOfBirth: any; setImageUrl: any; setJobTitle: any; setLocation: any }) => {
   
@@ -251,34 +252,7 @@ const EditProfileButton = ({ setBio, setName, setBannerUrl, setDateOfBirth, setI
                   InputLabelProps={{
                     style: { color: "#40e5da", textAlign: "right" },
                   }}
-                  sx={{
-                    borderColor: "#40e5da",
-
-                    "& .MuiInputBase-input": {
-                      borderColor: "#40e5da",
-                      "&$focused": {
-                        borderColor: "#40e5da",
-                      },
-                      color: "#40e5da",
-                    },
-                    width: "100%",
-                    "& .MuiOutlinedInput-root:hover": {
-                      "& .MuiOutlinedInput-notchedOutline": {
-                        borderColor: "#40e5da",
-                      },
-                    },
-                    "& .MuiOutlinedInput-root": {
-                      borderColor: "#40e5da",
-
-                      "& .MuiOutlinedInput-notchedOutline": {
-                        borderColor: "#40e5da",
-                        "&$focused": {
-                          borderColor: "#40e5da",
-                        },
-                      },
-                    },
-                    marginBottom: "10px",
-                  }}
+                  sx={styles.textField}
                 />
                 <div className="absolute right-4 top-1 w-fit text-sm text-gray-500">{newName ? newName.length : 0}/25</div>
               </div>
@@ -297,37 +271,7 @@ const EditProfileButton = ({ setBio, setName, setBannerUrl, setDateOfBirth, setI
                     style: { color: "#40e5da", textAlign: "right" },
                   }}
                   inputProps={{ onPaste: (e) => e.preventDefault() }}
-                  sx={{
-                    height: "100%",
-                    borderColor: "#40e5da",
-
-                    "& .MuiInputBase-input": {
-                      borderColor: "#40e5da",
-                      "&$focused": {
-                        borderColor: "#40e5da",
-                      },
-                      color: "#40e5da",
-                    },
-                    width: "100%",
-                    "& .MuiOutlinedInput-root:hover": {
-                      "& .MuiOutlinedInput-notchedOutline": {
-                        borderColor: "#40e5da",
-                      },
-                    },
-                    "& .MuiOutlinedInput-root": {
-                      height: "100%",
-
-                      borderColor: "#40e5da",
-
-                      "& .MuiOutlinedInput-notchedOutline": {
-                        borderColor: "#40e5da",
-                        "&$focused": {
-                          borderColor: "#40e5da",
-                        },
-                      },
-                    },
-                    marginBottom: "10px",
-                  }}
+                  sx={styles.bioTextField}
                 />
                 <div className="absolute right-4 top-1 w-fit text-sm text-gray-500">{newBio ? newBio.length : 0}/160</div>
               </div>
@@ -345,34 +289,7 @@ const EditProfileButton = ({ setBio, setName, setBannerUrl, setDateOfBirth, setI
                   InputLabelProps={{
                     style: { color: "#40e5da", textAlign: "right" },
                   }}
-                  sx={{
-                    borderColor: "#40e5da",
-
-                    "& .MuiInputBase-input": {
-                      borderColor: "#40e5da",
-                      "&$focused": {
-                        borderColor: "#40e5da",
-                      },
-                      color: "#40e5da",
-                    },
-                    width: "100%",
-                    "& .MuiOutlinedInput-root:hover": {
-                      "& .MuiOutlinedInput-notchedOutline": {
-                        borderColor: "#40e5da",
-                      },
-                    },
-                    "& .MuiOutlinedInput-root": {
-                      borderColor: "#40e5da",
-
-                      "& .MuiOutlinedInput-notchedOutline": {
-                        borderColor: "#40e5da",
-                        "&$focused": {
-                          borderColor: "#40e5da",
-                        },
-                      },
-                    },
-                    marginBottom: "10px",
-                  }}
+                  sx={styles.textField}
                 />
                 <div className="absolute right-4 top-1 w-fit text-sm text-gray-500">{newLocation ? newLocation.length : 0}/30</div>
               </div>
@@ -390,34 +307,7 @@ const EditProfileButton = ({ setBio, setName, setBannerUrl, setDateOfBirth, setI
                   InputLabelProps={{
                     style: { color: "#40e5da", textAlign: "right" },
                   }}
-                  sx={{
-                    borderColor: "#40e5da",
-
-                    "& .MuiInputBase-input": {
-                      borderColor: "#40e5da",
-                      "&$focused": {
-                        borderColor: "#40e5da",
-                      },
-                      color: "#40e5da",
-                    },
-                    width: "100%",
-                    "& .MuiOutlinedInput-root:hover": {
-                      "& .MuiOutlinedInput-notchedOutline": {
-                        borderColor: "#40e5da",
-                      },
-                    },
-                    "& .MuiOutlinedInput-root": {
-                      borderColor: "#40e5da",
-
-                      "& .MuiOutlinedInput-notchedOutline": {
-                        borderColor: "#40e5da",
-                        "&$focused": {
-                          borderColor: "#40e5da",
-                        },
-                      },
-                    },
-                    marginBottom: "10px",
-                  }}
+                  sx={styles.textField}
                 />
                 <div className="absolute right-4 top-1 w-fit text-sm text-gray-500">{newJobtitle ? newJobtitle.length : 0}/30</div>
               </div>

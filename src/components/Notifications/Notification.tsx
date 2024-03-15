@@ -1,8 +1,7 @@
 import { Avatar } from "@mui/material"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import HoveredProfile from "../HomePage/Posts/HoveredProfile"
 import { useNavigate } from "react-router"
-import { useSelector } from "react-redux"
 import FavoriteIcon from "@mui/icons-material/Favorite"
 import AlternateEmailIcon from "@mui/icons-material/AlternateEmail"
 import ChatBubbleOutlineOutlinedIcon from "@mui/icons-material/ChatBubbleOutlineOutlined"
@@ -11,6 +10,7 @@ import PersonAddIcon from "@mui/icons-material/PersonAdd"
 import EmailIcon from "@mui/icons-material/Email"
 import FormatQuoteIcon from "@mui/icons-material/FormatQuote"
 import i18next from "i18next"
+import { t } from "i18next"
 
 const Notification = ({ content, createdAt, isSeen, metadata, notificationFrom, notificationId, type }: { content: string; createdAt: any; isSeen: boolean; metadata: any; notificationFrom: any; notificationId: string; type: string }) => {
   const icons: any = {
@@ -150,14 +150,23 @@ const Notification = ({ content, createdAt, isSeen, metadata, notificationFrom, 
       hour: "numeric",
       minute: "numeric",
       second: "numeric",
-      hour12: true, // Adjust to 24-hour format as needed
+      hour12: true,
     }
 
-    return new Intl.DateTimeFormat("en-US", options).format(date)
+    const time = new Intl.DateTimeFormat("en-US", options).format(date)
+
+    return i18next.language === "ar"
+      ? time
+          .replace("AM", "ص")
+          .replace("PM", "م")
+          .replace(time.split(" ")[0], t(time.split(" ")[0].toLowerCase()))
+          .replace("at", "عند")
+          .replace(",", "،")
+      : time
   }
 
   return (
-    <div className="cursor-pointer border-y border-y-darkBorder p-3" dir="ltr" onClick={handleNotificationClick}>
+    <div className="cursor-pointer border-y border-y-darkBorder p-3" onClick={handleNotificationClick}>
       <div className="flex items-center justify-start gap-2">
         {icons[type.split("_")[0]]}
         <div onClick={handleProfileClick} className="relative cursor-pointer" onMouseEnter={() => handleMouseEnter(1)} onMouseLeave={() => handleMouseLeave(1)}>

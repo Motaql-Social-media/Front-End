@@ -88,33 +88,7 @@ const ForthStep = ({ nickName, email, setEmail, emailExistError, setEmailExistEr
               border: emailExistError ? "1px solid red" : "",
             },
           }}
-          sx={{
-            borderColor: "#40e5da",
-            "& .MuiInputBase-input": {
-              borderColor: "#40e5da",
-              "&$focused": {
-                borderColor: "#40e5da",
-              },
-              color: "#40e5da",
-            },
-            width: "100%",
-            "& .MuiOutlinedInput-root:hover": {
-              "& .MuiOutlinedInput-notchedOutline": {
-                borderColor: "#40e5da",
-              },
-            },
-            "& .MuiOutlinedInput-root": {
-              borderColor: "#40e5da",
-
-              "& .MuiOutlinedInput-notchedOutline": {
-                borderColor: "#40e5da",
-                "&$focused": {
-                  borderColor: "#40e5da",
-                },
-              },
-            },
-            marginBottom: "10px",
-          }}
+          sx={styles.textField}
         />
         {!validEmail(email) && <div className="text-red-600"> {t("valid_email")}</div>}
         {/* {!validEmail(email) && (
