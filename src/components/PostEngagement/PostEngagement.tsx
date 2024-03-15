@@ -1,30 +1,15 @@
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef } from "react"
 import { Outlet, useParams } from "react-router-dom"
-import { useNavigate } from "react-router-dom"
 import { useSelector } from "react-redux"
 import { useTranslation } from "react-i18next"
-import axios from "axios"
 import HorizontalNavbar from "../General/HorizontalNavbar"
-import ArrowBackIcon from "@mui/icons-material/ArrowBack"
 import SubpageNavbar from "../General/SubpageNavbar"
 import useCheckAuthentication from "../hooks/useCheckAuthentication"
 
 const PostEngagement = ({ scroll }: { scroll: number }) => {
-  const navigate = useNavigate()
-
   const user = useSelector((state: any) => state.user)
 
   useCheckAuthentication()
-
-  useEffect(() => {
-    if (!user) {
-      navigate("/")
-    }
-  }, [user])
-
-  const API = axios.create({
-    baseURL: process.env.REACT_APP_API_URL,
-  })
 
   const { t } = useTranslation()
 

@@ -15,8 +15,6 @@ const FifthStep = ({ nickName, email, setPosition, position }: { nickName: strin
 
   const { t } = useTranslation()
 
-
-
   useEffect(() => {
     let timer: any
 
@@ -36,6 +34,9 @@ const FifthStep = ({ nickName, email, setPosition, position }: { nickName: strin
 
   const API = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
+    headers: {
+      "accept-language": i18next.language,
+    },
   })
 
   const [otpError, setOtpError] = useState(false)

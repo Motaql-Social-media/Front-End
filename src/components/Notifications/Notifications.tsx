@@ -1,9 +1,6 @@
-import React, { useContext, useEffect, useRef, useState } from "react"
-import { useNavigate, useParams } from "react-router"
+import React, { useEffect, useRef } from "react"
 import { useSelector } from "react-redux"
-import axios from "axios"
 import { useTranslation } from "react-i18next"
-import ArrowBackIcon from "@mui/icons-material/ArrowBack"
 import HorizontalNavbar from "../General/HorizontalNavbar"
 import { Outlet } from "react-router-dom"
 import Widgets from "../Widgets/Widgets"
@@ -11,17 +8,9 @@ import SubpageNavbar from "../General/SubpageNavbar"
 import useCheckAuthentication from "../hooks/useCheckAuthentication"
 
 const Notifications = ({ scroll }: { scroll: number }) => {
-  const navigate = useNavigate()
-
   useCheckAuthentication()
 
   const user = useSelector((state: any) => state.user)
-
-
-
-  const API = axios.create({
-    baseURL: process.env.REACT_APP_API_URL,
-  })
 
   const { t } = useTranslation()
 

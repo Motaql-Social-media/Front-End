@@ -16,6 +16,10 @@ const TagStep = ({ userTag, setUserTag, originalUsername, userToken, user, setUs
 
   const API = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
+    headers: {
+      authorization: "Bearer " + userToken,
+      "accept-language": i18next.language,
+    },
   })
 
   const handleCheckUsernameExist = () => {
@@ -83,7 +87,7 @@ const TagStep = ({ userTag, setUserTag, originalUsername, userToken, user, setUs
             variant="outlined"
             value={userTag}
             onChange={(e) => {
-              setUserTag(e.target.value.slice(0,25))
+              setUserTag(e.target.value.slice(0, 25))
             }}
             InputLabelProps={{
               style: { color: "#40e5da", textAlign: "right" },

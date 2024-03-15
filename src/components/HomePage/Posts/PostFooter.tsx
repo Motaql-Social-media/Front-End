@@ -14,8 +14,13 @@ import { Modal } from "@mui/material"
 import ComposeQuote from "../ComposePost/ComposeQuote"
 
 const PostFooter = ({ id, replyCount, reposted, repostsNum, liked, likesNum, isBookmarked, username }: { id: string; replyCount: number; reposted: boolean; repostsNum: number; liked: boolean; likesNum: number; isBookmarked: boolean; username: string }) => {
+  const userToken = useSelector((state: any) => state.user.token)
   const API = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
+    headers: {
+      authorization: "Bearer " + userToken,
+      "accept-language": i18next.language,
+    },
   })
 
   const [like, setLike] = useState(liked)
@@ -24,8 +29,6 @@ const PostFooter = ({ id, replyCount, reposted, repostsNum, liked, likesNum, isB
 
   const [likeCount, setLikeCount] = useState(likesNum)
   const [repostCount, setRepostCount] = useState(repostsNum)
-
-  const userToken = useSelector((state: any) => state.user.token)
 
   const handleLikeClick = (e: any) => {
     e.stopPropagation()
@@ -116,7 +119,7 @@ const PostFooter = ({ id, replyCount, reposted, repostsNum, liked, likesNum, isB
   }, [openSnackbar])
 
   return (
-    <div className="post-footer relative text-ternairy min-xs:pl-12 mt-3 flex w-full justify-around dark:text-gray-500 ">
+    <div className="post-footer text-ternairy min-xs:pl-12 relative mt-3 flex w-full justify-around dark:text-gray-500 ">
       <div className={`group pointer-events-auto -ml-2 flex cursor-pointer items-center transition-colors  duration-300 hover:text-primary`} title={t("reply")}>
         <div className={`flex h-10 w-10  items-center justify-center rounded-full bg-inherit group-hover:bg-[#e7f5fd] dark:group-hover:bg-[#031018] `}>
           <ChatBubbleOutlineOutlinedIcon
@@ -221,7 +224,7 @@ const PostFooter = ({ id, replyCount, reposted, repostsNum, liked, likesNum, isB
           <ComposeQuote id={id} handleClose={handleClose} setRepost={setRepost} repost={repost} repostCount={repostCount} setRepostCount={setRepostCount} type="diary" />
         </div>
       </Modal>
-      <div className={`bottom-24 absolute left-1/2 ${openSnackbar ? "opacity-100" : "opacity-0"} z-[999] -translate-x-1/2 rounded-full bg-primary p-2 transition-opacity duration-[750]`}>
+      <div className={`absolute bottom-24 left-1/2 ${openSnackbar ? "opacity-100" : "opacity-0"} z-[999] -translate-x-1/2 rounded-full bg-primary p-2 transition-opacity duration-[750]`}>
         <span className="font-semibold text-black">{t("clipboard")}</span>
       </div>
     </div>

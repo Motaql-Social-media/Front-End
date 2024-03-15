@@ -9,24 +9,23 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack"
 import { useParams } from "react-router"
 import i18next from "i18next"
 import { ArrowForward } from "@mui/icons-material"
+import useCheckAuthentication from "../hooks/useCheckAuthentication"
 
 const FollowersFollowings = ({ scroll }: { scroll: number }) => {
   const navigate = useNavigate()
 
-  const user = useSelector((state: any) => state.user)
+  useCheckAuthentication()
 
   const { tag } = useParams()
 
   const userToken = useSelector((state: any) => state.user.token)
 
-  useEffect(() => {
-    if (!user) {
-      navigate("/")
-    }
-  }, [user])
-
   const API = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
+    headers: {
+      authorization: "Bearer " + userToken,
+      "accept-language": i18next.language,
+    },
   })
 
   const { t } = useTranslation()
@@ -70,11 +69,7 @@ const FollowersFollowings = ({ scroll }: { scroll: number }) => {
 
   useEffect(() => {
     if (tag) {
-      API.get(`/users/${tag}/profile`, {
-        headers: {
-          Authorization: `Bearer ${userToken}`,
-        },
-      })
+      API.get(`/users/${tag}/profile`)
         .then((res) => {
           setName(res.data.data.user.name)
         })

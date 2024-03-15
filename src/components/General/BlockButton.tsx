@@ -2,6 +2,7 @@ import { useSelector } from "react-redux"
 import { useTranslation } from "react-i18next"
 import axios from "axios"
 import { useState } from "react"
+import i18next from "i18next"
 
 const BlockButton = ({ username, state, setState }: { username: string; state: boolean; setState: any }) => {
   const user = useSelector((state: any) => state.user.user)
@@ -10,18 +11,14 @@ const BlockButton = ({ username, state, setState }: { username: string; state: b
 
   const API = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
+    headers: {
+      authorization: "Bearer " + userToken,
+      "accept-language": i18next.language,
+    },
   })
 
   const handleState = () => {
-    API.patch(
-      `users/current/toggle-block/${username}`,
-      {},
-      {
-        headers: {
-          authorization: `Bearer ${userToken}`,
-        },
-      }
-    )
+    API.patch(`users/current/toggle-block/${username}`, {})
       .then((res) => {
         // console.log(res.data)
         setState((prev: boolean) => !prev)
@@ -40,7 +37,7 @@ const BlockButton = ({ username, state, setState }: { username: string; state: b
 
   return (
     <div>
-      {username !== user.username && (
+      {username !== user?.username && (
         <button className={`${state ? "bg-red-600 text-black" : "border border-red-600 bg-transparent text-red-600"} !h-8 !w-fit rounded-full !px-3 font-semibold`} onClick={handleButtonClick} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
           {state ? (!hover ? t("blocked") : t("unblock")) : t("block")}
         </button>

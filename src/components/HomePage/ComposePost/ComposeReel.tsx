@@ -44,6 +44,10 @@ const ComposeReel = ({ handleClose, addReelCallback }: { handleClose: any; addRe
 
   const API = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
+    headers: {
+      authorization: "Bearer " + userToken,
+      "accept-language": i18next.language,
+    },
   })
 
   useEffect(() => {

@@ -38,6 +38,7 @@ const GSecondStep = ({ name, phoneNumber, speciality, month, day, year, access_t
 
   const API = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
+    
   })
 
   const handleResendOTP = () => {

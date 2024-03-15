@@ -38,6 +38,10 @@ const ChangePhoneNumber = () => {
 
   const API = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
+    headers: {
+      authorization: "Bearer " + userToken,
+      "accept-language": i18next.language,
+    },
   })
 
   const [phoneExistError, setPhoneExistError] = useState(false)
@@ -155,17 +159,9 @@ const ChangePhoneNumber = () => {
   }
 
   const handleChangePhoneNumber = () => {
-    API.patch(
-      `users/current/change-phonenumber`,
-      {
-        newPhoneNumber: phoneNumber,
-      },
-      {
-        headers: {
-          authorization: `Bearer ${userToken}`,
-        },
-      }
-    )
+    API.patch(`users/current/change-phonenumber`, {
+      newPhoneNumber: phoneNumber,
+    })
       .then((res) => {
         setPhoneChanged(true)
         dispatch(changePhone(phoneNumber))

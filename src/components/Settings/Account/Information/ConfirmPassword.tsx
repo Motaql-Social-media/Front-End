@@ -19,6 +19,9 @@ const ConfirmPassword = ({ setPasswordConfirmed }: { setPasswordConfirmed: any }
 
   const API = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
+    headers: {
+      "accept-language": i18next.language,
+    },
   })
 
   const user = useSelector((state: any) => state.user.user)

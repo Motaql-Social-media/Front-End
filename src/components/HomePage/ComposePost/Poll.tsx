@@ -5,6 +5,7 @@ import { Box, FormControl, InputLabel, MenuItem, Select } from "@mui/material"
 import { SelectChangeEvent } from "@mui/material"
 import { ReactNode } from "react"
 import { useSelector } from "react-redux"
+import i18next from "i18next"
 
 const Poll = ({ handlePollClick, poll, setPoll }: { handlePollClick: any; poll: any; setPoll: any }) => {
   const { t } = useTranslation()
@@ -59,7 +60,7 @@ const Poll = ({ handlePollClick, poll, setPoll }: { handlePollClick: any; poll: 
   const darkMode = useSelector((state: any) => state.theme.darkMode)
   return (
     <div className="mb-5 flex h-[80%] w-full flex-col rounded-3xl border dark:border-darkBorder">
-      <div className="mb-2 flex w-full flex-col border-b border-b-darkBorder py-3 pl-3">
+      <div className={`mb-2 flex w-full ${i18next.language === "en" ? "items-start" : "items-end"} flex-col  border-b border-b-darkBorder py-3 pl-3`}>
         <div className="relative w-[80%]">
           <TextField
             inputProps={{ onPaste: (e) => e.preventDefault() }}
@@ -253,14 +254,14 @@ const Poll = ({ handlePollClick, poll, setPoll }: { handlePollClick: any; poll: 
       </div>
       <div className="w-full border-b border-b-darkBorder pl-3">
         <p className="text-md mb-4 pl-2">{t("poll_length")}</p>
-        <div className="mb-4 flex gap-2">
-          <Box sx={{ width: "33.3%" }} className="days">
+        <div className="mb-4 flex justify-center gap-2">
+          <div className="days w-[30%]">
             <FormControl
               sx={{
                 "&& .MuiFormLabel-root": {
                   color: "#40e5da",
                 },
-                minWidth: 125,
+                width: "100%",
               }}
             >
               <InputLabel id="demo-simple-select-label">{t("days")}</InputLabel>
@@ -314,14 +315,14 @@ const Poll = ({ handlePollClick, poll, setPoll }: { handlePollClick: any; poll: 
                 ))}
               </Select>
             </FormControl>
-          </Box>
-          <Box sx={{ width: "33.3%" }} className="Hours">
+          </div>
+          <div className="hours w-[30%]">
             <FormControl
               sx={{
                 "&& .MuiFormLabel-root": {
                   color: "#40e5da",
                 },
-                minWidth: 125,
+                width: "100%",
               }}
             >
               <InputLabel id="demo-simple-select-label">{t("hours")}</InputLabel>
@@ -375,14 +376,14 @@ const Poll = ({ handlePollClick, poll, setPoll }: { handlePollClick: any; poll: 
                 ))}
               </Select>
             </FormControl>
-          </Box>
-          <Box sx={{ width: "33.3%" }} className="minutes">
+          </div>
+          <div className="minutes w-[30%]">
             <FormControl
               sx={{
                 "&& .MuiFormLabel-root": {
                   color: "#40e5da",
                 },
-                minWidth: 125,
+                width: "100%",
               }}
             >
               <InputLabel id="demo-simple-select-label">{t("minutes")}</InputLabel>
@@ -436,7 +437,7 @@ const Poll = ({ handlePollClick, poll, setPoll }: { handlePollClick: any; poll: 
                 ))}
               </Select>
             </FormControl>
-          </Box>
+          </div>
         </div>
       </div>
       <div className=" flex h-12 cursor-pointer items-center justify-center rounded-bl-3xl rounded-br-3xl  hover:bg-[#1f0404]" onClick={handleRemovePoll}>

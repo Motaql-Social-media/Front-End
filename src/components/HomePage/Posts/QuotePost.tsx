@@ -19,7 +19,7 @@ const QuotePost = ({ content, mentions, media, createdAt, isBookmarked, isReacte
       <div className="mb-2">
         <PostBody description={content} media={media} mentions={mentions} />
       </div>
-      <div className="min-xs:w-[90%] min-xs:ml-[10%] ml-[5%] w-[95%] rounded-3xl border-2 border-darkBorder">
+      <div className="min-xs:w-[90%] min-xs:ml-[10%] ml-[5%] w-[95%] rounded-3xl border-2 overflow-hidden border-darkBorder">
         <Post cascade={false} inPostPage={false} postType={"fromQuote"} id={tweet.tweetId} date={tweet.createdAt} description={tweet.content} media={tweet.media.map((m:any)=>m.url)} replyCount={0} repostCount={0} likeCount={0} isLiked={false} isReposted={false} isBookmarked={false} tweeter={tweeter} posts={[]} setPosts={() => {}} displayFooter={true} mentions={tweet.mentions} originalTweet={tweet} originalTweeter={tweeter} poll={tweet.poll} />
       </div>
       <div className="mt-3">

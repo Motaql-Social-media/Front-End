@@ -6,14 +6,18 @@ import PersonsContainer from "../Person/PersonsContainer"
 import NoReposts from "./NoReposts"
 import ElementVisibleObserver from "../General/ElementVisibleObserver"
 import Loading from "../General/Loading"
+import i18next from "i18next"
 
 const Reposts = () => {
   const { id, type } = useParams()
+  const userToken = useSelector((state: any) => state.user.token)
   const API = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
+    headers: {
+      authorization: "Bearer " + userToken,
+      "accept-language": i18next.language,
+    },
   })
-
-  const userToken = useSelector((state: any) => state.user.token)
 
   const [retweeters, setRetweeters] = useState<any[]>([])
 
@@ -24,11 +28,7 @@ const Reposts = () => {
 
   const fetchReposts = () => {
     if (id) {
-      API.get(`${type !== "reel" ? "tweets" : "reels"}/${id}/${type !== "reel" ? "retweeters" : "rereelers"}?page${page}&limit=20`, {
-        headers: {
-          Authorization: `Bearer ${userToken}`,
-        },
-      })
+      API.get(`${type !== "reel" ? "tweets" : "reels"}/${id}/${type !== "reel" ? "retweeters" : "rereelers"}?page${page}&limit=20`)
         .then((res) => {
           // console.log(res.data.data)
           if ((type !== "reel" && res.data.data.retweeters.length < 20) || (type === "reel" && res.data.data.rereelers.length < 20)) setFinished(true)
@@ -54,7 +54,7 @@ const Reposts = () => {
 
   return (
     <>
-      {loading&&<Loading />}
+      {loading && <Loading />}
       {!loading && (
         <div>
           {retweeters.length > 0 && <PersonsContainer people={retweeters} />}

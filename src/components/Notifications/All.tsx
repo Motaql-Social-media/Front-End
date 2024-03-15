@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux"
 import { resetCount } from "../../store/NotificationSlice"
 import io from "socket.io-client"
 import ElementVisibleObserver from "../General/ElementVisibleObserver"
-import { t } from "i18next"
+import i18next, { t } from "i18next"
 import Loading from "../General/Loading"
 
 const All = () => {
@@ -15,6 +15,7 @@ const All = () => {
     baseURL: process.env.REACT_APP_API_URL,
     headers: {
       Authorization: `Bearer ${userToken}`,
+      "accept-language": i18next.language,
     },
   })
 
@@ -40,7 +41,7 @@ const All = () => {
   const fetchNotifications = () => {
     API.get(`users/current/notifications?page=${notificationsPage}&limit=20`)
       .then((res) => {
-        // console.log(res.data.data.notifications.notifications)
+        console.log(res.data.data.notifications.notifications)
         setLoading(false)
         if (res.data.data.notifications.notifications.length < 20) {
           setFinishedNotifications(true)

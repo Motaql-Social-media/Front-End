@@ -5,8 +5,8 @@ import ReelBar from "./ReelBar"
 import { useNavigate } from "react-router-dom"
 
 const QuoteReel = ({ muted, setMuted, inPostPage, content, createdAt, isBookmarked, isReacted, isRereeled, mentions, originalReel, originalReeler, reReelCount, reactCount, reelUrl, reeler, repliesCount, id, topic, reels, setReels }: { muted: boolean; setMuted: any; inPostPage: boolean; content: string; createdAt: string; isBookmarked: boolean; isReacted: boolean; isRereeled: boolean; mentions: any; originalReel: any; originalReeler: any; reReelCount: number; reactCount: number; reelUrl: string; reeler: any; repliesCount: number; id: string; topic: string; reels: any; setReels: any }) => {
-  const navigate=useNavigate()
-  
+  const navigate = useNavigate()
+
   const handleReelClick = () => {
     // console.log("Reel")
     navigate(`/${reeler.username}/reel/${id}`)
@@ -21,7 +21,7 @@ const QuoteReel = ({ muted, setMuted, inPostPage, content, createdAt, isBookmark
         <ReelBody muted={muted} setMuted={setMuted} media={reelUrl} mentions={mentions} content={content} displayReel={false} />
       </div>
       <div className=" w-full">
-        <div className="min-xs:w-[90%] min-xs:ml-[10%] ml-[5%] w-[95%] rounded-3xl border-2 border-darkBorder">
+        <div className="min-xs:w-[90%] min-xs:ml-[10%] ml-[5%] w-[95%] overflow-hidden rounded-3xl border-2 border-darkBorder">
           <Reel
             muted={muted}
             setMuted={setMuted}

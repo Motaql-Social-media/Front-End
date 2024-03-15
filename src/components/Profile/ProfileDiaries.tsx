@@ -7,6 +7,7 @@ import QuotePost from "../HomePage/Posts/QuotePost"
 import { t } from "i18next"
 import ElementVisibleObserver from "../General/ElementVisibleObserver"
 import Loading from "../General/Loading"
+import i18next from "i18next"
 
 const ProfileDiaries = () => {
   const [diaries, setDiaries] = useState<Diary[]>([])
@@ -17,6 +18,10 @@ const ProfileDiaries = () => {
 
   const API = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
+    headers: {
+      authorization: "Bearer " + userToken,
+      "accept-language": i18next.language,
+    },
   })
 
   const [page, setPage] = useState(1)
@@ -26,11 +31,7 @@ const ProfileDiaries = () => {
 
   const fetchDiaries = () => {
     if (tag)
-      API.get(`users/${tag}/tweets?page=${page}&limit=20`, {
-        headers: {
-          Authorization: `Bearer ${userToken}`,
-        },
-      })
+      API.get(`users/${tag}/tweets?page=${page}&limit=20`)
         .then((res) => {
           // console.log(res.data.data.tweets)
           if (res.data.data.tweets.length < 20) setFinished(true)

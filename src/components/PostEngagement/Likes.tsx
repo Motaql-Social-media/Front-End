@@ -9,11 +9,13 @@ import Loading from "../General/Loading"
 
 const Likes = () => {
   const { id, type } = useParams()
+  const userToken = useSelector((state: any) => state.user.token)
   const API = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
+    headers: {
+      authorization: "Bearer " + userToken,
+    },
   })
-
-  const userToken = useSelector((state: any) => state.user.token)
 
   const [likers, setLikers] = useState<any[]>([])
 
@@ -24,11 +26,7 @@ const Likes = () => {
 
   const fetchLikers = () => {
     if (id) {
-      API.get(`${type === "diary" ? "tweets" : "reels"}/${id}/reacters?page=${page}&limit=20`, {
-        headers: {
-          Authorization: `Bearer ${userToken}`,
-        },
-      })
+      API.get(`${type === "diary" ? "tweets" : "reels"}/${id}/reacters?page=${page}&limit=20`)
         .then((res) => {
           //   console.log(res.data.data.reacters)
           setLoading(false)

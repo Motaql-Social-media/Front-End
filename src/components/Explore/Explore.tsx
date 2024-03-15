@@ -117,9 +117,9 @@ const Explore = ({ scroll }: { scroll: number }) => {
 
   return (
     <div className="flex flex-1 flex-grow-[8] max-[540px]:mt-16">
-      <div ref={exploreRef} className="no-scrollbar ml-0 mr-1 w-full max-w-[620px] shrink-0 flex-grow overflow-y-scroll border border-b-0 border-t-0 border-lightBorder dark:border-darkBorder  max-[540px]:border-l-0 max-[540px]:border-r-0 sm:w-[600px]">
+      <div ref={exploreRef} className="no-scrollbar ml-0 mr-1  w-full max-w-[620px] shrink-0 flex-grow overflow-y-scroll border border-b-0 border-t-0 border-lightBorder dark:border-darkBorder  max-[540px]:border-l-0 max-[540px]:border-r-0 sm:w-[600px]">
         <SubpageNavbar title="explore" />
-        <div dir="ltr" className="flex items-center gap-1 border-y border-y-darkBorder px-1 ">
+        <div dir="ltr" className="flex w-full items-center gap-1 border-y border-y-darkBorder px-1 ">
           <div>
             <div
               onClick={() => {
@@ -130,9 +130,9 @@ const Explore = ({ scroll }: { scroll: number }) => {
               <KeyboardArrowLeftIcon fontSize="large" />
             </div>
           </div>
-          <div ref={topicsRef} className="no-scrollbar my-1 flex flex-grow gap-2 overflow-x-scroll px-1 py-3 ">
+          <div ref={topicsRef} className="no-scrollbar my-1 flex w-[90%] gap-2 overflow-x-scroll px-1 py-3 ">
             {topics.map((topic: any) => (
-              <div key={topic.topic} title={topic.description} className={` w-fit cursor-pointer rounded-full bg-primary px-2 py-1 font-semibold text-black  max-[600px]:text-sm max-[560px]:text-[0.5rem]  min-[700px]:px-4 min-[700px]:py-2 ${topic.topic === selectedTopic ? "brightness-100" : "brightness-50"}`} onClick={() => handleChooseTopic(topic.topic)}>
+              <div key={topic.topic} title={topic.description} className={` w-fit cursor-pointer rounded-full bg-primary px-2 py-1 font-semibold text-black  max-[600px]:text-sm  min-[700px]:px-4 min-[700px]:py-2 ${topic.topic === selectedTopic ? "brightness-100" : "brightness-50"}`} onClick={() => handleChooseTopic(topic.topic)}>
                 {topic.topic}
               </div>
             ))}

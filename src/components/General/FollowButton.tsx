@@ -10,18 +10,13 @@ const FollowButton = ({ username, state, setState }: { username: string; state: 
 
   const API = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
+    headers: {
+      authorization: "Bearer " + userToken,
+    },
   })
 
   const handleState = () => {
-    API.patch(
-      `users/current/toggle-follow/${username}`,
-      {},
-      {
-        headers: {
-          authorization: `Bearer ${userToken}`,
-        },
-      }
-    )
+    API.patch(`users/current/toggle-follow/${username}`, {})
       .then((res) => {
         // console.log(res.data)
         setState((prev: boolean) => !prev)
@@ -38,7 +33,7 @@ const FollowButton = ({ username, state, setState }: { username: string; state: 
 
   return (
     <div>
-      {username !== user.username && (
+      {username !== user?.username && (
         <button className={`${styles.coloredButton} !h-8 !w-fit !px-3 hover:bg-white hover:text-primary`} onClick={handleButtonClick}>
           {state ? t("unfollow") : t("follow")}
         </button>

@@ -10,6 +10,8 @@ import Replies from "./Replies"
 import SubpageNavbar from "../General/SubpageNavbar"
 import useCheckAuthentication from "../hooks/useCheckAuthentication"
 import Loading from "../General/Loading"
+import FetchPostError from "../General/FetchPostError"
+import i18next from "i18next"
 
 const ReelPage = ({ scroll }: { scroll: number }) => {
   useCheckAuthentication()
@@ -22,6 +24,10 @@ const ReelPage = ({ scroll }: { scroll: number }) => {
 
   const API = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
+    headers: {
+      authorization: "Bearer " + userToken,
+      "accept-language": i18next.language,
+    },
   })
 
   const { t } = useTranslation()
@@ -36,6 +42,8 @@ const ReelPage = ({ scroll }: { scroll: number }) => {
 
   const [loading, setLoading] = useState(true)
 
+  const [fetchReelError, setFetchReelError] = useState(false)
+
   useEffect(() => {
     API.get(`reels/${id}`, {
       headers: {
@@ -49,6 +57,9 @@ const ReelPage = ({ scroll }: { scroll: number }) => {
       })
       .catch((err) => {
         console.log(err)
+        if (err.response.status === 400) {
+          setFetchReelError(true)
+        }
       })
   }, [id])
 
@@ -63,48 +74,51 @@ const ReelPage = ({ scroll }: { scroll: number }) => {
 
   return (
     <div className="flex flex-1 flex-grow-[8] max-[540px]:mt-16">
-      <div ref={reelPageRef} className="no-scrollbar ml-0 mr-1 w-full max-w-[620px] shrink-0 flex-grow overflow-y-scroll border border-b-0 border-t-0 border-lightBorder dark:border-darkBorder  max-[540px]:border-l-0 max-[540px]:border-r-0 sm:w-[600px]">
-        <SubpageNavbar title="reel" />
-        {loading && <Loading />}
-        {!loading &&
-          reel &&
-          (reel.type !== "Quote" ? (
-            <Reel
-              inPostPage={false}
-              content={reel.type === "Repost" ? reel.originalReel.content : reel.content}
-              createdAt={reel.type === "Repost" ? reel.originalReel.createdAt : reel.createdAt}
-              isBookmarked={reel.type === "Repost" ? reel.originalReel.isBookmarked : reel.isBookmarked}
-              isReacted={reel.type === "Repost" ? reel.originalReel.isReacted : reel.isReacted}
-              isRereeled={reel.type === "Repost" ? reel.originalReel.isRereeled : reel.isRereeled}
-              mentions={reel.type === "Repost" ? reel.originalReel.mentions : reel.mentions}
-              originalReel={reel.originalReel}
-              originalReeler={reel.originalReeler}
-              reReelCount={reel.type === "Repost" ? reel.originalReel.reReelCount : reel.reReelCount}
-              reactCount={reel.type === "Repost" ? reel.originalReel.reactCount : reel.reactCount}
-              reelUrl={reel.type === "Repost" ? reel.originalReel.reelUrl : reel.reelUrl}
-              reeler={reel.reeler}
-              repliesCount={reel.type === "Repost" ? reel.originalReel.repliesCount : reel.repliesCount}
-              postType={reel.type}
-              id={reel.type === "Repost" ? reel.originalReel.reelId : reel.reelId}
-              topic={reel.type === "Repost" ? reel.originalReel.topics[0] : reel.topics[0]}
-              reels={[]}
-              setReels={() => {}}
-              muted={muted}
-              setMuted={setMuted}
-            />
-          ) : (
-            <QuoteReel muted={muted} setMuted={setMuted} inPostPage={false} content={reel.content} createdAt={reel.createdAt} isBookmarked={reel.isBookmarked} isReacted={reel.isReacted} isRereeled={reel.isRereeled} mentions={reel.mentions} originalReel={reel.originalReel} originalReeler={reel.originalReeler} reReelCount={reel.reReelCount} reactCount={reel.reactCount} reelUrl={reel.reelUrl} reeler={reel.reeler} repliesCount={reel.repliesCount} id={reel.reelId} topic={""} reels={[]} setReels={() => {}} />
-          ))}
-        <div className="border-b border-darkBorder">
-          <div className="p-2 text-gray-500">
-            {t("replying")} <span className="text-primary hover:underline ">@{tag}</span>
+      {fetchReelError && <FetchPostError type="reel" />}
+      {!fetchReelError && (
+        <div ref={reelPageRef} className="no-scrollbar ml-0 mr-1 w-full max-w-[620px] shrink-0 flex-grow overflow-y-scroll border border-b-0 border-t-0 border-lightBorder dark:border-darkBorder  max-[540px]:border-l-0 max-[540px]:border-r-0 sm:w-[600px]">
+          <SubpageNavbar title="reel" />
+          {loading && <Loading />}
+          {!loading &&
+            reel &&
+            (reel.type !== "Quote" ? (
+              <Reel
+                inPostPage={false}
+                content={reel.type === "Repost" ? reel.originalReel.content : reel.content}
+                createdAt={reel.type === "Repost" ? reel.originalReel.createdAt : reel.createdAt}
+                isBookmarked={reel.type === "Repost" ? reel.originalReel.isBookmarked : reel.isBookmarked}
+                isReacted={reel.type === "Repost" ? reel.originalReel.isReacted : reel.isReacted}
+                isRereeled={reel.type === "Repost" ? reel.originalReel.isRereeled : reel.isRereeled}
+                mentions={reel.type === "Repost" ? reel.originalReel.mentions : reel.mentions}
+                originalReel={reel.originalReel}
+                originalReeler={reel.originalReeler}
+                reReelCount={reel.type === "Repost" ? reel.originalReel.reReelCount : reel.reReelCount}
+                reactCount={reel.type === "Repost" ? reel.originalReel.reactCount : reel.reactCount}
+                reelUrl={reel.type === "Repost" ? reel.originalReel.reelUrl : reel.reelUrl}
+                reeler={reel.reeler}
+                repliesCount={reel.type === "Repost" ? reel.originalReel.repliesCount : reel.repliesCount}
+                postType={reel.type}
+                id={reel.type === "Repost" ? reel.originalReel.reelId : reel.reelId}
+                topic={reel.type === "Repost" ? reel.originalReel.topics[0] : reel.topics[0]}
+                reels={[]}
+                setReels={() => {}}
+                muted={muted}
+                setMuted={setMuted}
+              />
+            ) : (
+              <QuoteReel muted={muted} setMuted={setMuted} inPostPage={false} content={reel.content} createdAt={reel.createdAt} isBookmarked={reel.isBookmarked} isReacted={reel.isReacted} isRereeled={reel.isRereeled} mentions={reel.mentions} originalReel={reel.originalReel} originalReeler={reel.originalReeler} reReelCount={reel.reReelCount} reactCount={reel.reactCount} reelUrl={reel.reelUrl} reeler={reel.reeler} repliesCount={reel.repliesCount} id={reel.reelId} topic={""} reels={[]} setReels={() => {}} />
+            ))}
+          <div className="border-b border-darkBorder">
+            <div className="p-2 text-gray-500">
+              {t("replying")} <span className="text-primary hover:underline ">@{tag}</span>
+            </div>
+            <ComposePost buttonName="Post" postId={id} postType="reply_reel" addTweetCallback={addReplyCallback} addReelCallback={() => {}} />
           </div>
-          <ComposePost buttonName="Post" postId={id} postType="reply_reel" addTweetCallback={addReplyCallback} addReelCallback={() => {}} />
+          <div>
+            <Replies replies={replies} setReplies={setReplies} id={id} type="reel" />
+          </div>
         </div>
-        <div>
-          <Replies replies={replies} setReplies={setReplies} id={id} type="reel" />
-        </div>
-      </div>
+      )}
     </div>
   )
 }

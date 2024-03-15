@@ -7,14 +7,18 @@ import NoQuotes from "./NoQuotes"
 import QuoteReel from "../HomePage/Posts/QuoteReel"
 import Loading from "../General/Loading"
 import ElementVisibleObserver from "../General/ElementVisibleObserver"
+import i18next from "i18next"
 
 const Quotes = () => {
   const { id, type } = useParams()
+  const userToken = useSelector((state: any) => state.user.token)
   const API = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
+    headers: {
+      authorization: "Bearer " + userToken,
+      "accept-language": i18next.language,
+    },
   })
-
-  const userToken = useSelector((state: any) => state.user.token)
 
   const [diaryQuotes, setDiaryQuotes] = useState<any[]>([])
   const [reelQuotes, setReelQuotes] = useState<any[]>([])
@@ -52,6 +56,7 @@ const Quotes = () => {
             // console.log(res.data.data.rereels)
             if (res.data.data.rereels.length < 20) setFinished(true)
             setReelQuotes((prev) => [...prev, ...res.data.data.rereels])
+            setLoading(false)
           })
           .catch((err) => {
             console.log(err)
@@ -74,9 +79,7 @@ const Quotes = () => {
 
   return (
     <>
-      {
-        loading && <Loading />  
-      }
+      {loading && <Loading />}
       {!loading && (
         <div>
           {diaryQuotes &&

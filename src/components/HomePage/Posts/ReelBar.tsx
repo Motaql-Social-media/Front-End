@@ -56,6 +56,10 @@ const ReelBar = ({ id, replyCount, reposted, repostsNum, liked, likesNum, topic,
   }, [openSnackbar])
   const API = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
+    headers: {
+      authorization: "Bearer " + userToken,
+      "accept-language": i18next.language,
+    },
   })
 
   const handleLikeClick = (e: any) => {
@@ -119,8 +123,8 @@ const ReelBar = ({ id, replyCount, reposted, repostsNum, liked, likesNum, topic,
   }
 
   return (
-    <div className="text-ternairy mt-3 flex   items-center justify-around dark:text-gray-500  ">
-      <button className={`${styles.coloredButton} flex !h-fit !w-fit  items-center justify-center max-[600px]:text-sm px-2`} title={topic.description}>
+    <div className="text-ternairy relative mt-3  flex items-center justify-around dark:text-gray-500  ">
+      <button className={`${styles.coloredButton} flex !h-fit !w-fit  items-center justify-center px-2 max-[600px]:text-sm`} title={topic.description}>
         {topic.topic}
       </button>
       <div className={`group pointer-events-auto flex cursor-pointer items-center transition-colors  duration-300 hover:text-primary`} title={t("reply")}>
@@ -228,7 +232,7 @@ const ReelBar = ({ id, replyCount, reposted, repostsNum, liked, likesNum, topic,
         </div>
       </Modal>
       <div className={`absolute bottom-8 left-1/2 ${openSnackbar ? "opacity-100" : "opacity-0"} z-[999] -translate-x-1/2 rounded-full bg-primary p-2 transition-opacity duration-[750]`}>
-        <span className="font-semibold text-black">Link Copied to Clipboard</span>
+        <span className="font-semibold text-black">{t("clipboard")}</span>
       </div>
     </div>
   )

@@ -66,7 +66,7 @@ const MobileSidebar = ({ optionsNames, optionsIcons, optionLinks, selected, hand
           if (open && isVisible) setOpen(false)
         }}
       >
-        <div className=" relative h-[100vh] w-[200px]  bg-white text-black dark:bg-black  dark:text-white">
+        <div className=" relative h-[100vh] w-[250px]  bg-white text-black dark:bg-black  dark:text-white">
           <DesktopSidebar optionsNames={optionsNames} optionsIcons={optionsIcons} optionLinks={optionLinks} selected={selected} shrink={false} handleLogout={handleLogout} mobile={true} />
         </div>
       </Drawer>

@@ -8,11 +8,14 @@ import ElementVisibleObserver from "../General/ElementVisibleObserver"
 import Loading from "../General/Loading"
 
 const ReelsMentions = () => {
+  const userToken = useSelector((state: any) => state.user.token)
   const API = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
+    headers: {
+      authorization: "Bearer " + userToken,
+    },
   })
 
-  const userToken = useSelector((state: any) => state.user.token)
   const [reels, setReels] = useState<Reel[]>([])
 
   const [page, setPage] = useState(1)

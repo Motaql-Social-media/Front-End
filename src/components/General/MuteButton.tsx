@@ -10,18 +10,13 @@ const MuteButton = ({ username, state, setState }: { username: string; state: bo
 
   const API = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
+    headers: {
+      authorization: "Bearer " + userToken,
+    },
   })
 
   const handleState = () => {
-    API.patch(
-      `users/current/toggle-mute/${username}`,
-      {},
-      {
-        headers: {
-          authorization: `Bearer ${userToken}`,
-        },
-      }
-    )
+    API.patch(`users/current/toggle-mute/${username}`, {})
       .then((res) => {
         // console.log(res.data)
         setState((prev: boolean) => !prev)
@@ -40,7 +35,7 @@ const MuteButton = ({ username, state, setState }: { username: string; state: bo
 
   return (
     <div>
-      {username !== user.username && (
+      {username !== user?.username && (
         <button className={`${state ? "bg-red-600 text-black" : "border border-red-600 bg-transparent text-red-600"} !h-8 !w-fit rounded-full !px-3 font-semibold`} onClick={handleButtonClick} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
           {state ? (!hover ? t("muted") : t("unmute")) : t("mute")}
         </button>

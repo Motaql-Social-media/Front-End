@@ -10,8 +10,10 @@ import axios from "axios"
 import { useDispatch } from "react-redux"
 import { changeUser } from "../../store/UserSlice"
 import { t } from "i18next"
+import i18next from "i18next"
 
 const EditProfileButton = ({ setBio, setName, setBannerUrl, setDateOfBirth, setImageUrl, setJobTitle, setLocation, image_profile, banner_image, name, bio, location, jobtitle, birthday, username }: { image_profile: string; banner_image: string; name: string; bio: string; location: string; jobtitle: string; birthday: string; username: string; setBio: any; setName: any; setBannerUrl: any; setDateOfBirth: any; setImageUrl: any; setJobTitle: any; setLocation: any }) => {
+  
   const user = useSelector((state: any) => state.user.user)
   const userToken = useSelector((state: any) => state.user.token)
 
@@ -65,8 +67,8 @@ const EditProfileButton = ({ setBio, setName, setBannerUrl, setDateOfBirth, setI
   const hiddenBannerInput = useRef(null)
   const hiddenImageInput = useRef(null)
 
-  const [profilePic, setProfilePic] = useState(user.imageUrl)
-  const [profilePicURL, setProfilePicURL] = useState(user.imageUrl)
+  const [profilePic, setProfilePic] = useState(user?.imageUrl)
+  const [profilePicURL, setProfilePicURL] = useState(user?.imageUrl)
 
   const [openCrop, setOpenCrop] = useState(false)
 
@@ -117,16 +119,20 @@ const EditProfileButton = ({ setBio, setName, setBannerUrl, setDateOfBirth, setI
 
   const API = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
+    headers: {
+      authorization: "Bearer " + userToken,
+      "accept-language": i18next.language,
+    },
   })
 
   const handleSave = () => {
     // console.log(`${year}-${month}-${day}`)
     const formData = new FormData()
-    if (newName !== user.name && newName !== "") formData.append("name", newName)
-    if (newBio !== user.bio) formData.append("bio", newBio)
-    if (newLocation !== user.location) formData.append("location", newLocation)
-    if (newJobtitle !== user.jobtitle && newJobtitle !== "") formData.append("jobtitle", newJobtitle)
-    if (`${year}-${month}-${day}` !== user.dateOfBirth) formData.append("dateOfBirth", `${year}-${month}-${day}`)
+    if (newName !== user?.name && newName !== "") formData.append("name", newName)
+    if (newBio !== user?.bio) formData.append("bio", newBio)
+    if (newLocation !== user?.location) formData.append("location", newLocation)
+    if (newJobtitle !== user?.jobtitle && newJobtitle !== "") formData.append("jobtitle", newJobtitle)
+    if (`${year}-${month}-${day}` !== user?.dateOfBirth) formData.append("dateOfBirth", `${year}-${month}-${day}`)
     if (newprofileImage !== image_profile) {
       formData.append("image_profile", newprofileImage)
     }
@@ -134,11 +140,7 @@ const EditProfileButton = ({ setBio, setName, setBannerUrl, setDateOfBirth, setI
       formData.append("banner_profile", newbannerImage)
     }
 
-    API.patch(`users/current/edit-profile`, formData, {
-      headers: {
-        authorization: "Bearer " + userToken,
-      },
-    })
+    API.patch(`users/current/edit-profile`, formData)
       .then((res) => {
         //   console.log(res.data.data.user)
         setName(res.data.data.user.name)
@@ -194,7 +196,7 @@ const EditProfileButton = ({ setBio, setName, setBannerUrl, setDateOfBirth, setI
 
   return (
     <div>
-      {user.username === username && (
+      {user?.username === username && (
         <button className={` h-10 w-fit rounded-full border border-darkBorder px-3 font-semibold hover:bg-darkHover`} onClick={handleOpen}>
           {t("edit_profile")}
         </button>
@@ -445,7 +447,7 @@ const EditProfileButton = ({ setBio, setName, setBannerUrl, setDateOfBirth, setI
             </div>
           </div>
           <div className={`${openCrop ? "!block" : "!hidden"}  !mt-0`}>
-            <Crop photoURL={profilePicURL} setOpenCrop={setOpenCrop} setPhotoURL={setProfilePicURL} setFile={setProfilePic} aspect={type === "banner" ? 3 : 1} originalPhoto={type === "banner" ? user.bannerUrl : user.imageUrl} />
+            <Crop photoURL={profilePicURL} setOpenCrop={setOpenCrop} setPhotoURL={setProfilePicURL} setFile={setProfilePic} aspect={type === "banner" ? 3 : 1} originalPhoto={type === "banner" ? user?.bannerUrl : user?.imageUrl} />
           </div>
         </div>
       </Modal>

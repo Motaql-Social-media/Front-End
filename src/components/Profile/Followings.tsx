@@ -8,8 +8,13 @@ import ElementVisibleObserver from "../General/ElementVisibleObserver"
 import Loading from "../General/Loading"
 
 const Followings = () => {
+  const userToken = useSelector((state: any) => state.user.token)
+
   const API = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
+    headers: {
+      authorization: "Bearer " + userToken,
+    },
   })
   const { t } = useTranslation()
   const { tag } = useParams()
@@ -23,11 +28,7 @@ const Followings = () => {
 
   const fetchFollowings = () => {
     if (id) {
-      API.get(`users/${id}/followings?page=${page}&limit=20`, {
-        headers: {
-          Authorization: `Bearer ${userToken}`,
-        },
-      })
+      API.get(`users/${id}/followings?page=${page}&limit=20`)
         .then((res) => {
           if (res.data.data.followings.length < 20) setFinished(true)
           setLoading(false)
@@ -43,11 +44,7 @@ const Followings = () => {
 
   useEffect(() => {
     if (tag) {
-      API.get(`/users/${tag}/profile`, {
-        headers: {
-          Authorization: `Bearer ${userToken}`,
-        },
-      })
+      API.get(`/users/${tag}/profile`)
         .then((res) => {
           setId(res.data.data.user.userId)
         })
@@ -56,8 +53,6 @@ const Followings = () => {
         })
     }
   }, [tag])
-
-  const userToken = useSelector((state: any) => state.user.token)
 
   const [followings, setFollowings] = useState<any[]>([])
 

@@ -6,13 +6,17 @@ import Reel from "../HomePage/Posts/Reel"
 import { useState } from "react"
 import ElementVisibleObserver from "../General/ElementVisibleObserver"
 import Loading from "../General/Loading"
+import i18next from "i18next"
 
 const Replies = ({ replies, setReplies, id, type }: { replies: any; setReplies: any; id: string | undefined; type: string }) => {
+  const userToken = useSelector((state: any) => state.user.token)
   const API = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
+    headers: {
+      authorization: "Bearer " + userToken,
+      "accept-language": i18next.language,
+    },
   })
-
-  const userToken = useSelector((state: any) => state.user.token)
 
   const [repliesPage, setRepliesPage] = useState<number>(1)
   const [finishedReplies, setFinishedReplies] = useState<boolean>(false)
@@ -22,11 +26,7 @@ const Replies = ({ replies, setReplies, id, type }: { replies: any; setReplies: 
   const fetchReplies = () => {
     // console.log("fetching replies")
     if (type === "diary") {
-      API.get(`tweets/${id}/replies?page=${repliesPage}&limit=20`, {
-        headers: {
-          authorization: `Bearer ${userToken}`,
-        },
-      })
+      API.get(`tweets/${id}/replies?page=${repliesPage}&limit=20`)
         .then((res) => {
           // console.log(res.data.data.replies)
           if (res.data.data.replies.length < 20) setFinishedReplies(true)
@@ -37,11 +37,7 @@ const Replies = ({ replies, setReplies, id, type }: { replies: any; setReplies: 
           console.log(err)
         })
     } else {
-      API.get(`reels/${id}/replies?page=${repliesPage}&limit=20`, {
-        headers: {
-          authorization: `Bearer ${userToken}`,
-        },
-      })
+      API.get(`reels/${id}/replies?page=${repliesPage}&limit=20`)
         .then((res) => {
           // console.log(res.data.data.replies)
           if (res.data.data.replies.length < 20) setFinishedReplies(true)

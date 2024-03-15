@@ -7,6 +7,7 @@ import QuoteReel from "../HomePage/Posts/QuoteReel"
 import { t } from "i18next"
 import ElementVisibleObserver from "../General/ElementVisibleObserver"
 import Loading from "../General/Loading"
+import i18next from "i18next"
 
 const ProfileReels = () => {
   const [reels, setReels] = useState<Diary[]>([])
@@ -17,6 +18,10 @@ const ProfileReels = () => {
 
   const API = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
+    headers: {
+      authorization: "Bearer " + userToken,
+      "accept-language": i18next.language,
+    },
   })
 
   const [page, setPage] = useState(1)
@@ -26,11 +31,7 @@ const ProfileReels = () => {
 
   const fetchReels = () => {
     if (tag)
-      API.get(`users/${tag}/reels?page=${page}&limit=20`, {
-        headers: {
-          Authorization: `Bearer ${userToken}`,
-        },
-      })
+      API.get(`users/${tag}/reels?page=${page}&limit=20`)
         .then((res) => {
           // console.log(res.data.data.reels)
           if (res.data.data.reels.length < 20) setFinished(true)

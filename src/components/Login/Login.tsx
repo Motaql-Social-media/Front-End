@@ -114,6 +114,7 @@ const Login = ({ openModal, handleCloseModal, setLocation }: { openModal: boolea
 
   const API = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
+    
   })
 
   const handleLoginEvent = (e: any) => {

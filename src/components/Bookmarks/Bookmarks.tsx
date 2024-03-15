@@ -8,6 +8,7 @@ import Widgets from "../Widgets/Widgets"
 import useCheckAuthentication from "../hooks/useCheckAuthentication"
 import ElementVisibleObserver from "../General/ElementVisibleObserver"
 import Loading from "../General/Loading"
+import i18next from "i18next"
 
 export const BookmarksContext = createContext<any>(null)
 
@@ -20,6 +21,10 @@ const Bookmarks = ({ scroll }: { scroll: number }) => {
 
   const API = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
+    headers: {
+      authorization: "Bearer " + userToken,
+      "accept-language": i18next.language,
+    },
   })
 
   const [diaries, setDiaries] = useState<Diary[]>([])
@@ -64,11 +69,7 @@ const Bookmarks = ({ scroll }: { scroll: number }) => {
   const [loading, setLoading] = useState(true)
 
   const fetchBookmarksDiaries = () => {
-    API.get(`users/current/tweet-bookmarks?page=${page}&limit=20`, {
-      headers: {
-        authorization: "Bearer " + userToken,
-      },
-    })
+    API.get(`users/current/tweet-bookmarks?page=${page}&limit=20`)
       .then((res) => {
         // console.log(res)
         setLoading(false)
@@ -84,11 +85,7 @@ const Bookmarks = ({ scroll }: { scroll: number }) => {
   }
 
   const fetchBookmarksReels = () => {
-    API.get(`users/current/reel-bookmarks?page=${page}&limit=20`, {
-      headers: {
-        authorization: "Bearer " + userToken,
-      },
-    })
+    API.get(`users/current/reel-bookmarks?page=${page}&limit=20`)
       .then((res) => {
         // console.log(res)
         setLoading(false)
@@ -101,8 +98,6 @@ const Bookmarks = ({ scroll }: { scroll: number }) => {
         console.log(err)
       })
   }
-
-
 
   const fetchData = () => {
     if (window.location.pathname === "/bookmarks/diaries" || window.location.pathname === "/bookmarks") {
@@ -117,6 +112,8 @@ const Bookmarks = ({ scroll }: { scroll: number }) => {
   }
 
   useEffect(() => {
+    setFinished(false)
+    setPage(1)
     fetchData()
   }, [window.location.pathname, page])
 

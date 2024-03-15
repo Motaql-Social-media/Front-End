@@ -1,6 +1,6 @@
 import AddAPhotoOutlinedIcon from "@mui/icons-material/AddAPhotoOutlined"
 
-import {  useRef, useState } from "react"
+import { useRef, useState } from "react"
 
 import defaultProfilePic from "../../assets/images/Default_Profile_Picture.png"
 
@@ -57,6 +57,9 @@ const UploadProfilePicture = ({ userR, setUser, userToken, handleCompleteSignup,
 
   const API = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
+    headers: {
+      authorization: "Bearer " + userToken,
+    },
   })
 
   const navigate = useNavigate()
@@ -88,8 +91,6 @@ const UploadProfilePicture = ({ userR, setUser, userToken, handleCompleteSignup,
       .catch((error) => {
         console.error(error)
       })
-
-    
   }
 
   const { t } = useTranslation()

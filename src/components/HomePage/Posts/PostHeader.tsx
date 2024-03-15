@@ -54,8 +54,6 @@ const PostHeader = ({ date, tweeter, id, type, posts, setPosts, base, parent }: 
     setIsVisible(false)
   }
 
-  const darkMode = useSelector((state: any) => state.theme.darkMode)
-
   const [timeDifference, setTimeDifference] = useState("")
 
   const getTimeDifference = (date: string) => {
@@ -84,18 +82,14 @@ const PostHeader = ({ date, tweeter, id, type, posts, setPosts, base, parent }: 
   const userToken = useSelector((state: any) => state.user.token)
   const API = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
+    headers: {
+      authorization: "Bearer " + userToken,
+      "accept-language": i18next.language,
+    },
   })
 
   const handleFollowState = () => {
-    API.patch(
-      `users/current/toggle-follow/${tweeter.username}`,
-      {},
-      {
-        headers: {
-          authorization: `Bearer ${userToken}`,
-        },
-      }
-    )
+    API.patch(`users/current/toggle-follow/${tweeter.username}`, {})
       .then((res) => {
         setFollowState((prev: boolean) => !prev)
       })
@@ -105,15 +99,7 @@ const PostHeader = ({ date, tweeter, id, type, posts, setPosts, base, parent }: 
   }
 
   const handleBlockState = () => {
-    API.patch(
-      `users/current/toggle-block/${tweeter.username}`,
-      {},
-      {
-        headers: {
-          authorization: `Bearer ${userToken}`,
-        },
-      }
-    )
+    API.patch(`users/current/toggle-block/${tweeter.username}`, {})
       .then((res) => {
         setBlockState((prev: boolean) => !prev)
       })
@@ -123,15 +109,7 @@ const PostHeader = ({ date, tweeter, id, type, posts, setPosts, base, parent }: 
   }
 
   const handleMuteState = () => {
-    API.patch(
-      `users/current/toggle-mute/${tweeter.username}`,
-      {},
-      {
-        headers: {
-          authorization: `Bearer ${userToken}`,
-        },
-      }
-    )
+    API.patch(`users/current/toggle-mute/${tweeter.username}`, {})
       .then((res) => {
         setMuteState((prev: boolean) => !prev)
       })

@@ -251,7 +251,7 @@ function App() {
 
                 <Route path="/:tag/diary/:id" element={<DiaryPage scroll={deltaY} />} />
                 <Route path="/:tag/reel/:id" element={<ReelPage scroll={deltaY} />} />
-                <Route path="/explore" element={<Explore scroll={deltaY} />}></Route>
+                <Route path="/explore" element={<Explore scroll={deltaY} />} />
                 <Route path="/password_reset" element={<PasswordReset setLocation={setLocation} />} />
                 <Route path="/login" element={<Login openModal={true} handleCloseModal={handleCloseLoginModal} setLocation={setLocation} />} />
                 <Route path="/signup" element={<SignUp openModal={true} setLocation={setLocation} handleCloseModal={handleCloseSignupModal} />} />

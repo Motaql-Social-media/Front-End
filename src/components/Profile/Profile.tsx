@@ -23,12 +23,16 @@ const Profile = ({ scroll }: { scroll: number }) => {
 
   useCheckAuthentication()
 
-  const user = useSelector((state: any) => state.user)
+  const user = useSelector((state: any) => state.user.user)
 
   const userToken = useSelector((state: any) => state.user.token)
 
   const API = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
+    headers: {
+      authorization: "Bearer " + userToken,
+      "accept-language": i18next.language,
+    },
   })
 
   const { t } = useTranslation()
@@ -162,9 +166,9 @@ const Profile = ({ scroll }: { scroll: number }) => {
   }
 
   useEffect(() => {
-    if (tag === user.username) {
-      setBannerUrl(user.bannerUrl)
-      setImageUrl(user.imageUrl)
+    if (tag === user?.username) {
+      setBannerUrl(user?.bannerUrl)
+      setImageUrl(user?.imageUrl)
     }
   }, [user])
 
@@ -306,7 +310,7 @@ const Profile = ({ scroll }: { scroll: number }) => {
                       {t("view_posts_message")}
                       {username}.
                     </div>
-                    <button className="hover:bg-primaryHover w-fit rounded-full bg-primary px-5 py-3 text-2xl font-semibold text-black" onClick={() => setViewPosts(true)}>
+                    <button className="w-fit rounded-full bg-primary px-5 py-3 text-2xl font-semibold text-black hover:bg-primaryHover" onClick={() => setViewPosts(true)}>
                       {t("view_posts")}
                     </button>
                   </div>

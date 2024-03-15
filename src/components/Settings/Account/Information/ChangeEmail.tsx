@@ -29,6 +29,10 @@ const ChangeEmail = () => {
 
   const API = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
+    headers: {
+      authorization: "Bearer " + userToken,
+      "accept-language": i18next.language,
+    },
   })
 
   const handleCheckEmailExist = () => {
@@ -139,17 +143,9 @@ const ChangeEmail = () => {
   }
 
   const handleChangeEmail = () => {
-    API.patch(
-      `users/current/change-email`,
-      {
-        newEmail: email,
-      },
-      {
-        headers: {
-          authorization: `Bearer ${userToken}`,
-        },
-      }
-    )
+    API.patch(`users/current/change-email`, {
+      newEmail: email,
+    })
       .then((res) => {
         setEmailChanged(true)
         dispatch(changeEmail(email))

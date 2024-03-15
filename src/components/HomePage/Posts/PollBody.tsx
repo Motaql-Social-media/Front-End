@@ -34,11 +34,11 @@ const PollBody = ({ poll, mentions, id }: { poll: any; mentions: string[]; id: s
 
     let message
     if (days > 0) {
-      message = `${days} days left`
+      message = `${days} ${t("days")} ${t("left")}`
     } else if (hours > 0) {
-      message = `${hours} hours left`
+      message = `${hours} ${t("hours")} ${t("left")}`
     } else {
-      message = `${minutes} minutes left`
+      message = `${minutes} ${t("minutes")} ${t("left")}`
     }
 
     setTimeRemaining(message)
@@ -48,11 +48,15 @@ const PollBody = ({ poll, mentions, id }: { poll: any; mentions: string[]; id: s
     getTimeRemaining()
   }, [poll])
 
+  const userToken = useSelector((state: any) => state.user.token)
+
   const API = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
+    headers: {
+      authorization: "Bearer " + userToken,
+    },
   })
 
-  const userToken = useSelector((state: any) => state.user.token)
 
   const [polled, setPolled] = useState(poll.votedOptionId !== undefined ? true : false)
   const [polledId, setPolledId] = useState(poll.votedOptionId !== undefined ? poll.votedOptionId : -1)

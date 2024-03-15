@@ -11,6 +11,7 @@ import ElementVisibleObserver from "../General/ElementVisibleObserver"
 import Widgets from "../Widgets/Widgets"
 import useCheckAuthentication from "../hooks/useCheckAuthentication"
 import Loading from "../General/Loading"
+import i18next from "i18next"
 
 export const HomeContext = createContext<any>(null)
 
@@ -25,6 +26,7 @@ const Home = ({ scroll }: { scroll: number }) => {
     baseURL: process.env.REACT_APP_API_URL,
     headers: {
       Authorization: `Bearer ${userToken}`,
+      "accept-language": i18next.language,
     },
   })
 

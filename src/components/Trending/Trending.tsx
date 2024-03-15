@@ -1,29 +1,14 @@
 import React, { useEffect, useRef, useState } from "react"
-import { Outlet, useNavigate } from "react-router-dom"
-import { useSelector } from "react-redux"
+import { Outlet } from "react-router-dom"
 import { useTranslation } from "react-i18next"
-import axios from "axios"
 import SearchComponent from "./SearchComponent"
 import HorizontalNavbar from "../General/HorizontalNavbar"
 import SubpageNavbar from "../General/SubpageNavbar"
 import useCheckAuthentication from "../hooks/useCheckAuthentication"
 
 const Trending = ({ scroll }: { scroll: number }) => {
-  const navigate = useNavigate()
-
-  const user = useSelector((state: any) => state.user)
-
   useCheckAuthentication()
 
-  useEffect(() => {
-    if (!user) {
-      navigate("/")
-    }
-  }, [user])
-
-  const API = axios.create({
-    baseURL: process.env.REACT_APP_API_URL,
-  })
 
   const { t } = useTranslation()
 
