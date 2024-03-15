@@ -109,7 +109,7 @@ const Post = ({
       )}
       {poll?.pollId && (
         <div>
-          <PollBody poll={poll} mentions={mentions} id={id} />
+          <PollBody poll={{ ...poll, question: getProcessedDescription(poll.question) }} mentions={mentions} id={id} />
         </div>
       )}
       {/* {!displayFooter && (

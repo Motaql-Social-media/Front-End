@@ -57,7 +57,6 @@ const PollBody = ({ poll, mentions, id }: { poll: any; mentions: string[]; id: s
     },
   })
 
-
   const [polled, setPolled] = useState(poll.votedOptionId !== undefined ? true : false)
   const [polledId, setPolledId] = useState(poll.votedOptionId !== undefined ? poll.votedOptionId : -1)
   const [totalVotes, setTotalVotes] = useState(poll.totalVotesCount)
@@ -94,7 +93,7 @@ const PollBody = ({ poll, mentions, id }: { poll: any; mentions: string[]; id: s
     <div className="min-xs:pl-12">
       <div className="post-text mt-1 ">
         <p>
-          {poll.question.split(" ").map((word: any, index: number) => (
+          {poll.question?.split(" ").map((word: any, index: number) => (
             <span key={index}>
               {processedMentions.includes(word) ? (
                 <a href={`/${word.slice(1)}`} onClick={(e: any) => e.stopPropagation()} className="text-white hover:text-primary">
@@ -102,8 +101,10 @@ const PollBody = ({ poll, mentions, id }: { poll: any; mentions: string[]; id: s
                 </a>
               ) : word[0] === "#" ? (
                 <a dir="ltr" href={`/trending/${word.slice(1)}/diaries`} onClick={(e: any) => e.stopPropagation()} className="text-primary hover:underline">
-                  {word}
+                  {" " + word + " "}
                 </a>
+              ) : word === "<br>" ? (
+                <br />
               ) : (
                 ` ${word} `
               )}

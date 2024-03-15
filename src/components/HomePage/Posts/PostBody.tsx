@@ -23,7 +23,7 @@ const PostBody = ({ description, media, mentions }: { description: string; media
                 </a>
               ) : word[0] === "#" ? (
                 <a dir="ltr" href={`/trending/${word.slice(1)}/diaries`} onClick={(e: any) => e.stopPropagation()} className="text-primary hover:underline">
-                  {word}
+                  {" " + word + " "}
                 </a>
               ) : word === "<br>" ? (
                 <br />

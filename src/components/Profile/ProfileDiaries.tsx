@@ -33,7 +33,7 @@ const ProfileDiaries = () => {
     if (tag)
       API.get(`users/${tag}/tweets?page=${page}&limit=20`)
         .then((res) => {
-          // console.log(res.data.data.tweets)
+          console.log(res.data.data.tweets)
           if (res.data.data.tweets.length < 20) setFinished(true)
           setLoading(false)
           setDiaries((prev) => [...prev, ...res.data.data.tweets])
