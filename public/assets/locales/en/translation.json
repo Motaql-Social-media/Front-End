@@ -235,5 +235,6 @@
   "fetch_error": "It may be deleted by the publisher",
   "post_not_found": "Sorry the {{post}} you are looking for doesn't exist",
   "no_users": "No users found",
-  "mention_error": "Sorry, by selecting user number of characters will exceed 280"
+  "mention_error": "Sorry, by selecting user number of characters will exceed 280",
+  "add_comment": "Add a comment..."
 }

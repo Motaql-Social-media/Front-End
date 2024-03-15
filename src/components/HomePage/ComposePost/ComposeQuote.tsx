@@ -212,7 +212,7 @@ const ComposeQuote = ({ id, handleClose, setRepost, repost, repostCount, setRepo
           InputProps={{
             disableUnderline: true,
           }}
-          placeholder={`Add a comment`}
+          placeholder={t('add_comment')}
           onChange={(e) => handleDescriptionChange(e)}
           multiline
           value={description}
