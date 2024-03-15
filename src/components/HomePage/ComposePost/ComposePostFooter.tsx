@@ -128,7 +128,7 @@ function ComposePostFooter({
       <button
         ref={publishButton}
         className={`${styles.coloredButton} !h-9 !w-fit px-2 max-[400px]:text-sm`}
-        disabled={(pollDisabled && mediaDisabled && pollError) || (description.length === 0 && media.length === 0)}
+        disabled={(pollDisabled && mediaDisabled && pollError && media.length !== 4) || (description.length === 0 && media.length === 0)}
         onClick={(e) => {
           publishButton.current?.setAttribute("disabled", "true")
           handleSubmit(e)

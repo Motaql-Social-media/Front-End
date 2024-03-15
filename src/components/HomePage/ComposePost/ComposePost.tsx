@@ -286,7 +286,7 @@ function ComposePost({ buttonName, postId, postType, addTweetCallback, addReelCa
           InputProps={{
             disableUnderline: true,
           }}
-          placeholder={`${pollDisabled && mediaDisabled ? t("ask_question") : postType !== "reply" && postType !== "reply_reel" ? t("compose_post") : t("compose_reply")}`}
+          placeholder={`${pollDisabled && mediaDisabled && media.length !== 4 ? t("ask_question") : postType !== "reply" && postType !== "reply_reel" ? t("compose_post") : t("compose_reply")}`}
           onChange={(e) => handleDescriptionChange(e)}
           multiline
           value={description}
