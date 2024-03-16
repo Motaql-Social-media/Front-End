@@ -102,7 +102,7 @@
   "email_exist": "Email already exists",
   "otp_error": "Invalid Code",
   "invalid_credentials": "Access Denied, Invalid Credentials",
-  "compose_post": "What is happening?!",
+  "compose_post": "Write Diary",
   "compose_reply": "Post your reply",
   "diaries": "Diaries",
   "reels": "Reels",

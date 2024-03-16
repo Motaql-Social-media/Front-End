@@ -201,10 +201,10 @@ const Profile = ({ scroll }: { scroll: number }) => {
           <div className="relative">
             <img alt="banner" className="h-[200px] w-full cursor-pointer" src={process.env.REACT_APP_USERS_MEDIA_URL + bannerUrl} loading="lazy" onClick={() => openImageViewer(1)} />
             <div>
-              <img loading="lazy" onClick={() => openImageViewer(0)} alt="profile" className="absolute -bottom-[75px] left-[5%] h-[150px] w-[150px] transform  cursor-pointer rounded-full border-4 border-black" src={imageUrl.split(":")[0] === "https" ? imageUrl : process.env.REACT_APP_USERS_MEDIA_URL + imageUrl} />
+              <img loading="lazy" onClick={() => openImageViewer(0)} alt="profile" className={`absolute -bottom-[75px] ${i18next.language === "en" ? "left-[5%]" : "right-[5%]"}  h-[150px] w-[150px] transform  cursor-pointer rounded-full border-4 border-black`} src={imageUrl.split(":")[0] === "https" ? imageUrl : process.env.REACT_APP_USERS_MEDIA_URL + imageUrl} />
             </div>
           </div>
-          <div dir="ltr">
+          <div >
             <div className="min-h-[75px] w-full max-xs:mt-16">
               <div className="flex items-center justify-end gap-4 p-5">
                 <MuteButton state={isMuted} setState={setIsMuted} username={tag as string} />
@@ -217,9 +217,9 @@ const Profile = ({ scroll }: { scroll: number }) => {
               <div>
                 <div className="flex items-center justify-start gap-3">
                   <div className="text-xl font-bold">{name}</div>
-                  <div className="text-lg text-gray-500"> - {jobTitle}</div>
+                  <div className="text-lg text-gray-500"> ، @{username}</div>
                 </div>
-                <div className=" text-gray-500">@{username}</div>
+                <div className=" text-gray-500">{jobTitle}</div>
               </div>
               <div className="py-3">{bio}</div>
               <div className="flex items-center justify-between py-3 text-gray-500">

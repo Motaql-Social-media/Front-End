@@ -27,7 +27,8 @@ const GoogleButton = () => {
         .then((res) => {
           // console.log(res)
           if (res.data.data.isUserExists === false) {
-            setName(res.data.date.name)
+            // console.log(res.data.data.name)
+            setName(res.data.data.name)
             setOpenModal(true)
           } else {
             dispatch(signupUser(res.data.data))

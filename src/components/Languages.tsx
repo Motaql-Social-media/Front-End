@@ -17,11 +17,11 @@ const Languages = () => {
     { code: "en", name: "English", country_code: "us", dir: "ltr" },
     { code: "ar", name: "العربية", country_code: "sa", dir: "rtl" },
   ]
-  const currentLanguageCode = cookie.get("i18next") || "en"
+  const currentLanguageCode = cookie.get("i18next") || "ar"
   const currentLanguage = languages.find((l) => l.code === currentLanguageCode)
 
   useEffect(() => {
-    document.body.dir = currentLanguage?.dir || "ltr"
+    document.body.dir = currentLanguage?.dir || "rtl"
   }, [currentLanguage])
 
   const [menuToggle, setMenuToggle] = useState(false)
