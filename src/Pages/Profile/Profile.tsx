@@ -17,6 +17,7 @@ import EditProfileButton from "../../components/General/EditProfileButton"
 import Widgets from "../../components/Widgets/Widgets"
 import useCheckAuthentication from "../../components/hooks/useCheckAuthentication"
 import { CircularProgress } from "@mui/material"
+import ProfileChatButton from "../../components/General/ProfileChatButton"
 
 const Profile = ({ scroll }: { scroll: number }) => {
   const navigate = useNavigate()
@@ -204,9 +205,10 @@ const Profile = ({ scroll }: { scroll: number }) => {
               <img loading="lazy" onClick={() => openImageViewer(0)} alt="profile" className={`absolute -bottom-[75px] ${i18next.language === "en" ? "left-[5%]" : "right-[5%]"}  h-[150px] w-[150px] transform  cursor-pointer rounded-full border-4 border-black`} src={imageUrl.split(":")[0] === "https" ? imageUrl : process.env.REACT_APP_USERS_MEDIA_URL + imageUrl} />
             </div>
           </div>
-          <div >
+          <div>
             <div className="min-h-[75px] w-full max-xs:mt-16">
               <div className="flex items-center justify-end gap-4 p-5">
+                <ProfileChatButton tag={tag} />
                 <MuteButton state={isMuted} setState={setIsMuted} username={tag as string} />
                 <BlockButton state={isBlocked} setState={setIsBlocked} username={tag as string} />
                 <FollowButton state={isFollowed} setState={setIsFollowed} username={tag as string} />

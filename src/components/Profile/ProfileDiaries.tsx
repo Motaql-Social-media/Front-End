@@ -47,6 +47,13 @@ const ProfileDiaries = () => {
     fetchDiaries()
   }, [tag, page])
 
+  useEffect(() => {
+    setDiaries([])
+    setPage(1)
+    setFinished(false)
+    setLoading(true)
+  }, [tag])
+
   const handleFetchMore = () => {
     if (!finished) {
       setPage((prev) => prev + 1)

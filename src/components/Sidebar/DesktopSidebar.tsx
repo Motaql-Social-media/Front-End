@@ -9,6 +9,7 @@ import { useTranslation } from "react-i18next"
 import { useSelector } from "react-redux"
 import SwitchAccount from "./SwitchAccount"
 import { useEffect } from "react"
+import i18next from "i18next"
 
 const DesktopSidebar = ({ optionsNames, optionsIcons, optionLinks, selected, shrink, handleLogout, mobile }: { optionsNames: string[]; optionsIcons: any[]; optionLinks: string[]; selected: number; shrink: boolean; handleLogout: any; mobile: boolean }) => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth)
@@ -66,7 +67,7 @@ const DesktopSidebar = ({ optionsNames, optionsIcons, optionLinks, selected, shr
 
   return (
     <div className=" flex items-center justify-between  border-r border-lightBorder text-center text-black dark:border-darkBorder dark:text-white  xs:max-w-[400px] xs:justify-end md:flex-grow">
-      <div className={`flex h-full w-full flex-col ${mobile ? "pl-5" : direction === "ltr" ? "max-lg:items-end" : "max-lg:items-start"} ${direction !== "rtl" ? "xs:pl-[30%]" : "xs:pr-[30%]"} `}>
+      <div className={`flex h-full w-full flex-col ${mobile ? "pl-5" : direction === "ltr" ? "max-lg:items-end" : "max-lg:items-start"} ${i18next.language === "en" ? "xs:pl-[30%]" : "xs:pr-[30%]"} `}>
         <div
           className="mr-5 mt-5 cursor-pointer"
           onClick={() => {

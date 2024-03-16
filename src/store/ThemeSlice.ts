@@ -14,7 +14,7 @@ export type ThemeState = {
 const initialState: ThemeState = {
   darkMode: initMode !== "true" ? true : false,
   color: initColor === null ? 1 : parseInt(initColor),
-  dir: initDir === null ? i18next.dir() : initDir,
+  dir: initDir === null ? (i18next.language==='en'?"ltr":"rtl" ): initDir,
 }
 
 export const themeSlice = createSlice({

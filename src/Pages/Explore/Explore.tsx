@@ -12,6 +12,7 @@ import useCheckAuthentication from "../../components/hooks/useCheckAuthenticatio
 import { CircularProgress } from "@mui/material"
 import Loading from "../../components/General/Loading"
 import ElementVisibleObserver from "../../components/General/ElementVisibleObserver"
+import { t } from "i18next"
 const Explore = ({ scroll }: { scroll: number }) => {
   useCheckAuthentication()
 
@@ -33,7 +34,7 @@ const Explore = ({ scroll }: { scroll: number }) => {
     exploreRef.current.scrollTop += scroll
   }, [scroll])
 
-  const [selectedTopic, setSelectedTopic] = useState(i18next.language === "en" ? "Shahid" : "شاهد")
+  const [selectedTopic, setSelectedTopic] = useState(i18next.language === "en" ? "All" : "الكل")
 
   const handleChooseTopic = (topic: string) => {
     setSelectedTopic(topic)
@@ -45,14 +46,13 @@ const Explore = ({ scroll }: { scroll: number }) => {
   useEffect(() => {
     API.get("topics")
       .then((res) => {
-        // console.log(res.data.data.topics)
-        setTopics(res.data.data.topics)
+        console.log(res.data.data.topics)
+        setTopics([{ topic: t("all") }, ...res.data.data.topics])
       })
       .catch((err) => console.log(err))
   }, [direction])
 
   const topicsRef = useRef<any>(null)
-
 
   const handleScroll = (dir: string) => {
     if (direction === "ltr") {
@@ -87,7 +87,7 @@ const Explore = ({ scroll }: { scroll: number }) => {
       const scrollContainer = topicsRef.current
       const scrollAmount = 150
       // scrollContainer.scrollLeft -= 50
-      const targetScrollLeft = dir === "right" ? Math.max(scrollContainer.clientWidth-scrollContainer.scrollWidth, scrollContainer.scrollLeft - scrollAmount) : Math.min(0, scrollContainer.scrollLeft + scrollAmount)
+      const targetScrollLeft = dir === "right" ? Math.max(scrollContainer.clientWidth - scrollContainer.scrollWidth, scrollContainer.scrollLeft - scrollAmount) : Math.min(0, scrollContainer.scrollLeft + scrollAmount)
 
       const scrollStep = () => {
         const step = dir === "right" ? -5 : 5
@@ -126,14 +126,24 @@ const Explore = ({ scroll }: { scroll: number }) => {
   const [loading, setLoading] = useState(true)
 
   const fetchReels = () => {
-    API.get(`topics/${selectedTopic}/reels?page=${page}&limit=20`)
-      .then((res) => {
-        // console.log(res.data.data.supportingreels)
-        setLoading(false)
-        setReels(res.data.data.supportingreels)
-        if (res.data.data.supportingreels.length < 20) setFinished(true)
-      })
-      .catch((err) => console.log(err))
+    if (selectedTopic === "All" || selectedTopic === "الكل")
+      API.get(`reels/timeline?page=${page}&limit=20`)
+        .then((res) => {
+          // console.log(res.data.data.timelineReels)
+          setLoading(false)
+          setReels((prev) => [...prev, ...res.data.data.timelineReels])
+          if (res.data.data.timelineReels.length < 20) setFinished(true)
+        })
+        .catch((err) => console.log(err))
+    else
+      API.get(`topics/${selectedTopic}/reels?page=${page}&limit=20`)
+        .then((res) => {
+          // console.log(res.data.data.supportingreels)
+          setLoading(false)
+          setReels(res.data.data.supportingreels)
+          if (res.data.data.supportingreels.length < 20) setFinished(true)
+        })
+        .catch((err) => console.log(err))
   }
 
   useEffect(() => {

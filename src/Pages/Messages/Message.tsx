@@ -40,10 +40,15 @@ const Message = ({ scroll }: { scroll: number }) => {
 
   const [isBlockingMe, setIsBlockingMe] = useState(false)
 
+  const getProcessedDescription = (description: string) => {
+    return description?.replace(/(?:\r\n|\r|\n)/g, " <br> ")
+  }
+
   useEffect(() => {
     API.get(`chats/${id}/history`)
       .then((res) => {
-        // console.log(res.data.data)
+        // console.log(res.data.data.messages)
+
         setLoading(false)
         setOtherContact(res.data.data.otherContact)
         setMessages(res.data.data.messages)
@@ -230,7 +235,7 @@ const Message = ({ scroll }: { scroll: number }) => {
           >
             {t(otherContact.name)}
           </div>
-        </div>{" "}
+        </div>
         <div className="flex flex-col items-center gap-2 ">
           <div className="flex w-full flex-col items-center border-b border-darkBorder py-3 hover:bg-darkHover" onClick={() => navigate(`/${otherContact.username}`)}>
             <Avatar src={otherContact.imageUrl?.split(":")[0] === "https" ? otherContact.imageUrl : process.env.REACT_APP_USERS_MEDIA_URL + otherContact.imageUrl} alt={otherContact.name} sx={{ width: 100, height: 100 }} />
@@ -246,12 +251,18 @@ const Message = ({ scroll }: { scroll: number }) => {
         </div>
         {loading && <Loading />}
         {!loading && (
-          <div ref={messagesRef} className=" no-scrollbar flex h-full w-full flex-col overflow-y-scroll">
+          <div dir="ltr" ref={messagesRef} className=" no-scrollbar flex h-full w-full flex-col justify-start overflow-y-scroll">
             {messages.map((m, index) => {
               return (
-                <div key={index} className={`flex flex-col ${m.isFromMe ? "items-end" : "items-start "} h-full gap-2 p-4`}>
-                  <div className={`rounded-xl ${m.isFromMe ? "bg-primary " : "bg-gray-400"} p-2 text-black`}>{m.text}</div>
-                  <div className={`flex items-center gap-3 ${m.isFromMe ? "" : "flex-row-reverse"}`}>
+                <div key={index} className={`flex flex-col ${m.isFromMe ? "items-end" : "items-start "}  gap-2 p-4`}>
+                  <div className={`rounded-xl ${m.isFromMe ? "bg-primary " : "bg-gray-400"} ${!m.isFromMe ? "text-start" : "text-end"} p-2 text-black`}>
+                    {getProcessedDescription(m.text)
+                      ?.split(" ")
+                      .map((word: string, index: number) => {
+                        return word === "<br>" ? <br /> : ` ${word} `
+                      })}
+                  </div>
+                  <div className={`flex items-center gap-3 ${m.isFromMe ? "" : "flex-row"}`}>
                     <div className="text-gray-500">{formatDate(m.createdAt)}</div>
                     {m.isSeen ? (
                       <img src={seen} alt="seen" className={`h-[15px] w-[18px] ${!m.isFromMe ? "hidden" : ""}`} />
@@ -281,7 +292,7 @@ const Message = ({ scroll }: { scroll: number }) => {
           {!isBlockingMe && (
             <div dir="ltr" className=" flex w-full items-center justify-center overflow-hidden rounded-2xl border-t border-t-darkBorder bg-darkHover">
               <div className=" w-[95%]" dir={i18next.language === "en" ? "ltr" : "rtl"}>
-                <input value={text} onChange={(e: any) => setText(e.target.value)} type="text" placeholder={t("type_message")} className="flex-grow bg-darkHover p-4 text-white" />
+                <textarea value={text} onChange={(e: any) => setText(e.target.value)} placeholder={t("type_message")} className="w-full flex-grow resize-none appearance-none border-0 bg-darkHover p-4 text-white outline-none" />
               </div>
               <div className="cursor-pointer border-l border-l-darkBorder p-2 text-primary" onClick={handleSendMessage}>
                 <SendIcon />

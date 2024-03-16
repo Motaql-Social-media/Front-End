@@ -22,17 +22,12 @@ const SearchComponent = ({ query, callback, fromMessage }: { query: string; call
 
   const [searchUsers, setSearchUsers] = useState([])
   const [searchTrends, setSearchTrends] = useState([])
-  const [searchAll, setSearchAll] = useState<any[]>([])
 
   const q = useParams().query
 
   useEffect(() => {
     if (query !== "") setSearchQuery(query)
   }, [query])
-
-  useEffect(() => {
-    setSearchAll([...searchUsers, ...searchTrends])
-  }, [searchTrends, searchUsers])
 
   const API = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
@@ -56,11 +51,13 @@ const SearchComponent = ({ query, callback, fromMessage }: { query: string; call
         })
   }
 
+  const user = useSelector((state: any) => state.user.user)
+
   const handleSearchUsers = (word: string) => {
     API.get(`users/search?nameorusername=${word}&page=1&count=3`)
       .then((res) => {
         // console.log(res.data.data.users)
-        setSearchUsers(res.data.data.users)
+        setSearchUsers(res.data.data.users.filter((u: any) => u.userId != user.userId))
       })
       .catch((error) => {
         setSearchUsers([])

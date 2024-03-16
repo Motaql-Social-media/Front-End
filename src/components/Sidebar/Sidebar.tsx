@@ -105,7 +105,6 @@ const Sidebar = () => {
     "/notifications",
     "/messages",
     "/bookmarks",
-    // `/${userTag}`,
     `/${user.username}`,
 
     "/settings",

@@ -230,7 +230,7 @@
   "you_are_blocked": "You are blocked by ",
   "blocking_you": " is blocking you",
   "blocking_message": "You can't see @{{tag}}'s posts while you are blocked.",
-  "tweet": "Tweet",
+  "tweet": "Blog",
   "left": "left",
   "fetch_error": "It may be deleted by the publisher",
   "post_not_found": "Sorry the {{post}} you are looking for doesn't exist",
