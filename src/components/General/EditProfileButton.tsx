@@ -14,7 +14,6 @@ import i18next from "i18next"
 import { styles } from "../../styles/styles"
 
 const EditProfileButton = ({ setBio, setName, setBannerUrl, setDateOfBirth, setImageUrl, setJobTitle, setLocation, image_profile, banner_image, name, bio, location, jobtitle, birthday, username }: { image_profile: string; banner_image: string; name: string; bio: string; location: string; jobtitle: string; birthday: string; username: string; setBio: any; setName: any; setBannerUrl: any; setDateOfBirth: any; setImageUrl: any; setJobTitle: any; setLocation: any }) => {
-  
   const user = useSelector((state: any) => state.user.user)
   const userToken = useSelector((state: any) => state.user.token)
 
@@ -237,14 +236,14 @@ const EditProfileButton = ({ setBio, setName, setBannerUrl, setDateOfBirth, setI
                 </div>
               </div>
             </div>
-            <div className="flex flex-col gap-4">
+            <div dir={i18next.language === "en" ? "ltr" : "rtl"} className="flex flex-col gap-4">
               <div className="relative">
                 <TextField
                   label={t("name")}
                   variant="outlined"
                   value={newName}
                   onChange={(e) => {
-                    const newValue = e.target.value.slice(0, 25) // Limit to 25 characters
+                    const newValue = e.target.value.slice(0, 25)
 
                     setNewName(newValue)
                   }}
@@ -254,7 +253,7 @@ const EditProfileButton = ({ setBio, setName, setBannerUrl, setDateOfBirth, setI
                   }}
                   sx={styles.textField}
                 />
-                <div className="absolute right-4 top-1 w-fit text-sm text-gray-500">{newName ? newName.length : 0}/25</div>
+                <div className={`absolute ${i18next.language === "en" ? "right-4" : "left-4"}  top-1 w-fit text-sm text-gray-500`}>{newName ? newName.length : 0}/25</div>
               </div>
               <div className="relative h-[120px]">
                 <TextField
@@ -273,7 +272,7 @@ const EditProfileButton = ({ setBio, setName, setBannerUrl, setDateOfBirth, setI
                   inputProps={{ onPaste: (e) => e.preventDefault() }}
                   sx={styles.bioTextField}
                 />
-                <div className="absolute right-4 top-1 w-fit text-sm text-gray-500">{newBio ? newBio.length : 0}/160</div>
+                <div className={`absolute ${i18next.language === "en" ? "right-4" : "left-4"}  top-1 w-fit text-sm text-gray-500`}>{newBio ? newBio.length : 0}/160</div>
               </div>
               <div className="relative">
                 <TextField
@@ -291,7 +290,7 @@ const EditProfileButton = ({ setBio, setName, setBannerUrl, setDateOfBirth, setI
                   }}
                   sx={styles.textField}
                 />
-                <div className="absolute right-4 top-1 w-fit text-sm text-gray-500">{newLocation ? newLocation.length : 0}/30</div>
+                <div className={`absolute ${i18next.language === "en" ? "right-4" : "left-4"}  top-1 w-fit text-sm text-gray-500`}>{newLocation ? newLocation.length : 0}/30</div>
               </div>
               <div className="relative">
                 <TextField
@@ -309,7 +308,7 @@ const EditProfileButton = ({ setBio, setName, setBannerUrl, setDateOfBirth, setI
                   }}
                   sx={styles.textField}
                 />
-                <div className="absolute right-4 top-1 w-fit text-sm text-gray-500">{newJobtitle ? newJobtitle.length : 0}/30</div>
+                <div className={`absolute ${i18next.language === "en" ? "right-4" : "left-4"}  top-1 w-fit text-sm text-gray-500`}>{newJobtitle ? newJobtitle.length : 0}/30</div>
               </div>
               <div>
                 <div className="flex items-center gap-4">

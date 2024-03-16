@@ -25,7 +25,13 @@ const QuoteReel = ({ muted, setMuted, inPostPage, content, createdAt, isBookmark
         <ReelBody muted={muted} setMuted={setMuted} media={reelUrl} mentions={mentions} content={getProcessedDescription(content)} displayReel={false} />
       </div>
       <div className=" w-full">
-        <div className="min-xs:w-[90%] min-xs:ml-[10%] ml-[5%] w-[95%] overflow-hidden rounded-3xl border-2 border-darkBorder">
+        <div
+          className="min-xs:w-[90%] min-xs:ml-[10%] ml-[5%] w-[95%] overflow-hidden rounded-3xl border-2 border-darkBorder"
+          onClick={(e: any) => {
+            e.stopPropagation()
+            navigate(`/${originalReeler.username}/reel/${originalReel.reelId}`)
+          }}
+        >
           <Reel
             muted={muted}
             setMuted={setMuted}

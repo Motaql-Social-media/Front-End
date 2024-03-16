@@ -3,7 +3,6 @@ import { Menu, MenuItem } from "@mui/material"
 import { Avatar } from "@mui/material"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import i18next from "i18next"
 import SidebarOption from "./SidebarOption"
 import Logo from "../../assets/images/mainLogo.svg"
 import { useTranslation } from "react-i18next"
@@ -62,9 +61,12 @@ const DesktopSidebar = ({ optionsNames, optionsIcons, optionLinks, selected, shr
   const handleCloseMenu = () => {
     setAnchorMenu(null)
   }
+
+  const direction = useSelector((state: any) => state.theme.dir)
+
   return (
     <div className=" flex items-center justify-between  border-r border-lightBorder text-center text-black dark:border-darkBorder dark:text-white  xs:max-w-[400px] xs:justify-end md:flex-grow">
-      <div className={`flex h-full w-full flex-col ${mobile ? "pl-5" : "max-lg:items-end"} ${i18next.language === "en" ? "xs:pl-[30%]" : "xs:pr-[30%]"} `}>
+      <div className={`flex h-full w-full flex-col ${mobile ? "pl-5" : direction === "ltr" ? "max-lg:items-end" : "max-lg:items-start"} ${direction !== "rtl" ? "xs:pl-[30%]" : "xs:pr-[30%]"} `}>
         <div
           className="mr-5 mt-5 cursor-pointer"
           onClick={() => {

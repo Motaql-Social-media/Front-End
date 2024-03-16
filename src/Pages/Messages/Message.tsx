@@ -59,13 +59,20 @@ const Message = ({ scroll }: { scroll: number }) => {
   function formatDate(dateString: string) {
     const date = new Date(dateString)
 
-    return new Intl.DateTimeFormat("en-US", {
+    const fDate = new Intl.DateTimeFormat("en-US", {
       weekday: "short",
       hour: "numeric",
       minute: "numeric",
       hour12: true,
       timeZone: "UTC",
     }).format(date)
+
+    if (dir === "rtl")
+      return fDate
+        .replace("AM", "ص")
+        .replace("PM", "م")
+        .replace(fDate.split(" ")[0], t(fDate.split(" ")[0].toLowerCase()))
+    else return fDate
   }
 
   const [socket, setSocket] = useState<any>(null)
@@ -205,6 +212,8 @@ const Message = ({ scroll }: { scroll: number }) => {
     navigate("/messages")
   }
 
+  const dir = useSelector((state: any) => state.theme.dir)
+
   return (
     <div className="flex flex-1 flex-grow-[8] max-[540px]:mt-16">
       <div ref={messageRef} className=" ml-0 mr-1 flex w-full max-w-[620px] shrink-0 flex-grow flex-col border  border-b-0 border-t-0 border-lightBorder dark:border-darkBorder  max-[540px]:h-[89vh] max-[540px]:border-l-0 max-[540px]:border-r-0 sm:w-[600px]">
@@ -270,8 +279,10 @@ const Message = ({ scroll }: { scroll: number }) => {
             </div>
           )}
           {!isBlockingMe && (
-            <div dir="ltr" className=" flex w-[95%] items-center justify-center overflow-hidden rounded-2xl border-t border-t-darkBorder bg-darkHover">
-              <input value={text} onChange={(e: any) => setText(e.target.value)} type="text" placeholder="Type a message" className="flex-grow bg-darkHover p-4 text-white" />
+            <div dir="ltr" className=" flex w-full items-center justify-center overflow-hidden rounded-2xl border-t border-t-darkBorder bg-darkHover">
+              <div className=" w-[95%]" dir={dir}>
+                <input value={text} onChange={(e: any) => setText(e.target.value)} type="text" placeholder={t("type_message")} className="flex-grow bg-darkHover p-4 text-white" />
+              </div>
               <div className="cursor-pointer border-l border-l-darkBorder p-2 text-primary" onClick={handleSendMessage}>
                 <SendIcon />
               </div>

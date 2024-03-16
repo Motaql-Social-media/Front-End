@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom"
 
 function SidebarOption({ icon, name, link, select, mobile }: { icon: any; name: string; link: string; select: boolean; mobile: boolean }) {
   const navigate = useNavigate()
+
   return (
     <div
       title={name}
@@ -10,7 +11,7 @@ function SidebarOption({ icon, name, link, select, mobile }: { icon: any; name: 
         navigate(link)
       }}
     >
-      <div className="flex w-fit content-center items-start rounded-full p-0.5 group-hover:bg-lightHover dark:group-hover:bg-darkHover max-[1278px]:mr-3">
+      <div className="flex w-fit content-center items-start  rounded-full p-0.5 group-hover:bg-lightHover dark:group-hover:bg-darkHover max-[1278px]:mr-3">
         <div data-testid="icon" className={`py-2 pl-[3px] max-[1278px]:pr-2 xs:pl-2`}>
           {select ? icon[1] : icon[0]}
         </div>

@@ -82,6 +82,14 @@ const ReelBody = ({ muted, setMuted, media, content, mentions, displayReel }: { 
     }
   }
 
+  function isArabicChar(char: string): boolean {
+    return /[\u0600-\u06FF]/.test(char)
+  }
+
+  function hasArabicChars(text: string): boolean {
+    return text.split("").some(isArabicChar)
+  }
+
   return (
     <div className="w-full">
       <div className="ml-5 mt-1 ">
@@ -95,7 +103,7 @@ const ReelBody = ({ muted, setMuted, media, content, mentions, displayReel }: { 
                   </a>
                 ) : word[0] === "#" ? (
                   <a dir="ltr" href={`/trending/${word.slice(1)}/reels`} onClick={(e: any) => e.stopPropagation()} className="mx-1 text-primary hover:underline">
-                    {" " + word + " "}
+                    {` ${!hasArabicChars(word) ? word.slice(1) + word[0] : word[0] + word.slice(1)} `}
                   </a>
                 ) : word === "<br>" ? (
                   <br />

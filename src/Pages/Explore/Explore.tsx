@@ -33,11 +33,13 @@ const Explore = ({ scroll }: { scroll: number }) => {
     exploreRef.current.scrollTop += scroll
   }, [scroll])
 
-  const [selectedTopic, setSelectedTopic] = useState(i18next.language === "en" ? "Art" : "الفن")
+  const [selectedTopic, setSelectedTopic] = useState(i18next.language === "en" ? "Shahid" : "شاهد")
 
   const handleChooseTopic = (topic: string) => {
     setSelectedTopic(topic)
   }
+
+  const direction = useSelector((state: any) => state.theme.dir)
 
   const [topics, setTopics] = useState<any[]>([])
   useEffect(() => {
@@ -47,39 +49,70 @@ const Explore = ({ scroll }: { scroll: number }) => {
         setTopics(res.data.data.topics)
       })
       .catch((err) => console.log(err))
-  }, [])
+  }, [direction])
 
   const topicsRef = useRef<any>(null)
 
+
   const handleScroll = (dir: string) => {
-    const scrollContainer = topicsRef.current
-    const scrollAmount = 150
-    const targetScrollLeft = dir === "left" ? Math.max(0, scrollContainer.scrollLeft - scrollAmount) : Math.min(scrollContainer.scrollWidth - scrollContainer.clientWidth, scrollContainer.scrollLeft + scrollAmount)
+    if (direction === "ltr") {
+      const scrollContainer = topicsRef.current
+      const scrollAmount = 150
+      const targetScrollLeft = dir === "left" ? Math.max(0, scrollContainer.scrollLeft - scrollAmount) : Math.min(scrollContainer.scrollWidth - scrollContainer.clientWidth, scrollContainer.scrollLeft + scrollAmount)
 
-    const scrollStep = () => {
-      const step = dir === "left" ? -5 : 5
-      const delta = targetScrollLeft - scrollContainer.scrollLeft
+      const scrollStep = () => {
+        const step = dir === "left" ? -5 : 5
+        const delta = targetScrollLeft - scrollContainer.scrollLeft
 
-      if (scrollContainer.scrollLeft < 5) {
-        setLeftArrow(false)
-      } else {
-        setLeftArrow(true)
-      }
-      if (scrollContainer.scrollLeft > scrollContainer.scrollWidth - scrollContainer.clientWidth - 5) {
-        setRightArrow(false)
-      } else {
-        setRightArrow(true)
-      }
+        if (scrollContainer.scrollLeft < 5) {
+          setLeftArrow(false)
+        } else {
+          setLeftArrow(true)
+        }
+        if (scrollContainer.scrollLeft > scrollContainer.scrollWidth - scrollContainer.clientWidth - 5) {
+          setRightArrow(false)
+        } else {
+          setRightArrow(true)
+        }
 
-      if (Math.abs(delta) > 5) {
-        scrollContainer.scrollLeft += step
-        requestAnimationFrame(scrollStep)
-      } else {
-        scrollContainer.scrollLeft = targetScrollLeft
+        if (Math.abs(delta) > 5) {
+          scrollContainer.scrollLeft += step
+          requestAnimationFrame(scrollStep)
+        } else {
+          scrollContainer.scrollLeft = targetScrollLeft
+        }
       }
+      requestAnimationFrame(scrollStep)
+    } else {
+      const scrollContainer = topicsRef.current
+      const scrollAmount = 150
+      // scrollContainer.scrollLeft -= 50
+      const targetScrollLeft = dir === "right" ? Math.max(scrollContainer.clientWidth-scrollContainer.scrollWidth, scrollContainer.scrollLeft - scrollAmount) : Math.min(0, scrollContainer.scrollLeft + scrollAmount)
+
+      const scrollStep = () => {
+        const step = dir === "right" ? -5 : 5
+        const delta = targetScrollLeft - scrollContainer.scrollLeft
+
+        if (Math.abs(scrollContainer.scrollLeft) < 5) {
+          setLeftArrow(false)
+        } else {
+          setLeftArrow(true)
+        }
+        if (Math.abs(scrollContainer.scrollLeft) > scrollContainer.scrollWidth - scrollContainer.clientWidth - 5) {
+          setRightArrow(false)
+        } else {
+          setRightArrow(true)
+        }
+
+        if (Math.abs(delta) > 5) {
+          scrollContainer.scrollLeft += step
+          requestAnimationFrame(scrollStep)
+        } else {
+          scrollContainer.scrollLeft = targetScrollLeft
+        }
+      }
+      requestAnimationFrame(scrollStep)
     }
-
-    requestAnimationFrame(scrollStep)
   }
 
   const [leftArrow, setLeftArrow] = useState(false)
@@ -119,7 +152,7 @@ const Explore = ({ scroll }: { scroll: number }) => {
     <div className="flex flex-1 flex-grow-[8] max-[540px]:mt-16">
       <div ref={exploreRef} className="no-scrollbar ml-0 mr-1  w-full max-w-[620px] shrink-0 flex-grow overflow-y-scroll border border-b-0 border-t-0 border-lightBorder dark:border-darkBorder  max-[540px]:border-l-0 max-[540px]:border-r-0 sm:w-[600px]">
         <SubpageNavbar title="explore" />
-        <div dir="ltr" className="flex w-full items-center gap-1 border-y border-y-darkBorder px-1 ">
+        <div className="flex w-full items-center gap-1 border-y border-y-darkBorder px-1 ">
           <div>
             <div
               onClick={() => {
@@ -127,7 +160,7 @@ const Explore = ({ scroll }: { scroll: number }) => {
               }}
               className={`cursor-pointer ${leftArrow ? "opacity-100" : "pointer-events-none opacity-0"} transition-opacity duration-200`}
             >
-              <KeyboardArrowLeftIcon fontSize="large" />
+              {direction === "rtl" ? <KeyboardArrowRightIcon fontSize="large" /> : <KeyboardArrowLeftIcon fontSize="large" />}
             </div>
           </div>
           <div ref={topicsRef} className="no-scrollbar my-1 flex w-[90%] gap-2 overflow-x-scroll px-1 py-3 ">
@@ -144,7 +177,7 @@ const Explore = ({ scroll }: { scroll: number }) => {
               }}
               className={`cursor-pointer ${rightArrow ? "opacity-100" : "pointer-events-none opacity-0"} transition-opacity duration-200`}
             >
-              <KeyboardArrowRightIcon fontSize="large" />
+              {direction !== "rtl" ? <KeyboardArrowRightIcon fontSize="large" /> : <KeyboardArrowLeftIcon fontSize="large" />}
             </div>
           </div>
         </div>

@@ -89,6 +89,14 @@ const PollBody = ({ poll, mentions, id }: { poll: any; mentions: string[]; id: s
     // setPolled(true)
   }
 
+  function isArabicChar(char: string): boolean {
+    return /[\u0600-\u06FF]/.test(char)
+  }
+
+  function hasArabicChars(text: string): boolean {
+    return text.split("").some(isArabicChar)
+  }
+
   return (
     <div className="min-xs:pl-12">
       <div className="post-text mt-1 ">
@@ -101,7 +109,7 @@ const PollBody = ({ poll, mentions, id }: { poll: any; mentions: string[]; id: s
                 </a>
               ) : word[0] === "#" ? (
                 <a dir="ltr" href={`/trending/${word.slice(1)}/diaries`} onClick={(e: any) => e.stopPropagation()} className="mx-1 text-primary hover:underline">
-                  {" " + word + " "}
+                  {` ${!hasArabicChars(word) ? word.slice(1) + word[0] : word[0] + word.slice(1)} `}
                 </a>
               ) : word === "<br>" ? (
                 <br />

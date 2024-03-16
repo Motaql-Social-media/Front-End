@@ -31,6 +31,8 @@ const SearchComponent = ({ query, callback, fromMessage }: { query: string; call
   }, [query])
 
   useEffect(() => {
+    console.log("searchTrends", searchTrends)
+    console.log("searchUsers", searchUsers)
     setSearchAll([...searchTrends, ...searchUsers])
   }, [searchTrends, searchUsers])
 
@@ -68,13 +70,10 @@ const SearchComponent = ({ query, callback, fromMessage }: { query: string; call
           console.error(error)
         }
       })
-
-    //     let us = res.data.results
-    //     if (!preferences.showBlockedandMuted) {
-    //       us = us.filter((r) => r.isBlocked === false)
   }
 
   const handleSearchChange = (word: string) => {
+    // console.log("word", word)
     callback(word)
     if (word !== "") {
       handleSearchTrends(word)
@@ -105,7 +104,7 @@ const SearchComponent = ({ query, callback, fromMessage }: { query: string; call
   //   }, [searchQuery])
 
   return (
-    <div className="mt-2 flex w-full items-center justify-center" dir="ltr">
+    <div className="mt-2 flex w-full items-center justify-center">
       <div className="w-[90%]">
         <Stack spacing={2} sx={{ width: "100%" }}>
           <Autocomplete
@@ -120,7 +119,7 @@ const SearchComponent = ({ query, callback, fromMessage }: { query: string; call
               )
             }}
             groupBy={(option: any) => {
-              if (option.username) {
+              if (option.userId) {
                 return t("users")
               } else {
                 return t("trends")
@@ -131,11 +130,11 @@ const SearchComponent = ({ query, callback, fromMessage }: { query: string; call
             options={searchAll}
             noOptionsText={"No options found"}
             renderOption={(props, option) => {
-              return <li key={props.id}>{option.username ? <UserSearchComponent {...props} id={props.id} option={option} fromMessage={fromMessage} /> : <TrendSearchOption {...props} option={option} />}</li>
+              return <li key={props.id}>{option.userId ? <UserSearchComponent {...props} id={props.id} option={option} fromMessage={fromMessage} /> : <TrendSearchOption {...props} option={option} />}</li>
             }}
             renderInput={(params) => {
               return (
-                <div key={params.id} className="w-full" ref={params.InputProps.ref}>
+                <div key={params.id} dir="" className="w-full" ref={params.InputProps.ref}>
                   <TextField
                     label={!fromMessage ? t("search_placeholder") : t("search_user")}
                     variant="outlined"

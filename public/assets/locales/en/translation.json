@@ -236,5 +236,18 @@
   "post_not_found": "Sorry the {{post}} you are looking for doesn't exist",
   "no_users": "No users found",
   "mention_error": "Sorry, by selecting user number of characters will exceed 280",
-  "add_comment": "Add a comment..."
+  "add_comment": "Add a comment...",
+  "h": "h",
+  "m": "m",
+  "s": "s",
+  "d": "d",
+  "type_message": "Type a message",
+  "fri": "Fri",
+  "sat": "Sat",
+  "sun": "Sun",
+  "mon": "Mon",
+  "tue": "Tue",
+  "wed": "Wed",
+  "thu": "Thu"
+
 }

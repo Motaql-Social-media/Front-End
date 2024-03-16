@@ -1,11 +1,6 @@
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined"
-import SearchRoundedIcon from "@mui/icons-material/SearchRounded"
 import NotificationsNoneRoundedIcon from "@mui/icons-material/NotificationsNoneRounded"
 import MailOutlineRoundedIcon from "@mui/icons-material/MailOutlineRounded"
-import ListAltRoundedIco from "@mui/icons-material/ListAltRounded"
-import TurnedInNotOutlinedIcon from "@mui/icons-material/TurnedInNotOutlined"
-import HistoryEduOutlinedIcon from "@mui/icons-material/HistoryEduOutlined"
-import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined"
 import TrendingUpIcon from "@mui/icons-material/TrendingUp"
 import TagIcon from "@mui/icons-material/Tag"
 import BookmarkBorderOutlinedIcon from "@mui/icons-material/BookmarkBorderOutlined"
@@ -14,16 +9,11 @@ import SettingsIcon from "@mui/icons-material/Settings"
 import Badge from "@mui/material/Badge"
 
 import HomeIcon from "@mui/icons-material/Home"
-import SearchIcon from "@mui/icons-material/Search"
 import NotificationsIcon from "@mui/icons-material/Notifications"
 import EmailIcon from "@mui/icons-material/Email"
-import ListAltIcon from "@mui/icons-material/ListAlt"
-import PeopleIcon from "@mui/icons-material/People"
 import BookmarkIcon from "@mui/icons-material/Bookmark"
 import PersonIcon from "@mui/icons-material/Person"
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined"
-
-import SidebarOption from "./SidebarOption"
 
 import { useEffect, useState } from "react"
 import { useLocation } from "react-router-dom"
@@ -177,9 +167,6 @@ const Sidebar = () => {
     navigate("/")
   }
 
-  
- 
-
   const [windowWidth, setWindowWidth] = useState(window.innerWidth)
 
   useEffect(() => {
@@ -230,11 +217,6 @@ const Sidebar = () => {
     modalStyle.left = "50%"
     modalStyle.transform = "translate(-50%, -50%)"
     modalStyle.maxWidth = "none" // optional, to remove any max-width constraints
-  }
-
-  const themeColor = useSelector((state: any) => state.theme.color)
-  const handlePostClick = () => {
-    // setComposePostPopup(true);
   }
 
   return (

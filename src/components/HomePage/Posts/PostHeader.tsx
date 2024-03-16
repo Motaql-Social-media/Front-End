@@ -71,7 +71,7 @@ const PostHeader = ({ date, tweeter, id, type, posts, setPosts, base, parent }: 
 
     const differenceDays = Math.floor(differenceHours / 24)
 
-    const final = differenceDays > 0 ? `${differenceDays}d` : differenceHours > 0 ? `${differenceHours % 24}h` : differenceMinutes > 0 ? `${differenceMinutes % 60}m` : `${differenceSeconds % 60}s`
+    const final = differenceDays > 0 ? `${differenceDays} ${t("d")}` : differenceHours > 0 ? `${differenceHours % 24} ${t("h")}` : differenceMinutes > 0 ? `${differenceMinutes % 60} ${t("m")}` : `${differenceSeconds % 60} ${t("s")}`
     return final
   }
 
@@ -158,27 +158,24 @@ const PostHeader = ({ date, tweeter, id, type, posts, setPosts, base, parent }: 
         <Avatar alt={tweeter.name} src={tweeter.imageUrl.split(":")[0] === "https" ? tweeter.imageUrl : process.env.REACT_APP_USERS_MEDIA_URL + tweeter.imageUrl} sx={{ width: 40, height: 40 }} />
         {isVisible && <HoveredProfile hoveredUser={tweeter} state={followState} setState={setFollowState} />}
       </div>
-      <div className="flex gap-1">
-        <div className="relative flex flex-col justify-center" onMouseEnter={() => handleMouseEnter(2)} onMouseLeave={() => handleMouseLeave(2)}>
+      <div>
+        <div className="relative flex gap-2" onMouseEnter={() => handleMouseEnter(2)} onMouseLeave={() => handleMouseLeave(2)}>
           <div className="font-semibold text-gray-200 hover:underline max-xs:text-sm" onClick={handleProfileClick}>
             <div className="max-[405px]:hidden">{tweeter.name}</div>
             <div className="min-[405px]:hidden">{tweeter.name.split(" ")[0]}</div>
           </div>
+          <div className="text-gray-500">،</div>
           <div className="text-gray-400 max-xs:text-sm max-[405px]:text-xs" onClick={handleProfileClick}>
             <span dir="ltr">@{tweeter.username}</span>
           </div>
           {isVisible2 && <HoveredProfile hoveredUser={tweeter} state={followState} setState={setFollowState} />}
         </div>
-        <div className="flex items-start  gap-1">
-          <div className="relative flex items-center" onMouseEnter={() => handleMouseEnter(3)} onMouseLeave={() => handleMouseLeave(3)}>
-            <div className="text-gray-400 max-[405px]:text-xs">{tweeter.jobtitle}</div>
-
-            <div className={` bg-ternairy m-1 h-[2px] w-[2px] rounded-full dark:bg-gray-200`}></div>
-            <div className={`text-gray-400 max-[405px]:text-xs`}>{timeDifference}</div>
-            {isVisible3 && <HoveredProfile hoveredUser={tweeter} state={followState} setState={setFollowState} />}
-          </div>
+        <div className="relative flex gap-2 text-gray-500" onMouseEnter={() => handleMouseEnter(3)} onMouseLeave={() => handleMouseLeave(3)}>
+          <div className=" max-[405px]:text-xs">{tweeter.jobtitle}</div>،<div className={`max-[405px]:text-xs`}>{timeDifference}</div>
+          {isVisible3 && <HoveredProfile hoveredUser={tweeter} state={followState} setState={setFollowState} />}
         </div>
       </div>
+
       <div className="flex-grow"></div>
       {type !== "fromQuote" && (
         <div className="more relative ">

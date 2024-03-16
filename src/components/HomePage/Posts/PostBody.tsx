@@ -1,6 +1,7 @@
 import { useEffect } from "react"
 import DisplayMedia from "../../DisplayImages/DisplayMedia"
 import { useState } from "react"
+import i18next from "i18next"
 
 const PostBody = ({ description, media, mentions }: { description: string; media: string[]; mentions: string[] }) => {
   const mediaUrls = media.map((item: any) => process.env.REACT_APP_TWEETS_MEDIA_URL + item)
@@ -11,10 +12,18 @@ const PostBody = ({ description, media, mentions }: { description: string; media
     setProcessedMentions(mentions.map((mention) => `@${mention}`))
   }, [mentions])
 
+  function isArabicChar(char: string): boolean {
+    return /[\u0600-\u06FF]/.test(char)
+  }
+
+  function hasArabicChars(text: string): boolean {
+    return text.split("").some(isArabicChar)
+  }
+
   return (
     <div className="min-xs:pl-12">
       <div className="post-text mt-1 ">
-        <p >
+        <p>
           {description?.split(" ").map((word, index) => (
             <span key={index} className="">
               {processedMentions.includes(word) ? (
@@ -22,8 +31,8 @@ const PostBody = ({ description, media, mentions }: { description: string; media
                   {`${word}`}
                 </a>
               ) : word[0] === "#" ? (
-                <a dir="ltr" href={`/trending/${word.slice(1)}/diaries`} onClick={(e: any) => e.stopPropagation()} className="text-primary mx-1 hover:underline">
-                  {` ${word} `}
+                <a href={`/trending/${word.slice(1)}/diaries`} onClick={(e: any) => e.stopPropagation()} className="mx-1 text-primary hover:underline">
+                  {` ${!hasArabicChars(word) ? word.slice(1) + word[0] : word[0] + word.slice(1)} `}
                 </a>
               ) : word === "<br>" ? (
                 <br />

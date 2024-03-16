@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react"
+import { useEffect, useLayoutEffect, useState } from "react"
 
 import ThemeProvider from "@mui/material/styles/ThemeProvider"
-import theme from "./styles/theme"
+import { Theme } from "@mui/material/styles"
+import { createTheme } from "@mui/material/styles"
 import Languages from "./components/Languages"
 import Landing from "./Pages/Landing/Landing"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
@@ -63,8 +64,29 @@ import Messages from "./Pages/Messages/Messages"
 import Message from "./Pages/Messages/Message"
 import NotFound from "./components/General/NotFound"
 
+import rtlPlugin from "stylis-plugin-rtl"
+import { prefixer } from "stylis"
+import { CacheProvider } from "@emotion/react"
+import createCache from "@emotion/cache"
+import i18next from "i18next"
+
 const SocketContext = createContext<any>(null)
 export { SocketContext }
+
+const ltrTheme = createTheme({ direction: "ltr" })
+const rtlTheme = createTheme({ direction: "rtl" })
+
+const cacheLtr = createCache({
+  key: "muiltr",
+})
+
+const cacheRtl = createCache({
+  key: "muirtl",
+  // prefixer is the only stylis plugin by default, so when
+  // overriding the plugins you need to include it explicitly
+  // if you want to retain the auto-prefixing behavior.
+  stylisPlugins: [prefixer, rtlPlugin],
+})
 
 function App() {
   const [socket, setSocket] = useState<any>(null)
@@ -133,7 +155,6 @@ function App() {
   }
 
   const user = useSelector((state: any) => state.user.user)
-  const darkMode = useSelector((state: any) => state.theme.darkMode)
 
   const isMobile = useCheckMobileScreen()
 
@@ -172,85 +193,93 @@ function App() {
     }
   }, [isMobile])
 
+  const dir = useSelector((state: any) => state.theme.dir)
+
+  useLayoutEffect(() => {
+    document.body.setAttribute("dir", dir === "rtl" ? "rtl" : "ltr")
+  }, [])
+
   return (
     <GoogleOAuthProvider clientId="747286868244-5769tksecnl0s5jds76cdtj13phph6l7.apps.googleusercontent.com">
-      <ThemeProvider theme={theme}>
-        <SocketContext.Provider value={socket}>
-          <div ref={appRef} className="app relative flex  min-h-[100vh]  flex-row  bg-white text-black dark:bg-black  dark:text-white max-[540px]:flex-col xs:h-[100vh] xs:w-full">
-            <BrowserRouter>
-              <Languages />
+      <CacheProvider value={dir !== "rtl" ? cacheLtr : cacheRtl}>
+        <ThemeProvider theme={dir !== "rtl" ? ltrTheme : rtlTheme}>
+          <SocketContext.Provider value={socket}>
+            <div ref={appRef} className="app relative flex  min-h-[100vh]  flex-row  bg-white text-black dark:bg-black  dark:text-white max-[540px]:flex-col xs:h-[100vh] xs:w-full">
+              <BrowserRouter>
+                <Languages />
 
-              {user && location !== "/password_reset" && <Sidebar />}
-              <Routes>
-                <Route path="/" element={<Landing openLoginModal={openLoginModal} handleOpenLoginModal={handleOpenLoginModal} handleCloseLoginModal={handleCloseLoginModal} openSignupModal={openSignupModal} handleOpenSignupModal={handleOpenSignupModal} handleCloseSignupModal={handleCloseSignupModal} location={location} setLocation={setLocation} />}></Route>
-                <Route path="/home" element={<Home scroll={deltaY} />}>
-                  <Route path="diaries" element={<Diaries />} />
-                  <Route path="reels" element={<Reels />} />
-                  <Route path="" element={<Diaries />} />
-                </Route>
-                <Route path="/bookmarks" element={<Bookmarks scroll={deltaY} />}>
-                  <Route path="diaries" element={<Diaries />} />
-                  <Route path="reels" element={<Reels />} />
-                  <Route path="" element={<Diaries />} />
-                </Route>
-                <Route path="/:tag/:type/:id/engagement" element={<PostEngagement scroll={deltaY} />}>
-                  <Route path="likes" element={<Likes />}></Route>
-                  <Route path="quotes" element={<Quotes />}></Route>
-                  <Route path="reposts" element={<Reposts />}></Route>
-                  <Route path="" element={<Quotes />}></Route>
-                </Route>
-                <Route path="/notifications" element={<Notifications scroll={deltaY} />}>
-                  <Route path="all" element={<All />} />
-                  <Route path="mentions" element={<Mentions scroll={deltaY} />}>
-                    <Route path="diaries" element={<DiariesMentions />} />
-                    <Route path="reels" element={<ReelsMentions />} />
-                    <Route path="" element={<DiariesMentions />} />
+                {user && location !== "/password_reset" && <Sidebar />}
+                <Routes>
+                  <Route path="/" element={<Landing openLoginModal={openLoginModal} handleOpenLoginModal={handleOpenLoginModal} handleCloseLoginModal={handleCloseLoginModal} openSignupModal={openSignupModal} handleOpenSignupModal={handleOpenSignupModal} handleCloseSignupModal={handleCloseSignupModal} location={location} setLocation={setLocation} />}></Route>
+                  <Route path="/home" element={<Home scroll={deltaY} />}>
+                    <Route path="diaries" element={<Diaries />} />
+                    <Route path="reels" element={<Reels />} />
+                    <Route path="" element={<Diaries />} />
                   </Route>
-                  <Route path="" element={<All />} />
-                </Route>
-                <Route path="/:tag/followers_followings" element={<FollowersFollowings scroll={deltaY} />}>
-                  <Route path="followers" element={<Followers />}></Route>
-                  <Route path="followings" element={<Followings />}></Route>
-                </Route>
-                <Route path="/settings" element={<Settings />}></Route>
-                <Route path="/settings/privacy" element={<Privacy />} />
-                <Route path="/settings/account_information" element={<AccountInformations />} />
-                <Route path="/settings/username" element={<ChangeUsername />} />
-                <Route path="/settings/password" element={<PasswordChange />} />
-                <Route path="/settings/phone_number" element={<ChangePhoneNumber />} />
-                <Route path="/settings/email" element={<ChangeEmail />} />
-                <Route path="/settings/mute_block" element={<MuteBlock />} />
-                <Route path="/settings/blocked_accounts" element={<BlockedAccounts />} />
-                <Route path="/settings/muted_accounts" element={<MutedAccounts />} />
-                <Route path="/settings/account" element={<Account />} />
+                  <Route path="/bookmarks" element={<Bookmarks scroll={deltaY} />}>
+                    <Route path="diaries" element={<Diaries />} />
+                    <Route path="reels" element={<Reels />} />
+                    <Route path="" element={<Diaries />} />
+                  </Route>
+                  <Route path="/:tag/:type/:id/engagement" element={<PostEngagement scroll={deltaY} />}>
+                    <Route path="likes" element={<Likes />}></Route>
+                    <Route path="quotes" element={<Quotes />}></Route>
+                    <Route path="reposts" element={<Reposts />}></Route>
+                    <Route path="" element={<Quotes />}></Route>
+                  </Route>
+                  <Route path="/notifications" element={<Notifications scroll={deltaY} />}>
+                    <Route path="all" element={<All />} />
+                    <Route path="mentions" element={<Mentions scroll={deltaY} />}>
+                      <Route path="diaries" element={<DiariesMentions />} />
+                      <Route path="reels" element={<ReelsMentions />} />
+                      <Route path="" element={<DiariesMentions />} />
+                    </Route>
+                    <Route path="" element={<All />} />
+                  </Route>
+                  <Route path="/:tag/followers_followings" element={<FollowersFollowings scroll={deltaY} />}>
+                    <Route path="followers" element={<Followers />}></Route>
+                    <Route path="followings" element={<Followings />}></Route>
+                  </Route>
+                  <Route path="/settings" element={<Settings />}></Route>
+                  <Route path="/settings/privacy" element={<Privacy />} />
+                  <Route path="/settings/account_information" element={<AccountInformations />} />
+                  <Route path="/settings/username" element={<ChangeUsername />} />
+                  <Route path="/settings/password" element={<PasswordChange />} />
+                  <Route path="/settings/phone_number" element={<ChangePhoneNumber />} />
+                  <Route path="/settings/email" element={<ChangeEmail />} />
+                  <Route path="/settings/mute_block" element={<MuteBlock />} />
+                  <Route path="/settings/blocked_accounts" element={<BlockedAccounts />} />
+                  <Route path="/settings/muted_accounts" element={<MutedAccounts />} />
+                  <Route path="/settings/account" element={<Account />} />
 
-                <Route path="/:tag" element={<Profile scroll={deltaY} />}>
-                  <Route path="diaries" element={<ProfileDiaries />} />
-                  <Route path="reels" element={<ProfileReels />} />
-                  <Route path="" element={<ProfileDiaries />} />
-                </Route>
-                <Route path="/trending" element={<Trending scroll={deltaY} />}>
-                  <Route path=":query/diaries" element={<TrendDiaries />} />
-                  <Route path=":query/reels" element={<TrendReels />} />
-                  <Route path="" element={<TrendDiaries />} />
-                </Route>
-                <Route path="/messages" element={<Messages scroll={deltaY} />}></Route>
-                <Route path="/messages/:id" element={<Message scroll={deltaY} />} />
+                  <Route path="/:tag" element={<Profile scroll={deltaY} />}>
+                    <Route path="diaries" element={<ProfileDiaries />} />
+                    <Route path="reels" element={<ProfileReels />} />
+                    <Route path="" element={<ProfileDiaries />} />
+                  </Route>
+                  <Route path="/trending" element={<Trending scroll={deltaY} />}>
+                    <Route path=":query/diaries" element={<TrendDiaries />} />
+                    <Route path=":query/reels" element={<TrendReels />} />
+                    <Route path="" element={<TrendDiaries />} />
+                  </Route>
+                  <Route path="/messages" element={<Messages scroll={deltaY} />}></Route>
+                  <Route path="/messages/:id" element={<Message scroll={deltaY} />} />
 
-                <Route path="/:tag/diary/:id" element={<DiaryPage scroll={deltaY} />} />
-                <Route path="/:tag/reel/:id" element={<ReelPage scroll={deltaY} />} />
-                <Route path="/explore" element={<Explore scroll={deltaY} />} />
-                <Route path="/password_reset" element={<PasswordReset setLocation={setLocation} />} />
-                <Route path="/login" element={<Login openModal={true} handleCloseModal={handleCloseLoginModal} setLocation={setLocation} />} />
-                <Route path="/signup" element={<SignUp openModal={true} setLocation={setLocation} handleCloseModal={handleCloseSignupModal} />} />
-                <Route path="/404" element={<NotFound />}></Route>
-                <Route path="*" element={<NotFound />}></Route>
-              </Routes>
-              {showNotification && location.split("/").pop() !== "notifications" && <PushNotification content={notification.content} createdAt={notification.createdAt} isSeen={notification.isSeen} metadata={notification.metadata} notificationFrom={notification.notificationFrom} notificationId={notification.notificationId} type={notification.type} />}
-            </BrowserRouter>
-          </div>
-        </SocketContext.Provider>
-      </ThemeProvider>
+                  <Route path="/:tag/diary/:id" element={<DiaryPage scroll={deltaY} />} />
+                  <Route path="/:tag/reel/:id" element={<ReelPage scroll={deltaY} />} />
+                  <Route path="/explore" element={<Explore scroll={deltaY} />} />
+                  <Route path="/password_reset" element={<PasswordReset setLocation={setLocation} />} />
+                  <Route path="/login" element={<Login openModal={true} handleCloseModal={handleCloseLoginModal} setLocation={setLocation} />} />
+                  <Route path="/signup" element={<SignUp openModal={true} setLocation={setLocation} handleCloseModal={handleCloseSignupModal} />} />
+                  <Route path="/404" element={<NotFound />}></Route>
+                  <Route path="*" element={<NotFound />}></Route>
+                </Routes>
+                {showNotification && location.split("/").pop() !== "notifications" && <PushNotification content={notification.content} createdAt={notification.createdAt} isSeen={notification.isSeen} metadata={notification.metadata} notificationFrom={notification.notificationFrom} notificationId={notification.notificationId} type={notification.type} />}
+              </BrowserRouter>
+            </div>
+          </SocketContext.Provider>
+        </ThemeProvider>
+      </CacheProvider>
     </GoogleOAuthProvider>
   )
 }

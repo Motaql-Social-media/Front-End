@@ -46,6 +46,10 @@ const UserSearchComponent = ({
     }
   }
 
+  useEffect(() => { 
+    console.log(option)
+  }, [option])
+
   return (
     <div {...props} key={id} className="flex cursor-pointer p-3 hover:bg-lightHover" onClick={handleClick}>
       <Avatar alt={option.username} src={option.imageUrl.split(":")[0] === "https" ? option.imageUrl : process.env.REACT_APP_USERS_MEDIA_URL + option.imageUrl} sx={{ width: 40, height: 40 }} />
