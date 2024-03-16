@@ -22,7 +22,7 @@ const SearchComponent = ({ query, callback, fromMessage }: { query: string; call
 
   const [searchUsers, setSearchUsers] = useState([])
   const [searchTrends, setSearchTrends] = useState([])
-  const [searchAll, setSearchAll] = useState([])
+  const [searchAll, setSearchAll] = useState<any[]>([])
 
   const q = useParams().query
 
@@ -31,9 +31,7 @@ const SearchComponent = ({ query, callback, fromMessage }: { query: string; call
   }, [query])
 
   useEffect(() => {
-    console.log("searchTrends", searchTrends)
-    console.log("searchUsers", searchUsers)
-    setSearchAll([...searchTrends, ...searchUsers])
+    setSearchAll([...searchUsers, ...searchTrends])
   }, [searchTrends, searchUsers])
 
   const API = axios.create({
@@ -99,14 +97,76 @@ const SearchComponent = ({ query, callback, fromMessage }: { query: string; call
     }
   }, [q])
 
-  //   useEffect(() => {
-  //     if (searchQuery) console.log("searchQuery", searchQuery)
-  //   }, [searchQuery])
+  const [showMenu, setShowMenu] = useState(false)
+
+  useEffect(() => {
+    if (searchUsers.length > 0 || searchTrends.length > 0) setShowMenu(true)
+    else setShowMenu(false)
+  }, [searchUsers, searchTrends])
+
+  useEffect(() => {
+    if (!searchQuery) {
+      setSearchUsers([])
+      setSearchTrends([])
+    }
+  }, [searchQuery])
+
+  useEffect(() => {
+    setShowMenu(false)
+  }, [])
 
   return (
-    <div className="mt-2 flex w-full items-center justify-center">
-      <div className="w-[90%]">
-        <Stack spacing={2} sx={{ width: "100%" }}>
+    <div className=" mt-2 flex w-full items-center justify-center">
+      <div className="relative w-[90%]">
+        <TextField
+          label={!fromMessage ? t("search_placeholder") : t("search_user")}
+          variant="outlined"
+          value={searchQuery}
+          onChange={(e) => {
+            const value = e.target.value
+            setSearchQuery(value)
+            handleSearchChange(value)
+          }}
+          autoComplete="off"
+          inputProps={{
+            onKeyDown: handleEnterKeyPress,
+            onBlur: () => {
+              setTimeout(() => {
+                setShowMenu(false)
+              }, 1000)
+            },
+            autoFocus: true,
+          }}
+          InputLabelProps={{
+            style: { color: "#40e5da", textAlign: "right" },
+          }}
+          sx={styles.textField}
+        />
+        {(searchUsers.length > 0 || searchTrends.length > 0) && showMenu && (
+          <div className="absolute z-[99] w-full overflow-hidden rounded-lg border border-primary bg-black">
+            {searchUsers.length > 0 && (
+              <div className="border-b border-primary text-sm">
+                <div className=" my-2 text-xl font-bold">{t("users")}</div>
+                {searchUsers.map((user: any) => (
+                  <div key={user.userId}>
+                    <UserSearchComponent id={user.userId} option={user} fromMessage={fromMessage} />
+                  </div>
+                ))}
+              </div>
+            )}
+            {searchTrends.length > 0 && (
+              <div>
+                <div className=" my-2 text-xl font-bold">{t("trends")}</div>
+                {searchTrends.map((trend: any) => (
+                  <div key={trend.tag}>
+                    <TrendSearchOption option={trend} setShowMenu={setShowMenu} />
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+        {/* <Stack spacing={2} sx={{ width: "100%" }}>
           <Autocomplete
             freeSolo
             blurOnSelect={false}
@@ -130,11 +190,12 @@ const SearchComponent = ({ query, callback, fromMessage }: { query: string; call
             options={searchAll}
             noOptionsText={"No options found"}
             renderOption={(props, option) => {
+              console.log("option", option)
               return <li key={props.id}>{option.userId ? <UserSearchComponent {...props} id={props.id} option={option} fromMessage={fromMessage} /> : <TrendSearchOption {...props} option={option} />}</li>
             }}
             renderInput={(params) => {
               return (
-                <div key={params.id} dir="" className="w-full" ref={params.InputProps.ref}>
+                <div key={params.id} className="w-full" ref={params.InputProps.ref}>
                   <TextField
                     label={!fromMessage ? t("search_placeholder") : t("search_user")}
                     variant="outlined"
@@ -157,7 +218,7 @@ const SearchComponent = ({ query, callback, fromMessage }: { query: string; call
               )
             }}
           />
-        </Stack>
+        </Stack> */}
       </div>
     </div>
   )

@@ -2,19 +2,21 @@ import React from "react"
 
 const TrendSearchOption = ({
   option,
-  ...props
+  setShowMenu,
 }: {
   option: {
     tag: string
   }
+  setShowMenu: any
 }) => {
   return (
     <div
-      {...props}
-      className="flex cursor-pointer p-3 hover:bg-lightHover"
+      className="flex cursor-pointer p-3 hover:bg-darkHover"
       onClick={() => {
+        setShowMenu(false)
         window.location.href = `/trending/${option.tag}/diaries`
       }}
+      key={option.tag}
     >
       <div className="ml-3">
         <div className="text-secondary text-sm">#{option.tag}</div>
