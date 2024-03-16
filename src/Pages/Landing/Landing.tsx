@@ -2,7 +2,6 @@ import { useEffect } from "react"
 import Login from "../Login/Login"
 // import GoogleLoginButton from "../General/GoogleLoginButton";
 import { useNavigate } from "react-router-dom"
-import { ThemeState } from "../../store/ThemeSlice"
 
 import Logo from "../../assets/images/mainLogo.svg"
 import { useTranslation } from "react-i18next"

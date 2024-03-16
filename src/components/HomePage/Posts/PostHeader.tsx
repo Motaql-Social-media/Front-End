@@ -164,14 +164,14 @@ const PostHeader = ({ date, tweeter, id, type, posts, setPosts, base, parent }: 
             <div className="max-[405px]:hidden">{tweeter.name}</div>
             <div className="min-[405px]:hidden">{tweeter.name.split(" ")[0]}</div>
           </div>
-          <div className="text-gray-500">،</div>
           <div className="text-gray-400 max-xs:text-sm max-[405px]:text-xs" onClick={handleProfileClick}>
             <span dir="ltr">@{tweeter.username}</span>
           </div>
           {isVisible2 && <HoveredProfile hoveredUser={tweeter} state={followState} setState={setFollowState} />}
         </div>
         <div className="relative flex gap-2 text-gray-500" onMouseEnter={() => handleMouseEnter(3)} onMouseLeave={() => handleMouseLeave(3)}>
-          <div className=" max-[405px]:text-xs">{tweeter.jobtitle}</div>،<div className={`max-[405px]:text-xs`}>{timeDifference}</div>
+          <div className=" max-[405px]:text-xs">{tweeter.jobtitle}</div>
+          <div className={`max-[405px]:text-xs`}>{timeDifference}</div>
           {isVisible3 && <HoveredProfile hoveredUser={tweeter} state={followState} setState={setFollowState} />}
         </div>
       </div>

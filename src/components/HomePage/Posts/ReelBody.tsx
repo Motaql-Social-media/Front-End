@@ -102,7 +102,7 @@ const ReelBody = ({ muted, setMuted, media, content, mentions, displayReel }: { 
                     {` ${word} `}
                   </a>
                 ) : word[0] === "#" ? (
-                  <a dir="ltr" href={`/trending/${word.slice(1)}/reels`} onClick={(e: any) => e.stopPropagation()} className="mx-1 text-primary hover:underline">
+                  <a href={`/trending/${word.slice(1)}/reels`} onClick={(e: any) => e.stopPropagation()} className="mx-1 text-primary hover:underline">
                     {` ${!hasArabicChars(word) ? word.slice(1) + word[0] : word[0] + word.slice(1)} `}
                   </a>
                 ) : word === "<br>" ? (

@@ -219,7 +219,7 @@ const Profile = ({ scroll }: { scroll: number }) => {
               <div>
                 <div className="flex items-center justify-start gap-3">
                   <div className="text-xl font-bold">{name}</div>
-                  <div className="text-lg text-gray-500"> ، @{username}</div>
+                  <div className="text-lg text-gray-500">@{username}</div>
                 </div>
                 <div className=" text-gray-500">{jobTitle}</div>
               </div>
