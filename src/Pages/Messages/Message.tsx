@@ -280,7 +280,7 @@ const Message = ({ scroll }: { scroll: number }) => {
           )}
           {!isBlockingMe && (
             <div dir="ltr" className=" flex w-full items-center justify-center overflow-hidden rounded-2xl border-t border-t-darkBorder bg-darkHover">
-              <div className=" w-[95%]" dir={dir}>
+              <div className=" w-[95%]" dir={i18next.language === "en" ? "ltr" : "rtl"}>
                 <input value={text} onChange={(e: any) => setText(e.target.value)} type="text" placeholder={t("type_message")} className="flex-grow bg-darkHover p-4 text-white" />
               </div>
               <div className="cursor-pointer border-l border-l-darkBorder p-2 text-primary" onClick={handleSendMessage}>

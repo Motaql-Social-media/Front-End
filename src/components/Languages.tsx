@@ -8,7 +8,7 @@ import cookie from "js-cookie"
 
 import { useEffect } from "react"
 import { useDispatch } from "react-redux"
-import { changeDir } from "../store/ThemeSlice"
+import { changeDir, setLtr, setRtl } from "../store/ThemeSlice"
 
 const Languages = () => {
   const { t } = useTranslation()
@@ -53,7 +53,9 @@ const Languages = () => {
                 onClick={() => {
                   if (language.code !== currentLanguageCode) {
                     i18next.changeLanguage(language.code)
-                    dispatch(changeDir())
+                    if (language.code === "ar") {
+                      dispatch(setRtl())
+                    } else dispatch(setLtr())
 
                     handleMenuClick()
                   }

@@ -115,6 +115,7 @@ const SearchComponent = ({ query, callback, fromMessage }: { query: string; call
     setShowMenu(false)
   }, [])
 
+
   return (
     <div className=" mt-2 flex w-full items-center justify-center">
       <div className="relative w-[90%]">
@@ -133,7 +134,7 @@ const SearchComponent = ({ query, callback, fromMessage }: { query: string; call
             onBlur: () => {
               setTimeout(() => {
                 setShowMenu(false)
-              }, 1000)
+              }, 300)
             },
             autoFocus: true,
           }}
