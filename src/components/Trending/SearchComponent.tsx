@@ -115,7 +115,6 @@ const SearchComponent = ({ query, callback, fromMessage }: { query: string; call
     setShowMenu(false)
   }, [])
 
-
   return (
     <div className=" mt-2 flex w-full items-center justify-center">
       <div className="relative w-[90%]">
@@ -136,7 +135,7 @@ const SearchComponent = ({ query, callback, fromMessage }: { query: string; call
                 setShowMenu(false)
               }, 300)
             },
-            autoFocus: true,
+            autoFocus: window.location.pathname.split("/")[1] === "trending" && true,
           }}
           InputLabelProps={{
             style: { color: "#40e5da", textAlign: "right" },
