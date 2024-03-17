@@ -87,7 +87,7 @@ const steps = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
 export default function CustomizedSteppers({ step }: { step: number }) {
   return (
-    <div dir="ltr" className="mt-5 pl-4">
+    <div dir="ltr" className="mt-5 px-4">
       <Stepper alternativeLabel activeStep={step} sx={{ direction: "ltr" }} connector={<ColorlibConnector />}>
         {steps.map((label) => (
           <Step
