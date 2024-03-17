@@ -446,7 +446,7 @@ const PasswordReset = ({ setLocation }: { setLocation: any }) => {
                 sx={styles.textField}
               />
 
-              <span className={`toggle-password absolute text-primary ${i18next.language === "en" || !password ? "right-4" : "left-4"} top-4 cursor-pointer ${showPassword ? "active" : ""}`} onClick={togglePasswordVisibility}>
+              <span className={`toggle-password absolute text-primary ${i18next.language === "en" ? "right-4" : "left-4"} top-4 cursor-pointer ${showPassword ? "active" : ""}`} onClick={togglePasswordVisibility}>
                 <VisibilityIcon className={`${"text-" + getColor(themeColor)}`} />
               </span>
             </div>
