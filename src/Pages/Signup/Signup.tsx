@@ -182,7 +182,7 @@ const SignUp = ({ openModal, handleCloseModal, setLocation }: { openModal: boole
     modalStyle.maxWidth = "none"
   } else {
     modalStyle.width = "601.6px"
-    modalStyle.height = "750.6px"
+    modalStyle.height = "99vh"
     modalStyle.top = "50%"
     modalStyle.left = "50%"
     modalStyle.transform = "translate(-50%, -50%)"
