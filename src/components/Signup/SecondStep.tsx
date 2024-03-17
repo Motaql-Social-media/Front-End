@@ -50,11 +50,6 @@ const SecondStep = ({ nickName, setPosition, phoneNumber, setPhoneNumber, positi
   }, [phoneNumber])
 
   const handleSendOTP = () => {
-    // console.log({
-    //   provider: "phone",
-    //   input: phoneNumber,
-    //   name: nickName,
-    // });
     API.post(
       "auth/send-otpverification",
       {
@@ -71,6 +66,7 @@ const SecondStep = ({ nickName, setPosition, phoneNumber, setPhoneNumber, positi
       .then((res) => {
         // console.log(res);
         setPosition((prev: number) => prev + 1)
+        nextButton.current?.removeAttribute("disabled")
       })
       .catch((err) => {
         nextButton.current?.removeAttribute("disabled")
@@ -80,10 +76,6 @@ const SecondStep = ({ nickName, setPosition, phoneNumber, setPhoneNumber, positi
   }
 
   const nextButton = useRef<HTMLButtonElement>(null)
-
-  useEffect(() => {
-    nextButton.current?.removeAttribute("disabled")
-  }, [position])
 
   return (
     <div id="Second Step" className="Second_Step m-auto hidden w-[350px] dark:text-white">

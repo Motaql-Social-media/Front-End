@@ -84,16 +84,18 @@ const UploadProfilePicture = ({ userR, setUser, userToken, handleCompleteSignup,
         )
         setUser({ ...userR, imageUrl: res.data.data.imageUrl })
         navigate("/home")
+        nextButton.current?.removeAttribute("disabled")
 
-        // console.log({ ...userR, imageUrl: res.data.data.imageUrl })
-        // handleCompleteSignup({ ...userR, imageUrl: res.data.data.imageUrl });
       })
       .catch((error) => {
         console.error(error)
+        nextButton.current?.removeAttribute("disabled")
       })
   }
 
   const { t } = useTranslation()
+
+  const nextButton = useRef<HTMLButtonElement>(null)
 
   return (
     <div id="Picture Step" className={`hidden ${openCrop ? "" : "m-auto -mt-10 w-[320px]"} `}>
@@ -105,7 +107,14 @@ const UploadProfilePicture = ({ userR, setUser, userToken, handleCompleteSignup,
           <div className="w-fit rounded-full border border-white dark:border-black">
             <img src={profilePicURL ? profilePicURL : defaultProfilePic} alt="profile" className="h-[200px] w-[200px] rounded-full" />
           </div>
-          <button className="dark:bg-secondary absolute left-[50%] top-[50%] m-auto h-[47px] w-[47px] -translate-x-[50%] -translate-y-[50%] rounded-full bg-gray-500 bg-opacity-50 hover:bg-gray-600 hover:bg-opacity-50 dark:hover:bg-darkHover" onClick={handlePictureClick}>
+          <button
+            ref={nextButton}
+            className="dark:bg-secondary absolute left-[50%] top-[50%] m-auto h-[47px] w-[47px] -translate-x-[50%] -translate-y-[50%] rounded-full bg-gray-500 bg-opacity-50 hover:bg-gray-600 hover:bg-opacity-50 dark:hover:bg-darkHover"
+            onClick={(e: any) => {
+              nextButton.current?.setAttribute("disabled", "true")
+              handlePictureClick(e)
+            }}
+          >
             <AddAPhotoOutlinedIcon className={`-ml-[3px] -mt-[5px] ${darkMode ? "text-white" : "text-black"}`} />
             <input
               type="file"

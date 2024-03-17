@@ -1,5 +1,3 @@
-import { useSelector } from "react-redux"
-import { getColor } from "../../constants"
 import { useEffect, useRef } from "react"
 
 // import GoogleLoginButton from "../General/GoogleLoginButton";
@@ -9,16 +7,11 @@ import { Link } from "react-router-dom"
 import React from "react"
 
 import { styles } from "../../styles/styles"
-import { ThemeState } from "../../store/ThemeSlice"
 import { useTranslation } from "react-i18next"
 
 import { useNavigate } from "react-router-dom"
 import GoogleButton from "../General/GoogleButton"
 const PreStep = ({ handleCloseModal, setPosition, position, setLocation }: { handleCloseModal: any; setPosition: any; position: number; setLocation: (location: string) => void }) => {
-  type RootState = {
-    theme: ThemeState
-  }
-  const themeColor = useSelector((state: RootState) => state.theme.color)
 
   const { t } = useTranslation()
 

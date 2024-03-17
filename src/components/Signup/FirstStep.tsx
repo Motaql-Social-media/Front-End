@@ -39,6 +39,7 @@ const FirstStep = ({ nickName, setNickName, speciality, setSpeciality, month, se
       }
     } else {
       setPosition((prev: number) => prev + 1)
+      nextButton.current?.removeAttribute("disabled")
     }
   }
 
@@ -62,10 +63,6 @@ const FirstStep = ({ nickName, setNickName, speciality, setSpeciality, month, se
   }
 
   const nextButton = useRef<HTMLButtonElement>(null)
-
-  useEffect(() => {
-    nextButton.current?.removeAttribute("disabled")
-  }, [position])
 
   return (
     <div id="First Step" className="First_Step m-auto hidden w-[350px] dark:text-white">

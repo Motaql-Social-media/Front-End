@@ -71,6 +71,8 @@ const FifthStep = ({ nickName, email, setPosition, position }: { nickName: strin
       .then((res) => {
         // console.log(res);
         setPosition((prev: number) => prev + 1)
+        nextButton.current?.removeAttribute("disabled")
+
       })
       .catch((err) => {
         console.log(err)
@@ -82,9 +84,6 @@ const FifthStep = ({ nickName, email, setPosition, position }: { nickName: strin
 
   const nextButton = useRef<HTMLButtonElement>(null)
 
-  useEffect(() => {
-    nextButton.current?.removeAttribute("disabled")
-  }, [position])
 
   return (
     <div id="Fifth Step" className=" m-auto hidden w-[350px] dark:text-white">

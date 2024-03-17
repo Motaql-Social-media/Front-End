@@ -69,6 +69,8 @@ const ThirdStep = ({ nickName, phoneNumber, setPosition, position }: { nickName:
       .then((res) => {
         // console.log(res);
         setPosition((prev: number) => prev + 1)
+        nextButton.current?.removeAttribute("disabled")
+
       })
       .catch((err) => {
         console.log(err)
@@ -80,9 +82,7 @@ const ThirdStep = ({ nickName, phoneNumber, setPosition, position }: { nickName:
 
   const nextButton = useRef<HTMLButtonElement>(null)
 
-  useEffect(() => {
-    nextButton.current?.removeAttribute("disabled")
-  }, [position])
+
 
   return (
     <div id="Third Step" className="Third_Step m-auto hidden w-[350px] dark:text-white">

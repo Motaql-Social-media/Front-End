@@ -57,6 +57,7 @@ const TagStep = ({ userTag, setUserTag, originalUsername, userToken, user, setUs
           }
           setUser(newuser)
           setPosition((prev: number) => prev + 1)
+          nextButton.current?.removeAttribute("disabled")
         })
         .catch((err) => {
           nextButton.current?.removeAttribute("disabled")
@@ -71,10 +72,6 @@ const TagStep = ({ userTag, setUserTag, originalUsername, userToken, user, setUs
   }, [originalUsername])
 
   const nextButton = useRef<HTMLButtonElement>(null)
-
-  useEffect(() => {
-    nextButton.current?.removeAttribute("disabled")
-  }, [position])
 
   return (
     <div id="Tag Step" className=" m-auto hidden w-[350px] dark:text-white">

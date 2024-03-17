@@ -53,6 +53,8 @@ const ForthStep = ({ nickName, email, setEmail, emailExistError, setEmailExistEr
       .then((res) => {
         // console.log(res);
         setPosition((prev: number) => prev + 1)
+        nextButton.current?.removeAttribute("disabled")
+
       })
       .catch((err) => {
         nextButton.current?.removeAttribute("disabled")
@@ -91,14 +93,7 @@ const ForthStep = ({ nickName, email, setEmail, emailExistError, setEmailExistEr
           sx={styles.textField}
         />
         {!validEmail(email) && <div className="text-red-600"> {t("valid_email")}</div>}
-        {/* {!validEmail(email) && (
-          <div className={`${email ? "flex" : "hidden"}`}>
-            <Alert
-              severity="error"
-              sx={styles.signupPasswordCheckStyleMiddle}
-            ></Alert>
-          </div>
-        )} */}
+  
         <span className={`ml-3 text-sm text-red-600 ${emailExistError ? "" : "hidden"}`}>{t("email_exist")}</span>
         <button
           type="button"

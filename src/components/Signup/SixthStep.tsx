@@ -67,6 +67,8 @@ const SixthStep = ({ nickName, email, phoneNumber, speciality, month, day, year,
         setUser(res.data.data.user)
         setOriginalUsername(res.data.data.user.username)
         setPosition((prev: number) => prev + 1)
+        nextButton.current?.removeAttribute("disabled")
+
       })
       .catch((err) => {
         nextButton.current?.removeAttribute("disabled")
@@ -76,10 +78,6 @@ const SixthStep = ({ nickName, email, phoneNumber, speciality, month, day, year,
   }
 
   const nextButton = useRef<HTMLButtonElement>(null)
-
-  useEffect(() => {
-    nextButton.current?.removeAttribute("disabled")
-  }, [position])
 
   return (
     <div id="Sixth Step" className=" m-auto hidden w-[350px] dark:text-white">
