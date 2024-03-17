@@ -109,7 +109,6 @@ const TermsOfService = () => {
       <div className="sticky bottom-0 left-0 z-[99] flex h-12 w-full items-center justify-center gap-2 bg-primary text-xl font-bold text-black">
         {t("send_email")}
         <a href="mailto:contact@theline.social" className="underline">
-          {" "}
           contact@theline.social
         </a>
       </div>

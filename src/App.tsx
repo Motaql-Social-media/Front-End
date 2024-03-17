@@ -70,6 +70,7 @@ import { CacheProvider } from "@emotion/react"
 import createCache from "@emotion/cache"
 import i18next from "i18next"
 import TermsOfService from "./Pages/TermsOfService/TermsOfService"
+import PrivacyPolicy from "./Pages/PrivacyPolicy/PrivacyPolicy"
 
 const SocketContext = createContext<any>(null)
 export { SocketContext }
@@ -209,7 +210,7 @@ function App() {
               <BrowserRouter>
                 <Languages />
 
-                {user && location !== "/password_reset" &&location!=='/terms_of_services' && <Sidebar />}
+                {user && location !== "/password_reset" && location !== "/terms_of_services" && location !== "/privacy_policy" && <Sidebar />}
                 <Routes>
                   <Route path="/" element={<Landing openLoginModal={openLoginModal} handleOpenLoginModal={handleOpenLoginModal} handleCloseLoginModal={handleCloseLoginModal} openSignupModal={openSignupModal} handleOpenSignupModal={handleOpenSignupModal} handleCloseSignupModal={handleCloseSignupModal} location={location} setLocation={setLocation} />}></Route>
                   <Route path="/home" element={<Home scroll={deltaY} />}>
@@ -273,7 +274,8 @@ function App() {
                   <Route path="/login" element={<Login openModal={true} handleCloseModal={handleCloseLoginModal} setLocation={setLocation} />} />
                   <Route path="/signup" element={<SignUp openModal={true} setLocation={setLocation} handleCloseModal={handleCloseSignupModal} />} />
                   <Route path="/404" element={<NotFound />}></Route>
-                  <Route path="terms_of_services" element={<TermsOfService />} />
+                  <Route path="/terms_of_services" element={<TermsOfService />} />
+                  <Route path="/privacy_policy" element={<PrivacyPolicy />} />
                   <Route path="*" element={<NotFound />}></Route>
                 </Routes>
                 {showNotification && location.split("/").pop() !== "notifications" && <PushNotification content={notification.content} createdAt={notification.createdAt} isSeen={notification.isSeen} metadata={notification.metadata} notificationFrom={notification.notificationFrom} notificationId={notification.notificationId} type={notification.type} />}
