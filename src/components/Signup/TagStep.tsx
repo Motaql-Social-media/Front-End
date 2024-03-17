@@ -99,7 +99,7 @@ const TagStep = ({ userTag, setUserTag, originalUsername, userToken, user, setUs
             sx={styles.textField}
           />
           {!usernameError && <CheckCircleIcon className={`absolute top-0 ${i18next.language === "en" || !userTag ? "right-4" : "left-4"} -translate-x-2 translate-y-4 text-[18px] text-green-600`} />}
-          {usernameError && <ErrorIcon className={`absolute bottom-0 ${i18next.language === "en" || !userTag ? "right-4" : "left-4"} -translate-x-2 -translate-y-8 text-[18px] text-red-600`} />}
+          {usernameError && <ErrorIcon className={`absolute top-0 ${i18next.language === "en" || !userTag ? "right-4" : "left-4"} -translate-x-2 -translate-y-4 text-[18px] text-red-600`} />}
           {usernameError && <span className="ml-3 text-sm text-red-600">{t("username_taken")}</span>}
           <button
             type="button"
