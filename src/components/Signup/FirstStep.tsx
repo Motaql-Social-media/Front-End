@@ -11,7 +11,7 @@ import { TextField } from "@mui/material"
 import { useTranslation } from "react-i18next"
 
 import useRecaptchaV3 from "../hooks/reCaptchaV3"
-
+import i18next from "i18next"
 const FirstStep = ({ nickName, setNickName, speciality, setSpeciality, month, setMonth, day, setDay, year, setYear, setPosition, position }: { nickName: string; setNickName: React.Dispatch<React.SetStateAction<string>>; speciality: string; setSpeciality: React.Dispatch<React.SetStateAction<string>>; month: string; setMonth: (value: string) => void; day: string; setDay: (value: string) => void; year: string; setYear: (value: string) => void; setPosition: any; position: number }) => {
   const API = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
@@ -84,7 +84,7 @@ const FirstStep = ({ nickName, setNickName, speciality, setSpeciality, month, se
             }}
             sx={styles.textField}
           />
-          <div className="absolute right-4 top-1 w-fit text-sm text-gray-500">{nickName ? nickName.length : 0}/25</div>
+          <div className={`absolute ${i18next.language === "en" ? "right-4" : "left-4"}  top-1 w-fit text-sm text-gray-500`}>{nickName ? nickName.length : 0}/25</div>
         </div>
         <div className="relative">
           <TextField
@@ -102,7 +102,7 @@ const FirstStep = ({ nickName, setNickName, speciality, setSpeciality, month, se
             }}
             sx={styles.textField}
           />
-          <div className="absolute right-4 top-1 w-fit text-sm text-gray-500">{speciality ? speciality.length : 0}/30</div>
+          <div className={`absolute ${i18next.language === "en" ? "right-4" : "left-4"}  top-1 w-fit text-sm text-gray-500`}>{speciality ? speciality.length : 0}/30</div>
         </div>
 
         <div>

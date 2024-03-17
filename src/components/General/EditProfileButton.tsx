@@ -243,7 +243,7 @@ const EditProfileButton = ({ setBio, setName, setBannerUrl, setDateOfBirth, setI
                   variant="outlined"
                   value={newName}
                   onChange={(e) => {
-                    const newValue = e.target.value.slice(0, 25)
+                    const newValue: string = e.target.value.slice(0, 25)
 
                     setNewName(newValue)
                   }}
