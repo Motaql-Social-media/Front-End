@@ -215,7 +215,7 @@ const Birthdate = ({ month, setMonth, day, setDay, year, setYear, yearwidth, mon
             }}
           >
             {user &&
-              window.location.pathname === `/${user.username}` &&
+              window.location.pathname.split('/')[1] === `${user.username}` &&
               last120Years.slice(14).map((year) => (
                 <MenuItem value={year} key={year} data-testid={year}>
                   {year}

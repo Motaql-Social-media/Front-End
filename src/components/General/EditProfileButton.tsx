@@ -35,6 +35,7 @@ const EditProfileButton = ({ setBio, setName, setBannerUrl, setDateOfBirth, setI
   const dispatch = useDispatch()
 
   useEffect(() => {
+    console.log(birthday)
     setNewName(name !== null ? name : "")
     setNewBio(bio !== null ? bio : "")
     setNewLocation(location !== null ? location : "")
