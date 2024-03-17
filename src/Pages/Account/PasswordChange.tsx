@@ -89,7 +89,7 @@ const PasswordChange = () => {
               sx={styles.textField}
             />
 
-            <span className={`toggle-password absolute text-primary ${i18next.language === "en" || !currentPassword ? "right-4" : "left-4"} top-4 cursor-pointer ${showPassword ? "active" : ""}`} onClick={() => setShowPassword(!showPassword)}>
+            <span className={`toggle-password absolute text-primary ${i18next.language === "en" ? "right-4" : "left-4"} top-4 cursor-pointer ${showPassword ? "active" : ""}`} onClick={() => setShowPassword(!showPassword)}>
               <VisibilityIcon />
             </span>
             <a className="text-primary hover:underline" href="/password_reset">
@@ -121,13 +121,13 @@ const PasswordChange = () => {
             }}
             sx={styles.textField}
           />
-          <div className={`${passwordError ? "" : "hidden"} text-red-600`}>The password you entered was incorrect.</div>
-          {!passwordMatch && <div className={` text-red-600`}>The passwords you entered don't match.</div>}
+          <div className={`${passwordError ? "" : "hidden"} text-red-600`}>{t("password_incorrect")}</div>
+          {!passwordMatch && <div className={` text-red-600`}>{t("password_not_match")}</div>}
           <button type="button" className={`w-full ${styles.coloredButton}`} onClick={handleChangePassword} disabled={!currentPassword || !newPassword || !confirmPassword || !passwordMatch}>
             {t("confirm")}
           </button>
         </div>
-        {passwordChanged && <div className="text-green-600">Password changed successfully</div>}
+        {passwordChanged && <div className="text-green-600">{t("password_changed2")}</div>}
       </div>
       {user && <Widgets />}
     </div>

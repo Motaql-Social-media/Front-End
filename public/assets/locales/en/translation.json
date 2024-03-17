@@ -342,7 +342,7 @@
   "information_from_users_text15": "We collect personal information when you sign up for, access, or provide information to us.",
   "information_from_cookies": "Information from cookies and similar tracking technology",
   "information_from_cookies_text1": "What is a cookie?",
-  "information_from_cookies_text11":" A cookie is a small amount of data which may include a unique identifier. Cookies are sent to your browser from a website and stored on your device. We assign a different cookie to each device that connects to our websites and online applications",
+  "information_from_cookies_text11": " A cookie is a small amount of data which may include a unique identifier. Cookies are sent to your browser from a website and stored on your device. We assign a different cookie to each device that connects to our websites and online applications",
   "information_from_cookies_text2": "Why does The Line use cookies and tracking technology?",
   "information_from_cookies_text21": "We use cookies to recognize your device to provide you with a personalized experience.",
   "information_from_cookies_text22": "We may use cookies to display personalized ads from Google and other third party vendors.",
@@ -368,5 +368,8 @@
   "protect_information_text": "The Line may transmit personal information outside of the country or region and The Line is still responsible for personal information that is transferred to a third party abroad for processing or to support our efforts to provide our services to you. Any personal information that is transferred to a third party data processor is subject by law to a similar level of protection as that offered by The Line. “equivalent level of protection” means a level of protection generally equivalent to the level of protection provided by The Line.",
   "control_over_your_information": "Control and access to your personal information",
   "control_over_your_information_text": "You retain all of your rights to your personal information and content and may access it at any time. In addition, The Line takes reasonable steps to allow you to correct, amend, delete, or limit the use of your personal information. You can update many types of personal information, such as contacts, within your account settings. If you are unable to change your personal information within your account settings, please contact us to make the required changes. It is important to remember that if you delete or restrict the use of your personal information, the services provided by us may not function properly and completely.",
-  "send_email_privacy": "Please send any questions about the Privacy Policy to "
+  "send_email_privacy": "Please send any questions about the Privacy Policy to ",
+  "password_incorrect": "The password you entered was incorrect.",
+  "password_not_match": "The passwords you entered don't match.",
+  "password_changed2": "Password Changed Successfully"
 }
