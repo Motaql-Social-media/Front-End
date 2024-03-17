@@ -75,7 +75,7 @@ const ConfirmPassword = ({ setPasswordConfirmed }: { setPasswordConfirmed: any }
           sx={styles.textField}
         />
 
-        <span className={`toggle-password absolute text-primary ${i18next.language === "en" || !password ? "right-4" : "left-4"} top-4 cursor-pointer ${showPassword ? "active" : ""}`} onClick={togglePasswordVisibility}>
+        <span className={`toggle-password absolute text-primary ${i18next.language === "en" ? "right-4" : "left-4"} top-4 cursor-pointer ${showPassword ? "active" : ""}`} onClick={togglePasswordVisibility}>
           <VisibilityIcon />
         </span>
         <div className={`${passwordError ? "" : "hidden"} text-red-600`}>{t("wrong_password")}</div>

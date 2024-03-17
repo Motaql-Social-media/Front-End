@@ -30,7 +30,7 @@ const Account = () => {
       <div className=" no-scrollbar ml-0 mr-1 w-full max-w-[620px] shrink-0 flex-grow overflow-y-scroll border border-b-0 border-t-0 border-lightBorder dark:border-darkBorder  max-[540px]:border-l-0 max-[540px]:border-r-0 sm:w-[600px]">
         <SubpageNavbar title="your_account" />
         <div className="px-5 text-sm text-gray-500">{t("settings_account_message")}</div>
-        {options.map((option, index) => (
+        {options.map((option) => (
           <div key={option.title} className="flex cursor-pointer items-center p-3 hover:bg-darkHover" onClick={() => navigate(`${option.location}`)}>
             <div>{option.logo}</div>
             <div className="pl-3 text-xl">{option.title}</div>
