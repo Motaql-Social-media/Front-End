@@ -38,7 +38,7 @@ const SearchComponent = ({ query, callback, fromMessage }: { query: string; call
 
   const handleSearchTrends = (word: string) => {
     if (!fromMessage)
-      API.get(`tags/search?tag=${word}&page=1&count=3`)
+      API.get(`tags/search?tag=${word}&page=1&count=5`)
         .then((res) => {
           // console.log(res.data.data.tags)
           setSearchTrends(res.data.data.tags)
@@ -54,10 +54,10 @@ const SearchComponent = ({ query, callback, fromMessage }: { query: string; call
   const user = useSelector((state: any) => state.user.user)
 
   const handleSearchUsers = (word: string) => {
-    API.get(`users/search?nameorusername=${word}&page=1&count=3`)
+    API.get(`users/search?nameorusername=${word}&page=1&count=5`)
       .then((res) => {
         // console.log(res.data.data.users)
-        setSearchUsers(res.data.data.users.filter((u: any) => u.userId != user.userId))
+        setSearchUsers(res.data.data.users.filter((u: any) => u.userId !== user.userId))
       })
       .catch((error) => {
         setSearchUsers([])
@@ -71,8 +71,10 @@ const SearchComponent = ({ query, callback, fromMessage }: { query: string; call
     // console.log("word", word)
     callback(word)
     if (word[0] === "#") {
-      handleSearchTrends(word.slice(1))
-      setSearchUsers([])
+      if (word.length > 1) {
+        handleSearchTrends(word.slice(1))
+        setSearchUsers([])
+      }
     } else if (word !== "") {
       handleSearchTrends(word)
       handleSearchUsers(word)
