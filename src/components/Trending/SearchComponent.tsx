@@ -70,7 +70,10 @@ const SearchComponent = ({ query, callback, fromMessage }: { query: string; call
   const handleSearchChange = (word: string) => {
     // console.log("word", word)
     callback(word)
-    if (word !== "") {
+    if (word[0] === "#") {
+      handleSearchTrends(word.slice(1))
+      setSearchUsers([])
+    } else if (word !== "") {
       handleSearchTrends(word)
       handleSearchUsers(word)
     } else {
