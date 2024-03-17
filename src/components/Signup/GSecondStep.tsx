@@ -97,6 +97,8 @@ const GSecondStep = ({ name, phoneNumber, speciality, month, day, year, access_t
       .then((res) => {
         // console.log(res);
         handleSignup()
+        nextButton.current?.removeAttribute("disabled")
+
       })
       .catch((err) => {
         console.log(err)

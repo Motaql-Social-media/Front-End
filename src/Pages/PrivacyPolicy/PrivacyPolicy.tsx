@@ -1,18 +1,14 @@
 import Logo from "../../assets/images/mainLogo.svg"
-import { styles } from "../../styles/styles"
 import cover from "../../assets/images/cover.jpg"
 import i18next, { t } from "i18next"
 
 const PrivacyPolicy = () => {
   return (
     <div className="w-full overflow-y-scroll">
-      <div className="sticky left-0 top-0 z-[99] flex w-full items-center justify-around bg-black px-5 py-2">
+      <div className={`sticky left-0 top-0 z-[99] flex w-full items-center justify-start bg-black px-5 py-2 ${i18next.language === "en" ? "pl-32" : "pr-32"}`}>
         <div className="flex items-center justify-between gap-4">
           <img src={Logo} alt="logo" className="h-12 w-12 " />
           <div className="text-2xl font-bold xs:text-3xl">{t("privacy_policy")}</div>
-        </div>
-        <div>
-          <button className={`${styles.coloredButton} !px-4`}>{t("download_pdf")}</button>
         </div>
       </div>
       <img src={cover} alt="cover" className="w-full" />

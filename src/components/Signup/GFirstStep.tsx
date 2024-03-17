@@ -59,11 +59,7 @@ const GFirstStep = ({ name, phoneNumber, setPhoneNumber, speciality, setSpeciali
   }, [phoneNumber])
 
   const handleSendOTP = () => {
-    // console.log({
-    //   provider: "phone",
-    //   input: phoneNumber,
-    //   name: nickName,
-    // });
+
     API.post(
       "auth/send-otpverification",
       {
@@ -79,7 +75,9 @@ const GFirstStep = ({ name, phoneNumber, setPhoneNumber, speciality, setSpeciali
     )
       .then((res) => {
         // console.log(res);
+        
         setPosition((prev: number) => prev + 1)
+        nextButton.current?.removeAttribute("disabled")
       })
       .catch((err) => {
         nextButton.current?.removeAttribute("disabled")

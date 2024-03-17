@@ -11,13 +11,10 @@ const TermsOfService = () => {
 
   return (
     <div className="relative w-full overflow-y-scroll">
-      <div className="sticky left-0 top-0 z-[99] flex w-full items-center justify-around bg-black px-5 py-2">
+      <div className={`sticky left-0 top-0 z-[99] flex w-full items-center justify-start bg-black px-5 py-2 ${i18next.language === "en" ? "pl-32" : "pr-32"}`}>
         <div className="flex items-center justify-between gap-4">
           <img src={Logo} alt="logo" className="h-12 w-12 " />
-          <div className="xs:text-3xl text-2xl font-bold">{t("terms_of_service")}</div>
-        </div>
-        <div>
-          <button className={`${styles.coloredButton} !px-4`}>{t("download_pdf")}</button>
+          <div className="text-2xl font-bold xs:text-3xl">{t("terms_of_service")}</div>
         </div>
       </div>
       <img src={cover} alt="cover" className="w-full" />
