@@ -7,11 +7,11 @@ import { Avatar, TextField } from "@mui/material"
 import DisplayMedia from "../../DisplayImages/DisplayMedia"
 import ComposePostFooter from "./ComposePostFooter"
 import { Link } from "react-router-dom"
-import Post from "../Posts/Post"
 import { styles } from "../../../styles/styles"
 import MentionSearch from "./MentionSearch"
+import Loading from "../../General/Loading"
 
-const ComposeQuote = ({ id, handleClose,setRepostCount, type }: { id: any; handleClose: any; setRepostCount: any; type: string }) => {
+const ComposeQuote = ({ id, handleClose, setRepostCount, type }: { id: any; handleClose: any; setRepostCount: any; type: string }) => {
   const [description, setDescription] = useState("")
   const [charsCount, setCharsCount] = useState(0)
   const [charsProgressColor, setCharsProgressColor] = useState("#1D9BF0")
@@ -27,6 +27,8 @@ const ComposeQuote = ({ id, handleClose,setRepostCount, type }: { id: any; handl
   const darkMode = useSelector((state: any) => state.theme.darkMode)
   const user = useSelector((state: any) => state.user.user)
   const userToken = useSelector((state: any) => state.user.token)
+
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     setPostDisabled(((description.length === 0 || (description.match(/\s/g) && description.match(/\s/g)?.length === description.length)) && media.length === 0) || description.length > 280)
@@ -52,6 +54,8 @@ const ComposeQuote = ({ id, handleClose,setRepostCount, type }: { id: any; handl
     const mediaFormData = new FormData()
     // console.log(description)
 
+    setLoading(true)
+
     if (type === "diary") {
       mediaFormData.append("content", description)
 
@@ -70,10 +74,15 @@ const ComposeQuote = ({ id, handleClose,setRepostCount, type }: { id: any; handl
           // console.log(res)
 
           setRepostCount((prev: number) => prev + 1)
+          setLoading(false)
 
           handleClose()
         })
-        .catch((err) => console.log(err))
+        .catch((err) => {
+          setLoading(false)
+
+          console.log(err)
+        })
     } else {
       API.post(
         `reels/${id}/rereel`,
@@ -89,10 +98,15 @@ const ComposeQuote = ({ id, handleClose,setRepostCount, type }: { id: any; handl
         .then((res) => {
           // console.log(res)
           setRepostCount((prev: number) => prev + 1)
+          setLoading(false)
 
           handleClose()
         })
-        .catch((err) => console.log(err))
+        .catch((err) => {
+          setLoading(false)
+
+          console.log(err)
+        })
     }
   }
 
@@ -197,7 +211,7 @@ const ComposeQuote = ({ id, handleClose,setRepostCount, type }: { id: any; handl
   // }, [])
 
   return (
-    <div onClick={(e: any) => e.stopPropagation()} className={`ComposePost flex h-fit border-b pb-5 ${buttonName === "Post" ? "border-t" : ""} !w-full border-lightBorder p-3 text-black dark:border-darkBorder dark:text-white max-xs:hidden`}>
+    <div onClick={(e: any) => e.stopPropagation()} className={`relative flex h-fit border-b pb-5 ${buttonName === "Post" ? "border-t" : ""} !w-full border-lightBorder p-3 text-black dark:border-darkBorder dark:text-white max-xs:hidden`}>
       <div data-testid="profileImage" className={`h-10 w-10 ${i18next.language === "en" ? "sm:mr-3" : "sm:ml-3"} `}>
         <Link className="hover:underline" to={`/${user.username}`}>
           <Avatar alt={user.name} src={`${user.imageUrl.split(":")[0] === "https" ? user.imageUrl : process.env.REACT_APP_USERS_MEDIA_URL + user.imageUrl.split("/").pop()}`} sx={{ width: 40, height: 40 }} />
@@ -238,6 +252,11 @@ const ComposeQuote = ({ id, handleClose,setRepostCount, type }: { id: any; handl
           </button>
         )}
       </div>
+      {loading && (
+        <div className="absolute left-0 top-0 flex h-full w-full items-center justify-center bg-black bg-opacity-50 p-1">
+          <Loading />
+        </div>
+      )}
     </div>
   )
 }

@@ -8,6 +8,7 @@ import TextField from "@mui/material/TextField"
 import { useEffect, useRef, useState } from "react"
 import CircularProgress from "@mui/material/CircularProgress"
 import upload from "../../../assets/images/upload.png"
+import Loading from "../../General/Loading"
 
 import axios from "axios"
 import { Cancel } from "@mui/icons-material"
@@ -238,7 +239,7 @@ const ComposeReel = ({ handleClose, addReelCallback }: { handleClose: any; addRe
                 }}
               />
               {openMentionSearch && (
-                <div className="absolute translate-y-[13%] left-1/2 z-[99] -translate-x-1/2 overflow-hidden rounded-2xl">
+                <div className="absolute left-1/2 z-[99] -translate-x-1/2 translate-y-[13%] overflow-hidden rounded-2xl">
                   <MentionSearch username={description.split("@").pop()?.split(" ")[0]} callback={mentionCallback} />
                 </div>
               )}
@@ -302,7 +303,11 @@ const ComposeReel = ({ handleClose, addReelCallback }: { handleClose: any; addRe
         </div>
       </div>
       <div className={`${fileSizeError ? "" : "hidden"} absolute bottom-10 left-1/2 -translate-x-1/2 rounded-2xl bg-primary p-2 text-xl font-semibold text-black`}>{t("limit_error")}</div>
-      {loading && <CircularProgress size={100} className={` absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2`} />}{" "}
+      {loading && (
+        <div className="absolute left-0 top-0 flex h-full w-full items-center justify-center bg-black bg-opacity-50 p-1">
+          <Loading />
+        </div>
+      )}
     </div>
   )
 }

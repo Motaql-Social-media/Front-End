@@ -318,10 +318,7 @@ function ComposePost({ buttonName, postId, postType, addTweetCallback, addReelCa
   }, [mentionError])
 
   return (
-    <div
-      
-      className={`relative flex h-fit border-b pb-5 ${buttonName === "Post" ? "border-t" : ""} !w-full flex-col border-lightBorder p-3 text-black dark:border-darkBorder dark:text-white `}
-    >
+    <div className={`relative flex h-fit border-b pb-5 ${buttonName === "Post" ? "border-t" : ""} !w-full flex-col border-lightBorder p-3 text-black dark:border-darkBorder dark:text-white `}>
       <div className={`h-10 w-10 ${i18next.language === "en" ? "sm:mr-3" : "sm:ml-3"} `}>
         <Link className="hover:underline" to={`/${user?.username}`}>
           <Avatar alt={user?.name} src={`${user?.imageUrl.split(":")[0] === "https" ? user?.imageUrl : process.env.REACT_APP_USERS_MEDIA_URL + user?.imageUrl}`} sx={{ width: 40, height: 40 }} />
@@ -360,7 +357,7 @@ function ComposePost({ buttonName, postId, postType, addTweetCallback, addReelCa
         <ComposePostFooter postType={postType} handleUploadMedia={handleUploadMedia} mediaDisabled={mediaDisabled} GIFDisabled={GIFDisabled} pollDisabled={pollDisabled} postDisabled={postDisabled} progressCircleSize={progressCircleSize} charsCount={charsCount} charsProgressColor={charsProgressColor} handleSubmit={handleSubmit} handlePollClick={handlePollClick} poll={poll} publishButton={publishButton} fromQuote={false} description={description} media={media} addReelCallback={addReelCallback} />
       </div>
       {loading && (
-        <div className="absolute left-1/2 top-1/2 flex w-fit -translate-x-1/2 -translate-y-1/2 items-center justify-center p-1">
+        <div className="absolute left-0 top-0 flex h-full w-full items-center justify-center bg-black bg-opacity-50 p-1">
           <Loading />
         </div>
       )}
