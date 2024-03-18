@@ -85,9 +85,9 @@ const SearchComponent = ({ query, callback, fromMessage }: { query: string; call
   }
 
   const handleEnterKeyPress = (e: any) => {
-    if (e.key === "Enter") {
+    if (e.key === "Enter" && searchQuery.length > 0) {
       // console.log("Enter key pressed", searchQuery)
-      window.location.href = `/trending/${searchQuery}/diaries`
+      window.location.href = `/trending/${searchQuery[0] === "#" ? searchQuery.slice(1) : searchQuery}/diaries`
     }
   }
 
