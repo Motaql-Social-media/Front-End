@@ -70,7 +70,6 @@ const ComposeQuote = ({ id, handleClose, setRepost, repost, repostCount, setRepo
           // console.log(res)
           setRepostCount(repost ? repostCount - 1 : repostCount + 1)
 
-          setRepost(!repost)
           handleClose()
         })
         .catch((err) => console.log(err))
@@ -90,7 +89,6 @@ const ComposeQuote = ({ id, handleClose, setRepost, repost, repostCount, setRepo
           // console.log(res)
           setRepostCount(repost ? repostCount - 1 : repostCount + 1)
 
-          setRepost(!repost)
           handleClose()
         })
         .catch((err) => console.log(err))
@@ -176,26 +174,26 @@ const ComposeQuote = ({ id, handleClose, setRepost, repost, repostCount, setRepo
 
   const buttonName = "Post"
 
-  const [post, setPost] = useState<any>(null)
+  // const [post, setPost] = useState<any>(null)
 
-  const fetchTweet = () => {
-    API.get(`tweets/${id}`, {
-      headers: {
-        authorization: "Bearer " + userToken,
-      },
-    })
-      .then((res) => {
-        //  console.log(res)
-        setPost(res.data.data.tweet)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-  }
+  // const fetchTweet = () => {
+  //   API.get(`tweets/${id}`, {
+  //     headers: {
+  //       authorization: "Bearer " + userToken,
+  //     },
+  //   })
+  //     .then((res) => {
+  //       //  console.log(res)
+  //       setPost(res.data.data.tweet)
+  //     })
+  //     .catch((err) => {
+  //       console.log(err)
+  //     })
+  // }
 
-  useEffect(() => {
-    fetchTweet()
-  }, [])
+  // useEffect(() => {
+  //   fetchTweet()
+  // }, [])
 
   return (
     <div onClick={(e: any) => e.stopPropagation()} className={`ComposePost flex h-fit border-b pb-5 ${buttonName === "Post" ? "border-t" : ""} !w-full border-lightBorder p-3 text-black dark:border-darkBorder dark:text-white max-xs:hidden`}>

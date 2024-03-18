@@ -43,18 +43,18 @@ const PostFooter = ({ id, replyCount, reposted, repostsNum, liked, likesNum, isB
       }
     )
       .then((res) => {
-        setLikeCount(like ? likeCount - 1 : likeCount + 1)
+        setLikeCount((prev) => (like ? prev - 1 : prev + 1))
         setLike(!like)
       })
       .catch((err) => console.log(err))
   }
-  const handleRepostClick = (e: any, quote: string) => {
+  const handleRepostClick = (e: any) => {
     e.stopPropagation()
 
     API.post(
       `tweets/${id}/retweet`,
       {
-        content: quote,
+        content: "",
       },
       {
         headers: {
@@ -63,7 +63,7 @@ const PostFooter = ({ id, replyCount, reposted, repostsNum, liked, likesNum, isB
       }
     )
       .then((res) => {
-        setRepostCount(repost ? repostCount - 1 : repostCount + 1)
+        setRepostCount((prev) => (repost ? prev - 1 : prev + 1))
         setRepost(!repost)
         // console.log(res)
       })
@@ -148,7 +148,7 @@ const PostFooter = ({ id, replyCount, reposted, repostsNum, liked, likesNum, isB
             <li
               className={`items-center p-2 pl-3 text-white `}
               onClick={(e: any) => {
-                handleRepostClick(e, "")
+                handleRepostClick(e)
                 handleMenuClick(e)
               }}
             >

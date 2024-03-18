@@ -75,12 +75,12 @@ const ReelBar = ({ id, replyCount, reposted, repostsNum, liked, likesNum, topic,
       }
     )
       .then((res) => {
-        setLikeCount(like ? likeCount - 1 : likeCount + 1)
+        setLikeCount((prev) => (like ? prev - 1 : prev + 1))
         setLike(!like)
       })
       .catch((err) => console.log(err))
   }
-  const handleRepostClick = (e: any, quote: string) => {
+  const handleRepostClick = (e: any) => {
     e.stopPropagation()
 
     API.post(
@@ -96,8 +96,9 @@ const ReelBar = ({ id, replyCount, reposted, repostsNum, liked, likesNum, topic,
     )
       .then((res) => {
         // console.log(res)
-        setRepostCount(repost ? repostCount - 1 : repostCount + 1)
+        setRepostCount((prev) => (repost ? prev - 1 : prev + 1))
 
+        
         setRepost(!repost)
         handleClose()
       })
@@ -155,7 +156,7 @@ const ReelBar = ({ id, replyCount, reposted, repostsNum, liked, likesNum, topic,
             <li
               className={`items-center p-2 pl-3 text-white `}
               onClick={(e: any) => {
-                handleRepostClick(e, "")
+                handleRepostClick(e)
                 handleMenuClick(e)
               }}
             >
