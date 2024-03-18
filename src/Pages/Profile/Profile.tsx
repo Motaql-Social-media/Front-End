@@ -177,6 +177,10 @@ const Profile = ({ scroll }: { scroll: number }) => {
     setViewPosts(!isBlocked)
   }, [isBlocked])
 
+  // useEffect(() => {
+  //   console.log(process.env.REACT_APP_USERS_MEDIA_URL + imageUrl)
+  // }, [imageUrl])
+
   return (
     <div className="flex flex-1 flex-grow-[8] max-[540px]:mt-16">
       <div ref={profileRef} className="no-scrollbar ml-0 mr-1 w-full max-w-[620px] shrink-0 flex-grow overflow-y-scroll border border-b-0 border-t-0 border-lightBorder dark:border-darkBorder  max-[540px]:border-l-0 max-[540px]:border-r-0 sm:w-[600px]">
@@ -201,8 +205,8 @@ const Profile = ({ scroll }: { scroll: number }) => {
         <div className="border-b border-darkBorder">
           <div className="relative">
             <img alt="banner" className="h-[200px] w-full cursor-pointer" src={process.env.REACT_APP_USERS_MEDIA_URL + bannerUrl} loading="lazy" onClick={() => openImageViewer(1)} />
-            <div>
-              <img loading="lazy" onClick={() => openImageViewer(0)} alt="profile" className={`absolute -bottom-[75px] ${i18next.language === "en" ? "left-[5%]" : "right-[5%]"}  h-[150px] w-[150px] transform  cursor-pointer rounded-full border-4 border-black`} src={imageUrl.split(":")[0] === "https" ? imageUrl : process.env.REACT_APP_USERS_MEDIA_URL + imageUrl} />
+            <div className="">
+              <img loading="lazy" onClick={() => openImageViewer(0)} alt="profile" className={`absolute bg-black -bottom-[75px] ${i18next.language === "en" ? "left-[5%]" : "right-[5%]"}  h-[150px] w-[150px] transform  cursor-pointer rounded-full border-4 border-black`} src={imageUrl.split(":")[0] === "https" ? imageUrl : process.env.REACT_APP_USERS_MEDIA_URL + imageUrl} />
             </div>
           </div>
           <div>

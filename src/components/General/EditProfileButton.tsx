@@ -154,9 +154,11 @@ const EditProfileButton = ({ setBio, setName, setBannerUrl, setDateOfBirth, setI
         dispatch(changeUser(res.data.data.user))
         setOpen(false)
         setEditBirthday(false)
+        buttonRef.current?.removeAttribute("disabled")
       })
       .catch((error) => {
         console.error(error)
+        buttonRef.current?.removeAttribute("disabled")
       })
   }
 
@@ -195,6 +197,8 @@ const EditProfileButton = ({ setBio, setName, setBannerUrl, setDateOfBirth, setI
     modalStyle.maxWidth = "none" // optional, to remove any max-width constraints
   }
 
+  const buttonRef = useRef<HTMLButtonElement>(null)
+
   return (
     <div>
       {user?.username === username && (
@@ -212,7 +216,14 @@ const EditProfileButton = ({ setBio, setName, setBannerUrl, setDateOfBirth, setI
               <div className="text-2xl font-semibold text-white">{t("edit_profile")}</div>
               <div className="flex-grow"></div>
               <div>
-                <button className="rounded-full bg-primary px-3 py-1 text-lg font-semibold" onClick={handleSave}>
+                <button
+                  ref={buttonRef}
+                  className="rounded-full bg-primary px-3 py-1 text-lg font-semibold disabled:brightness-50"
+                  onClick={() => {
+                    buttonRef.current?.setAttribute("disabled", "true")
+                    handleSave()
+                  }}
+                >
                   {t("save")}
                 </button>
               </div>
