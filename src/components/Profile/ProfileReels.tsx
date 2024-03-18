@@ -29,6 +29,8 @@ const ProfileReels = () => {
 
   const [loading, setLoading] = useState(true)
 
+  const user = useSelector((state: any) => state.user.user)
+
   const fetchReels = () => {
     if (tag)
       API.get(`users/${tag}/reels?page=${page}&limit=20`)
@@ -45,7 +47,14 @@ const ProfileReels = () => {
 
   useEffect(() => {
     fetchReels()
-  }, [tag, page])
+  }, [tag,user, page])
+
+  useEffect(() => {
+    setReels([])
+    setPage(1)
+    setFinished(false)
+    setLoading(true)
+  }, [tag, user])
 
   const handleFetchMore = () => {
     if (!finished) {

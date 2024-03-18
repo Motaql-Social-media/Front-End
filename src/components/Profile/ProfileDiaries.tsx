@@ -43,16 +43,18 @@ const ProfileDiaries = () => {
         })
   }
 
+  const user = useSelector((state: any) => state.user.user)
+
   useEffect(() => {
     fetchDiaries()
-  }, [tag, page])
+  }, [tag, user, page])
 
   useEffect(() => {
     setDiaries([])
     setPage(1)
     setFinished(false)
     setLoading(true)
-  }, [tag])
+  }, [tag, user])
 
   const handleFetchMore = () => {
     if (!finished) {
