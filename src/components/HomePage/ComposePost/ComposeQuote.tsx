@@ -11,7 +11,7 @@ import Post from "../Posts/Post"
 import { styles } from "../../../styles/styles"
 import MentionSearch from "./MentionSearch"
 
-const ComposeQuote = ({ id, handleClose, setRepost, repost, repostCount, setRepostCount, type }: { id: any; handleClose: any; setRepost: any; repost: boolean; repostCount: number; setRepostCount: any; type: string }) => {
+const ComposeQuote = ({ id, handleClose,setRepostCount, type }: { id: any; handleClose: any; setRepostCount: any; type: string }) => {
   const [description, setDescription] = useState("")
   const [charsCount, setCharsCount] = useState(0)
   const [charsProgressColor, setCharsProgressColor] = useState("#1D9BF0")
@@ -69,6 +69,8 @@ const ComposeQuote = ({ id, handleClose, setRepost, repost, repostCount, setRepo
         .then((res) => {
           // console.log(res)
 
+          setRepostCount((prev: number) => prev + 1)
+
           handleClose()
         })
         .catch((err) => console.log(err))
@@ -86,6 +88,7 @@ const ComposeQuote = ({ id, handleClose, setRepost, repost, repostCount, setRepo
       )
         .then((res) => {
           // console.log(res)
+          setRepostCount((prev: number) => prev + 1)
 
           handleClose()
         })

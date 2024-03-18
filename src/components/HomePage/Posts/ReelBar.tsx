@@ -229,7 +229,7 @@ const ReelBar = ({ id, replyCount, reposted, repostsNum, liked, likesNum, topic,
       </div>
       <Modal open={open} onClose={handleClose}>
         <div className="absolute left-1/2 top-1/2 w-[50%] -translate-x-1/2 -translate-y-1/2 border p-4 dark:border-darkBorder dark:bg-black ">
-          <ComposeQuote id={id} handleClose={handleClose} setRepost={setRepost} repost={repost} repostCount={repostCount} setRepostCount={setRepostCount} type="reel" />
+          <ComposeQuote id={id} handleClose={handleClose} setRepostCount={setRepostCount} type="reel" />
         </div>
       </Modal>
       <div className={`absolute bottom-8 left-1/2 ${openSnackbar ? "opacity-100" : "opacity-0"} z-[999] -translate-x-1/2 rounded-full bg-primary p-2 transition-opacity duration-[750]`}>

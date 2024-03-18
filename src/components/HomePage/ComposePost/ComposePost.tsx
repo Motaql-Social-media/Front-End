@@ -12,6 +12,7 @@ import i18next from "i18next"
 
 import Poll from "./Poll"
 import MentionSearch from "./MentionSearch"
+import Loading from "../../General/Loading"
 
 function ComposePost({ buttonName, postId, postType, addTweetCallback, addReelCallback, addReplyCallback }: { buttonName: string; postId: string | undefined; postType: string; addTweetCallback: any; addReelCallback: any; addReplyCallback: any }) {
   const [description, setDescription] = useState("")
@@ -81,9 +82,12 @@ function ComposePost({ buttonName, postId, postType, addTweetCallback, addReelCa
           setCharsProgressColor("#1D9BF0")
           setProgressCircleSize(24)
           publishButton.current?.removeAttribute("disabled")
+          setLoading(false)
         })
         .catch((err) => {
           console.log(err)
+          setLoading(false)
+
           publishButton.current?.removeAttribute("disabled")
         })
     } else if (postType === "reply_reel") {
@@ -116,10 +120,12 @@ function ComposePost({ buttonName, postId, postType, addTweetCallback, addReelCa
           setCharsProgressColor("#1D9BF0")
           setProgressCircleSize(24)
           publishButton.current?.removeAttribute("disabled")
+          setLoading(false)
         })
         .catch((err) => {
           console.log(err)
           publishButton.current?.removeAttribute("disabled")
+          setLoading(false)
         })
     } else {
       API.post("tweets/add-tweet", mediaFormData, {
@@ -143,10 +149,12 @@ function ComposePost({ buttonName, postId, postType, addTweetCallback, addReelCa
           setCharsProgressColor("#1D9BF0")
           setProgressCircleSize(24)
           publishButton.current?.removeAttribute("disabled")
+          setLoading(false)
         })
         .catch((err) => {
           console.log(err)
           publishButton.current?.removeAttribute("disabled")
+          setLoading(false)
         })
     }
   }
@@ -195,10 +203,12 @@ function ComposePost({ buttonName, postId, postType, addTweetCallback, addReelCa
         setCharsProgressColor("#1D9BF0")
         setProgressCircleSize(24)
         publishButton.current?.removeAttribute("disabled")
+        setLoading(false)
       })
       .catch((err) => {
         console.log(err)
         publishButton.current?.removeAttribute("disabled")
+        setLoading(false)
       })
   }
 
@@ -207,6 +217,8 @@ function ComposePost({ buttonName, postId, postType, addTweetCallback, addReelCa
 
     const mediaFormData = new FormData()
     mediaFormData.append("content", description)
+
+    setLoading(true)
 
     if (poll) {
       handleAddPool()
@@ -306,7 +318,10 @@ function ComposePost({ buttonName, postId, postType, addTweetCallback, addReelCa
   }, [mentionError])
 
   return (
-    <div className={`relative flex h-fit border-b pb-5 ${buttonName === "Post" ? "border-t" : ""} !w-full flex-col border-lightBorder p-3 text-black dark:border-darkBorder dark:text-white `}>
+    <div
+      
+      className={`relative flex h-fit border-b pb-5 ${buttonName === "Post" ? "border-t" : ""} !w-full flex-col border-lightBorder p-3 text-black dark:border-darkBorder dark:text-white `}
+    >
       <div className={`h-10 w-10 ${i18next.language === "en" ? "sm:mr-3" : "sm:ml-3"} `}>
         <Link className="hover:underline" to={`/${user?.username}`}>
           <Avatar alt={user?.name} src={`${user?.imageUrl.split(":")[0] === "https" ? user?.imageUrl : process.env.REACT_APP_USERS_MEDIA_URL + user?.imageUrl}`} sx={{ width: 40, height: 40 }} />
@@ -344,9 +359,11 @@ function ComposePost({ buttonName, postId, postType, addTweetCallback, addReelCa
         {mentionError && <div className="text-xs text-red-600 ">{t("mention_error")}</div>}
         <ComposePostFooter postType={postType} handleUploadMedia={handleUploadMedia} mediaDisabled={mediaDisabled} GIFDisabled={GIFDisabled} pollDisabled={pollDisabled} postDisabled={postDisabled} progressCircleSize={progressCircleSize} charsCount={charsCount} charsProgressColor={charsProgressColor} handleSubmit={handleSubmit} handlePollClick={handlePollClick} poll={poll} publishButton={publishButton} fromQuote={false} description={description} media={media} addReelCallback={addReelCallback} />
       </div>
-      {/* <div className="absolute left-1/2 top-1/2 flex w-full -translate-x-1/2 -translate-y-1/2 items-center justify-center p-1">
-        <CircularProgress />
-      </div> */}
+      {loading && (
+        <div className="absolute left-1/2 top-1/2 flex w-fit -translate-x-1/2 -translate-y-1/2 items-center justify-center p-1">
+          <Loading />
+        </div>
+      )}
     </div>
   )
 }
