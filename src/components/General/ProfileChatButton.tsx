@@ -43,7 +43,7 @@ const ProfileChatButton = ({ tag }: { tag: any }) => {
 
   return (
     <div>
-      {user.username !== tag && (
+      {user?.username !== tag && (
         <div onClick={handleClick} className="justifiy-center flex cursor-pointer items-center rounded-full bg-primary py-2 pl-3 pr-2 hover:bg-primaryHover">
           <SendIcon />
         </div>
