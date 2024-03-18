@@ -63,10 +63,10 @@ const Message = ({ scroll }: { scroll: number }) => {
 
   const convertTime = (time: string) => {
     const utcTime = new Date(time)
-    const userOffset = new Date().getTimezoneOffset() * 60 * 1000 // Convert minutes to milliseconds
-    const hoursToAdd = 5 * 60 * 60 * 1000 // Convert 3 hours to milliseconds
+    const userOffset = new Date().getTimezoneOffset() * 60 * 1000 
+    const hoursToAdd = 5 * 60 * 60 * 1000
     const localTime = new Date(utcTime.getTime() + userOffset + hoursToAdd)
-    return localTime.toLocaleString() // Format the date and time
+    return localTime.toLocaleString()
   }
 
   function formatDate(dateString: string) {
