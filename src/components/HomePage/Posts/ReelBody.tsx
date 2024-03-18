@@ -1,8 +1,9 @@
 import { Skeleton } from "@mui/material"
 import { useState, useEffect, useRef } from "react"
 import VolumeOffIcon from "@mui/icons-material/VolumeOff"
+import { t } from "i18next";
 
-const ReelBody = ({ muted, setMuted, media, content, mentions, displayReel }: { muted: boolean; setMuted: any; media: string; content: string; mentions: string[]; displayReel: boolean }) => {
+const ReelBody = ({ inPostPage, muted, setMuted, media, content, mentions, displayReel }: { inPostPage: boolean; muted: boolean; setMuted: any; media: string; content: string; mentions: string[]; displayReel: boolean }) => {
   const handleVideoClick = (e: any) => {
     e.stopPropagation()
   }
@@ -90,30 +91,47 @@ const ReelBody = ({ muted, setMuted, media, content, mentions, displayReel }: { 
     return text.split("").some(isArabicChar)
   }
 
+  const [isExpanded, setIsExpanded] = useState(false)
+
+  const toggleShowMore = () => {
+    setIsExpanded(!isExpanded)
+  }
+
+  const pRef = useRef<HTMLParagraphElement>(null)
+
+  useEffect(() => {
+    const pElement = pRef.current
+    if (pElement) {
+      const isOverflowed = pElement.offsetHeight < pElement.scrollHeight
+      if (isOverflowed) {
+        toggleShowMore()
+      }
+    }
+  }, [])
+
   return (
     <div className="w-full">
       <div className="ml-5 mt-1 ">
-        <p>
-          {content?.split(" ").map((word, index) => {
-            return (
-              <span key={index} className=" break-words">
-                {processedMentions.includes(word) ? (
-                  <a dir="ltr" href={`/${word.slice(1)}`} onClick={(e: any) => e.stopPropagation()} className="text-white hover:text-primary">
-                    {` ${word} `}
-                  </a>
-                ) : word[0] === "#" ? (
-                  <a href={`/trending/${word.slice(1)}/reels`} onClick={(e: any) => e.stopPropagation()} className="mx-1 text-primary hover:underline">
-                    {` ${!hasArabicChars(word) ? word.slice(1) + word[0] : word[0] + word.slice(1)} `}
-                  </a>
-                ) : word === "<br>" ? (
-                  <br />
-                ) : (
-                  ` ${word} `
-                )}
-              </span>
-            )
-          })}
+        <p ref={pRef} className={`${inPostPage ? "" : "max-h-[310px] overflow-hidden"} `}>
+          {content?.split(" ").map((word, index) => (
+            <span key={index} className="break-words">
+              {processedMentions.includes(word) ? (
+                <a dir="ltr" href={`/${word.slice(1)}`} onClick={(e: any) => e.stopPropagation()} className="text-white hover:text-primary">
+                  {`${word}`}
+                </a>
+              ) : word[0] === "#" ? (
+                <a href={`/trending/${word.slice(1)}/diaries`} onClick={(e: any) => e.stopPropagation()} className="mx-1 text-primary hover:underline">
+                  {`${!hasArabicChars(word) ? word.slice(1) + word[0] : word[0] + word.slice(1)}`}
+                </a>
+              ) : word === "<br>" ? (
+                <br />
+              ) : (
+                ` ${word} `
+              )}
+            </span>
+          ))}
         </p>
+        {isExpanded && <div className="text-primary hover:underline">{ t('show_more')}</div>}
       </div>
       {displayReel && (
         <div className={` pl-5 pt-5`}>

@@ -22,7 +22,7 @@ const QuoteReel = ({ muted, setMuted, inPostPage, content, createdAt, isBookmark
         <PostHeader base={"Quote"} tweeter={reeler} date={createdAt} id={id} type={"reel"} posts={reels} setPosts={setReels} parent="reel" />
       </div>
       <div className="mb-2">
-        <ReelBody muted={muted} setMuted={setMuted} media={reelUrl} mentions={mentions} content={getProcessedDescription(content)} displayReel={false} />
+        <ReelBody inPostPage={inPostPage} muted={muted} setMuted={setMuted} media={reelUrl} mentions={mentions} content={getProcessedDescription(content)} displayReel={false} />
       </div>
       <div className=" w-full">
         <div

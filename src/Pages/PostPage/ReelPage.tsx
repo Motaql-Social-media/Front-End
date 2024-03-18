@@ -95,7 +95,7 @@ const ReelPage = ({ scroll }: { scroll: number }) => {
             reel &&
             (reel.type !== "Quote" ? (
               <Reel
-                inPostPage={false}
+                inPostPage={true}
                 content={reel.type === "Repost" ? reel.originalReel.content : reel.content}
                 createdAt={reel.type === "Repost" ? reel.originalReel.createdAt : reel.createdAt}
                 isBookmarked={reel.type === "Repost" ? reel.originalReel.isBookmarked : reel.isBookmarked}

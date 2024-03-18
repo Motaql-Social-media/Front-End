@@ -55,6 +55,8 @@ function ComposePost({ buttonName, postId, postType, addTweetCallback, addReelCa
   })
 
   const handleAddTweet = (mediaFormData: any) => {
+    // console.log(description.length)
+
     media.forEach((m) => {
       if (!(mediaNames[0] === "gif")) mediaFormData.append("images", m.file)
       else mediaFormData.append("gif", m.file)

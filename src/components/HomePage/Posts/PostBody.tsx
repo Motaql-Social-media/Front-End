@@ -1,7 +1,7 @@
 import { useEffect } from "react"
 import DisplayMedia from "../../DisplayImages/DisplayMedia"
 import { useState } from "react"
-import i18next from "i18next"
+import { t } from "i18next"
 import { useRef } from "react"
 
 const PostBody = ({ description, media, mentions, inPostPage }: { description: string; media: string[]; mentions: string[]; inPostPage: boolean }) => {
@@ -61,7 +61,7 @@ const PostBody = ({ description, media, mentions, inPostPage }: { description: s
             </span>
           ))}
         </p>
-        {isExpanded && <div className="text-primary hover:underline">Show more</div>}
+        {isExpanded && <div className="text-primary hover:underline">{t("show_more")}</div>}
       </div>
 
       <div className="post-media mt-3">

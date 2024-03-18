@@ -138,7 +138,7 @@ const PollBody = ({ inPostPage, poll, mentions, id }: { inPostPage: boolean; pol
             </span>
           ))}
         </p>
-        {isExpanded && <div className="text-primary hover:underline">Show more</div>}
+        {isExpanded && <div className="text-primary hover:underline">{t("show_more")}</div>}
       </div>
       {!polled && timeRemaining !== t("poll_ended") && (
         <div>

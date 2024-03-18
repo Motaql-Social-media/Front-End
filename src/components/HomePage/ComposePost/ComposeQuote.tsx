@@ -111,7 +111,7 @@ const ComposeQuote = ({ id, handleClose, setRepostCount, type }: { id: any; hand
   }
 
   const handleDescriptionChange = (e: any) => {
-    setDescription(e.target.value.slice(0, 280))
+    if (!/(\n){3,}/.test(e.target.value)) setDescription(e.target.value.slice(0, 280))
   }
 
   const mentionCallback = (username: string) => {

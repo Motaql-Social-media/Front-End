@@ -96,7 +96,7 @@ const Reel = ({
         <PostHeader base={"reel"} tweeter={postType === "Repost" ? originalReeler : reeler} date={createdAt} id={id} type={postType} posts={reels} setPosts={setReels} parent="reel" />
       </div>
       <div className="flex w-full flex-col">
-        <ReelBody muted={muted} setMuted={setMuted} media={reelUrl} mentions={mentions} content={getProcessedDescription(content)} displayReel={postType !== "Reply"} />
+        <ReelBody inPostPage={inPostPage} muted={muted} setMuted={setMuted} media={reelUrl} mentions={mentions} content={getProcessedDescription(content)} displayReel={postType !== "Reply"} />
         {postType !== "fromQuote" && <ReelBar id={id} replyCount={repliesCount} reposted={isRereeled} repostsNum={reReelCount} liked={isReacted} likesNum={reactCount} topic={topic} isBookmarked={isBookmarked} username={postType === "ReReel" ? originalReeler.username : reeler.username} />}
       </div>
     </div>

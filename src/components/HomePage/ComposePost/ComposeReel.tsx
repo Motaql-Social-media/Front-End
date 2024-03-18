@@ -26,7 +26,7 @@ const ComposeReel = ({ handleClose, addReelCallback }: { handleClose: any; addRe
   const [progressCircleSize, setProgressCircleSize] = useState(24)
 
   const handleDescriptionChange = (e: any) => {
-    setDescription(e.target.value.slice(0, 280))
+    if (!/(\n){3,}/.test(e.target.value)) setDescription(e.target.value.slice(0, 280))
   }
 
   const mentionCallback = (username: string) => {
