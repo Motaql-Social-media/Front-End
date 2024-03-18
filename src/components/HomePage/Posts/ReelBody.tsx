@@ -98,7 +98,7 @@ const ReelBody = ({ muted, setMuted, media, content, mentions, displayReel }: { 
             return (
               <span key={index} className=" break-words">
                 {processedMentions.includes(word) ? (
-                  <a href={`/${word.slice(1)}`} onClick={(e: any) => e.stopPropagation()} className="text-white hover:text-primary">
+                  <a dir="ltr" href={`/${word.slice(1)}`} onClick={(e: any) => e.stopPropagation()} className="text-white hover:text-primary">
                     {` ${word} `}
                   </a>
                 ) : word[0] === "#" ? (
