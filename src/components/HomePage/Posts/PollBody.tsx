@@ -102,7 +102,7 @@ const PollBody = ({ poll, mentions, id }: { poll: any; mentions: string[]; id: s
       <div className="post-text mt-1 ">
         <p>
           {poll.question?.split(" ").map((word: any, index: number) => (
-            <span key={index}>
+            <span key={index} className=" break-words">
               {processedMentions.includes(word) ? (
                 <a href={`/${word.slice(1)}`} onClick={(e: any) => e.stopPropagation()} className="text-white hover:text-primary">
                   {` ${word} `}

@@ -96,7 +96,7 @@ const ReelBody = ({ muted, setMuted, media, content, mentions, displayReel }: { 
         <p>
           {content?.split(" ").map((word, index) => {
             return (
-              <span key={index}>
+              <span key={index} className=" break-words">
                 {processedMentions.includes(word) ? (
                   <a href={`/${word.slice(1)}`} onClick={(e: any) => e.stopPropagation()} className="text-white hover:text-primary">
                     {` ${word} `}
