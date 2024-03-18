@@ -11,6 +11,7 @@ import Login from "./Pages/Login/Login"
 import SignUp from "./Pages/Signup/Signup"
 import Home from "./Pages/Home/Home"
 import { useRef } from "react"
+import { setMessageUnseenCount } from "./store/MessageSlice"
 
 import { useSelector } from "react-redux"
 
@@ -68,10 +69,10 @@ import rtlPlugin from "stylis-plugin-rtl"
 import { prefixer } from "stylis"
 import { CacheProvider } from "@emotion/react"
 import createCache from "@emotion/cache"
-import i18next from "i18next"
 import TermsOfService from "./Pages/TermsOfService/TermsOfService"
 import PrivacyPolicy from "./Pages/PrivacyPolicy/PrivacyPolicy"
 import { receiveMessage } from "./store/MessageSlice"
+import axios from "axios"
 
 const SocketContext = createContext<any>(null)
 export { SocketContext }
@@ -111,6 +112,13 @@ function App() {
   const [notification, setNotification] = useState<any>()
   const [showNotification, setShowNotification] = useState(false)
 
+  const API = axios.create({
+    baseURL: process.env.REACT_APP_API_URL,
+    headers: {
+      Authorization: `Bearer ${userToken}`,
+    },
+  })
+
   useEffect(() => {
     if (socket) {
       socket.on("connect", () => {
@@ -125,7 +133,13 @@ function App() {
         // console.log(payload)
       })
       socket.on("msg-receive", (payload: Message) => {
-        dispatch(receiveMessage())
+        API.get("chats/unseen-chats-count")
+          .then((res) => {
+            dispatch(setMessageUnseenCount(res.data.data.count))
+          })
+          .catch((err) => {
+            console.log(err)
+          })
       })
     }
   }, [socket])

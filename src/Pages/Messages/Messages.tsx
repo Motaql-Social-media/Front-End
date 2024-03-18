@@ -10,8 +10,6 @@ import Close from "@mui/icons-material/Close"
 import SearchComponent from "../../components/Trending/SearchComponent"
 import io from "socket.io-client"
 import useCheckAuthentication from "../../components/hooks/useCheckAuthentication"
-import { useDispatch } from "react-redux"
-import { setMessageUnseenCount } from "../../store/MessageSlice"
 import { t } from "i18next"
 import ElementVisibleObserver from "../../components/General/ElementVisibleObserver"
 import Loading from "../../components/General/Loading"
@@ -36,8 +34,6 @@ const Messages = ({ scroll }: { scroll: number }) => {
       Authorization: `Bearer ${userToken}`,
     },
   })
-
-  const dispatch = useDispatch()
 
   const [messagesPage, setMessagesPage] = useState<number>(1)
   const [finishedMessages, setFinishedMessages] = useState<boolean>(false)
