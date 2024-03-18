@@ -78,7 +78,7 @@ const Poll = ({ handlePollClick, poll, setPoll }: { handlePollClick: any; poll: 
             }}
             sx={styles.textField}
           />
-          <span className="absolute right-2 top-1 text-sm text-gray-600">{`${option1.length} / 25 `}</span>
+          <span className={`absolute ${i18next.language === "en" ? "right-2" : "left-2"}  top-1 text-sm text-gray-600`}>{`${option1.length} / 25 `}</span>
         </div>
         <div className="relative w-[80%]">
           <TextField
@@ -96,7 +96,7 @@ const Poll = ({ handlePollClick, poll, setPoll }: { handlePollClick: any; poll: 
             }}
             sx={styles.textField}
           />
-          <span className="absolute right-2 top-1 text-sm text-gray-600">{`${option2.length} / 25 `}</span>
+          <span className={`absolute ${i18next.language === "en" ? "right-2" : "left-2"}  top-1 text-sm text-gray-600`}>{`${option2.length} / 25 `}</span>
           {numOfOptions === 2 && (
             <div className="absolute -right-[15%] top-[7%] h-[50px] w-[50px] cursor-pointer rounded-full p-1 text-center  align-middle text-3xl font-semibold text-primary hover:bg-darkHover" onClick={() => setNumOfOptions((prev) => prev + 1)}>
               +
@@ -119,7 +119,7 @@ const Poll = ({ handlePollClick, poll, setPoll }: { handlePollClick: any; poll: 
             }}
             sx={styles.textField}
           />
-          <span className="absolute right-2 top-1 text-sm text-gray-600">{`${option3.length} / 25 `}</span>
+          <span className={`absolute ${i18next.language === "en" ? "right-2" : "left-2"}  top-1 text-sm text-gray-600`}>{`${option3.length} / 25 `}</span>
           {numOfOptions === 3 && (
             <div className="absolute -right-[15%] top-[7%] h-[50px] w-[50px] cursor-pointer rounded-full p-1 text-center  align-middle text-3xl font-semibold text-primary hover:bg-darkHover" onClick={() => setNumOfOptions((prev) => prev + 1)}>
               +
@@ -142,7 +142,7 @@ const Poll = ({ handlePollClick, poll, setPoll }: { handlePollClick: any; poll: 
             }}
             sx={styles.textField}
           />
-          <span className="absolute right-2 top-1 text-sm text-gray-600">{`${option4.length} / 25 `}</span>
+          <span className={`absolute ${i18next.language === "en" ? "right-2" : "left-2"}  top-1 text-sm text-gray-600`}>{`${option4.length} / 25 `}</span>
         </div>
       </div>
       <div className="w-full border-b border-b-darkBorder pl-3">
