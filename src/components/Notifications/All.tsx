@@ -41,7 +41,7 @@ const All = () => {
   const fetchNotifications = () => {
     API.get(`users/current/notifications?page=${notificationsPage}&limit=20`)
       .then((res) => {
-        console.log(res.data.data.notifications.notifications)
+        // console.log(res.data.data.notifications.notifications)
         setLoading(false)
         if (res.data.data.notifications.notifications.length < 20) {
           setFinishedNotifications(true)

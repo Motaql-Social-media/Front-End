@@ -175,7 +175,7 @@ const Explore = ({ scroll }: { scroll: number }) => {
           </div>
           <div ref={topicsRef} className="no-scrollbar my-1 flex w-[90%] gap-2 overflow-x-scroll px-1 py-3 ">
             {topics.map((topic: any) => (
-              <div key={topic.topic} title={topic.description} className={` w-fit cursor-pointer rounded-full bg-primary px-2 py-1 font-semibold text-black  max-[600px]:text-sm  min-[700px]:px-4 min-[700px]:py-2 ${topic.topic === selectedTopic ? "brightness-100" : "brightness-50"}`} onClick={() => handleChooseTopic(topic.topic)}>
+              <div key={topic.topic} title={topic?.description} className={` w-fit cursor-pointer rounded-full bg-primary px-2 py-1 font-semibold text-black  max-[600px]:text-sm  min-[700px]:px-4 min-[700px]:py-2 ${topic.topic === selectedTopic ? "brightness-100" : "brightness-50"}`} onClick={() => handleChooseTopic(topic.topic)}>
                 {topic.topic}
               </div>
             ))}
