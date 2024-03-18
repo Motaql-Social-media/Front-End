@@ -238,7 +238,7 @@ const ComposeReel = ({ handleClose, addReelCallback }: { handleClose: any; addRe
                 }}
               />
               {openMentionSearch && (
-                <div className="absolute -bottom-24 left-1/2 z-[99] -translate-x-1/2 overflow-hidden rounded-2xl">
+                <div className="absolute translate-y-[13%] left-1/2 z-[99] -translate-x-1/2 overflow-hidden rounded-2xl">
                   <MentionSearch username={description.split("@").pop()?.split(" ")[0]} callback={mentionCallback} />
                 </div>
               )}

@@ -212,7 +212,7 @@ const ComposeQuote = ({ id, handleClose, setRepost, repost, repostCount, setRepo
           InputProps={{
             disableUnderline: true,
           }}
-          placeholder={t('add_comment')}
+          placeholder={t("add_comment")}
           onChange={(e) => handleDescriptionChange(e)}
           multiline
           value={description}
@@ -225,38 +225,9 @@ const ComposeQuote = ({ id, handleClose, setRepost, repost, repostCount, setRepo
             },
           }}
         ></TextField>
-        {type === "diary" && <DisplayMedia mediaUrls={mediaUrls} setMediaUrls={setMediaUrls} margin={1.5} showCancelButton={true} deleteCallback={handleDeleteMediaCallback} />}{" "}
-        {/* {post && (
-          <Post
-            cascade={false}
-            inPostPage={false}
-            userProfilePicture={post.tweeter?.imageUrl}
-            postType={"tweet"}
-            isFollowed={false}
-            replyReferredTweetId={post.replyReferredTweetId ? post.replyReferredTweetId : ""}
-            bio={"bio"}
-            id={post.tweetId}
-            name={post.tweeter?.name}
-            username={post.tweeter?.username}
-            date={post.createdAt}
-            speciality={""}
-            description={post.content}
-            media={post.imageUrls.length > 0 ? post.imageUrls : post.gifUrl !== "" ? [post.gifUrl] : []}
-            replyCount={post.repliesCount}
-            repostCount={post.reTweetCount}
-            likeCount={post.reactCount}
-            isLiked={post.isReacted}
-            isReposted={post.isRetweeted}
-            isBookmarked={post.isBookmarked}
-            tweeter={post.tweeter}
-            posts={post.posts}
-            setPosts={post.setPosts}
-            displayFooter={false}
-          />
-        )} */}
-        <hr className={`h-px border-0 bg-lightBorder dark:bg-darkBorder ${buttonName === "Post" ? "" : "hidden"}`} />
+        {type === "diary" && <DisplayMedia mediaUrls={mediaUrls} setMediaUrls={setMediaUrls} margin={1.5} showCancelButton={true} deleteCallback={handleDeleteMediaCallback} />} <hr className={`h-px border-0 bg-lightBorder dark:bg-darkBorder ${buttonName === "Post" ? "" : "hidden"}`} />
         {openMentionSearch && (
-          <div className="absolute -bottom-2 left-1/2 z-[99] -translate-x-1/2 overflow-hidden rounded-2xl">
+          <div className="absolute left-1/2 top-24 z-[99] -translate-x-1/2 overflow-hidden rounded-2xl">
             <MentionSearch username={description.split("@").pop()?.split(" ")[0]} callback={mentionCallback} />
           </div>
         )}

@@ -334,7 +334,7 @@ function ComposePost({ buttonName, postId, postType, addTweetCallback, addReelCa
         {pollDisabled && mediaDisabled && media.length === 0 && <Poll handlePollClick={handlePollClick} poll={poll} setPoll={setPoll} />}
         <hr className={`h-px border-0 bg-lightBorder dark:bg-darkBorder ${buttonName === "Post" ? "" : "hidden"}`} />
         {openMentionSearch && (
-          <div className="absolute z-[99] -bottom-2 left-1/2 -translate-x-1/2 overflow-hidden rounded-2xl">
+          <div className="absolute z-[99] top-24 left-1/2 -translate-x-1/2 overflow-hidden rounded-2xl">
             <MentionSearch username={description.split("@").pop()?.split(" ")[0]} callback={mentionCallback} />
           </div>
         )}
