@@ -67,6 +67,18 @@ const PostPage = ({ scroll }: { scroll: number }) => {
 
   const [replies, setReplies] = useState<any[]>([])
 
+  const handleAddReply = () => {
+    setDiary((prev) => {
+      if (prev) {
+        return {
+          ...prev,
+          repliesCount: prev.repliesCount + 1,
+        }
+      }
+      return prev
+    })
+  }
+
   return (
     <div className="flex flex-1 flex-grow-[8] max-[540px]:mt-16">
       {fetchDiaryError && <FetchPostError type="diary" />}
@@ -108,7 +120,7 @@ const PostPage = ({ scroll }: { scroll: number }) => {
               {t("replying")}
               <span className="text-primary hover:underline ">@{tag}</span>
             </div>
-            <ComposePost buttonName="Post" postId={id} postType="reply" addTweetCallback={addReplyCallback} addReelCallback={() => {}} />
+            <ComposePost addReplyCallback={handleAddReply} buttonName="Post" postId={id} postType="reply" addTweetCallback={addReplyCallback} addReelCallback={() => {}} />
           </div>
           <div>
             <Replies replies={replies} setReplies={setReplies} id={id} type="diary" />

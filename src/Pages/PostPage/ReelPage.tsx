@@ -72,6 +72,18 @@ const ReelPage = ({ scroll }: { scroll: number }) => {
 
   const [muted, setMuted] = useState(false)
 
+  const handleAddReply = () => {
+    setReel((prev) => {
+      if (prev) {
+        return {
+          ...prev,
+          repliesCount: prev.repliesCount + 1,
+        }
+      }
+      return prev
+    })
+  }
+
   return (
     <div className="flex flex-1 flex-grow-[8] max-[540px]:mt-16">
       {fetchReelError && <FetchPostError type="reel" />}
@@ -112,7 +124,7 @@ const ReelPage = ({ scroll }: { scroll: number }) => {
             <div className="p-2 text-gray-500">
               {t("replying")} <span className="text-primary hover:underline ">@{tag}</span>
             </div>
-            <ComposePost buttonName="Post" postId={id} postType="reply_reel" addTweetCallback={addReplyCallback} addReelCallback={() => {}} />
+            <ComposePost addReplyCallback={handleAddReply} buttonName="Post" postId={id} postType="reply_reel" addTweetCallback={addReplyCallback} addReelCallback={() => {}} />
           </div>
           <div>
             <Replies replies={replies} setReplies={setReplies} id={id} type="reel" />

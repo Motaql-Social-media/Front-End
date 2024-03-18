@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react"
 import { useSelector } from "react-redux"
 import TextField from "@mui/material/TextField"
 import { Link } from "react-router-dom"
-import { Avatar } from "@mui/material"
+import { Avatar, CircularProgress } from "@mui/material"
 import DisplayMedia from "../../DisplayImages/DisplayMedia"
 import axios from "axios"
 
@@ -13,7 +13,7 @@ import i18next from "i18next"
 import Poll from "./Poll"
 import MentionSearch from "./MentionSearch"
 
-function ComposePost({ buttonName, postId, postType, addTweetCallback, addReelCallback }: { buttonName: string; postId: string | undefined; postType: string; addTweetCallback: any; addReelCallback: any }) {
+function ComposePost({ buttonName, postId, postType, addTweetCallback, addReelCallback, addReplyCallback }: { buttonName: string; postId: string | undefined; postType: string; addTweetCallback: any; addReelCallback: any; addReplyCallback: any }) {
   const [description, setDescription] = useState("")
   const [charsCount, setCharsCount] = useState(0)
   const [charsProgressColor, setCharsProgressColor] = useState("#1D9BF0")
@@ -31,6 +31,8 @@ function ComposePost({ buttonName, postId, postType, addTweetCallback, addReelCa
   const darkMode = useSelector((state: any) => state.theme.darkMode)
   const user = useSelector((state: any) => state.user.user)
   const userToken = useSelector((state: any) => state.user.token)
+
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     setPostDisabled(((description.length === 0 || (description.match(/\s/g) && description.match(/\s/g)?.length === description.length)) && media.length === 0) || description.length > 280)
@@ -68,6 +70,7 @@ function ComposePost({ buttonName, postId, postType, addTweetCallback, addReelCa
 
           // console.log(res)
           addTweetCallback(t)
+          addReplyCallback()
           setMedia([])
           setDescription("")
           setMediaUrls([])
@@ -101,6 +104,8 @@ function ComposePost({ buttonName, postId, postType, addTweetCallback, addReelCa
 
           // console.log(res)
           addTweetCallback(res.data.data.reelReply)
+          addReplyCallback()
+
           setMedia([])
           setDescription("")
           setMediaUrls([])
@@ -301,7 +306,7 @@ function ComposePost({ buttonName, postId, postType, addTweetCallback, addReelCa
   }, [mentionError])
 
   return (
-    <div className={`ComposePost flex h-fit border-b pb-5 ${buttonName === "Post" ? "border-t" : ""} !w-full flex-col border-lightBorder p-3 text-black dark:border-darkBorder dark:text-white `}>
+    <div className={`relative flex h-fit border-b pb-5 ${buttonName === "Post" ? "border-t" : ""} !w-full flex-col border-lightBorder p-3 text-black dark:border-darkBorder dark:text-white `}>
       <div className={`h-10 w-10 ${i18next.language === "en" ? "sm:mr-3" : "sm:ml-3"} `}>
         <Link className="hover:underline" to={`/${user?.username}`}>
           <Avatar alt={user?.name} src={`${user?.imageUrl.split(":")[0] === "https" ? user?.imageUrl : process.env.REACT_APP_USERS_MEDIA_URL + user?.imageUrl}`} sx={{ width: 40, height: 40 }} />
@@ -339,6 +344,9 @@ function ComposePost({ buttonName, postId, postType, addTweetCallback, addReelCa
         {mentionError && <div className="text-xs text-red-600 ">{t("mention_error")}</div>}
         <ComposePostFooter postType={postType} handleUploadMedia={handleUploadMedia} mediaDisabled={mediaDisabled} GIFDisabled={GIFDisabled} pollDisabled={pollDisabled} postDisabled={postDisabled} progressCircleSize={progressCircleSize} charsCount={charsCount} charsProgressColor={charsProgressColor} handleSubmit={handleSubmit} handlePollClick={handlePollClick} poll={poll} publishButton={publishButton} fromQuote={false} description={description} media={media} addReelCallback={addReelCallback} />
       </div>
+      {/* <div className="absolute left-1/2 top-1/2 flex w-full -translate-x-1/2 -translate-y-1/2 items-center justify-center p-1">
+        <CircularProgress />
+      </div> */}
     </div>
   )
 }

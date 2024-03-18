@@ -137,7 +137,7 @@ const Home = ({ scroll }: { scroll: number }) => {
           {t("home")}
         </div>
         <div>
-          <ComposePost buttonName="Post" postId={""} postType="diary" addTweetCallback={addTweetCallback} addReelCallback={addReelCallback} />
+          <ComposePost addReplyCallback={() => {}} buttonName="Post" postId={""} postType="diary" addTweetCallback={addTweetCallback} addReelCallback={addReelCallback} />
         </div>
         <div className="flex h-[53px] items-center border-b border-b-darkBorder pb-2">
           <HorizontalNavbar
