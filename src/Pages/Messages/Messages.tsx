@@ -53,7 +53,6 @@ const Messages = ({ scroll }: { scroll: number }) => {
         if (res.data.data.conversations.length < 20) {
           setFinishedMessages(true)
         }
-        dispatch(setMessageUnseenCount(res.data.data.conversations.filter((obj: any) => obj.unseenCount > 0).length))
       })
       .catch((error) => {
         console.log(error)

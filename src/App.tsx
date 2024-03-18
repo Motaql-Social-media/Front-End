@@ -71,6 +71,7 @@ import createCache from "@emotion/cache"
 import i18next from "i18next"
 import TermsOfService from "./Pages/TermsOfService/TermsOfService"
 import PrivacyPolicy from "./Pages/PrivacyPolicy/PrivacyPolicy"
+import { receiveMessage } from "./store/MessageSlice"
 
 const SocketContext = createContext<any>(null)
 export { SocketContext }
@@ -122,6 +123,9 @@ function App() {
         dispatch(receiveNotification())
         setNotification(payload)
         // console.log(payload)
+      })
+      socket.on("msg-receive", (payload: Message) => {
+        dispatch(receiveMessage())
       })
     }
   }, [socket])
