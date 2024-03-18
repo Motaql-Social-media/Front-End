@@ -61,8 +61,16 @@ const Message = ({ scroll }: { scroll: number }) => {
 
   const user = useSelector((state: any) => state.user.user)
 
+  const convertTime = (time: string) => {
+    const utcTime = new Date(time)
+    const userOffset = new Date().getTimezoneOffset() * 60 * 1000 // Convert minutes to milliseconds
+    const hoursToAdd = 5 * 60 * 60 * 1000 // Convert 3 hours to milliseconds
+    const localTime = new Date(utcTime.getTime() + userOffset + hoursToAdd)
+    return localTime.toLocaleString() // Format the date and time
+  }
+
   function formatDate(dateString: string) {
-    const date = new Date(dateString)
+    const date = new Date(convertTime(dateString))
 
     const fDate = new Intl.DateTimeFormat("en-US", {
       weekday: "short",
