@@ -124,6 +124,7 @@ const Messages = ({ scroll }: { scroll: number }) => {
         console.log("Socket disconnected!")
       })
       socket.on("msg-receive", (payload: Message) => {
+        setMessages([])
         fetchMessages()
       })
     }

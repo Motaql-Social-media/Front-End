@@ -61,7 +61,7 @@ const Notification = ({ content, createdAt, isSeen, metadata, notificationFrom, 
       ar: "ذكرك في قصة ",
     },
     MENTION_TWEET: {
-      en: "mentioned you in a tweet",
+      en: "mentioned you in a blog",
       ar: "ذكرك في مدونة",
     },
     FOLLOW: {
@@ -73,7 +73,7 @@ const Notification = ({ content, createdAt, isSeen, metadata, notificationFrom, 
       ar: "رد على قصة خاصة بك",
     },
     REPLY_TWEET: {
-      en: "replied to your tweet",
+      en: "replied to your blog",
       ar: "رد على مدونة خاصة بك",
     },
     REACT_REEL: {
@@ -81,7 +81,7 @@ const Notification = ({ content, createdAt, isSeen, metadata, notificationFrom, 
       ar: "تفاعل مع قصة خاصة بك",
     },
     REACT_TWEET: {
-      en: "reacted to your tweet",
+      en: "reacted to your blog",
       ar: "تفاعل مع مدونة خاصة بك",
     },
     REPOST_REEL: {
@@ -89,11 +89,11 @@ const Notification = ({ content, createdAt, isSeen, metadata, notificationFrom, 
       ar: "أعاد نشر قصة خاصة بك",
     },
     REPOST_TWEET: {
-      en: "reposted your tweet",
+      en: "reposted your blog",
       ar: "أعاد نشر مدونة خاصة بك",
     },
     QUOTE_TWEET: {
-      en: "quoted your tweet",
+      en: "quoted your blog",
       ar: "أقتبس من مدونة خاصة بك",
     },
     QUOTE_REEL: {
