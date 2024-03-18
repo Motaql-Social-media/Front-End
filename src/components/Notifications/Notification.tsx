@@ -10,6 +10,7 @@ import PersonAddIcon from "@mui/icons-material/PersonAdd"
 import EmailIcon from "@mui/icons-material/Email"
 import FormatQuoteIcon from "@mui/icons-material/FormatQuote"
 import i18next from "i18next"
+import { useSelector } from "react-redux"
 import { t } from "i18next"
 
 const Notification = ({ content, createdAt, isSeen, metadata, notificationFrom, notificationId, type }: { content: string; createdAt: any; isSeen: boolean; metadata: any; notificationFrom: any; notificationId: string; type: string }) => {
@@ -128,15 +129,17 @@ const Notification = ({ content, createdAt, isSeen, metadata, notificationFrom, 
 
   const navigate = useNavigate()
 
+  const user = useSelector((state: any) => state.user.user)
+
   const handleNotificationClick = (e: any) => {
     if (type.split("_")[0] === "REACT" || type.split("_")[0] === "MENTION") {
-      navigate(`/${notificationFrom.username}/${type.split("_")[1] === "REEL" ? "reel" : "diary"}/${type.split("_")[1] === "TWEET" ? metadata.tweetId : metadata.reelId}`)
+      navigate(`/${user.username}/${type.split("_")[1] === "REEL" ? "reel" : "diary"}/${type.split("_")[1] === "TWEET" ? metadata.tweetId : metadata.reelId}`)
     } else if (type.split("_")[0] === "REPOST") {
-      navigate(`/${notificationFrom.username}/${type.split("_")[1] === "REEL" ? "reel" : "diary"}/${type.split("_")[1] === "TWEET" ? metadata.retweetId : metadata.rereelId}`)
+      navigate(`/${user.username}/${type.split("_")[1] === "REEL" ? "reel" : "diary"}/${type.split("_")[1] === "TWEET" ? metadata.retweetId : metadata.rereelId}`)
     } else if (type.split("_")[0] === "REPLY") {
-      navigate(`/${notificationFrom.username}/${type.split("_")[1] === "REEL" ? "reel" : "diary"}/${type.split("_")[1] === "TWEET" ? metadata.replyId : metadata.replyId}`)
+      navigate(`/${user.username}/${type.split("_")[1] === "REEL" ? "reel" : "diary"}/${type.split("_")[1] === "TWEET" ? metadata.replyId : metadata.replyId}`)
     } else if (type.split("_")[0] === "QUOTE") {
-      navigate(`/${notificationFrom.username}/${type.split("_")[1] === "REEL" ? "reel" : "diary"}/${type.split("_")[1] === "REEL" ? metadata.rereelId : metadata.tweedId}`)
+      navigate(`/${user.username}/${type.split("_")[1] === "REEL" ? "reel" : "diary"}/${type.split("_")[1] === "REEL" ? metadata.rereelId : metadata.tweedId}`)
     }
   }
 

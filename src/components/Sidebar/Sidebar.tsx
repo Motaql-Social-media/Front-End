@@ -149,7 +149,7 @@ const Sidebar = () => {
 
     API.get("chats/unseen-chats-count")
       .then((res) => {
-        console.log(res.data.data.count)
+        // console.log(res.data.data.count)
         dispatch(setMessageUnseenCount(res.data.data.count))
       })
       .catch((err) => {
