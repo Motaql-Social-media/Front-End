@@ -68,7 +68,6 @@ const ComposeQuote = ({ id, handleClose, setRepost, repost, repostCount, setRepo
       })
         .then((res) => {
           // console.log(res)
-          setRepostCount(repost ? repostCount - 1 : repostCount + 1)
 
           handleClose()
         })
@@ -87,7 +86,6 @@ const ComposeQuote = ({ id, handleClose, setRepost, repost, repostCount, setRepo
       )
         .then((res) => {
           // console.log(res)
-          setRepostCount(repost ? repostCount - 1 : repostCount + 1)
 
           handleClose()
         })
