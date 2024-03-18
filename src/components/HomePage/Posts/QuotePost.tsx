@@ -5,7 +5,7 @@ import PostBody from "./PostBody"
 import { useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react"
 
-const QuotePost = ({ content, mentions, media, createdAt, isBookmarked, isReacted, isRetweeted, reTweetCount, reactCount, repliesCount, retweetId, retweeter, tweet, tweeter, quotes, setQuotes }: { content: string; mentions: string[]; media: any; createdAt: string; isBookmarked: boolean; isReacted: boolean; isRetweeted: boolean; reTweetCount: number; reactCount: number; repliesCount: number; retweetId: string; retweeter: any; tweet: any; tweeter: any; quotes: any; setQuotes: any }) => {
+const QuotePost = ({ inPostPage, content, mentions, media, createdAt, isBookmarked, isReacted, isRetweeted, reTweetCount, reactCount, repliesCount, retweetId, retweeter, tweet, tweeter, quotes, setQuotes }: { inPostPage: boolean; content: string; mentions: string[]; media: any; createdAt: string; isBookmarked: boolean; isReacted: boolean; isRetweeted: boolean; reTweetCount: number; reactCount: number; repliesCount: number; retweetId: string; retweeter: any; tweet: any; tweeter: any; quotes: any; setQuotes: any }) => {
   const navigate = useNavigate()
 
   const handlePostClick = () => {
@@ -28,7 +28,7 @@ const QuotePost = ({ content, mentions, media, createdAt, isBookmarked, isReacte
         <PostHeader base={"Quote"} tweeter={retweeter} date={createdAt} id={retweetId} type={"tweet"} posts={quotes} setPosts={setQuotes} parent="diary" />
       </div>
       <div className="mb-2">
-        <PostBody description={processedDescription} media={media} mentions={mentions} />
+        <PostBody inPostPage={inPostPage} description={processedDescription} media={media} mentions={mentions} />
       </div>
       <div
         className="min-xs:w-[90%] min-xs:ml-[10%] ml-[5%] w-[95%] overflow-hidden rounded-3xl border-2 border-darkBorder"

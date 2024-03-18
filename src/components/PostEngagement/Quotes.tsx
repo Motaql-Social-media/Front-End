@@ -87,7 +87,7 @@ const Quotes = () => {
             type === "diary" &&
             diaryQuotes.map((q: any) => (
               <div key={q.tweetId}>
-                <QuotePost content={q.content} media={q.media.map((m: any) => m.url)} createdAt={q.createdAt} isBookmarked={q.isBookmarked} isReacted={q.isReacted} isRetweeted={q.isRetweeted} reTweetCount={q.reTweetCount} reactCount={q.reactCount} repliesCount={q.repliesCount} retweetId={q.tweetId} retweeter={q.tweeter} tweet={q.originalTweet} tweeter={q.originalTweeter} quotes={diaryQuotes} setQuotes={setDiaryQuotes} mentions={q.mentions} />
+                <QuotePost inPostPage={false} content={q.content} media={q.media.map((m: any) => m.url)} createdAt={q.createdAt} isBookmarked={q.isBookmarked} isReacted={q.isReacted} isRetweeted={q.isRetweeted} reTweetCount={q.reTweetCount} reactCount={q.reactCount} repliesCount={q.repliesCount} retweetId={q.tweetId} retweeter={q.tweeter} tweet={q.originalTweet} tweeter={q.originalTweeter} quotes={diaryQuotes} setQuotes={setDiaryQuotes} mentions={q.mentions} />
               </div>
             ))}
           {reelQuotes &&

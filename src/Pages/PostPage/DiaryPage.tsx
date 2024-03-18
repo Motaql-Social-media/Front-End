@@ -113,7 +113,7 @@ const PostPage = ({ scroll }: { scroll: number }) => {
                 poll={diary.poll}
               />
             ) : (
-              <QuotePost mentions={diary.mentions} content={diary.content} media={diary.media.map((m: any) => m.url)} createdAt={diary.createdAt} isBookmarked={diary.isBookmarked} isReacted={diary.isReacted} isRetweeted={diary.isRetweeted} reTweetCount={diary.reTweetCount} reactCount={diary.reactCount} repliesCount={diary.repliesCount} retweetId={diary.tweetId} retweeter={diary.tweeter} tweet={diary.originalTweet} tweeter={diary.originalTweeter} quotes={[]} setQuotes={() => {}} />
+              <QuotePost inPostPage={true} mentions={diary.mentions} content={diary.content} media={diary.media.map((m: any) => m.url)} createdAt={diary.createdAt} isBookmarked={diary.isBookmarked} isReacted={diary.isReacted} isRetweeted={diary.isRetweeted} reTweetCount={diary.reTweetCount} reactCount={diary.reactCount} repliesCount={diary.repliesCount} retweetId={diary.tweetId} retweeter={diary.tweeter} tweet={diary.originalTweet} tweeter={diary.originalTweeter} quotes={[]} setQuotes={() => {}} />
             ))}
           <div className="border-b border-darkBorder">
             <div className="p-2 text-gray-500">

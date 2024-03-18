@@ -104,12 +104,12 @@ const Post = ({
       </div>
       {displayFooter && !poll?.pollId && (
         <div>
-          <PostBody description={getProcessedDescription(description)} media={media} mentions={mentions} />
+          <PostBody inPostPage={inPostPage} description={getProcessedDescription(description)} media={media} mentions={mentions} />
         </div>
       )}
       {poll?.pollId && (
         <div>
-          <PollBody poll={{ ...poll, question: getProcessedDescription(poll.question) }} mentions={mentions} id={id} />
+          <PollBody inPostPage={inPostPage} poll={{ ...poll, question: getProcessedDescription(poll.question) }} mentions={mentions} id={id} />
         </div>
       )}
       {/* {!displayFooter && (

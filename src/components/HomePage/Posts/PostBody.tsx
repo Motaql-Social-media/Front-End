@@ -2,8 +2,9 @@ import { useEffect } from "react"
 import DisplayMedia from "../../DisplayImages/DisplayMedia"
 import { useState } from "react"
 import i18next from "i18next"
+import { useRef } from "react"
 
-const PostBody = ({ description, media, mentions }: { description: string; media: string[]; mentions: string[] }) => {
+const PostBody = ({ description, media, mentions, inPostPage }: { description: string; media: string[]; mentions: string[]; inPostPage: boolean }) => {
   const mediaUrls = media.map((item: any) => process.env.REACT_APP_TWEETS_MEDIA_URL + item)
 
   const [processedMentions, setProcessedMentions] = useState<string[]>([])
@@ -20,19 +21,37 @@ const PostBody = ({ description, media, mentions }: { description: string; media
     return text.split("").some(isArabicChar)
   }
 
+  const [isExpanded, setIsExpanded] = useState(false)
+
+  const toggleShowMore = () => {
+    setIsExpanded(!isExpanded)
+  }
+
+  const pRef = useRef<HTMLParagraphElement>(null)
+
+  useEffect(() => {
+    const pElement = pRef.current
+    if (pElement) {
+      const isOverflowed = pElement.offsetHeight < pElement.scrollHeight
+      if (isOverflowed) {
+        toggleShowMore()
+      }
+    }
+  }, [])
+
   return (
     <div className="min-xs:pl-12">
       <div className="post-text mt-1 ">
-        <p>
+        <p ref={pRef} className={`${inPostPage ? "" : "max-h-[310px] overflow-hidden"} `}>
           {description?.split(" ").map((word, index) => (
-            <span key={index} className=" break-words">
+            <span key={index} className="break-words">
               {processedMentions.includes(word) ? (
                 <a dir="ltr" href={`/${word.slice(1)}`} onClick={(e: any) => e.stopPropagation()} className="text-white hover:text-primary">
                   {`${word}`}
                 </a>
               ) : word[0] === "#" ? (
                 <a href={`/trending/${word.slice(1)}/diaries`} onClick={(e: any) => e.stopPropagation()} className="mx-1 text-primary hover:underline">
-                  {` ${!hasArabicChars(word) ? word.slice(1) + word[0] : word[0] + word.slice(1)} `}
+                  {`${!hasArabicChars(word) ? word.slice(1) + word[0] : word[0] + word.slice(1)}`}
                 </a>
               ) : word === "<br>" ? (
                 <br />
@@ -42,6 +61,7 @@ const PostBody = ({ description, media, mentions }: { description: string; media
             </span>
           ))}
         </p>
+        {isExpanded && <div className="text-primary hover:underline">Show more</div>}
       </div>
 
       <div className="post-media mt-3">

@@ -8,7 +8,7 @@ import axios from "axios"
 
 import ComposePostFooter from "./ComposePostFooter"
 import { useTranslation } from "react-i18next"
-import i18next from "i18next"
+import i18next, { use } from "i18next"
 
 import Poll from "./Poll"
 import MentionSearch from "./MentionSearch"
@@ -228,8 +228,12 @@ function ComposePost({ buttonName, postId, postType, addTweetCallback, addReelCa
     }
   }
 
+  useEffect(() => {
+    if (!pollDisabled) setPoll(null)
+  }, [pollDisabled])
+
   const handleDescriptionChange = (e: any) => {
-    setDescription(e.target.value.slice(0, 280))
+    if (!/(\n){3,}/.test(e.target.value)) setDescription(e.target.value.slice(0, 280))
   }
 
   const mentionCallback = (username: string) => {

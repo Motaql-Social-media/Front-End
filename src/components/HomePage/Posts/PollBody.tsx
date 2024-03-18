@@ -4,8 +4,9 @@ import PollOptionResult from "./PollOptionResult"
 import axios from "axios"
 import { useSelector } from "react-redux"
 import { t } from "i18next"
+import { useRef } from "react"
 
-const PollBody = ({ poll, mentions, id }: { poll: any; mentions: string[]; id: string }) => {
+const PollBody = ({ inPostPage, poll, mentions, id }: { inPostPage: boolean; poll: any; mentions: string[]; id: string }) => {
   const [processedMentions, setProcessedMentions] = useState<string[]>([])
 
   useEffect(() => {
@@ -97,19 +98,37 @@ const PollBody = ({ poll, mentions, id }: { poll: any; mentions: string[]; id: s
     return text.split("").some(isArabicChar)
   }
 
+  const [isExpanded, setIsExpanded] = useState(false)
+
+  const toggleShowMore = () => {
+    setIsExpanded(!isExpanded)
+  }
+
+  const pRef = useRef<HTMLParagraphElement>(null)
+
+  useEffect(() => {
+    const pElement = pRef.current
+    if (pElement) {
+      const isOverflowed = pElement.offsetHeight < pElement.scrollHeight
+      if (isOverflowed) {
+        toggleShowMore()
+      }
+    }
+  }, [])
+
   return (
     <div className="min-xs:pl-12">
       <div className="post-text mt-1 ">
-        <p>
-          {poll.question?.split(" ").map((word: any, index: number) => (
-            <span key={index} className=" break-words">
+        <p ref={pRef} className={`${inPostPage ? "" : "max-h-[310px] overflow-hidden"} `}>
+          {poll.question?.split(" ").map((word: string, index: number) => (
+            <span key={index} className="break-words">
               {processedMentions.includes(word) ? (
                 <a dir="ltr" href={`/${word.slice(1)}`} onClick={(e: any) => e.stopPropagation()} className="text-white hover:text-primary">
-                  {` ${word} `}
+                  {`${word}`}
                 </a>
               ) : word[0] === "#" ? (
-                <a  href={`/trending/${word.slice(1)}/diaries`} onClick={(e: any) => e.stopPropagation()} className="mx-1 text-primary hover:underline">
-                  {` ${!hasArabicChars(word) ? word.slice(1) + word[0] : word[0] + word.slice(1)} `}
+                <a href={`/trending/${word.slice(1)}/diaries`} onClick={(e: any) => e.stopPropagation()} className="mx-1 text-primary hover:underline">
+                  {`${!hasArabicChars(word) ? word.slice(1) + word[0] : word[0] + word.slice(1)}`}
                 </a>
               ) : word === "<br>" ? (
                 <br />
@@ -119,6 +138,7 @@ const PollBody = ({ poll, mentions, id }: { poll: any; mentions: string[]; id: s
             </span>
           ))}
         </p>
+        {isExpanded && <div className="text-primary hover:underline">Show more</div>}
       </div>
       {!polled && timeRemaining !== t("poll_ended") && (
         <div>

@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next"
 import { styles } from "../../../styles/styles"
-import i18next, { use } from "i18next"
+import i18next from "i18next"
 import { Link } from "react-router-dom"
 import { Avatar } from "@mui/material"
 import { useSelector } from "react-redux"
