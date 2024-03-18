@@ -104,11 +104,11 @@ const PollBody = ({ poll, mentions, id }: { poll: any; mentions: string[]; id: s
           {poll.question?.split(" ").map((word: any, index: number) => (
             <span key={index} className=" break-words">
               {processedMentions.includes(word) ? (
-                <a href={`/${word.slice(1)}`} onClick={(e: any) => e.stopPropagation()} className="text-white hover:text-primary">
+                <a dir="ltr" href={`/${word.slice(1)}`} onClick={(e: any) => e.stopPropagation()} className="text-white hover:text-primary">
                   {` ${word} `}
                 </a>
               ) : word[0] === "#" ? (
-                <a dir="ltr" href={`/trending/${word.slice(1)}/diaries`} onClick={(e: any) => e.stopPropagation()} className="mx-1 text-primary hover:underline">
+                <a  href={`/trending/${word.slice(1)}/diaries`} onClick={(e: any) => e.stopPropagation()} className="mx-1 text-primary hover:underline">
                   {` ${!hasArabicChars(word) ? word.slice(1) + word[0] : word[0] + word.slice(1)} `}
                 </a>
               ) : word === "<br>" ? (
