@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef, createContext } from "react"
-import { Outlet } from "react-router-dom"
+import { Outlet, useLocation } from "react-router-dom"
 import { useSelector } from "react-redux"
 import axios from "axios"
 import { useTranslation } from "react-i18next"
@@ -111,11 +111,21 @@ const Bookmarks = ({ scroll }: { scroll: number }) => {
     }
   }
 
+  const resetFetch = () => {
+    if (window.location.pathname === "/bookmarks/diaries" || window.location.pathname === "/bookmarks") {
+      fetchBookmarksDiaries()
+    } else if (window.location.pathname === "/bookmarks/reels") {
+      fetchBookmarksReels()
+    }
+  }
+
+  const [refetch, setRefetch] = useState(false)
+
   useEffect(() => {
     setFinished(false)
-    setPage(1)
-    fetchData()
-  }, [window.location.pathname, page])
+    if (page === 1) resetFetch()
+    else setPage(1)
+  }, [refetch])
 
   const handleFetchMore = () => {
     if (!finished) {
@@ -141,7 +151,7 @@ const Bookmarks = ({ scroll }: { scroll: number }) => {
               { title: t("reels"), location: "reels" },
             ]}
             originalUrl="/bookmarks"
-            handlers={[null, null]}
+            handlers={[() => setRefetch((prev) => !prev), () => setRefetch((prev) => !prev)]}
           />
         </div>
         {loading && <Loading />}
