@@ -124,8 +124,8 @@ const ReelBar = ({ id, replyCount, reposted, repostsNum, liked, likesNum, topic,
 
   return (
     <div className="text-ternairy relative mt-3  flex items-center justify-around dark:text-gray-500  ">
-      <button className={`${styles.coloredButton} flex !h-fit !w-fit  items-center justify-center px-2 max-[600px]:text-sm`} title={topic.description}>
-        {topic.topic}
+      <button className={`${styles.coloredButton} flex !h-fit !w-fit  items-center justify-center px-2 max-[600px]:text-sm`} title={topic?.description}>
+        {topic?.topic}
       </button>
       <div className={`group pointer-events-auto flex cursor-pointer items-center transition-colors  duration-300 hover:text-primary`} title={t("reply")}>
         <div className="flex h-10 w-10  items-center justify-center rounded-full bg-inherit group-hover:bg-[#e7f5fd] dark:group-hover:bg-[#031018] ">

@@ -46,7 +46,7 @@ const Explore = ({ scroll }: { scroll: number }) => {
   useEffect(() => {
     API.get("topics")
       .then((res) => {
-        console.log(res.data.data.topics)
+        // console.log(res.data.data.topics)
         setTopics([{ topic: t("all") }, ...res.data.data.topics])
       })
       .catch((err) => console.log(err))
