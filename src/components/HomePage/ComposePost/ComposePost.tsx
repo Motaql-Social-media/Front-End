@@ -210,12 +210,9 @@ function ComposePost({ buttonName, postId, postType, addTweetCallback, addReelCa
       handleAddTweet(mediaFormData)
     }
   }
-  
-  
-  const handleDescriptionChange = (e: any) => {
 
+  const handleDescriptionChange = (e: any) => {
     setDescription(e.target.value.slice(0, 280))
- 
   }
 
   const mentionCallback = (username: string) => {
@@ -240,6 +237,7 @@ function ComposePost({ buttonName, postId, postType, addTweetCallback, addReelCa
   const handleUploadMedia = (uploadedMedia: any) => {
     const file = uploadedMedia.target.files[0]
     const imageUrl = URL.createObjectURL(file)
+    // console.log(file)
 
     // console.log(uploadedMedia.target.files[0])
     setMedia([
@@ -317,7 +315,7 @@ function ComposePost({ buttonName, postId, postType, addTweetCallback, addReelCa
           InputProps={{
             disableUnderline: true,
           }}
-          placeholder={`${pollDisabled && mediaDisabled && media.length !== 4 ? t("ask_question") : postType !== "reply" && postType !== "reply_reel" ? t("compose_post") : t("compose_reply")}`}
+          placeholder={`${pollDisabled && mediaDisabled && media.length !== 4 && GIFDisabled && media.length === 0 ? t("ask_question") : postType !== "reply" && postType !== "reply_reel" ? t("compose_post") : t("compose_reply")}`}
           onChange={(e) => handleDescriptionChange(e)}
           multiline
           value={description}
@@ -334,7 +332,7 @@ function ComposePost({ buttonName, postId, postType, addTweetCallback, addReelCa
         {pollDisabled && mediaDisabled && media.length === 0 && <Poll handlePollClick={handlePollClick} poll={poll} setPoll={setPoll} />}
         <hr className={`h-px border-0 bg-lightBorder dark:bg-darkBorder ${buttonName === "Post" ? "" : "hidden"}`} />
         {openMentionSearch && (
-          <div className="absolute z-[99] top-24 left-1/2 -translate-x-1/2 overflow-hidden rounded-2xl">
+          <div className="absolute left-1/2 top-24 z-[99] -translate-x-1/2 overflow-hidden rounded-2xl">
             <MentionSearch username={description.split("@").pop()?.split(" ")[0]} callback={mentionCallback} />
           </div>
         )}

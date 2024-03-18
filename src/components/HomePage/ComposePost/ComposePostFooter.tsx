@@ -2,14 +2,10 @@ import React, { useEffect, useRef, useState } from "react"
 import InsertPhotoOutlinedIcon from "@mui/icons-material/InsertPhotoOutlined"
 import GifBoxOutlinedIcon from "@mui/icons-material/GifBoxOutlined"
 import BallotOutlinedIcon from "@mui/icons-material/BallotOutlined"
-import SentimentSatisfiedOutlinedIcon from "@mui/icons-material/SentimentSatisfiedOutlined"
-import EditCalendarIcon from "@mui/icons-material/EditCalendar"
 import CircularProgress from "@mui/material/CircularProgress"
-import AddRoundedIcon from "@mui/icons-material/AddRounded"
 import AddIcon from "@mui/icons-material/Add"
 import { Modal } from "@mui/material"
 
-import { useSelector } from "react-redux"
 import { styles } from "../../../styles/styles"
 import { useTranslation } from "react-i18next"
 import i18next from "i18next"
@@ -128,7 +124,7 @@ function ComposePostFooter({
       <button
         ref={publishButton}
         className={`${styles.coloredButton} !h-9 !w-fit px-2 max-[400px]:text-sm`}
-        disabled={(pollDisabled && mediaDisabled && pollError && media.length !== 4) || (description.length === 0 && media.length === 0)}
+        disabled={(pollDisabled&&mediaDisabled&&GIFDisabled&&media.length===0&&pollError) || (description.length === 0 && media.length === 0)}
         onClick={(e) => {
           publishButton.current?.setAttribute("disabled", "true")
           handleSubmit(e)
