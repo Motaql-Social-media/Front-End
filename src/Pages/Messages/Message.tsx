@@ -241,18 +241,18 @@ const Message = ({ scroll }: { scroll: number }) => {
               window.location.reload()
             }}
           >
-            {t(otherContact.name)}
+            {t(otherContact?.name)}
           </div>
         </div>
         <div className="flex flex-col items-center gap-2 ">
-          <div className="flex w-full flex-col items-center border-b border-darkBorder py-3 hover:bg-darkHover" onClick={() => navigate(`/${otherContact.username}`)}>
-            <Avatar src={otherContact.imageUrl?.split(":")[0] === "https" ? otherContact.imageUrl : process.env.REACT_APP_USERS_MEDIA_URL + otherContact.imageUrl} alt={otherContact.name} sx={{ width: 100, height: 100 }} />
-            <div className="text-white">{otherContact.name}</div>
-            <div className="text-gray-500">@{otherContact.username}</div>
+          <div className="flex w-full flex-col items-center border-b border-darkBorder py-3 hover:bg-darkHover" onClick={() => navigate(`/${otherContact?.username}`)}>
+            <Avatar src={otherContact?.imageUrl?.split(":")[0] === "https" ? otherContact?.imageUrl : process.env.REACT_APP_USERS_MEDIA_URL + otherContact?.imageUrl} alt={otherContact?.name} sx={{ width: 100, height: 100 }} />
+            <div className="text-white">{otherContact?.name}</div>
+            <div className="text-gray-500">@{otherContact?.username}</div>
             <div className="flex gap-2 text-gray-500">
-              <div> {otherContact.jobtitle}</div>
+              <div> {otherContact?.jobtitle}</div>
               <div>
-                - {otherContact.followersCount} {t("followers")}
+                - {otherContact?.followersCount} {t("followers")}
               </div>
             </div>
           </div>
@@ -262,18 +262,18 @@ const Message = ({ scroll }: { scroll: number }) => {
           <div dir="ltr" ref={messagesRef} className=" no-scrollbar flex h-full w-full flex-col justify-start overflow-y-scroll">
             {messages.map((m, index) => {
               return (
-                <div key={index} className={`flex flex-col ${m.isFromMe ? "items-end" : "items-start "}  gap-2 p-4`}>
-                  <div className={`rounded-xl ${m.isFromMe ? "bg-primary " : "bg-gray-400"} ${!m.isFromMe ? "text-start" : "text-end"} p-2 text-black`}>
-                    {getProcessedDescription(m.text)
+                <div key={index} className={`flex flex-col ${m?.isFromMe ? "items-end" : "items-start "}  gap-2 p-4`}>
+                  <div className={`rounded-xl ${m?.isFromMe ? "bg-primary " : "bg-gray-400"} ${!m?.isFromMe ? "text-start" : "text-end"} p-2 text-black`}>
+                    {getProcessedDescription(m?.text)
                       ?.split(" ")
                       .map((word: string, index: number) => {
                         return word === "<br>" ? <br /> : ` ${word} `
                       })}
                   </div>
-                  <div className={`flex items-center gap-3 ${m.isFromMe ? "" : "flex-row"}`}>
-                    <div className="text-gray-500">{formatDate(m.createdAt)}</div>
-                    {m.isSeen ? (
-                      <img src={seen} alt="seen" className={`h-[15px] w-[18px] ${!m.isFromMe ? "hidden" : ""}`} />
+                  <div className={`flex items-center gap-3 ${m?.isFromMe ? "" : "flex-row"}`}>
+                    <div className="text-gray-500">{formatDate(m?.createdAt)}</div>
+                    {m?.isSeen ? (
+                      <img src={seen} alt="seen" className={`h-[15px] w-[18px] ${!m?.isFromMe ? "hidden" : ""}`} />
                     ) : (
                       <div className={`${!m.isFromMe ? "hidden" : ""}`}>
                         <CheckIcon
@@ -294,7 +294,7 @@ const Message = ({ scroll }: { scroll: number }) => {
           {isBlockingMe && (
             <div className="mb-5 py-2 text-red-600">
               {t("you_are_blocked")}
-              {otherContact.username}
+              {otherContact?.username}
             </div>
           )}
           {!isBlockingMe && (
