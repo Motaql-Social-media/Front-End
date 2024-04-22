@@ -7,6 +7,9 @@ import BookmarkBorderOutlinedIcon from "@mui/icons-material/BookmarkBorderOutlin
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined"
 import SettingsIcon from "@mui/icons-material/Settings"
 import Badge from "@mui/material/Badge"
+import ManageAccountsIcon from "@mui/icons-material/ManageAccounts"
+import Groups2Icon from "@mui/icons-material/Groups2"
+import VerifiedIcon from "@mui/icons-material/Verified"
 
 import HomeIcon from "@mui/icons-material/Home"
 import NotificationsIcon from "@mui/icons-material/Notifications"
@@ -14,6 +17,9 @@ import EmailIcon from "@mui/icons-material/Email"
 import BookmarkIcon from "@mui/icons-material/Bookmark"
 import PersonIcon from "@mui/icons-material/Person"
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined"
+import ManageAccountsOutlinedIcon from "@mui/icons-material/ManageAccountsOutlined"
+import Groups2OutlinedIcon from "@mui/icons-material/Groups2Outlined"
+import VerifiedOutlinedIcon from "@mui/icons-material/VerifiedOutlined"
 
 import { useEffect, useState } from "react"
 import { useLocation } from "react-router-dom"
@@ -31,6 +37,7 @@ import axios from "axios"
 
 import { setUnseenCount } from "../../store/NotificationSlice"
 import { setMessageUnseenCount } from "../../store/MessageSlice"
+import { logout } from "../../store/AdminUserSlice"
 const Sidebar = () => {
   const darkMode = useSelector((state: any) => state.theme.darkMode)
 
@@ -39,8 +46,9 @@ const Sidebar = () => {
   const unseenCount = useSelector((state: any) => state.notification.unseenCount)
   const messageUnseenCount = useSelector((state: any) => state.message.unseenCount)
 
-  const optionsNames = [t("home"), t("trending"), t("explore"), t("notifications"), t("messages"), t("bookmarks"), t("profile"), t("settings")]
-  const optionsIcons = [
+  const user = useSelector((state: any) => state.user.user)
+  const optionsNamesInit = [t("home"), t("trending"), t("explore"), t("notifications"), t("pioneers"), t("messages"), t("bookmarks"), t("profile"), t("settings")]
+  const optionsIconsInit = [
     [<HomeOutlinedIcon />, <HomeIcon />],
     [<TrendingUpIcon />, <TrendingUpIcon />],
     [<TagIcon sx={{ color: darkMode ? "#ffffff" : "#000000" }} />, <TagIcon sx={{ color: darkMode ? "#ffffff" : "#000000" }} />],
@@ -68,6 +76,8 @@ const Sidebar = () => {
         <NotificationsIcon />
       </Badge>,
     ],
+    [<ManageAccountsOutlinedIcon />, <ManageAccountsIcon />],
+
     [
       <Badge
         badgeContent={messageUnseenCount}
@@ -96,21 +106,38 @@ const Sidebar = () => {
     [<PersonOutlinedIcon />, <PersonIcon />],
     [<SettingsOutlinedIcon />, <SettingsIcon />],
   ]
-
-  const user = useSelector((state: any) => state.user.user)
-  const optionLinks = [
-    "/home",
-    "/trending",
-    "/explore",
-    "/notifications",
-    "/messages",
-    "/bookmarks",
-    `/${user.username}`,
-
-    "/settings",
+  const optionsLinksInit = ["/home", "/trending", "/explore", "/notifications", "/pioneers", "/messages", "/bookmarks", `/${user?.username}`, "/settings"]
+  const controlOptionsNames = [t("employees"), t("subscriptions")]
+  const controlOptionsIcons = [
+    [<Groups2OutlinedIcon />, <Groups2Icon />],
+    [<VerifiedOutlinedIcon />, <VerifiedIcon />],
   ]
+  const controlOptionsLinks = ["/control_panel/employees", "/control_panel/subscriptions"]
+  const [optionsNames, setOptionsNames] = useState(optionsNamesInit)
+  const [optionsIcons, setOptionsIcons] = useState(optionsIconsInit)
+  const [optionLinks, setOptionsLinks] = useState(optionsLinksInit)
 
   const pathname = useLocation().pathname
+
+  const cnu = useSelector((state: any) => state.cnu.cnu)
+
+  useEffect(() => {
+    if (pathname.split("/")[1] === "control_panel") {
+      if (cnu?.type === "ADMIN") {
+        setOptionsNames(controlOptionsNames)
+        setOptionsIcons(controlOptionsIcons)
+        setOptionsLinks(controlOptionsLinks)
+      } else {
+        setOptionsNames(controlOptionsNames.slice(1))
+        setOptionsIcons(controlOptionsIcons.slice(1))
+        setOptionsLinks(controlOptionsLinks.slice(1))
+      }
+    } else {
+      setOptionsNames(optionsNamesInit)
+      setOptionsIcons(optionsIconsInit)
+      setOptionsLinks(optionsLinksInit)
+    }
+  }, [pathname])
 
   const [selected, setSelected] = useState(optionLinks.indexOf(pathname))
 
@@ -160,11 +187,16 @@ const Sidebar = () => {
   const dispatch = useDispatch()
 
   const handleLogout = () => {
-    localStorage.removeItem("user")
-    localStorage.removeItem("token")
-    sessionStorage.removeItem("passwordIsConfirmed")
-    dispatch(logoutUser())
-    navigate("/")
+    if (window.location.pathname.split("/")[1] === "control_panel") {
+      dispatch(logout())
+      navigate("/admin_landing")
+    } else {
+      localStorage.removeItem("user")
+      localStorage.removeItem("token")
+      sessionStorage.removeItem("passwordIsConfirmed")
+      dispatch(logoutUser())
+      navigate("/")
+    }
   }
 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth)

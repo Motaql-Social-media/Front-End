@@ -2,7 +2,7 @@ import { Menu, MenuItem } from "@mui/material"
 
 import { Avatar } from "@mui/material"
 import { useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 import SidebarOption from "./SidebarOption"
 import Logo from "../../assets/images/mainLogo.svg"
 import { useTranslation } from "react-i18next"
@@ -10,6 +10,7 @@ import { useSelector } from "react-redux"
 import SwitchAccount from "./SwitchAccount"
 import { useEffect } from "react"
 import i18next from "i18next"
+import { styles } from "../../styles/styles"
 
 const DesktopSidebar = ({ optionsNames, optionsIcons, optionLinks, selected, shrink, handleLogout, mobile }: { optionsNames: string[]; optionsIcons: any[]; optionLinks: string[]; selected: number; shrink: boolean; handleLogout: any; mobile: boolean }) => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth)
@@ -47,8 +48,20 @@ const DesktopSidebar = ({ optionsNames, optionsIcons, optionLinks, selected, shr
   }
 
   const navigate = useNavigate()
+  const location = useLocation()
 
-  const user = useSelector((state: any) => state.user.user)
+  const nu = useSelector((state: any) => state.user.user)
+  const cnu = useSelector((state: any) => state.cnu.cnu)
+
+  const [user, setUser] = useState<any>()
+
+  useEffect(() => {
+    if (location.pathname.split("/")[1] === "control_panel") {
+      setUser(cnu)
+    } else {
+      setUser(nu)
+    }
+  }, [location.pathname])
 
   const { t } = useTranslation()
 
@@ -69,7 +82,7 @@ const DesktopSidebar = ({ optionsNames, optionsIcons, optionLinks, selected, shr
     <div className=" flex items-center justify-between  border-r border-lightBorder text-center text-black dark:border-darkBorder dark:text-white  xs:max-w-[400px] xs:justify-end md:flex-grow">
       <div className={`flex h-full w-full flex-col ${mobile ? "pl-5" : direction === "ltr" ? "max-lg:items-end" : "max-lg:items-start"} ${i18next.language === "en" ? "xs:pl-[30%]" : "xs:pr-[30%]"} `}>
         <div
-          className="mr-5 mt-5 cursor-pointer"
+          className="my-5 mr-5 cursor-pointer"
           onClick={() => {
             navigate("/home")
           }}
@@ -79,6 +92,17 @@ const DesktopSidebar = ({ optionsNames, optionsIcons, optionLinks, selected, shr
         {optionsNames.map((optionName, index) => (
           <SidebarOption mobile={mobile} key={optionName} icon={optionsIcons[index]} name={optionName} link={optionLinks[index]} select={selected === index ? true : false} />
         ))}
+
+        {location.pathname.split("/")[1] === "control_panel" && (
+          <button
+            className={`${styles.coloredButton}`}
+            onClick={() => {
+              navigate("/control_panel/add_employee")
+            }}
+          >
+            {t("add_employee")}
+          </button>
+        )}
 
         {shrink || mobile ? (
           <div className="group mr-2 mt-auto box-border w-fit cursor-pointer border-0">

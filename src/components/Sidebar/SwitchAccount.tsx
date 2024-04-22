@@ -2,7 +2,8 @@ import Menu from "@mui/material/Menu"
 import MenuItem from "@mui/material/MenuItem"
 import MoreHorizOutlinedIcon from "@mui/icons-material/MoreHorizOutlined"
 import { Avatar } from "@mui/material"
-
+import { useEffect, useState } from "react"
+import { useLocation } from "react-router-dom"
 
 import { useSelector } from "react-redux"
 
@@ -11,10 +12,21 @@ import { t } from "i18next"
 function SwitchAccount({ handleLogout, openMenu, anchorMenu, handleCloseMenu, handleClickMenu }: { handleLogout: () => void; openMenu: boolean; anchorMenu: HTMLElement | null; handleCloseMenu: any; handleClickMenu: any }) {
   const htmlElement = document.getElementById("htmlid")
 
-  const user = useSelector((state: any) => state.user?.user)
+  const location = useLocation()
 
+  const nu = useSelector((state: any) => state.user.user)
+  const cnu = useSelector((state: any) => state.cnu.cnu)
 
-  
+  const [user, setUser] = useState<any>()
+
+  useEffect(() => {
+    if (location.pathname.split("/")[1] === "control_panel") {
+      console.log("cnu", cnu)
+      setUser(cnu)
+    } else {
+      setUser(nu)
+    }
+  }, [location.pathname])
 
   return (
     <>

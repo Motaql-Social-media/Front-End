@@ -8,17 +8,14 @@ import Logo from "../../assets/images/mainLogo.svg"
 import { styles } from "../../styles/styles"
 
 import { useDispatch, useSelector } from "react-redux"
-import { loginUser, userState } from "../../store/UserSlice"
-import { ThemeState } from "../../store/ThemeSlice"
+import { loginUser } from "../../store/UserSlice"
 
 // import GoogleLoginButton from "../General/GoogleLoginButton";
 import axios from "axios"
 
 import React from "react"
 
-import { getColor } from "../../constants"
 import { AnyAction } from "@reduxjs/toolkit"
-import { NotificationState } from "../../store/NotificationSlice"
 import { useTranslation } from "react-i18next"
 
 import TextField from "@mui/material/TextField"

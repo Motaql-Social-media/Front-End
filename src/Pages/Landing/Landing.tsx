@@ -69,7 +69,7 @@ const Landing = ({ openLoginModal, handleOpenLoginModal, handleCloseLoginModal, 
         <a href="/terms_of_services" className="hover:underline" target="_blank" rel="noopener noreferrer">
           {t("terms_of_service")}
         </a>
-        <a href="/terms_of_services" className="hover:underline" target="_blank" rel="noopener noreferrer">
+        <a href="/privacy_policy" className="hover:underline" target="_blank" rel="noopener noreferrer">
           {t("privacy_policy")}
         </a>
       </div>

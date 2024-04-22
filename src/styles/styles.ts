@@ -60,8 +60,8 @@ const styles = {
     paddingTop: 0,
     paddingBottom: 0,
   },
-  coloredButton: "text-black font-semibold w-full bg-primary rounded-full h-12 my-2 disabled:bg-opacity-30 hover:bg-primaryHover",
-  normalButton: "text-primary border font-semibold w-full dark:bg-black rounded-full h-12 my-2",
+  coloredButton: "text-black font-semibold w-full bg-primary rounded-full h-12 my-2 disabled:bg-opacity-30 disabled:pointer-events-none hover:bg-primaryHover",
+  normalButton: "my-2 h-12 w-full rounded-full border text-primary bg-black font-semibold disabled:bg-gray-500",
   textField: {
     borderColor: "#40e5da",
 

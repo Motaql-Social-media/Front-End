@@ -71,8 +71,16 @@ import { CacheProvider } from "@emotion/react"
 import createCache from "@emotion/cache"
 import TermsOfService from "./Pages/TermsOfService/TermsOfService"
 import PrivacyPolicy from "./Pages/PrivacyPolicy/PrivacyPolicy"
-import { receiveMessage } from "./store/MessageSlice"
 import axios from "axios"
+
+import AdminLanding from "./Pages/AdminLanding/AdminLanding"
+import Pioneers from "./Pages/Pioneers/Pioneers"
+import ControlPanel from "./Pages/ControlPanel/ControlPanel"
+
+import AddEmployee from "./Pages/AddEmployee/AddEmployee"
+import Subscription from "./Pages/Subscription/Subscription"
+import Employees from "./Pages/Employees/Employees"
+import SubscriptionRequests from "./Pages/SubscriptionRequests/SubscriptionRequests"
 
 const SocketContext = createContext<any>(null)
 export { SocketContext }
@@ -175,6 +183,7 @@ function App() {
   }
 
   const user = useSelector((state: any) => state.user.user)
+  const cnu = useSelector((state: any) => state.cnu.cnu)
 
   const isMobile = useCheckMobileScreen()
 
@@ -228,11 +237,17 @@ function App() {
               <BrowserRouter>
                 <Languages />
 
-                {user && location !== "/password_reset" && location !== "/terms_of_services" && location !== "/privacy_policy" && <Sidebar />}
+                {((user && window.location.pathname !== "/control_panel" && location !== "/password_reset" && location !== "/terms_of_services") || (cnu && window.location.pathname === "/control_panel")) && location !== "/privacy_policy" && window.location.pathname !== "/admin_landing" && <Sidebar />}
                 <Routes>
                   <Route path="/terms_of_services" element={<TermsOfService />} />
                   <Route path="/privacy_policy" element={<PrivacyPolicy />} />
                   <Route path="/" element={<Landing openLoginModal={openLoginModal} handleOpenLoginModal={handleOpenLoginModal} handleCloseLoginModal={handleCloseLoginModal} openSignupModal={openSignupModal} handleOpenSignupModal={handleOpenSignupModal} handleCloseSignupModal={handleCloseSignupModal} location={location} setLocation={setLocation} />}></Route>
+                  <Route path="/admin_landing" element={<AdminLanding />}></Route>
+                  <Route path="/control_panel" element={<ControlPanel />}></Route>
+                  <Route path="/control_panel/add_employee" element={<AddEmployee />}></Route>
+                  <Route path="/control_panel/employees" element={<Employees />}></Route>
+                  <Route path="/control_panel/subscriptions" element={<SubscriptionRequests />}></Route>
+
                   <Route path="/home" element={<Home scroll={deltaY} />}>
                     <Route path="diaries" element={<Diaries />} />
                     <Route path="reels" element={<Reels />} />
@@ -258,6 +273,10 @@ function App() {
                     </Route>
                     <Route path="" element={<All />} />
                   </Route>
+
+                  <Route path="/pioneers" element={<Pioneers />}></Route>
+                  <Route path="/subscription/:type" element={<Subscription />}></Route>
+
                   <Route path="/:tag/followers_followings" element={<FollowersFollowings scroll={deltaY} />}>
                     <Route path="followers" element={<Followers />}></Route>
                     <Route path="followings" element={<Followings />}></Route>

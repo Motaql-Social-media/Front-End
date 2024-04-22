@@ -19,6 +19,8 @@ module.exports = {
         primaryHover: "#31BFB6",
         lightHover: "#e5e5e5",
         darkHover: "#0a0a0a",
+        interestedColor: "#e38120",
+        businessColor: "#511796",
       },
       boxShadow: {
         card: "0px 0px 80px -20px #40e5da",

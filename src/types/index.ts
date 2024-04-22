@@ -106,4 +106,41 @@ declare global {
     text: string
     isFromMe: boolean
   }
+
+  interface AdminUserState {
+    cnu: any
+    cnt: string | null
+  }
+
+  interface Employee {
+    userId: number
+    name: string
+    email: string
+    phoneNumber: string
+    imageUrl: string
+    createdAt: string
+    status: string
+    type: string
+    inActivatedAt: null | string
+  }
+
+  interface Subscriber {
+    email: string
+    imageUrl: string
+    jobtitle: string
+    name: string
+    phoneNumber: string
+    userId: number
+    username: string
+  }
+
+  interface Subscription {
+    type: string
+    status: string
+    liveImage: string
+    createdAt: string
+    fullname: string
+    subscriber: Subscriber
+    subscriptionId: number
+  }
 }

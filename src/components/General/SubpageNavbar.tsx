@@ -37,7 +37,7 @@ const SubpageNavbar = ({ title }: { title: string }) => {
     navigate(-1)
   }
   return (
-    <div className={`flex items-center justify-start gap-7 ${i18next.language === "en" ? "pl-2" : "pr-2"}  max-[540px]:hidden`}>
+    <div className={`flex items-center justify-start gap-7 ${i18next.language === "en" ? "pl-2" : "pr-2"}  max-[540px]:hidden border-b border-b-darkBorder`}>
       <div onClick={handleBack} className="cursor-pointer">
         {i18next.language === "en" && <ArrowBack fontSize="small" />}
         {i18next.language === "ar" && <ArrowForward fontSize="small" />}

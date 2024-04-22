@@ -168,59 +168,7 @@ const SearchComponent = ({ query, callback, fromMessage }: { query: string; call
             )}
           </div>
         )}
-        {/* <Stack spacing={2} sx={{ width: "100%" }}>
-          <Autocomplete
-            freeSolo
-            blurOnSelect={false}
-            renderGroup={(group) => {
-              return (
-                <div key={group.key}>
-                  <span className="p-2 text-sm">{group.group}</span>
-                  <div dir="ltr">{group.children}</div>
-                </div>
-              )
-            }}
-            groupBy={(option: any) => {
-              if (option.userId) {
-                return t("users")
-              } else {
-                return t("trends")
-              }
-            }}
-            disableClearable
-            getOptionLabel={(option) => option?.username || searchQuery}
-            options={searchAll}
-            noOptionsText={"No options found"}
-            renderOption={(props, option) => {
-              console.log("option", option)
-              return <li key={props.id}>{option.userId ? <UserSearchComponent {...props} id={props.id} option={option} fromMessage={fromMessage} /> : <TrendSearchOption {...props} option={option} />}</li>
-            }}
-            renderInput={(params) => {
-              return (
-                <div key={params.id} className="w-full" ref={params.InputProps.ref}>
-                  <TextField
-                    label={!fromMessage ? t("search_placeholder") : t("search_user")}
-                    variant="outlined"
-                    value={searchQuery}
-                    onChange={(e) => {
-                      const value = e.target.value
-                      setSearchQuery(value)
-                      handleSearchChange(value)
-                    }}
-                    inputProps={{
-                      onKeyDown: handleEnterKeyPress,
-                      ...params.inputProps,
-                    }}
-                    InputLabelProps={{
-                      style: { color: "#40e5da", textAlign: "right" },
-                    }}
-                    sx={styles.textField}
-                  />
-                </div>
-              )
-            }}
-          />
-        </Stack> */}
+       
       </div>
     </div>
   )

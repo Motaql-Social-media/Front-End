@@ -1,13 +1,13 @@
 import { Cancel } from "@mui/icons-material"
 import CropIcon from "@mui/icons-material/Crop"
-import { Box, Button, DialogActions, DialogContent, Slider } from "@mui/material"
+import { Box, DialogActions, DialogContent, Slider } from "@mui/material"
 import React, { useState } from "react"
 import Cropper from "react-easy-crop"
 import getCroppedImg from "./utils/CropImage"
 
 import { useTranslation } from "react-i18next"
 
-const Crop = ({ photoURL, setOpenCrop, setPhotoURL, setFile, aspect, originalPhoto }: { photoURL: string; setOpenCrop: (open: boolean) => void; setPhotoURL: (url: string) => void; setFile: (file: File) => void; aspect: number; originalPhoto: string }) => {
+const Crop = ({ photoURL, setOpenCrop, setClose, setPhotoURL, setFile, aspect, originalPhoto }: { photoURL: string; setOpenCrop: (open: boolean) => void; setClose?: any; setPhotoURL: (url: string) => void; setFile: (file: File) => void; aspect: number; originalPhoto: string }) => {
   const [crop, setCrop] = useState({ x: 0, y: 0 })
   const [zoom, setZoom] = useState(1)
   const [rotation, setRotation] = useState(0)
@@ -24,6 +24,7 @@ const Crop = ({ photoURL, setOpenCrop, setPhotoURL, setFile, aspect, originalPho
         setFile(res.file)
         setPhotoURL(res.url)
         setOpenCrop(false)
+        setClose()
       })
       .catch((err) => {
         console.log(err)
@@ -77,6 +78,7 @@ const Crop = ({ photoURL, setOpenCrop, setPhotoURL, setFile, aspect, originalPho
               onClick={() => {
                 setPhotoURL(originalPhoto)
                 setOpenCrop(false)
+                setClose()
               }}
             >
               <Cancel
@@ -87,15 +89,7 @@ const Crop = ({ photoURL, setOpenCrop, setPhotoURL, setFile, aspect, originalPho
               />
               <span>{t("cancel")}</span>
             </button>
-            {/* <Button
-              variant="outlined"
-              startIcon={<Cancel />}
-              //   onClick={() => {
-              //     setPhotoURL(originalPhoto);
-              //     setOpenCrop(false);
-              //   }}
-              //   sx={{ marginTop: -2 }}
-            ></Button> */}
+            
             <button className="-mt-2 flex items-center justify-between rounded-full border border-primary px-2 font-bold text-primary hover:bg-primary hover:text-black " onClick={handleCropImage}>
               <CropIcon
                 sx={{

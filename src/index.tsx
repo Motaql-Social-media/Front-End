@@ -1,4 +1,4 @@
-import React, { Suspense } from "react"
+import React, { Suspense, lazy } from "react"
 import ReactDOM from "react-dom/client"
 
 import reportWebVitals from "./reportWebVitals"
@@ -24,7 +24,7 @@ i18n
     // or even better, manage them via a UI: https://react.i18next.com/guides/multiple-translation-files#manage-your-translations-with-a-management-gui)
 
     supportedLngs: ["en", "ar"],
-    fallbackLng: "en",
+    fallbackLng: "ar",
     detection: {
       order: ["cookie", "htmlTag", "localStorage", "path", "subdomain"],
       caches: ["cookie"],
