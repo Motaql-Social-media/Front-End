@@ -3,7 +3,7 @@ import { t } from "i18next"
 import { styles } from '../../styles/styles'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 
-function Specialized() {
+function Specialized({ status }: { status: string|undefined }) {
   const properities = [t("for_individuals"), t("specialized_authentication"), t("specialized_mark"), t("add_website"), t("career_applications"), t("free_trial"), t("subscription_price", { price: "999" })]
 
   return (
@@ -14,7 +14,7 @@ function Specialized() {
           <p className="text-lg">{property}</p>
         </div>
       ))}
-      <button className={`${styles.coloredButton}`} onClick={() => (window.location.href = "/subscription/specialized")}>
+      <button className={`${styles.coloredButton}`} onClick={() => (window.location.href = "/subscription/specialized")} disabled={status === "ACTIVATED"}>
         {t("choose")}
       </button>
     </div>

@@ -13,7 +13,7 @@ function EmployeeComponents({ employee }: { employee: Employee }) {
     return `${day}/${month}/${year}`
   }
 
-  const [status, setStatus] = React.useState<boolean>(employee.status === "ACTIVE" ? true : false)
+  const [status, setStatus] = React.useState<boolean>(employee.status === "ACTIVATED" ? true : false)
 
   return (
     <div className="flex gap-3 border-b border-b-darkBorder p-5 hover:bg-darkHover">
@@ -39,7 +39,7 @@ function EmployeeComponents({ employee }: { employee: Employee }) {
             {" : "}
             {isoDateToDDMMYYYY(employee.createdAt)}
           </div>
-          {employee.inActivatedAt && (
+          {employee.inActivatedAt && !status && (
             <div className={`${employee.inActivatedAt ? "text-primary" : "text-gray-400"}`}>
               {t("cancelation_date")}
               {" : "}

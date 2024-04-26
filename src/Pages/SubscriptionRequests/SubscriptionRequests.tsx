@@ -22,7 +22,7 @@ function SubscriptionRequests() {
   useEffect(() => {
     API.get("subscriptions")
       .then((res) => {
-        //   console.log(res.data.data.subscriptions)
+          console.log(res.data.data.subscriptions)
         setSubscriptions(res.data.data.subscriptions)
       })
       .catch((err) => {

@@ -47,7 +47,7 @@ const ProfileReels = () => {
 
   useEffect(() => {
     fetchReels()
-  }, [tag,user, page])
+  }, [tag, user, page])
 
   useEffect(() => {
     setReels([])

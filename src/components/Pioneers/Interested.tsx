@@ -3,7 +3,7 @@ import { t } from "i18next"
 import CheckCircleIcon from "@mui/icons-material/CheckCircle"
 import { styles } from "../../styles/styles"
 
-function Interested() {
+function Interested({ status }: { status: string | undefined }) {
   const properities = [t("for_individuals"), t("interested_authentication"), t("distinctive_mark"), t("add_website"), t("career_applications"), t("free_trial"), t("subscription_price", { price: "999" })]
   return (
     <div className="px-4">
@@ -13,7 +13,7 @@ function Interested() {
           <p className="text-lg">{property}</p>
         </div>
       ))}
-      <button className={`${styles.coloredButton}`} onClick={() => (window.location.href = "/subscription/interested")}>
+      <button className={`${styles.coloredButton}`} onClick={() => (window.location.href = "/subscription/interested")} disabled={status==='ACTIVATED'}>
         {t("choose")}
       </button>
     </div>

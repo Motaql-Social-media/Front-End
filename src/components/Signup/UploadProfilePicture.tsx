@@ -85,7 +85,6 @@ const UploadProfilePicture = ({ userR, setUser, userToken, handleCompleteSignup,
         setUser({ ...userR, imageUrl: res.data.data.imageUrl })
         navigate("/home")
         nextButton.current?.removeAttribute("disabled")
-
       })
       .catch((error) => {
         console.error(error)

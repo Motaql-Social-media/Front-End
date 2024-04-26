@@ -206,7 +206,7 @@ const Profile = ({ scroll }: { scroll: number }) => {
           <div className="relative">
             <img alt="banner" className="h-[200px] w-full cursor-pointer" src={process.env.REACT_APP_USERS_MEDIA_URL + bannerUrl} loading="lazy" onClick={() => openImageViewer(1)} />
             <div className="">
-              <img loading="lazy" onClick={() => openImageViewer(0)} alt="profile" className={`absolute bg-black -bottom-[75px] ${i18next.language === "en" ? "left-[5%]" : "right-[5%]"}  h-[150px] w-[150px] transform  cursor-pointer rounded-full border-4 border-black`} src={imageUrl.split(":")[0] === "https" ? imageUrl : process.env.REACT_APP_USERS_MEDIA_URL + imageUrl} />
+              <img loading="lazy" onClick={() => openImageViewer(0)} alt="profile" className={`absolute -bottom-[75px] bg-black ${i18next.language === "en" ? "left-[5%]" : "right-[5%]"}  h-[150px] w-[150px] transform  cursor-pointer rounded-full border-4 border-black`} src={imageUrl.split(":")[0] === "https" ? imageUrl : process.env.REACT_APP_USERS_MEDIA_URL + imageUrl} />
             </div>
           </div>
           <div>

@@ -3,7 +3,7 @@ import { t } from "i18next"
 import { styles } from "../../styles/styles"
 import CheckCircleIcon from "@mui/icons-material/CheckCircle"
 
-function Business() {
+function Business({ status }: { status: string | undefined }) {
   const properities = [t("for_business"), t("business_authentication"), t("business_mark"), t("add_website"), t("career_publish"), t("products_publish"), t("free_trial"), t("subscription_price", { price: "1999" })]
 
   return (
@@ -14,7 +14,7 @@ function Business() {
           <p className="text-lg">{property}</p>
         </div>
       ))}
-      <button className={`${styles.coloredButton}`} onClick={() => (window.location.href = "/subscription/business")}>
+      <button className={`${styles.coloredButton}`} onClick={() => (window.location.href = "/subscription/business")} disabled={status === "ACTIVATED"}>
         {t("choose")}
       </button>
     </div>

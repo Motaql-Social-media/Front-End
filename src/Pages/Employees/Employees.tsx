@@ -29,7 +29,7 @@ function Employees() {
   React.useEffect(() => {
     API.get("/employees")
       .then((res) => {
-        // console.log(res.data.data.employees)
+        console.log(res.data.data.employees)
         setEmployees(res.data.data.employees)
         setAllEmployees(res.data.data.employees)
       })

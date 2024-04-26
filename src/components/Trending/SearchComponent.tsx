@@ -168,7 +168,6 @@ const SearchComponent = ({ query, callback, fromMessage }: { query: string; call
             )}
           </div>
         )}
-       
       </div>
     </div>
   )

@@ -142,5 +142,39 @@ declare global {
     fullname: string
     subscriber: Subscriber
     subscriptionId: number
+    reviewedAt: string
+    ReviewerEmployeeName?: string
+  }
+
+  interface ActiveSubscription {
+    endDate: string
+    fullname: string
+    isFreeTrialUsed: boolean
+    reviewedAt: string
+    status: string
+    subscriptionId: number
+    type: string
+  }
+
+  interface User {
+    userId: number
+    username: string
+    name: string
+    email: string
+    phoneNumber: string
+    location: string | null
+    imageUrl: string
+    bannerUrl: string
+    bio: string
+    jobtitle: string
+    subscriptionType: string
+    dateOfBirth: string
+    gender: string
+    authProvider: string
+    createdAt: string
+    updatedAt: string
+    followersCount?: number
+    followingsCount?: number
+    profileImage?: string
   }
 }

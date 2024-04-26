@@ -411,7 +411,8 @@
   "subscription_checkbox": "أتعهد التزامى ببنود الاستخدام و سياسة الخصوصية وبأن المعلومات المقدمة صحيحة ونظامية وهى مسؤليتى البحتة أمام الجهات المختصة والقضاء مع إنتفاء مسؤلية ذا لاين فى حال مخالفتى ذلك",
   "subscription_welcome": "مرحباً بك فى رحلة الإبداع يسعدنا بأن تكون من ضمن طاقم روّاد ذا لاين",
   "subscription_welcome2": "نرجو التأكد من صحة المعلومات حيث سيتم تثبيتها فى حال الأنضمام، سيتم التواصل معك هاتفياً أو عبر البريد الإلكترونى المسجلين لتفعيل الأشتراك.",
-  "subscription_button": "اشترك الآن | تجربة مجانية لمدة شهر",
+  "subscription_button_free": "اشترك الآن | تجربة مجانية لمدة شهر",
+  "subscription_button_paid": "اشترك الآن | بقيمة {{price}} ريال سعودى",
   "add_date": "تاريخ الإضافة",
   "cancelation_date": "تاريخ الإلغاء",
   "deactivate": "تعطيل",
@@ -430,5 +431,16 @@
   "subscription_sent": "تم إرسال طلب الاشتراك بنجاح، يرجى الانتظار لتلقي رسالة بريد إلكتروني من خدمة العملاء لدينا",
   "subscription_date": "تاريخ الاشتراك",
   "activate_subscription": "تفعيل الاشتراك",
-  "refuse_request": "رفض الطلب"
+  "refuse_request": "رفض الطلب",
+  "subscription_information": "معلومات الاشتراك",
+  "subscription_end_date": "تاريخ انتهاء الاشتراك",
+  "cancel_subscription": "الغاء الاشتراك",
+  "cancelation_message": "هل أنت متأكد من إلغاء الاشتراك؟",
+  "activation_date": "تاريخ التفعيل",
+  "activation_employee": "موظف التفعيل",
+  "rejection_employee": "موظف الرفض",
+
+  "subscription_refused": "تم رفض طلب الاشتراك هذا",
+  "see_subscription_types": "الإطلاع على أنواع الاشتراكات",
+  "return_to_my_subscription": "العودة إلى اشتراكي"
 }

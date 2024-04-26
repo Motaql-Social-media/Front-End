@@ -45,7 +45,6 @@ const Birthdate = ({ month, setMonth, day, setDay, year, setYear, yearwidth, mon
               color: "#40e5da",
             },
             width: 125,
-            
           }}
         >
           <InputLabel id="demo-simple-select-label">{t("month")}</InputLabel>
@@ -215,7 +214,7 @@ const Birthdate = ({ month, setMonth, day, setDay, year, setYear, yearwidth, mon
             }}
           >
             {user &&
-              window.location.pathname.split('/')[1] === `${user.username}` &&
+              window.location.pathname.split("/")[1] === `${user.username}` &&
               last120Years.slice(14).map((year) => (
                 <MenuItem value={year} key={year} data-testid={year}>
                   {year}

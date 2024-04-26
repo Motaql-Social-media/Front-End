@@ -4,9 +4,9 @@ import Business from "./Business"
 import Interested from "./Interested"
 import Specialized from "./Specialized"
 
-function PioneersTabs() {
+function PioneersTabs({ status }: { status: string | undefined }) {
   const titles = [t("interested"), t("professional"), t("business")]
-  const components = [<Interested />, <Specialized />, <Business />]
+  const components = [<Interested status={status} />, <Specialized status={status} />, <Business status={status} />]
   const [index, setIndex] = React.useState(0)
   return (
     <div>
@@ -18,7 +18,7 @@ function PioneersTabs() {
           </div>
         ))}
       </div>
-        <div className="border-t border-t-darkBorder">{components[index]}</div>
+      <div className="border-t border-t-darkBorder">{components[index]}</div>
     </div>
   )
 }
