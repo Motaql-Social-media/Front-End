@@ -88,7 +88,7 @@ function SubscriptionButtonContainer({ checked, name, imgFile, freeTrialAvavilab
             </button>
           )}
           {!freeTrialAvavilable && (
-            <button className={`${styles.normalButton}`} disabled={!checked || name === "" || !imgFile} onClick={handlePaidSubscription}>
+            <button className={`${styles.normalButton}`} disabled={!checked} onClick={handlePaidSubscription}>
               {t("subscription_button_paid", { price: price })}
             </button>
           )}
