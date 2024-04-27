@@ -143,7 +143,7 @@ declare global {
     subscriber: Subscriber
     subscriptionId: number
     reviewedAt: string
-    ReviewerEmployeeName?: string
+    reviewerEmployeeName?: string
   }
 
   interface ActiveSubscription {

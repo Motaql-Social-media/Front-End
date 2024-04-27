@@ -1,17 +1,22 @@
-import React from "react"
+import React, { useEffect } from "react"
 import i18next, { t } from "i18next"
 import { styles } from "../../styles/styles"
 import { useSelector } from "react-redux"
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
 
-function SubscriptionButtonContainer({ checked, name, imgFile }: { checked: boolean; name: string; imgFile: any }) {
+function SubscriptionButtonContainer({ checked, name, imgFile, isFreeTrialUsed }: { checked: boolean; name: string; imgFile: any; isFreeTrialUsed: any }) {
   const userToken = useSelector((state: any) => state.user.token)
   const user = useSelector((state: any) => state.user.user)
 
-  const freeTrialAvavilable = false
   const type = window.location.pathname.split("/").pop()
   const price = type === "business" ? 1999 : 999
+  const [freeTrialAvavilable, setFreeTrialAvavilable] = React.useState(true)
+  useEffect(() => {
+    if (type === "interested") setFreeTrialAvavilable(!isFreeTrialUsed.INTERESTED)
+    else if (type === "professional") setFreeTrialAvavilable(!isFreeTrialUsed.PROFESSIONAL)
+    else if (type === "business") setFreeTrialAvavilable(!isFreeTrialUsed.BUSINESS)
+  }, [isFreeTrialUsed])
 
   const API = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
@@ -28,7 +33,7 @@ function SubscriptionButtonContainer({ checked, name, imgFile }: { checked: bool
     const formData = new FormData()
     formData.append("fullname", name)
     formData.append("image_profile", imgFile)
-    formData.append("type", type || "")
+    formData.append("type", type?.toUpperCase() || "")
 
     API.post("/subscriptions/add-subscription", formData)
       .then((res) => {

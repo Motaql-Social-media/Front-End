@@ -46,7 +46,7 @@ function ActiveSubscription({ subscription, setSubscription, setSeeTypes }: { su
     setCancelButtonClicked(false)
   }
   const handleCancelSubscription = () => {
-    API.delete(`/remove-current-subscription`)
+    API.patch(`subscriptions/remove-current-subscription`)
       .then((res) => {
         console.log(res)
         setSubscription(null)

@@ -13,7 +13,9 @@ function Interested({ status }: { status: string | undefined }) {
           <p className="text-lg">{property}</p>
         </div>
       ))}
-      <button className={`${styles.coloredButton}`} onClick={() => (window.location.href = "/subscription/interested")} disabled={status==='ACTIVATED'}>
+      {status === "PENDING" && <p className="text-center text-red-500">{t("pending_subscription")}</p>}
+
+      <button className={`${styles.coloredButton}`} onClick={() => (window.location.href = "/subscription/interested")} disabled={status === "ACTIVATED" || status === "PENDING"}>
         {t("choose")}
       </button>
     </div>

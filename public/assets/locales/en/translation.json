@@ -441,5 +441,6 @@
   "rejection_employee": "Rejection Employee",
   "subscription_refused": "This subscription request has been refused",
   "see_subscription_types": "See Subscription Types",
-  "return_to_my_subscription": "Return to My Subscription"
+  "return_to_my_subscription": "Return to My Subscription",
+  "pending_subscription":"You have pending subscription request, please wait for it to be reviewed"
 }

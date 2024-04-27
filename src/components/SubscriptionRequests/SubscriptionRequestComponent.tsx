@@ -30,7 +30,7 @@ function SubscriptionRequestComponent({ subscriptionRequest, changeRequestStatus
     API.patch(`/subscriptions/${subscriptionRequest.subscriptionId}/accept`)
       .then((res) => {
         console.log(res)
-        // changeRequestStatusCallback(subscriptionRequest.subscriptionId, res.data.data.subscription)
+        changeRequestStatusCallback(subscriptionRequest.subscriptionId, res.data.data.subscription)
       })
       .catch((err) => {
         console.log(err)
@@ -40,7 +40,7 @@ function SubscriptionRequestComponent({ subscriptionRequest, changeRequestStatus
     API.patch(`/subscriptions/${subscriptionRequest.subscriptionId}/refuse`)
       .then((res) => {
         console.log(res)
-        // changeRequestStatusCallback(subscriptionRequest.subscriptionId, res.data.data.subscription)
+        changeRequestStatusCallback(subscriptionRequest.subscriptionId, res.data.data.subscription)
       })
       .catch((err) => {
         console.log(err)
@@ -148,24 +148,24 @@ function SubscriptionRequestComponent({ subscriptionRequest, changeRequestStatus
                 <div className="mt-1">
                   {t("activation_employee")}
                   {" : "}
-                  {subscriptionRequest.ReviewerEmployeeName}
+                  {subscriptionRequest.reviewerEmployeeName}
                 </div>
               </div>
             )}
-            {subscriptionRequest.reviewedAt && subscriptionRequest.status !== "ACTIVATED" && (
+            {subscriptionRequest.status === "REJECTED" && (
               <div className="mt-2">
                 <div className="text-lg font-semibold text-red-600">{t("subscription_refused")}</div>
                 <div className="mt-1">
                   {t("rejection_employee")}
                   {" : "}
-                  {subscriptionRequest.ReviewerEmployeeName}
+                  {subscriptionRequest.reviewerEmployeeName}
                 </div>
               </div>
             )}
           </div>
         </div>
       </div>
-      {subscriptionRequest.status !== "ACTIVATED" && (
+      {subscriptionRequest.status === "PENDING" && (
         <div className="mt-2 flex items-center justify-around">
           <button className={`${styles.coloredButton} max-w-[40%]`} onClick={handleActivateSubscription}>
             {t("activate_subscription")}

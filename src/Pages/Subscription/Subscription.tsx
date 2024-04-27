@@ -7,9 +7,11 @@ import VerficationInformation from "../../components/Subscription/VerficationInf
 import ConfirmInformation from "../../components/Subscription/ConfirmInformation"
 import SubscriptionButtonContainer from "../../components/Subscription/SubscriptionButtonContainer"
 import { useNavigate, useParams } from "react-router-dom"
+import axios from "axios"
 
 function Subscription() {
   const user = useSelector((state: any) => state.user.user)
+  const userToken = useSelector((state: any) => state.user.token)
 
   const type = useParams<{ type: string }>().type
   const [correctRoute, setCorrectRoute] = React.useState(false)
@@ -34,6 +36,26 @@ function Subscription() {
 
   const [imgFile, setImgFile] = React.useState(null)
 
+  const API = axios.create({
+    baseURL: process.env.REACT_APP_API_URL,
+    headers: {
+      Authorization: `Bearer ${userToken}`,
+    },
+  })
+
+  const [isFreeTrialUsed, setIsFreeTrialUsed] = React.useState(false)
+
+  useEffect(() => {
+    API.get("subscriptions/current-subscription")
+      .then((res) => {
+        console.log(res.data.data.isFreeTrialUsed)
+        setIsFreeTrialUsed(res.data.data.isFreeTrialUsed)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }, [])
+
   return (
     <>
       {correctRoute && (
@@ -42,7 +64,7 @@ function Subscription() {
             <SubpageNavbar title="subscription" />
             <VerficationInformation imgSrc={imgSrc} setImgSrc={setImgSrc} name={name} setName={setName} imgFile={imgFile} setImgFile={setImgFile} />
             <ConfirmInformation checked={checked} handleChange={handleChange} />
-            <SubscriptionButtonContainer checked={checked} name={name} imgFile={imgFile} />
+            <SubscriptionButtonContainer checked={checked} name={name} imgFile={imgFile} isFreeTrialUsed={isFreeTrialUsed} />
           </div>
           {user && <Widgets />}
         </div>

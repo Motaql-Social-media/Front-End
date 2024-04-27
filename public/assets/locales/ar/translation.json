@@ -442,5 +442,6 @@
 
   "subscription_refused": "تم رفض طلب الاشتراك هذا",
   "see_subscription_types": "الإطلاع على أنواع الاشتراكات",
-  "return_to_my_subscription": "العودة إلى اشتراكي"
+  "return_to_my_subscription": "العودة إلى اشتراكي",
+  "pending_subscription": "لديك طلب اشتراك معلق، يرجى الانتظار حتى يتم مراجعته"
 }
