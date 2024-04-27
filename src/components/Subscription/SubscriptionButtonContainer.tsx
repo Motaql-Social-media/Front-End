@@ -5,18 +5,18 @@ import { useSelector } from "react-redux"
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
 
-function SubscriptionButtonContainer({ checked, name, imgFile, isFreeTrialUsed }: { checked: boolean; name: string; imgFile: any; isFreeTrialUsed: any }) {
+function SubscriptionButtonContainer({ checked, name, imgFile, freeTrialAvavilable }: { checked: boolean; name: string; imgFile: any; freeTrialAvavilable: any }) {
   const userToken = useSelector((state: any) => state.user.token)
   const user = useSelector((state: any) => state.user.user)
 
   const type = window.location.pathname.split("/").pop()
   const price = type === "business" ? 1999 : 999
-  const [freeTrialAvavilable, setFreeTrialAvavilable] = React.useState(true)
-  useEffect(() => {
-    if (type === "interested") setFreeTrialAvavilable(!isFreeTrialUsed.INTERESTED)
-    else if (type === "professional") setFreeTrialAvavilable(!isFreeTrialUsed.PROFESSIONAL)
-    else if (type === "business") setFreeTrialAvavilable(!isFreeTrialUsed.BUSINESS)
-  }, [isFreeTrialUsed])
+  // const [freeTrialAvavilable, setFreeTrialAvavilable] = React.useState(true)
+  // useEffect(() => {
+  //   if (type === "interested") setFreeTrialAvavilable(!isFreeTrialUsed.INTERESTED)
+  //   else if (type === "professional") setFreeTrialAvavilable(!isFreeTrialUsed.PROFESSIONAL)
+  //   else if (type === "business") setFreeTrialAvavilable(!isFreeTrialUsed.BUSINESS)
+  // }, [isFreeTrialUsed])
 
   const API = axios.create({
     baseURL: process.env.REACT_APP_API_URL,

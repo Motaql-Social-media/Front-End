@@ -1,15 +1,15 @@
 import React from "react"
 import SubscriptionRequestComponent from "./SubscriptionRequestComponent"
 
-function SubscriptionRequestsContainer({ subscriptionRequests }: { subscriptionRequests: Subscription[] }) {
+function SubscriptionRequestsContainer({ subscriptionRequests, setSubscriptions }: { subscriptionRequests: Subscription[]; setSubscriptions: any }) {
   const handleChangeRequestStatus = (id: number, newSubscription: Subscription) => {
-    console.log(id, newSubscription)
-    subscriptionRequests = subscriptionRequests.map((subscriptionRequest) => {
+    const ns = subscriptionRequests.map((subscriptionRequest) => {
       if (subscriptionRequest.subscriptionId === id) {
         return newSubscription
       }
       return subscriptionRequest
     })
+    setSubscriptions(ns)
   }
   return (
     <>

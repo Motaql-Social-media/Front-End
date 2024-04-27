@@ -43,7 +43,14 @@ function Subscription() {
     },
   })
 
-  const [isFreeTrialUsed, setIsFreeTrialUsed] = React.useState(false)
+  const [isFreeTrialUsed, setIsFreeTrialUsed] = React.useState<any>()
+
+  const [freeTrialAvavilable, setFreeTrialAvavilable] = React.useState(false)
+  useEffect(() => {
+    if (type === "interested") setFreeTrialAvavilable(!isFreeTrialUsed?.INTERESTED)
+    else if (type === "professional") setFreeTrialAvavilable(!isFreeTrialUsed?.PROFESSIONAL)
+    else if (type === "business") setFreeTrialAvavilable(!isFreeTrialUsed?.BUSINESS)
+  }, [isFreeTrialUsed])
 
   useEffect(() => {
     API.get("subscriptions/current-subscription")
@@ -62,9 +69,8 @@ function Subscription() {
         <div className="flex flex-1 flex-grow-[8] max-[540px]:mt-16">
           <div ref={subscriptionRef} className="no-scrollbar ml-0 w-full max-w-[620px] shrink-0 flex-grow overflow-y-scroll border border-b-0 border-t-0 border-lightBorder  dark:border-darkBorder  max-[540px]:border-l-0 max-[540px]:border-r-0 sm:w-[600px]">
             <SubpageNavbar title="subscription" />
-            <VerficationInformation imgSrc={imgSrc} setImgSrc={setImgSrc} name={name} setName={setName} imgFile={imgFile} setImgFile={setImgFile} />
-            <ConfirmInformation checked={checked} handleChange={handleChange} />
-            <SubscriptionButtonContainer checked={checked} name={name} imgFile={imgFile} isFreeTrialUsed={isFreeTrialUsed} />
+            {freeTrialAvavilable && <VerficationInformation imgSrc={imgSrc} setImgSrc={setImgSrc} name={name} setName={setName} imgFile={imgFile} setImgFile={setImgFile} />} <ConfirmInformation checked={checked} handleChange={handleChange} />
+            <SubscriptionButtonContainer checked={checked} name={name} imgFile={imgFile} freeTrialAvavilable={freeTrialAvavilable} />
           </div>
           {user && <Widgets />}
         </div>
