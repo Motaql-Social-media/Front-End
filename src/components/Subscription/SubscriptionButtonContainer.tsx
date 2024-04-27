@@ -54,6 +54,7 @@ function SubscriptionButtonContainer({ checked, name, imgFile, freeTrialAvavilab
       baseURL: `https://apitest.myfatoorah.com/`,
       headers: {
         Accept: "application/json",
+        "Access-Control-Allow-Origin": "*",
         Authorization: ` Bearer ${process.env.NODE_ENV === "production" ? process.env.PAYMENT_FATOORAH_PROD_API_KEY : process.env.PAYMENT_FATOORAH_DEV_API_KEY}`,
         "Content-Type": "application/json",
       },
@@ -92,7 +93,7 @@ function SubscriptionButtonContainer({ checked, name, imgFile, freeTrialAvavilab
               {t("subscription_button_paid", { price: price })}
             </button>
           )}
-          {subscriptionSent && <div className="text-lg text-black">{t("subscription_sent")}</div>}
+          {subscriptionSent && <div className="text-lg text-green-500">{t("subscription_sent")}</div>}
           <div className="text-xl text-black">{t("subscription_welcome2")}</div>
         </div>
       </div>
