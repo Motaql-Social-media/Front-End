@@ -20,6 +20,10 @@ import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined"
 import ManageAccountsOutlinedIcon from "@mui/icons-material/ManageAccountsOutlined"
 import Groups2OutlinedIcon from "@mui/icons-material/Groups2Outlined"
 import VerifiedOutlinedIcon from "@mui/icons-material/VerifiedOutlined"
+import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore"
+import LocalGroceryStoreOutlinedIcon from "@mui/icons-material/LocalGroceryStoreOutlined"
+import BusinessCenterOutlinedIcon from "@mui/icons-material/BusinessCenterOutlined"
+import BusinessCenterIcon from "@mui/icons-material/BusinessCenter"
 
 import { useEffect, useState } from "react"
 import { useLocation } from "react-router-dom"
@@ -47,7 +51,7 @@ const Sidebar = () => {
   const messageUnseenCount = useSelector((state: any) => state.message.unseenCount)
 
   const user = useSelector((state: any) => state.user.user)
-  const optionsNamesInit = [t("home"), t("trending"), t("explore"), t("notifications"), t("pioneers"), t("messages"), t("bookmarks"), t("profile"), t("settings")]
+  const optionsNamesInit = [t("home"), t("trending"), t("explore"), t("notifications"), t("pioneers"), t("marketplace"), t("opportunities"), t("messages"), t("bookmarks"), t("profile"), t("settings")]
   const optionsIconsInit = [
     [<HomeOutlinedIcon />, <HomeIcon />],
     [<TrendingUpIcon />, <TrendingUpIcon />],
@@ -77,7 +81,8 @@ const Sidebar = () => {
       </Badge>,
     ],
     [<ManageAccountsOutlinedIcon />, <ManageAccountsIcon />],
-
+    [<LocalGroceryStoreOutlinedIcon />, <LocalGroceryStoreIcon />],
+    [<BusinessCenterOutlinedIcon />, <BusinessCenterIcon />],
     [
       <Badge
         badgeContent={messageUnseenCount}
@@ -106,7 +111,7 @@ const Sidebar = () => {
     [<PersonOutlinedIcon />, <PersonIcon />],
     [<SettingsOutlinedIcon />, <SettingsIcon />],
   ]
-  const optionsLinksInit = ["/home", "/trending", "/explore", "/notifications", "/pioneers", "/messages", "/bookmarks", `/${user?.username}`, "/settings"]
+  const optionsLinksInit = ["/home", "/trending", "/explore", "/notifications", "/", "/", "/", "/messages", "/bookmarks", `/${user?.username}`, "/settings"]
   const controlOptionsNames = [t("employees"), t("subscriptions")]
   const controlOptionsIcons = [
     [<Groups2OutlinedIcon />, <Groups2Icon />],

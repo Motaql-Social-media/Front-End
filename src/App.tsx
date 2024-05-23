@@ -274,8 +274,8 @@ function App() {
                     <Route path="" element={<All />} />
                   </Route>
 
-                  <Route path="/pioneers" element={<Pioneers />}></Route>
-                  <Route path="/subscription/:type" element={<Subscription />}></Route>
+                  {/* <Route path="/pioneers" element={<Pioneers />}></Route> */}
+                  {/* <Route path="/subscription/:type" element={<Subscription />}></Route> */}
 
                   <Route path="/:tag/followers_followings" element={<FollowersFollowings scroll={deltaY} />}>
                     <Route path="followers" element={<Followers />}></Route>

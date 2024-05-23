@@ -1,7 +1,7 @@
 {
   "language": "Language",
   "landing_welcom": "Welcome to the world of The Line",
-  "landing_welcom2": "Connect with your friends, discover new communities in your specialty and interest",
+  "landing_welcome2": "Entrepreneur or business entity? Connect with everyone and discover new opportunities around you",
   "landing_agreement": "By signing up, you agree to the",
   "landing_terms": "Terms of Service",
   "landing_privacy": "Privacy Policy",
@@ -45,7 +45,7 @@
   "signup_welcome": "Join The Line today",
   "signup_welcome2": "Create your account ",
   "name": "Name",
-  "speciality": "Specialty | interest e.g. Dentist or Traveler",
+  "speciality": "Business activity: Tech Entrepreneur, Retail Sales",
   "birthdate": "Date of birth",
   "birthdate_message": "This will not be shown publicly. Confirm your own age, even if this account is for a business, a pet, or something else.",
   "month": "Month",
@@ -372,7 +372,9 @@
   "password_incorrect": "The password you entered was incorrect.",
   "password_not_match": "The passwords you entered don't match.",
   "password_changed2": "Password Changed Successfully",
-  "pioneers": "The Line Pioneers",
+  "pioneers": "Subscriptions ( Soon )",
+  "marketplace": "Marketplace ( Soon )",
+  "opportunities": "Opportunities ( Soon )",
   "admin_landing_welcome": "Login to the control panel",
   "admin_landing_welcome2": "Use your employer Credentials",
   "interested": "Interested",
@@ -388,8 +390,8 @@
   "specialized_mark": "Authentication with a professional mark",
   "business_mark": "Authentication with a professional mark",
   "add_website": "Add a website to your profile",
-  "career_applications": "Feature of applying for career opportunities",
-  "career_publish": "Feature of publishing career opportunities",
+  "career_applications": "Feature of applying for investment opportunities",
+  "career_publish": "Feature of publishing investment opportunities",
   "products_publish": "Feature of publishing products",
   "free_trial": "Free trial for one month without any financial obligations",
   "subscription_price": "Annual subscription worth {{price}} Saudi riyals",
@@ -442,5 +444,5 @@
   "subscription_refused": "This subscription request has been refused",
   "see_subscription_types": "See Subscription Types",
   "return_to_my_subscription": "Return to My Subscription",
-  "pending_subscription":"You have pending subscription request, please wait for it to be reviewed"
+  "pending_subscription": "You have pending subscription request, please wait for it to be reviewed"
 }

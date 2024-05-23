@@ -29,7 +29,7 @@ const Landing = ({ openLoginModal, handleOpenLoginModal, handleCloseLoginModal, 
       </div>
       <div className="flex flex-col  items-start gap-8 p-10 lg:w-[40%] lg:self-start  lg:pt-16">
         <h1 className="text-2xl font-bold  dark:text-white min-[575px]:text-3xl md:text-4xl lg:text-5xl">{t("landing_welcom")}</h1>
-        <h3 className="min-[575px]:text-md text-sm font-bold dark:text-white md:text-lg lg:text-xl">{t("landing_welcom2")}.</h3>
+        <h3 className="min-[575px]:text-md text-sm font-bold text-primary md:text-lg lg:text-xl">{t("landing_welcome2")}.</h3>
         <div className="flex w-[80%] max-w-[400px] flex-col gap-[10%] self-center">
           <GoogleButton />
           <div className="flex items-center justify-center">
