@@ -134,7 +134,7 @@ const ReelBody = ({ inPostPage, muted, setMuted, media, content, mentions, displ
         {isExpanded && <div className="text-primary hover:underline">{ t('show_more')}</div>}
       </div>
       {displayReel && (
-        <div className={` pl-5 pt-5`}>
+        <div className={` pt-5`}>
           <Skeleton
             variant="rectangular"
             animation="wave"

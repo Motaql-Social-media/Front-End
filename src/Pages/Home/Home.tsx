@@ -146,7 +146,17 @@ const Home = ({ scroll }: { scroll: number }) => {
               { title: t("reels"), location: "reels" },
             ]}
             originalUrl="/home"
-            handlers={[null, null]}
+            handlers={[
+              () => {
+                setDiaries([])
+                setDiariesPage(1)
+              },
+              () => {
+                setReels([])
+
+                setReelsPage(1)
+              },
+            ]}
           />
         </div>
         {!loading && (

@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom"
+import { t } from "i18next"
 
 function SidebarOption({ icon, name, link, select, mobile }: { icon: any; name: string; link: string; select: boolean; mobile: boolean }) {
   const navigate = useNavigate()
@@ -15,8 +16,8 @@ function SidebarOption({ icon, name, link, select, mobile }: { icon: any; name: 
         <div data-testid="icon" className={`py-2 pl-[3px] max-[1278px]:pr-2 xs:pl-2`}>
           {select ? icon[1] : icon[0]}
         </div>
-        <div className={`${select ? "font-bold" : ""} py-2 pl-4 pr-6  ${mobile ? "" : "max-lg:hidden"}`}>
-          <span>{name}</span>
+        <div className={`${select ? "font-bold" : ""} py-2 pl-4 pr-6 text-start  ${mobile ? "" : "max-lg:hidden"}`}>
+          <span>{t(name)}</span>
         </div>
       </div>
     </div>
