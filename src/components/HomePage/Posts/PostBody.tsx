@@ -5,7 +5,7 @@ import { t } from "i18next"
 import { useRef } from "react"
 
 const PostBody = ({ description, media, mentions, inPostPage }: { description: string; media: string[]; mentions: string[]; inPostPage: boolean }) => {
-  const mediaUrls = media.map((item: any) => process.env.REACT_APP_TWEETS_MEDIA_URL + item)
+  const mediaUrls = media
 
   const [processedMentions, setProcessedMentions] = useState<string[]>([])
 

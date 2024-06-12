@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react"
+import React, { useState, useCallback, useEffect } from "react"
 import ImageViewer from "react-simple-image-viewer"
 
 const OneImage = ({ image, showCancelButton, handleDeleteMedia }: { image: string; showCancelButton: boolean; handleDeleteMedia: any }) => {
@@ -14,6 +14,9 @@ const OneImage = ({ image, showCancelButton, handleDeleteMedia }: { image: strin
     setCurrentImage(0)
     setIsViewerOpen(false)
   }
+  useEffect(() => { 
+    console.log("image", image)
+  }, [])
 
   return (
     <div dir="ltr">

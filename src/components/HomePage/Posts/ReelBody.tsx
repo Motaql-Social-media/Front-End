@@ -1,7 +1,7 @@
 import { Skeleton } from "@mui/material"
 import { useState, useEffect, useRef } from "react"
 import VolumeOffIcon from "@mui/icons-material/VolumeOff"
-import { t } from "i18next";
+import { t } from "i18next"
 
 const ReelBody = ({ inPostPage, muted, setMuted, media, content, mentions, displayReel }: { inPostPage: boolean; muted: boolean; setMuted: any; media: string; content: string; mentions: string[]; displayReel: boolean }) => {
   const handleVideoClick = (e: any) => {
@@ -28,7 +28,7 @@ const ReelBody = ({ inPostPage, muted, setMuted, media, content, mentions, displ
     }
   }, [videoRef.current])
 
-  const mediaUrl = (process.env.REACT_APP_REELS_MEDIA_URL || "") + media
+  const mediaUrl = media || ""
 
   const [processedMentions, setProcessedMentions] = useState<string[]>([])
 
@@ -131,7 +131,7 @@ const ReelBody = ({ inPostPage, muted, setMuted, media, content, mentions, displ
             </span>
           ))}
         </p>
-        {isExpanded && <div className="text-primary hover:underline">{ t('show_more')}</div>}
+        {isExpanded && <div className="text-primary hover:underline">{t("show_more")}</div>}
       </div>
       {displayReel && (
         <div className={` pt-5`}>

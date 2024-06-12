@@ -213,7 +213,7 @@ const ComposeReel = ({ handleClose, addReelCallback }: { handleClose: any; addRe
           <div className={`flex items-center justify-between gap-2 ${i18next.language === "en" ? "sm:mr-3" : "sm:ml-3"} `}>
             <div className="flex flex-col items-center justify-center gap-2">
               <Link className="hover:underline" to={`/${user.username}`}>
-                <Avatar alt={user.name} src={`${user.imageUrl.split(":")[0] === "https" ? user.imageUrl : process.env.REACT_APP_USERS_MEDIA_URL + user.imageUrl}`} sx={{ width: 40, height: 40 }} />
+                <Avatar alt={user.name} src={`${user.imageUrl.split(":")[0] === "https" ? user.imageUrl :  user.imageUrl}`} sx={{ width: 40, height: 40 }} />
               </Link>
               <CircularProgress variant="determinate" value={charsCount} size={progressCircleSize} sx={{ color: charsProgressColor }} />
             </div>

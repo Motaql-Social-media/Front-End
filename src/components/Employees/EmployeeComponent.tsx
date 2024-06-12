@@ -18,7 +18,7 @@ function EmployeeComponents({ employee }: { employee: Employee }) {
   return (
     <div className="flex gap-3 border-b border-b-darkBorder p-5 hover:bg-darkHover">
       <div>
-        <Avatar alt={employee.name} src={`${process.env.REACT_APP_USERS_MEDIA_URL + employee.imageUrl}`} sx={{ width: 50, height: 50 }} />
+        <Avatar alt={employee.name} src={`${ employee.imageUrl}`} sx={{ width: 50, height: 50 }} />
       </div>
       <div className="flex flex-grow flex-col gap-1">
         <div className="flex w-full items-center justify-between">

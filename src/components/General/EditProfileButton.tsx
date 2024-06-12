@@ -230,7 +230,7 @@ const EditProfileButton = ({ setBio, setName, setBannerUrl, setDateOfBirth, setI
             </div>
             <div className="relative mb-[90px] mt-3 h-[200px] w-full">
               <div className="relative h-full w-full">
-                <img src={newbannerImageUrl === banner_image ? process.env.REACT_APP_USERS_MEDIA_URL + newbannerImageUrl : newbannerImageUrl} alt="banner" className="h-full w-full" />
+                <img src={newbannerImageUrl === banner_image ?  newbannerImageUrl : newbannerImageUrl} alt="banner" className="h-full w-full" />
                 <input type="file" accept="image/*" hidden ref={hiddenBannerInput} onChange={handlePictureChange} />
                 <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer rounded-full bg-gray-900 p-2 hover:bg-darkHover" onClick={handleBannerClick}>
                   <AddAPhotoOutlinedIcon sx={{ color: "white" }} />
@@ -239,7 +239,7 @@ const EditProfileButton = ({ setBio, setName, setBannerUrl, setDateOfBirth, setI
               <div>
                 <div className="absolute -bottom-[75px] left-[5%] h-[150px] w-[150px] cursor-pointer rounded-full">
                   <div className="relative h-full w-full">
-                    <img src={newprofileImageUrl === image_profile ? (newprofileImage.split(":")[0] === "https" ? newprofileImage : process.env.REACT_APP_USERS_MEDIA_URL + newprofileImageUrl) : newprofileImageUrl} alt="profile" className=" h-full w-full rounded-full  border-4 border-black" />
+                    <img src={newprofileImageUrl === image_profile ? (newprofileImage.split(":")[0] === "https" ? newprofileImage : newprofileImageUrl) : newprofileImageUrl} alt="profile" className=" h-full w-full rounded-full  border-4 border-black" />
                     <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer rounded-full bg-gray-900 p-2 hover:bg-darkHover" onClick={handlePictureClick}>
                       <AddAPhotoOutlinedIcon sx={{ color: "white" }} />
                     </div>

@@ -68,7 +68,7 @@ function SubscriptionButtonContainer({ checked, name, imgFile, freeTrialAvavilab
       CustomerEmail: user.email,
       InvoiceValue: price,
       CallBackUrl: "http://thelinechat.com/pioneers",
-      ErrorUrl: "https://thelinechat.com",
+      ErrorUrl: "http://thelinechat.com",
       Language: "en",
       CustomerReference: user.userId,
       SubscriptionType: type?.toUpperCase(),

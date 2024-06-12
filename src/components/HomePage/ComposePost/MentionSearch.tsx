@@ -45,7 +45,7 @@ const MentionSearch = ({ username, callback }: { username: string | undefined; c
               callback(person.username)
             }}
           >
-            <Avatar alt={person.username} src={person.imageUrl.split(":")[0] === "https" ? person.imageUrl : process.env.REACT_APP_USERS_MEDIA_URL + person.imageUrl} sx={{ width: 40, height: 40 }} />
+            <Avatar alt={person.username} src={person.imageUrl.split(":")[0] === "https" ? person.imageUrl :   person.imageUrl} sx={{ width: 40, height: 40 }} />
             <div>
               <div className="text-primary text-sm">{person.name}</div>
               <div className="text-primary text-sm">@{person.username}</div>

@@ -11,7 +11,7 @@ const Person = ({ name, username, bio, jobtitle, followersCount, followingsCount
   return (
     <div className="flex items-center gap-2 p-3 hover:dark:bg-darkHover" onClick={() => navigate(`/${username}`)}>
       <div>
-        <Avatar alt={name} src={`${imageUrl.split(":")[0] === "https" ? imageUrl : process.env.REACT_APP_USERS_MEDIA_URL+imageUrl}`} sx={{ width: 40, height: 40 }} />
+        <Avatar alt={name} src={`${imageUrl}`} sx={{ width: 40, height: 40 }} />
       </div>
       <div className="flex flex-col items-start ">
         <div className=" flex cursor-pointer items-center gap-2 ">

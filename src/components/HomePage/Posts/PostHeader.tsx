@@ -155,7 +155,7 @@ const PostHeader = ({ date, tweeter, id, type, posts, setPosts, base, parent }: 
   return (
     <div className="flex items-center gap-2">
       <div onClick={handleProfileClick} className="relative" onMouseEnter={() => handleMouseEnter(1)} onMouseLeave={() => handleMouseLeave(1)}>
-        <Avatar alt={tweeter.name} src={tweeter.imageUrl.split(":")[0] === "https" ? tweeter.imageUrl : process.env.REACT_APP_USERS_MEDIA_URL + tweeter.imageUrl} sx={{ width: 40, height: 40 }} />
+        <Avatar alt={tweeter.name} src={tweeter.imageUrl} sx={{ width: 40, height: 40 }} />
         {isVisible && <HoveredProfile hoveredUser={tweeter} state={followState} setState={setFollowState} />}
       </div>
       <div>

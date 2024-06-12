@@ -94,7 +94,7 @@ function SubscriptionRequestComponent({ subscriptionRequest, changeRequestStatus
     <div className="border-b border-b-darkBorder p-3 hover:bg-darkHover">
       <div className="flex w-full justify-start gap-2">
         <div className="h-full">
-          <Avatar alt={subscriptionRequest.subscriber.name} src={`${subscriptionRequest.subscriber?.imageUrl.split(":")[0] === "https" ? subscriptionRequest.subscriber?.imageUrl : process.env.REACT_APP_USERS_MEDIA_URL + subscriptionRequest.subscriber?.imageUrl}`} sx={{ width: 50, height: 50 }} />
+          <Avatar alt={subscriptionRequest.subscriber.name} src={`${ subscriptionRequest.subscriber?.imageUrl}`} sx={{ width: 50, height: 50 }} />
         </div>
         <div className="w-full">
           <div className="flex w-full gap-2">
@@ -113,7 +113,7 @@ function SubscriptionRequestComponent({ subscriptionRequest, changeRequestStatus
                     <Close />
                   </div>
                   <div className="mt-6 flex h-fit w-full items-center justify-center ">
-                    <img className="rounded-2xl border border-primary" alt={subscriptionRequest.subscriber.name} src={`${process.env.REACT_APP_USERS_MEDIA_URL + subscriptionRequest.liveImage}`}></img>
+                    <img className="rounded-2xl border border-primary" alt={subscriptionRequest.subscriber.name} src={`${subscriptionRequest.liveImage}`}></img>
                   </div>
                 </div>
               </Modal>
