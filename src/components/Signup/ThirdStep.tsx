@@ -75,7 +75,7 @@ const ThirdStep = ({ nickName, phoneNumber, setPosition, position }: { nickName:
       .catch((err) => {
         console.log(err)
         nextButton.current?.removeAttribute("disabled")
-
+        
         setOtpError(true)
       })
   }

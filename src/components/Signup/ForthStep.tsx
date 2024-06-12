@@ -54,7 +54,6 @@ const ForthStep = ({ nickName, email, setEmail, emailExistError, setEmailExistEr
         // console.log(res);
         setPosition((prev: number) => prev + 1)
         nextButton.current?.removeAttribute("disabled")
-
       })
       .catch((err) => {
         nextButton.current?.removeAttribute("disabled")
@@ -66,6 +65,8 @@ const ForthStep = ({ nickName, email, setEmail, emailExistError, setEmailExistEr
   const { t } = useTranslation()
 
   const nextButton = useRef<HTMLButtonElement>(null)
+  const skipButton = useRef<HTMLButtonElement>(null)
+
 
   useEffect(() => {
     nextButton.current?.removeAttribute("disabled")
@@ -93,7 +94,7 @@ const ForthStep = ({ nickName, email, setEmail, emailExistError, setEmailExistEr
           sx={styles.textField}
         />
         {!validEmail(email) && <div className="text-red-600"> {t("valid_email")}</div>}
-  
+
         <span className={`ml-3 text-sm text-red-600 ${emailExistError ? "" : "hidden"}`}>{t("email_exist")}</span>
         <button
           type="button"
@@ -108,6 +109,20 @@ const ForthStep = ({ nickName, email, setEmail, emailExistError, setEmailExistEr
           disabled={!validEmail(email) || emailExistError}
         >
           {t("next")}
+        </button>
+        <button
+          type="button"
+          id="next"
+          ref={skipButton}
+          className={`${styles.coloredButton}`}
+          onClick={() => {
+            skipButton.current?.setAttribute("disabled", "true")
+            setEmail("")
+            setPosition((prev: number) => prev + 2)
+          }}
+          disabled={!validEmail(email) || emailExistError}
+        >
+          {t("skip_message")}
         </button>
       </div>
     </div>

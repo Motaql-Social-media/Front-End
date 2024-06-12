@@ -106,7 +106,7 @@ const PostFooter = ({ id, replyCount, reposted, repostsNum, liked, likesNum, isB
   const handleShare = (e: any) => {
     e.stopPropagation()
 
-    navigator.clipboard.writeText(`https://theline.social/${username}/diary/${id}`)
+    navigator.clipboard.writeText(`http://thelinechat.com/${username}/diary/${id}`)
     setOpenSnackbar(true)
   }
 
@@ -221,7 +221,7 @@ const PostFooter = ({ id, replyCount, reposted, repostsNum, liked, likesNum, isB
       </div>
       <Modal open={open} onClose={handleClose}>
         <div className="absolute left-1/2 top-1/2 w-[50%] -translate-x-1/2 -translate-y-1/2 border p-4 dark:border-darkBorder dark:bg-black ">
-          <ComposeQuote id={id} handleClose={handleClose}setRepostCount={setRepostCount} type="diary" />
+          <ComposeQuote id={id} handleClose={handleClose} setRepostCount={setRepostCount} type="diary" />
         </div>
       </Modal>
       <div className={`absolute bottom-24 left-1/2 ${openSnackbar ? "opacity-100" : "opacity-0"} z-[999] -translate-x-1/2 rounded-full bg-primary p-2 transition-opacity duration-[750]`}>

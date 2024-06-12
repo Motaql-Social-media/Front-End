@@ -96,7 +96,7 @@ const SecondStep = ({ nickName, setPosition, phoneNumber, setPhoneNumber, positi
 
             handleSendOTP()
           }}
-          disabled={!isPhoneValid(phoneNumber) || phoneExistError}
+          // disabled={!isPhoneValid(phoneNumber) || phoneExistError}
         >
           {t("next")}
         </button>

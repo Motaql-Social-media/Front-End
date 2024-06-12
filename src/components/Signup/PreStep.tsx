@@ -12,7 +12,6 @@ import { useTranslation } from "react-i18next"
 import { useNavigate } from "react-router-dom"
 import GoogleButton from "../General/GoogleButton"
 const PreStep = ({ handleCloseModal, setPosition, position, setLocation }: { handleCloseModal: any; setPosition: any; position: number; setLocation: (location: string) => void }) => {
-
   const { t } = useTranslation()
 
   const navigate = useNavigate()
@@ -66,7 +65,7 @@ const PreStep = ({ handleCloseModal, setPosition, position, setLocation }: { han
             {t("landing_privacy")}
           </a>
           , {t("landing_include")}{" "}
-          <a className="text-primary" href="http://theline.social/privacy_policy#:~:text=%D9%85%D8%B9%D9%84%D9%88%D9%85%D8%A7%D8%AA%20%D9%85%D9%86%20%D9%85%D9%84%D9%81%D8%A7%D8%AA%20%D8%AA%D8%B9%D8%B1%D9%8A%D9%81%20%D8%A7%D9%84%D8%A7%D8%B1%D8%AA%D8%A8%D8%A7%D8%B7%20%D9%88%D8%AA%D9%82%D9%86%D9%8A%D8%A9%20%D8%A7%D9%84%D8%AA%D8%B9%D9%82%D8%A8%20%D8%A7%D9%84%D9%85%D8%B4%D8%A7%D8%A8%D9%87%D8%A9" target="_blank" rel="noopener noreferrer">
+          <a className="text-primary" href="http://thelinechat.com/privacy_policy#:~:text=%D9%85%D8%B9%D9%84%D9%88%D9%85%D8%A7%D8%AA%20%D9%85%D9%86%20%D9%85%D9%84%D9%81%D8%A7%D8%AA%20%D8%AA%D8%B9%D8%B1%D9%8A%D9%81%20%D8%A7%D9%84%D8%A7%D8%B1%D8%AA%D8%A8%D8%A7%D8%B7%20%D9%88%D8%AA%D9%82%D9%86%D9%8A%D8%A9%20%D8%A7%D9%84%D8%AA%D8%B9%D9%82%D8%A8%20%D8%A7%D9%84%D9%85%D8%B4%D8%A7%D8%A8%D9%87%D8%A9" target="_blank" rel="noopener noreferrer">
             {t("landing_cookie")}
           </a>
           .

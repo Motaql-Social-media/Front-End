@@ -43,7 +43,7 @@ const ReelBar = ({ id, replyCount, reposted, repostsNum, liked, likesNum, topic,
   const handleShare = (e: any) => {
     e.stopPropagation()
 
-    navigator.clipboard.writeText(`https://theline.social/${username}/reel/${id}`)
+    navigator.clipboard.writeText(`http://thelinechat.com/${username}/reel/${id}`)
     setOpenSnackbar(true)
   }
 
@@ -98,7 +98,6 @@ const ReelBar = ({ id, replyCount, reposted, repostsNum, liked, likesNum, topic,
         // console.log(res)
         setRepostCount((prev) => (repost ? prev - 1 : prev + 1))
 
-        
         setRepost(!repost)
         handleClose()
       })

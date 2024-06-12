@@ -46,6 +46,7 @@ const FirstStep = ({ nickName, setNickName, speciality, setSpeciality, month, se
   const handleRecaptcha = async () => {
     const token = await executeRecaptcha("login")
     // console.log(token);
+    
 
     API.post("auth/validate-recaptcha", {
       gRecaptchaResponse: token,
@@ -57,7 +58,9 @@ const FirstStep = ({ nickName, setNickName, speciality, setSpeciality, month, se
       .catch((err) => {
         nextButton.current?.removeAttribute("disabled")
 
+        // handleCheckBirthdate()
         console.log(err)
+
         // handleCheckBirthdate();
       })
   }
@@ -71,7 +74,7 @@ const FirstStep = ({ nickName, setNickName, speciality, setSpeciality, month, se
         <div className="relative">
           <TextField
             inputProps={{ onPaste: (e) => e.preventDefault() }}
-            label={t("name")}
+            label={t("name_signup")}
             variant="outlined"
             value={nickName}
             onChange={(e) => {
@@ -124,7 +127,7 @@ const FirstStep = ({ nickName, setNickName, speciality, setSpeciality, month, se
             handleRecaptcha()
           }}
           disabled={
-            speciality === "" || nickName === "" || year === "" || month === "" || day === ""
+            year === "" || month === "" || day === ""
             // !validEmail(email) ||
             // emailExistError ||
             // !captchaIsDone

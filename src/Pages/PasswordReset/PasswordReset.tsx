@@ -134,16 +134,14 @@ const PasswordReset = ({ setLocation }: { setLocation: any }) => {
   }
 
   function maskEmail(email: string) {
-    // Split the email address into local and domain parts
+    if (email === "") return email
+
     const [localPart, domainPart] = email.split("@")
 
-    // Mask the local part
     const maskedLocalPart = localPart.length > 4 ? localPart.substring(0, 2) + "*".repeat(localPart.length - 4) + localPart.slice(-2) : localPart
 
-    // Mask the domain part
     const maskedDomainPart = domainPart.length > 3 ? domainPart.substring(0, 1) + "*".repeat(domainPart.length - 2) + domainPart.slice(-1) : domainPart
 
-    // Combine the masked local and domain parts with '@' in between
     const maskedEmail = `${maskedLocalPart}@${maskedDomainPart}`
 
     return maskedEmail
@@ -344,16 +342,18 @@ const PasswordReset = ({ setLocation }: { setLocation: any }) => {
               }}
               name="options"
             >
-              <FormControlLabel
-                sx={{
-                  ".MuiTypography-root": {
-                    fontSize: 15,
-                  },
-                }}
-                value="email"
-                control={<Radio />}
-                label={`${t("sent_email")}${maskedEmail}`}
-              />
+              {maskedEmail !== "" && (
+                <FormControlLabel
+                  sx={{
+                    ".MuiTypography-root": {
+                      fontSize: 15,
+                    },
+                  }}
+                  value="email"
+                  control={<Radio />}
+                  label={`${t("sent_email")}${maskedEmail}`}
+                />
+              )}
               <FormControlLabel
                 sx={{
                   ".MuiTypography-root": {

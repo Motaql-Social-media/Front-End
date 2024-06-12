@@ -12,11 +12,12 @@ import ErrorPage from "../../components/Signup/ErrorPage"
 import Logo from "../../assets/images/mainLogo.svg"
 
 import i18next from "i18next"
+import { t } from "i18next"
 
 const GoogleSignup = ({ openModal, handleCloseModal, access_token, name }: { openModal: boolean; handleCloseModal: () => void; access_token: string; name: string }) => {
   const navigate = useNavigate()
 
-  const [speciality, setSpeciality] = useState("")
+  const [speciality, setSpeciality] = useState(t("business_pioneer"))
   const [year, setYear] = useState("")
   const [month, setMonth] = useState("")
   const [day, setDay] = useState("")

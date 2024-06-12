@@ -26,13 +26,15 @@ import CustomizedStepper from "../../components/Signup/CustomizedStepper"
 
 import i18next from "i18next"
 
+import { t } from "i18next"
+
 const SignUp = ({ openModal, handleCloseModal, setLocation }: { openModal: boolean; handleCloseModal: () => void; setLocation: (location: string) => void }) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
   const [nickName, setNickName] = useState("")
   const [email, setEmail] = useState("")
-  const [speciality, setSpeciality] = useState("")
+  const [speciality, setSpeciality] = useState(t("business_pioneer"))
   const [year, setYear] = useState("")
   const [month, setMonth] = useState("")
   const [day, setDay] = useState("")
@@ -224,7 +226,10 @@ const SignUp = ({ openModal, handleCloseModal, setLocation }: { openModal: boole
           <div
             className={`top-8 text-white ${document.body.dir === "rtl" ? "left-5" : "right-5"} absolute cursor-pointer ${(position === 0 || position === 7 || position === 8) && `hidden`}`}
             onClick={() => {
-              if (position > 0) setPosition((prev) => prev - 1)
+              if (position > 0) {
+                if (position === 6 && email === "") setPosition((prev) => prev - 2)
+                else setPosition((prev) => prev - 1)
+              }
             }}
           >
             <ArrowBackIcon />

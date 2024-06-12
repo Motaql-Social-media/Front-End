@@ -39,7 +39,6 @@ const SixthStep = ({ nickName, email, phoneNumber, speciality, month, day, year,
 
   const API = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
-    
   })
 
   const handleSignup = () => {
@@ -68,7 +67,6 @@ const SixthStep = ({ nickName, email, phoneNumber, speciality, month, day, year,
         setOriginalUsername(res.data.data.user.username)
         setPosition((prev: number) => prev + 1)
         nextButton.current?.removeAttribute("disabled")
-
       })
       .catch((err) => {
         nextButton.current?.removeAttribute("disabled")
@@ -86,7 +84,7 @@ const SixthStep = ({ nickName, email, phoneNumber, speciality, month, day, year,
         <div className="relative">
           <TextField
             inputProps={{ onPaste: (e) => e.preventDefault() }}
-            label={t("new_password")}
+            label={t("new_password_signup")}
             variant="outlined"
             type={!showPassword ? "password" : "text"}
             value={password}
@@ -97,7 +95,7 @@ const SixthStep = ({ nickName, email, phoneNumber, speciality, month, day, year,
             sx={styles.textField}
           />
 
-          <span className={`toggle-password absolute text-primary ${i18next.language === "en"  ? "right-4" : "left-4"} top-4 cursor-pointer ${showPassword ? "active" : ""}`} onClick={togglePasswordVisibility}>
+          <span className={`toggle-password absolute text-primary ${i18next.language === "en" ? "right-4" : "left-4"} top-4 cursor-pointer ${showPassword ? "active" : ""}`} onClick={togglePasswordVisibility}>
             <VisibilityIcon className={`text-primary`} />
           </span>
         </div>
@@ -130,7 +128,7 @@ const SixthStep = ({ nickName, email, phoneNumber, speciality, month, day, year,
 
               handleSignup()
             }}
-            disabled={checkPassword(password)}
+            disabled={checkPassword(password) && password.length > 0}
           >
             {t("confirm")}
           </button>

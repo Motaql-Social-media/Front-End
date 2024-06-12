@@ -90,8 +90,8 @@ const PrivacyPolicy = () => {
       </div>
       <div className="sticky bottom-0 left-0 z-[99] flex h-12 w-full items-center justify-center gap-2 bg-primary text-xs font-bold text-black md:text-xl">
         {t("send_email_privacy")}
-        <a href="mailto:contact@theline.social" className="underline">
-          contact@theline.social
+        <a href="mailto:contact@thelinechat.com" className="underline">
+          contact@thelinechat.com
         </a>
       </div>
     </div>

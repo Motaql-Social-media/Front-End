@@ -93,7 +93,7 @@ const Message = ({ scroll }: { scroll: number }) => {
 
   useEffect(() => {
     setSocket(
-      io("https://theline.social", {
+      io("https://thelinechat.com", {
         path: "/socket.io",
         withCredentials: true,
         extraHeaders: {

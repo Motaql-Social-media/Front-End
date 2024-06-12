@@ -42,9 +42,13 @@
   "sent_sms": "Send a message to phone number ending with ",
   "code": "Code",
   "new_password": "New Password",
+  "new_password_signup": "New Password (Optional)",
+
   "signup_welcome": "Join The Line today",
   "signup_welcome2": "Create your account ",
   "name": "Name",
+  "name_signup": "Name (Optional)",
+  "business_pioneer": "Business Pioneer",
   "speciality": "Business activity: Tech Entrepreneur, Retail Sales",
   "birthdate": "Date of birth",
   "birthdate_message": "This will not be shown publicly. Confirm your own age, even if this account is for a business, a pet, or something else.",

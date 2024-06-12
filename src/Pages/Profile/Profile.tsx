@@ -240,7 +240,7 @@ const Profile = ({ scroll }: { scroll: number }) => {
                     {location}
                   </div>
                 )}
-                <div className="flex items-center gap-1">
+                {/* <div className="flex items-center gap-1">
                   <Cake
                     sx={{
                       width: "20px",
@@ -248,7 +248,7 @@ const Profile = ({ scroll }: { scroll: number }) => {
                     }}
                   />
                   {formatDate(dateOfBirth)}
-                </div>
+                </div> */}
                 <div className="flex items-center gap-1">
                   <CalendarMonth
                     sx={{
