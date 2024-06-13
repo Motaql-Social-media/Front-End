@@ -106,7 +106,7 @@ function App() {
 
   useEffect(() => {
     setSocket(
-      io("http://thelinechat.com", {
+      io("https://thelinechat.com", {
         path: "/socket.io",
         withCredentials: true,
         extraHeaders: {

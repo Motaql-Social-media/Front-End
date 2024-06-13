@@ -43,7 +43,7 @@ const ReelBar = ({ id, replyCount, reposted, repostsNum, liked, likesNum, topic,
   const handleShare = (e: any) => {
     e.stopPropagation()
 
-    navigator.clipboard.writeText(`http://thelinechat.com/${username}/reel/${id}`)
+    navigator.clipboard.writeText(`https://thelinechat.com/${username}/reel/${id}`)
     setOpenSnackbar(true)
   }
 

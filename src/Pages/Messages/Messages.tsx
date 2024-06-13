@@ -105,7 +105,7 @@ const Messages = ({ scroll }: { scroll: number }) => {
   const [socket, setSocket] = useState<any>(null)
   useEffect(() => {
     setSocket(
-      io("http://thelinechat.com", {
+      io("https://thelinechat.com", {
         path: "/socket.io",
         withCredentials: true,
         extraHeaders: {

@@ -106,7 +106,7 @@ const PostFooter = ({ id, replyCount, reposted, repostsNum, liked, likesNum, isB
   const handleShare = (e: any) => {
     e.stopPropagation()
 
-    navigator.clipboard.writeText(`http://thelinechat.com/${username}/diary/${id}`)
+    navigator.clipboard.writeText(`https://thelinechat.com/${username}/diary/${id}`)
     setOpenSnackbar(true)
   }
 
