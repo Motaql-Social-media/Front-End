@@ -214,7 +214,7 @@ const ComposeQuote = ({ id, handleClose, setRepostCount, type }: { id: any; hand
     <div onClick={(e: any) => e.stopPropagation()} className={`relative flex h-fit border-b pb-5 ${buttonName === "Post" ? "border-t" : ""} !w-full border-lightBorder p-3 text-black dark:border-darkBorder dark:text-white max-xs:hidden`}>
       <div data-testid="profileImage" className={`h-10 w-10 ${i18next.language === "en" ? "sm:mr-3" : "sm:ml-3"} `}>
         <Link className="hover:underline" to={`/${user.username}`}>
-          <Avatar alt={user.name} src={`${user.imageUrl.split(":")[0] === "https" ? user.imageUrl :  user.imageUrl.split("/").pop()}`} sx={{ width: 40, height: 40 }} />
+          <Avatar alt={user.name} src={`${user.imageUrl}`} sx={{ width: 40, height: 40 }} />
         </Link>
       </div>
       <div className="relative mt-1.5 h-fit w-full">

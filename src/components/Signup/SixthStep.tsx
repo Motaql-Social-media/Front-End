@@ -128,7 +128,7 @@ const SixthStep = ({ nickName, email, phoneNumber, speciality, month, day, year,
 
               handleSignup()
             }}
-            disabled={checkPassword(password) && password.length > 0}
+            disabled={(checkPassword(password) && password.length > 0) || password.length === 0}
           >
             {t("confirm")}
           </button>

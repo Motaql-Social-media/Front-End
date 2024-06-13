@@ -67,7 +67,6 @@ const ForthStep = ({ nickName, email, setEmail, emailExistError, setEmailExistEr
   const nextButton = useRef<HTMLButtonElement>(null)
   const skipButton = useRef<HTMLButtonElement>(null)
 
-
   useEffect(() => {
     nextButton.current?.removeAttribute("disabled")
   }, [position])
@@ -93,23 +92,27 @@ const ForthStep = ({ nickName, email, setEmail, emailExistError, setEmailExistEr
           }}
           sx={styles.textField}
         />
-        {!validEmail(email) && <div className="text-red-600"> {t("valid_email")}</div>}
+        {!validEmail(email) && email !== "" && <div className="text-red-600"> {t("valid_email")}</div>}
 
-        <span className={`ml-3 text-sm text-red-600 ${emailExistError ? "" : "hidden"}`}>{t("email_exist")}</span>
-        <button
-          type="button"
-          id="next"
-          ref={nextButton}
-          className={`${styles.coloredButton}`}
-          onClick={() => {
-            nextButton.current?.setAttribute("disabled", "true")
+        {email !== "" && (
+          <>
+            <span className={`ml-3 text-sm text-red-600 ${emailExistError ? "" : "hidden"}`}>{t("email_exist")}</span>
+            <button
+              type="button"
+              id="next"
+              ref={nextButton}
+              className={`${styles.coloredButton}`}
+              onClick={() => {
+                nextButton.current?.setAttribute("disabled", "true")
 
-            handleSendOTP()
-          }}
-          disabled={!validEmail(email) || emailExistError}
-        >
-          {t("next")}
-        </button>
+                handleSendOTP()
+              }}
+              disabled={email === "" || emailExistError || !validEmail(email)}
+            >
+              {t("next")}
+            </button>
+          </>
+        )}
         <button
           type="button"
           id="next"
@@ -120,7 +123,7 @@ const ForthStep = ({ nickName, email, setEmail, emailExistError, setEmailExistEr
             setEmail("")
             setPosition((prev: number) => prev + 2)
           }}
-          disabled={!validEmail(email) || emailExistError}
+          disabled={email !== ""}
         >
           {t("skip_message")}
         </button>
