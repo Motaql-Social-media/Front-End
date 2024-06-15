@@ -12,8 +12,8 @@ RUN npm install
 # Copy the rest of the application code
 COPY . .
 
-# Expose port 5173 (the port your app is running on)
+# Expose port 3000 (the port your app is running on)
 EXPOSE 3000
 
-# Start the app using the full path to npm
-CMD npm run start
+# Start the app
+CMD ["npm", "start"]
