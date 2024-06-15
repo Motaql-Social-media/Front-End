@@ -13,7 +13,7 @@ RUN npm install
 COPY . .
 
 # Expose port 5173 (the port your app is running on)
-EXPOSE 5173
+EXPOSE 3000
 
 # Start the app using the full path to npm
-CMD npm run dev
+CMD npm run start
