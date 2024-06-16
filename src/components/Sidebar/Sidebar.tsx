@@ -51,7 +51,7 @@ const Sidebar = () => {
   const messageUnseenCount = useSelector((state: any) => state.message.unseenCount)
 
   const user = useSelector((state: any) => state.user.user)
-  const optionsNamesInit = ["home", "trending", "explore", "notifications", "pioneers", "marketplace", "opportunities", "messages", "bookmarks", "profile", "settings"]
+  const optionsNamesInit = ["home", "trending", "reels", "notifications", "pioneers", "marketplace", "opportunities", "messages", "bookmarks", "profile", "settings"]
   const optionsIconsInit = [
     [<HomeOutlinedIcon />, <HomeIcon />],
     [<TrendingUpIcon />, <TrendingUpIcon />],
