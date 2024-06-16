@@ -11,28 +11,28 @@ pipeline {
                 // Clean up the workspace to ensure no conflicts with previous builds
                 script {
                     sh '''
-                        if [ -d "Back-End" ]; then rm -rf Back-End; fi
+                        if [ -d "Front-End" ]; then rm -rf Front-End; fi
                     '''
                 }
             }
         }
         
-        stage('Checkout Backend') {
+        stage('Checkout Frontend') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'github-auth', passwordVariable: 'GITHUB_TOKEN', usernameVariable: 'GITHUB_USERNAME')]) {
-                    sh 'git clone https://${GITHUB_USERNAME}:${GITHUB_TOKEN}@github.com/Motaql-Social-media/Back-End.git'
+                    sh 'git clone https://${GITHUB_USERNAME}:${GITHUB_TOKEN}@github.com/Motaql-Social-media/Front-End.git'
                 }
             }
         }
-        stage('Build Backend Image') {
+        stage('Build Frontend Image') {
             steps {
                 script {
-                    dir('Back-End') {
+                    dir('Front-End') {
                         sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-                        sh 'docker build -t backend-image .'
-                        sh "docker tag backend-image:latest ${DOCKERHUB_CREDENTIALS_USR}/backend-image:latest"
+                        sh 'docker build -t frontend-image .'
+                        sh "docker tag frontend-image:latest ${DOCKERHUB_CREDENTIALS_USR}/frontend-image:latest"
                         echo 'pushing to hub....'
-                        sh 'docker push ${DOCKERHUB_CREDENTIALS_USR}/backend-image:latest'
+                        sh 'docker push ${DOCKERHUB_CREDENTIALS_USR}/frontend-image:latest'
                         sh 'docker logout'
                     }
                 }
@@ -43,9 +43,9 @@ pipeline {
             steps {
                 script {
                     withEnv(["KUBECONFIG=/var/lib/jenkins/.kube/config"]) {
-                        dir('Back-End') {
-                            sh 'kubectl delete deployment backend-deployment'
-                            sh 'kubectl apply -f k8s/backend-depl.yaml --validate=false'
+                        dir('Front-End') {
+                            sh 'kubectl delete deployment frontend-deployment'
+                            sh 'kubectl apply -f frontend-depl.yaml --validate=false'
                         }
                     }
                 }
