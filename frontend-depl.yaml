@@ -18,10 +18,10 @@ spec:
         resources:
           limits:
             cpu: "2"
-            memory: "2048Mi"
+            memory: "4096Mi"
           requests:
             cpu: "1"
-            memory: "1024Mi"
+            memory: "4096Mi"
         env:
           - name: NODE_ENV
             value: production
