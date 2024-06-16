@@ -248,11 +248,11 @@ const Profile = ({ scroll }: { scroll: number }) => {
                     }}
                   />
                   {formatDate(dateOfBirth)}
-                </div> */}
+                </div> */} 
                 <div className="flex items-center gap-1">
                   <CalendarMonth
                     sx={{
-                      width: "20px",
+                      width: "20px ",
                       height: "20px",
                     }}
                   />
