@@ -21,7 +21,7 @@ spec:
             memory: "2048Mi"
           requests:
             cpu: "1"
-            memory: "1024Mi"
+            memory: "2048Mi"
         env:
           - name: NODE_ENV
             value: production
