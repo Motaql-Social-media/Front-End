@@ -42,9 +42,9 @@ pipeline {
    stage('Deploy to Kubernetes') {
             steps {
                 script {
-                    withEnv(["KUBECONFIG=/var/lib/jenkins/.kube/config"]) {
+                    withEnv(["KUBECONFIG=/var/lib/jenkins/.kube/config-rancher-cluster"]) {
                         dir('Front-End') {
-                           sh 'kubectl delete deployment frontend-deployment'
+                           sh 'kubectl delete deployment frontend-deployment || true'
                             sh 'kubectl apply -f frontend-depl.yaml --validate=false'
                         }
                     }
