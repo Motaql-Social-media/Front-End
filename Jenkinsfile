@@ -7,7 +7,7 @@ pipeline {
   
     stages {
          stage('Cleanup Workspace') {
-            steps {
+            steps { 
                 // Clean up the workspace to ensure no conflicts with previous builds
                 script {
                     sh '''
