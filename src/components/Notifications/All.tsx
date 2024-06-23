@@ -28,7 +28,7 @@ const All = () => {
 
   useEffect(() => {
     setSocket(
-      io("https://thelinechat.com", {
+      io(process.env.REACT_APP_SOCKET_URL || "", {
         path: "/socket.io",
         withCredentials: true,
         extraHeaders: {

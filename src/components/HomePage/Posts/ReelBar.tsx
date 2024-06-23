@@ -43,7 +43,7 @@ const ReelBar = ({ id, replyCount, reposted, repostsNum, liked, likesNum, topic,
   const handleShare = (e: any) => {
     e.stopPropagation()
 
-    navigator.clipboard.writeText(`https://thelinechat.com/${username}/reel/${id}`)
+    navigator.clipboard.writeText(`${process.env.REACT_APP_SOCKET_URL || ""}/${username}/reel/${id}`)
     setOpenSnackbar(true)
   }
 
