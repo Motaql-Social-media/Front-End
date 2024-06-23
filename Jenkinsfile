@@ -39,18 +39,32 @@ pipeline {
             }
         }
         
-   stage('Deploy to Kubernetes') {
+   // stage('Deploy to Kubernetes') {
+   //          steps {
+   //              script {
+   //                  withEnv(["KUBECONFIG=/var/lib/jenkins/.kube/config-rancher-cluster"]) {
+   //                      dir('Front-End') {
+   //                         sh 'kubectl delete deployment frontend-deployment || true'
+   //                          sh 'kubectl apply -f frontend-depl.yaml --validate=false'
+   //                      }
+   //                  }
+   //              }
+   //          }
+   //      }
+
+      stage('Deploy with Docker Compose') {
             steps {
                 script {
-                    withEnv(["KUBECONFIG=/var/lib/jenkins/.kube/config-rancher-cluster"]) {
-                        dir('Front-End') {
-                           sh 'kubectl delete deployment frontend-deployment || true'
-                            sh 'kubectl apply -f frontend-depl.yaml --validate=false'
-                        }
+                    dir('Front-End') {
+                        // Ensure Docker Compose is up-to-date
+                        sh 'docker-compose -f docker-compose.yaml pull'
+                        // Start containers defined in the docker-compose file
+                        sh 'docker-compose -f docker-compose.yaml up -d'
                     }
                 }
             }
         }
+    }
     }
 
     post {
@@ -67,13 +81,19 @@ pipeline {
                 // Remove all unused networks
                 sh 'docker network prune -f'
                 // Remove all unused Docker objects (containers, images, volumes, networks)
-                sh 'docker system prune -a -f'
+                //sh 'docker system prune -a -f'
             }
         }
         success {
             echo 'Pipeline completed successfully!'
         }
         failure {
+            script {   // ==> in compose only
+               dir('Back-End') {
+                  // Stop and remove existing containers
+                  sh 'docker-compose -f docker-compose.yaml down'
+               }
+            }
             echo 'Pipeline failed.'
         }
     }
