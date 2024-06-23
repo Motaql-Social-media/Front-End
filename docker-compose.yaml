@@ -9,7 +9,7 @@ services:
       - my_shared_network
     environment:
       - NODE_ENV=production
-      - REACT_APP_API_URL=http://194.164.77.10:30036/api/v1/
+      - REACT_APP_API_URL=https://theline.social/api/v1/
       - REACT_APP_RECAPTCHA_KEY=6Lf0UH0pAAAAAI0U_mLWldgrKUaGwolG95icLwaf
       - REACT_APP_TWEETS_MEDIA_URL=https://theline.social/images/api/tweets/
       - REACT_APP_REELS_MEDIA_URL=https://theline.social/images/api/reels/
