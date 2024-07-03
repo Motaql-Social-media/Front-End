@@ -6,7 +6,8 @@ services:
     ports:
       - "30038:3000"
     networks:
-      - my_shared_network  
+      - stack_comm
+      - private_network
     environment:
       - NODE_ENV=production
       - REACT_APP_SOCKET_URL=https://thelinechat.com/
@@ -20,5 +21,6 @@ services:
       - PAYMENT_FATOORAH_PROD_API_KEY=8JFLVztZCvghXW-mWrWaFUSgE_ZqsXRNFrutkAAHyypxDAX-B9PURPcrmitHrh2Rl_RakG2hnYX3SMkOBxOQdv9p8QzUq9I5YjsggQPRTTCJkYfkCbyWnAJESIRYGaqtSzx0MuNFDaoMp5fEQevBB3kptrsAVPIGapcQ9oBKL9OrcZc44AE-mtLj4cIGZPJ3LK_ApRtewkY-P1LXOJFYdmP5vumWCIiUVK0RZuX-gRqWxZWkfaEKotLNfHTOAbrEUBcfEng9c7A_4zy-gfluDWJnvJl9m1Ae5gNYUySJhiwy57xKg35NKfwBxZUorpuBvNyLJnXhKBo8ucjd7up7WLD3ngloT1BFFBpU3PMQxcOuZC4fG5Z5Y3ZDtZpmxhIhTPzb3cHaiYRiBxcl5thsott8LULjOw-pPZ8Kvn531Rag8hSa2eQCMP8Ac2E0vM9bphXZo04CgbJwPV-mZOtTcJ_yRuML83L4qCVHOjwS-AHDsBzl33G43WbeJ6RqQezLoCMV1zf8QIdXfGFB24236zF5CL9LG8sQ35p3uws9lE2cPuInbY-pxGJ9s1bQc_dRjvHnFEJ4O_vvRfQYeDnowlJAdZzAxDDY9H6khWVPehzZPdFQkeCJiV_RshRDVv0tlCzeYeDTlEP4tpx4U5ERFOZfj5bQZJtK9y2xbor5EI_X3_w8julSAn9JICYVUt3ZnvNjthhitWala2pu__Nnio2shpoIYmlII-eGELjrA50OXJNp
       
 networks:
-  my_shared_network:
+  private_network:
+  stack_comm:
     external: true
