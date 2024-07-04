@@ -94,7 +94,7 @@ const Message = ({ scroll }: { scroll: number }) => {
   useEffect(() => {
     setSocket(
       io(process.env.REACT_APP_SOCKET_URL || "", {
-        path: "/socket.io",
+        path: "/api/socket.io",
         withCredentials: true,
         extraHeaders: {
           token: userToken,
